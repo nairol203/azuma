@@ -1,5 +1,4 @@
 module.exports = {
-	testOnly: true,
 	callback: ({ message }) => {
 		const Discord = require('discord.js');
 		const embed = new Discord.MessageEmbed()
