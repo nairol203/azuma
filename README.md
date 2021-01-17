@@ -1,5 +1,5 @@
 # Azuma
-Azuma ist ein deutscher Discordbot mit vielen Funktionen!
+Azuma ist ein deutscher Discordbot mit vielen Funktionen! Klicke [hier](https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=3156038&scope=bot) um Azuma auf deinen Server einzuladen!
 
 # Key Features
 - Fischen in Discord!
@@ -26,9 +26,10 @@ Azuma ist ein deutscher Discordbot mit vielen Funktionen!
  - meme
  - ohh
  - rps <stein | schere | papier>
-3. Level-System
+4. Level-System
  - rank <@user>
  - leaderboard
+
 5. Mod-Only
  - ban <@user>
  - deploy <@user> <common> <uncommon> <rare> <garbage>
