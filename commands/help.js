@@ -17,7 +17,7 @@ module.exports = {
 				.addFields (
 					{ name: 'Allgemein', value: '`ping` `server` `howto` `info` `invite`', inline: true },
 					{ name: 'Economy', value: '`addcoins` `coins` `daily` `pay`', inline: true },
-					{ name: 'Fun', value: '`8ball` `coinflip` `fish` `ohh` `rps`', inline: true },
+					{ name: 'Fun', value: '`8ball` `coinflip` `fish` `ohh` `rps` `triggered`', inline: true },
 					{ name: 'Level', value: '`rank` `leaderboard`', inline: true },
 					{ name: 'Musik', value: '`loop` `pause` `play` `queue` `resume` `skip` `stop` `volume`', inline: true },
 					{ name: 'Mod-Only', value: '`ban` `deploy` `kick` `mod-prefix` `poll` `prune` `reload` `unban`', inline: true },
