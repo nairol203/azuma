@@ -18,6 +18,8 @@ client.on('ready', () => {
 		messagesPath: 'messages.json',
 		showWarns: false,
 	})
+		.setDefaultPrefix(prefix)
+		.setDefaultLanguage('german')
 		.setMongoPath(process.env.MONGO_URI)
 		.setBotOwner('255739211112513536');
 });
