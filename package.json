@@ -1,0 +1,32 @@
+{
+  "name": "azuma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nairol203/azuma.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nairol203/azuma/issues"
+  },
+  "homepage": "https://github.com/nairol203/azuma#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.3",
+    "canvacord": "^5.0.8",
+    "discord-xp": "^1.1.7",
+    "discord.js": "^12.5.1",
+    "distube": "^2.8.8",
+    "eslint": "^7.17.0",
+    "ffmpeg-static": "^4.2.7",
+    "got": "^11.8.1",
+    "mongoose": "^5.11.11",
+    "wokcommands": "^1.2.1"
+  }
+}
