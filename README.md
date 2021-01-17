@@ -7,37 +7,43 @@ Azuma ist ein deutscher Discordbot mit vielen Funktionen! Klicke [hier](https://
 - Spiele Musik in Sprachkanälen!
 
 # Alle Befehle
-1. Allgemeine Befehle
+
+- [Allgemeine Befehle](#allgemeine-befehle)
+- [Economy System](#economy-system)
+- [Level System](#level-system)
+- [Mod-Only](#mod-only)
+- [Musik](#musik)
+
+# Allgemeine Befehle
  - howto
  - info
  - invite
  - ping
  - server
  - ticket
-2. Economy System
+# Economy System
  - addcoins <@user> <amount>
  - coins <@user>
  - daily
  - pay <@user> <amount>
-3. Fun
+# Fun
  - 8ball <question>
  - coinflip
  - fish <help | info | math | rollen | stats> 
  - meme
  - ohh
  - rps <stein | schere | papier>
-4. Level-System
+# Level-System
  - rank <@user>
  - leaderboard
-
-5. Mod-Only
+# Mod-Only
  - ban <@user>
  - deploy <@user> <common> <uncommon> <rare> <garbage>
  - kick < @user>
  - poll
  - prune <1-99>
  - unban <user id>
-6. Musik
+# Musik
  - loop
  - pause
  - play <song name | yt link>
