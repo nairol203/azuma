@@ -26,9 +26,9 @@ Azuma ist ein deutscher Discordbot mit vielen Funktionen!
  - meme
  - ohh
  - rps <stein | schere | papier>
-4. Levelsystem
- -rank <@user>
- -leaderboard
+3. Level-System
+ - rank <@user>
+ - leaderboard
 5. Mod-Only
  - ban <@user>
  - deploy <@user> <common> <uncommon> <rare> <garbage>
