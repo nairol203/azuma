@@ -1,4 +1,7 @@
 module.exports = {
+	minArgs: 1,
+	maxArgs: 1,
+	expectedArgs: '<3d | bassboost | echo | karaoke | nightcore | vaporwave | flanger | gate | haas | reverse | surround | mcompand | phaser | tremolo | earwax>',
 	callback: ({ client, message, args }) => {
 		const queue = client.distube.getQueue(message);
 		if (!queue) return message.channel.send('<:no:767394810909949983> Es wird nichts gespielt.');
