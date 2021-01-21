@@ -10,8 +10,8 @@ module.exports = {
 			.setAuthor(`Information über ${client.user.username}`, client.user.displayAvatarURL())
 			.addFields (
 				{ name: 'Allgemeine Info', value: 'Dieser Bot wurde von <@!255739211112513536> programmiert. Falls irgendetwas nicht funktioniert, schreibt ihm!' },
-				{ name: 'Bekannte Bugs', value: `- Das Level-Modul bringt den Bot zum crashen und wurde deaktiviert\n- \`${prefix}fish\` zieht keine Coins bei einem Angelversuch ab\n- \`${prefix}help <arg>\` funktioniert nicht\n- \`${prefix}reload <arg>\` funktioniert nicht` },
-				{ name: 'Roadmap', value: '- Mute command\n- Warn Command\n- Spotify Integration\n- Und mehr!' },
+				{ name: 'Bekannte Bugs', value: `\`${prefix}fish\` zieht keine Coins bei einem Angelversuch ab\n- \`${prefix}help <arg>\` funktioniert nicht` },
+				{ name: 'Roadmap', value: '- Warn Command\n- Spotify Integration\n- Und mehr!' },
 				{ name: 'Version', value: version, inline: true },
 				{ name: 'Aktuelle Laufzeit', value: `${hours} h (${minutes} min)`, inline: true },
 				{ name: 'Server Count', value: `${client.guilds.cache.size} Server`, inline: true },
