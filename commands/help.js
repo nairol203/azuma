@@ -20,7 +20,7 @@ module.exports = {
 					{ name: 'Fun', value: '`8ball` `coinflip` `fish` `ohh` `rps` `triggered`', inline: true },
 					{ name: 'Level', value: '`rank` `leaderboard`', inline: true },
 					{ name: 'Musik', value: '`loop` `pause` `play` `queue` `resume` `skip` `stop` `volume`', inline: true },
-					{ name: 'Mod-Only', value: '`ban` `deploy` `kick` `mod-prefix` `poll` `prune` `reload` `unban`', inline: true },
+					{ name: 'Mod-Only', value: '`ban` `deploy` `ismuted` `kick` `mute` `poll` `prune` `unban` `unmute`', inline: true },
 				);
 			return message.channel.send(embed);
 		}
