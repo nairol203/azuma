@@ -5,7 +5,6 @@ module.exports = {
 	maxArgs: 1,
 	expectedArgs: 'close',
 	callback: async ({ message, args }) => {
-		if (message.channel.id !== '365763570371133451') return;
 		if (!args.length) {
 			if (cooldowns.has(message.author.id)) return message.channel.send('Bitte spamme diesen Befehl nicht.');
 			cooldowns.add(message.author.id);
@@ -14,7 +13,7 @@ module.exports = {
 			const { guild, member, author } = message;
 			const memberId = member.id;
 
-			message.reply('du hast ein Ticket erstellt und wurdest in deinem Raum erwähnt.');
+			message.reply('du hast ein Ticket erstellt und wurdest in deinem privaten Raum erwähnt.');
 
 			const role = guild.roles.cache.find((test) => {
 				return test.name === '@everyone';

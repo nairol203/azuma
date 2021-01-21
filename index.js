@@ -3,14 +3,17 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const WOKCommands = require('wokcommands');
 const DisTube = require('distube');
+const mongo = require('./mongo');
 
 const client = new Discord.Client({
 	partials: ['MESSAGE', 'REACTION'],
 });
 const prefix = process.env.PREFIX;
 
-client.on('ready', () => {
+client.on('ready', async () => {
 	client.user.setActivity(`${prefix}help`, { type : 'PLAYING' });
+
+	await mongo();
 
 	new WOKCommands(client, {
 		commandsDir: 'commands',
