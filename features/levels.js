@@ -43,7 +43,7 @@ module.exports = (client) => {
 			else {message.reply(`du bist jetzt Level ${user.level}!`);}
 		}
 
-		const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
+		/* const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
 		if (user.level <= 4) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl1);
 		}
@@ -114,5 +114,26 @@ module.exports = (client) => {
 		else {
 			message.guild.members.cache.get(message.author.id).roles.remove(lvl70);
 		}
+		const lvl80 = message.guild.roles.cache.find(role => role.name === 'Level 80');
+		if (user.level >= 70 & user.level <= 79) {
+			message.guild.members.cache.get(message.author.id).roles.add(lvl80);
+		}
+		else {
+			message.guild.members.cache.get(message.author.id).roles.remove(lvl80);
+		}
+		const lvl90 = message.guild.roles.cache.find(role => role.name === 'Level 90');
+		if (user.level >= 70 & user.level <= 79) {
+			message.guild.members.cache.get(message.author.id).roles.add(lvl90);
+		}
+		else {
+			message.guild.members.cache.get(message.author.id).roles.remove(lvl90);
+		}
+		const lvl100 = message.guild.roles.cache.find(role => role.name === 'Level 100');
+		if (user.level >= 70 & user.level <= 79) {
+			message.guild.members.cache.get(message.author.id).roles.add(lvl100);
+		}
+		else {
+			message.guild.members.cache.get(message.author.id).roles.remove(lvl100);
+		}*/
 	});
 };
