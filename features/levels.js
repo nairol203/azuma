@@ -1,30 +1,11 @@
 const Levels = require('discord-xp');
 const cooldowns = new Set();
-const Discord = require('discord.js');
 
-const prefix = process.env.PREFIX;
 Levels.setURL(process.env.MONGO_URI);
 
 module.exports = (client) => {
 	client.on('message', async message => {
 		if ((!message.guild) || (message.author.bot)) return;
-
-		if (message.content === (`${prefix}leaderboard`) || message.content === (`${prefix}lb`)) {
-			const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, 10);
-
-			if (rawLeaderboard.length < 1) return message.reply('Aktuell ist hat noch niemand XP gesammelt.');
-
-			const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, true);
-
-			const lb = leaderboard.map(e => `\`${e.position}.\` **${e.username}#${e.discriminator}:**\nLevel: ${e.level} • XP: ${e.xp.toLocaleString()}`);
-
-			const embed = new Discord.MessageEmbed()
-				.setTitle(`Leaderboard von ${message.guild.name}`)
-				.setDescription(`${lb.join('\n\n')}`)
-				.setColor('f77600')
-				.setThumbnail(`${message.guild.iconURL()}`);
-			message.channel.send(embed);
-		}
 
 		if (cooldowns.has(message.author.id)) return;
 
@@ -43,7 +24,7 @@ module.exports = (client) => {
 			else {message.reply(`du bist jetzt Level ${user.level}!`);}
 		}
 
-		/* const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
+		const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
 		if (user.level <= 4) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl1);
 		}
@@ -134,6 +115,6 @@ module.exports = (client) => {
 		}
 		else {
 			message.guild.members.cache.get(message.author.id).roles.remove(lvl100);
-		}*/
+		}
 	});
 };
