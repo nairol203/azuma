@@ -3,6 +3,7 @@ const Levels = require('discord-xp');
 const Canvacord = require('canvacord');
 
 module.exports = {
+	aliases: 'level',
 	minArgs: 0,
 	maxArgs: 1,
 	expectedArgs: '<@user>',
