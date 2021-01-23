@@ -37,13 +37,12 @@ module.exports = (client) => {
 		const user = await Levels.fetch(message.author.id, message.guild.id);
 		if (hasLeveledUp) {
 			if (message.guild.id === '255741114273759232') {
-				const channel1 = client.channels.cache.find(channel => channel.id === '800036089078874132');
+				const channel1 = client.channels.cache.find(channel => channel.id === '802523905512046602');
 				channel1.send(`${message.author} ist jetzt Level ${user.level}!`);
 			}
 			else {message.reply(`du bist jetzt Level ${user.level}!`);}
 		}
 
-		// Level Rewards
 		const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
 		if (user.level <= 4) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl1);
