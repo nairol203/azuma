@@ -14,6 +14,5 @@ module.exports = {
 			.setColor('#ffb800')
 			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `du hast deinen Daily geclaimed und hast jetzt ${newBalance} Coins.`);
 		message.channel.send(embed);
-		message.reply('dieser Befehl ist zurzeit aufgrund eines Fehlers in der Datenbank deaktiviert.');
 	},
 };
