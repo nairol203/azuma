@@ -26,8 +26,8 @@ module.exports = {
 
 				const d = Math.random();
 
-				const mess1 = `:fishing_pole_and_fish:  **|**  **${author.username}**, 'du hast einen `;
-				const mess2 = ' gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.';
+				const mess1 = `:fishing_pole_and_fish:  **|**  **${author.username}**, du hast einen `;
+				const mess2 = ' gefangen! Du hast **10**<a:Coin:795346652599812147> bezahlt.';
 
 				if (d < 0.45 & d > 0.1015) {
 					/* const embed = new Discord.MessageEmbed()
