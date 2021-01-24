@@ -26,19 +26,24 @@ module.exports = {
 
 				const d = Math.random();
 
+				const mess1 = `:fishing_pole_and_fish:  **|**  **${author.username}**, 'du hast einen `;
+				const mess2 = ' gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.';
+
 				if (d < 0.45 & d > 0.1015) {
-					const embed = new Discord.MessageEmbed()
+					/* const embed = new Discord.MessageEmbed()
 						.setColor('#00b8ff')
 						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, 'du hast einen 🐟 gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.');
-					message.channel.send(embed);
+					message.channel.send(embed); */
+					message.channel.send(mess1 + '🐟' + mess2);
 					const common = 1;
 					const allCommon = await fishing.addCommon(userId, common);
 				}
 				else if (d < 0.1015 & d > 0.0015) {
-					const embed = new Discord.MessageEmbed()
+					/* const embed = new Discord.MessageEmbed()
 						.setColor('#00b8ff')
 						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, 'du hast einen 🐠 gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.');
-					message.channel.send(embed);
+					message.channel.send(embed); */
+					message.channel.send(mess1 + '🐠' + mess2);
 					const uncommon = 1;
 					const allUncommon = await fishing.addUncommon(userId, uncommon);
 				}
@@ -46,10 +51,11 @@ module.exports = {
 					const rare1 = [
 						'🐧', '🐢', '🐙', '🦑', '🦐', '🦀', '🐡', '🐬', '🐳', '🐋', '🦈', '🐊'];
 					const randomMessage = rare1[Math.floor(Math.random() * rare1.length)];
-					const embed = new Discord.MessageEmbed()
+					/* const embed = new Discord.MessageEmbed()
 						.setColor('#00b8ff')
 						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, `du hast einen ${randomMessage} gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.`);
-					message.channel.send(embed);
+					message.channel.send(embed); */
+					message.channel.send(mess1 + randomMessage + mess2);
 					message.reply('du hast einen Rare geangelt! Glückwunsch 🎉');
 					const rare = 1;
 					const allRare = await fishing.addRare(userId, rare);
@@ -58,10 +64,11 @@ module.exports = {
 					const garbage1 = [
 						'🛒', '🔋', '🔧', '👞' ];
 					const randomMessage = garbage1[Math.floor(Math.random() * garbage1.length)];
-					const embed = new Discord.MessageEmbed()
+					/* const embed = new Discord.MessageEmbed()
 						.setColor('#00b8ff')
 						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, `du hast einen ${randomMessage} gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.`);
-					message.channel.send(embed);
+					message.channel.send(embed); */
+					message.channel.send(mess1 + randomMessage + mess2);
 					const garbage = 1;
 					const allGarbage = await fishing.addGarbage(userId, garbage);
 				}
