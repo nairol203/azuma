@@ -2,7 +2,6 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 const WOKCommands = require('wokcommands');
-const DisTube = require('distube');
 const mongo = require('./mongo');
 
 const client = new Discord.Client({
@@ -39,21 +38,5 @@ client.on('message', message => {
 			.catch(console.error);
 	}
 });
-
-client.distube = new DisTube(client, { searchSongs: false, emitNewSongOnly: true });
-
-client.distube
-	.on('playSong', (message, song) => message.channel.send(
-		`\`${song.name}\` - \`${song.formattedDuration}\` wird gespielt.\nRequested by: ${song.user}`,
-	))
-	.on('addSong', (message, song) => message.channel.send(
-		`${song.name} - \`${song.formattedDuration}\` wurde von ${song.user} zur Queue hinzugefügt.`,
-	))
-	.on('playList', (message, playlist, song) => message.channel.send(
-		`Playlist \`${playlist.name}\` wird abgespielt.\nRequested by: ${song.user}\nNow playing \`${song.name}\` - \`${song.formattedDuration}\``,
-	))
-	.on('addList', (message, song, playlist) => message.channel.send(
-		`Playlist \`${playlist.name}\` wurde von ${song.user} zur Queue hinzugefügt. `,
-	));
 
 client.login(process.env.TOKEN);
