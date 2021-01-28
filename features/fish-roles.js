@@ -64,3 +64,8 @@ module.exports = (client) => {
 		}
 	});
 };
+
+module.exports.config = {
+	displayName: 'Fish-roles',
+	dbName: 'FISH-ROLES',
+};

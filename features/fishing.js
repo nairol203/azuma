@@ -282,3 +282,8 @@ module.exports.setGarbage = async (userId, garbage) => {
 
 	return result.garbage;
 };
+
+module.exports.config = {
+	displayName: 'Fishing',
+	dbName: 'FISHING',
+};

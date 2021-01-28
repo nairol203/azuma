@@ -17,3 +17,8 @@ module.exports = (client) => {
 		autologs.send(`📤 ${member.user} hat den Server verlassen.`);
 	});
 };
+
+module.exports.config = {
+	displayName: 'Welcome',
+	dbName: 'WELCOME',
+};

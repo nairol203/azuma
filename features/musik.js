@@ -224,3 +224,8 @@ module.exports = client => {
 		serverQueue.textChannel.send(embed);
 	}
 };
+
+module.exports.config = {
+	displayName: 'Musik',
+	dbName: 'MUSIK',
+};

@@ -49,3 +49,8 @@ module.exports.getCoins = async (userId) => {
 
 	return coins;
 };
+
+module.exports.config = {
+	displayName: 'Economy',
+	dbName: 'ECONOMY',
+};

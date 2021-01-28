@@ -58,3 +58,8 @@ module.exports = (client) => {
 		}
 	});
 };
+
+module.exports.config = {
+	displayName: 'Mute',
+	dbName: 'MUTE',
+};
