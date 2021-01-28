@@ -12,7 +12,7 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')
-			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `du hast deinen Daily geclaimed und hast jetzt ${newBalance} Coins.`);
+			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `du hast deinen Daily geclaimed!\n\`+${coinsToGive} coins\`\ndu hast insgesamt \`${newBalance} coins\`.`);
 		message.channel.send(embed);
 	},
 };
