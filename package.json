@@ -29,6 +29,6 @@
     "mongoose": "^5.11.11",
     "simple-youtube-api": "^5.2.1",
     "wokcommands": "^1.2.1",
-    "ytdl-core": "^4.4.4"
+    "ytdl-core": "^4.4.5"
   }
 }
