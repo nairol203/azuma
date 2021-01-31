@@ -115,12 +115,14 @@ module.exports = client => {
 		}
 		else if (message.content.startsWith(`${prefix}queue`)) {
 			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt.');
-			message.channel.send(`
-__**Song Queue:**__
-${serverQueue.songs.map(song => `**-** \`${song.title}\``).join('\n')}
+			const embed = new Discord.MessageEmbed()
+				.setTitle('Song Queue:')
+				.setDescription(`${serverQueue.songs.map(song => `**-** \`${song.title}\``).join('\n')}
 
-**Now Playing:** \`${serverQueue.songs[0].title}\`
-		`, { split: true });
+				**Now Playing:** \`${serverQueue.songs[0].title}\`
+						`, { split: true })
+				.setColor('#fabe00');
+			message.channel.send(embed);
 			return undefined;
 		}
 		else if (message.content.startsWith(`${prefix}pause`)) {
