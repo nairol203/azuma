@@ -19,13 +19,13 @@ module.exports = client => {
 
 		if (message.content.startsWith(`${prefix}play`)) {
 			const voiceChannel = message.member.voice.channel;
-			if(!voiceChannel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
 			const permissons = voiceChannel.permissionsFor(message.client.user);
-			if(!permissons.has('CONNECT')) return message.channel.send('<:no:767394810909949983> Ich habe keine Berechtigung deinem Sprachkanal beizutreten!');
-			if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> Ich kann in deinem Sprachkanal nicht sprechen!');
+			if(!permissons.has('CONNECT')) return message.channel.send('<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!');
+			if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!');
 
 			if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-				const playList = await youtube.getPlaylist(url);
+				const playList = await youtube.getPlaeaweaylist(url);
 				const videos = await playList.getVideos();
 				for (const video of Object.values(videos)) {
 					const video2 = await youtube.getVideoByID(video.id);
@@ -45,7 +45,7 @@ module.exports = client => {
 						var video = await youtube.getVideoByID(videos[0].id);
 					}
 					catch {
-						return message.channel.send('<:no:767394810909949983> Ich konnte keine passenden Suchergebnisse finden.');
+						return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
 					}
 				}
 				return handleVideo(video, message, voiceChannel);
@@ -53,10 +53,10 @@ module.exports = client => {
 		}
 		else if (message.content.startsWith(`${prefix}search`)) {
 			const voiceChannel = message.member.voice.channel;
-			if(!voiceChannel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
 			const permissons = voiceChannel.permissionsFor(message.client.user);
-			if(!permissons.has('CONNECT')) return message.channel.send('<:no:767394810909949983> Ich habe keine Berechtigung deinem Sprachkanal beizutreten!');
-			if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> Ich kann in deinem Sprachkanal nicht sprechen!');
+			if(!permissons.has('CONNECT')) return message.channel.send('<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!');
+			if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!');
 
 			try {
 				const videos1 = await youtube.searchVideos(searchString, 10);
@@ -75,86 +75,74 @@ module.exports = client => {
 					});
 				}
 				catch {
-					message.channel.send('<:no:767394810909949983> Keine oder eine ungültige Eingabe erkannt.');
+					message.channel.send('<:no:767394810909949983> | Keine oder eine ungültige Eingabe erkannt.');
 				}
 				const videoIndex = parseInt(responce.first().content);
 				// eslint-disable-next-line no-redeclare
 				var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
 			}
 			catch {
-				return message.channel.send('<:no:767394810909949983> Ich konnte keine passenden Suchergebnisse finden.');
+				return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
 			}
 			return handleVideo(video, message, voiceChannel);
 		}
 		else if (message.content.startsWith(`${prefix}stop`)) {
-			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird nichts gespielt');
+			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird nichts gespielt');
 			serverQueue.songs = [];
 			serverQueue.connection.dispatcher.end();
-			message.channel.send(':stop_button: Die Musik wurde gestoppt.');
+			message.channel.send(':stop_button: | Die Musik wurde gestoppt.');
 			return undefined;
 		}
 		else if (message.content.startsWith(`${prefix}skip`)) {
-			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird gerade nichts gespielt.');
+			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt.');
 			serverQueue.connection.dispatcher.end();
-			message.channel.send(':fast_forward: Das Lied wurde übersprungen.');
+			message.channel.send(':fast_forward: | Das Lied wurde übersprungen.');
 		}
 		else if (message.content.startsWith(`${prefix}volume`) || (message.content.startsWith(`${prefix}vol`))) {
-			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird gerade nichts gespielt');
+			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt');
 			if(!args[1]) return message.channel.send(`Die Lautstärke des Bot's ist **${serverQueue.volume}**.`);
-			if(isNaN(args[1])) return message.channel.send('<:no:767394810909949983> Keine gültige Eingabe erkannt.');
+			if(isNaN(args[1])) return message.channel.send('<:no:767394810909949983> | Keine gültige Eingabe erkannt.');
 			serverQueue.volume = args[1];
 			serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
 			message.channel.send(`Die Lautstärke wurde zu **${args[1]}** geändert.`);
 		}
 		else if (message.content.startsWith(`${prefix}nowplaying`) || (message.content.startsWith(`${prefix}np`))) {
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird gerade nichts gespielt.');
-			const embed = new Discord.MessageEmbed()
-				.setColor('#fabe00')
-				.addFields (
-					{ name: 'Now Playing', value: `${serverQueue.songs[0].title}` },
-				);
-			message.channel.send(embed);
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt.');
+			message.channel.send(`:notes: | \`${serverQueue.songs[0].title}\` wird gespielt...`);
 		}
 		else if (message.content.startsWith(`${prefix}queue`)) {
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird gerade nichts gespielt.');
-			const embed = new Discord.MessageEmbed()
-				.setTitle('Song Queue')
-				.setDescription(`${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}`)
-				.addFields (
-					{ name: 'Now Playing', value: `${serverQueue.songs[0].title}` },
-				)
-				.setColor('#fabe00');
-			message.channel.send(embed);
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt.');
+			message.channel.send(`:notes: | \`${serverQueue.songs[0].title}\` wird gespielt...`);
 			return undefined;
 		}
 		else if (message.content.startsWith(`${prefix}pause`)) {
-			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird gerade nichts gespielt');
+			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt');
 			if(!serverQueue.playing) return message.channel.send('Die Musik ist schon pausiert.');
 			serverQueue.playing = false;
 			serverQueue.connection.dispatcher.pause();
-			message.channel.send(':pause_button: Die Musik wurde pausiert.');
+			message.channel.send(':pause_button: | Die Musik wurde pausiert.');
 			return undefined;
 		}
 		else if (message.content.startsWith(`${prefix}resume`)) {
-			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird gerade nichts gespielt');
+			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt');
 			if(serverQueue.playing) return message.channel.send('Die Musik ist nicht pausiert.');
 			serverQueue.playing = true;
 			serverQueue.connection.dispatcher.resume();
-			message.channel.send(':play_pause: Die Musik wird weiter abgespielt.');
+			message.channel.send(':play_pause: | Die Musik wird weiter abgespielt.');
 			return undefined;
 		}
 		else if (message.content.startsWith(`${prefix}loop`)) {
-			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-			if(!serverQueue) return message.channel.send('<:no:767394810909949983> Es wird gerade nichts gespielt');
+			if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt');
 
 			serverQueue.loop = !serverQueue.loop;
 
-			return message.channel.send(`:repeat_one: Loop ist jetzt ${serverQueue.loop ? '**an**' : '**aus**'}.`);
+			return message.channel.send(`:repeat_one: | Loop ist jetzt ${serverQueue.loop ? 'aktiviert' : 'deaktivert'}.`);
 		}
 		return undefined;
 	});
@@ -189,13 +177,13 @@ module.exports = client => {
 			catch (error) {
 				console.log(`Error occured while connection to the voice channel: ${error}`);
 				queue.delete(message.guild.id);
-				return message.channel.send(`<:no:767394810909949983> Error occured: ${error}`);
+				return message.channel.send(`<:no:767394810909949983> | ${error}`);
 			}
 		}
 		else {
 			serverQueue.songs.push(song);
 			if(playList) return undefined;
-			return message.channel.send(`**${song.title}** wurde zur Queue hinzugefügt`);
+			return message.channel.send(`\`${song.title}\` wurde zur Queue hinzugefügt`);
 		}
 		return undefined;
 	}
@@ -216,12 +204,7 @@ module.exports = client => {
 				console.log(error);
 			});
 		dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-		const embed = new Discord.MessageEmbed()
-			.setColor('#fabe00')
-			.addFields (
-				{ name: ':notes: Now Playing:', value: `${song.title}` },
-			);
-		serverQueue.textChannel.send(embed);
+		serverQueue.textChannel.send(`:notes: | \`${serverQueue.songs[0].title}\` wird gespielt...`);
 	}
 };
 
