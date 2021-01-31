@@ -59,7 +59,7 @@ module.exports = client => {
 			if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!');
 
 			try {
-				const videos1 = await youtube.searchVideos(searchString, 10);
+				var videos1 = await youtube.searchVideos(searchString, 10);
 				let index = 0;
 				const embed = new Discord.MessageEmbed()
 					.setTitle('Suchergebnisse:')
@@ -79,7 +79,7 @@ module.exports = client => {
 				}
 				const videoIndex = parseInt(responce.first().content);
 				// eslint-disable-next-line no-redeclare
-				var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+				var video = await youtube.getVideoByID(videos1[videoIndex - 1].id);
 			}
 			catch {
 				return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
