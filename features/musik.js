@@ -111,7 +111,7 @@ module.exports = client => {
 		}
 		else if (message.content.startsWith(`${prefix}nowplaying`) || (message.content.startsWith(`${prefix}np`))) {
 			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt.');
-			message.channel.send(`:notes: | \`${serverQueue.songs[0].title}\` wird gespielt...`);
+			message.channel.send(`:notes: | Now Playing: \`${serverQueue.songs[0].title}\``);
 		}
 		else if (message.content.startsWith(`${prefix}queue`)) {
 			if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt.');
