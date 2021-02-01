@@ -16,7 +16,16 @@ module.exports = client => {
 		const searchString = args.slice(1).join(' ');
 		const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
 		const serverQueue = queue.get(message.guild.id);
-
+		if ((message.content.startsWith(`${prefix}disconnect`)) || (message.content.startsWith(`${prefix}dc`)) || (message.content.startsWith(`${prefix}leave`))) {
+			const voiceChannel = message.member.voice.channel;
+			if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			await voiceChannel.leave();
+		}
+		if (message.content.startsWith(`${prefix}join`)) {
+			const voiceChannel = message.member.voice.channel;
+			if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
+			await voiceChannel.join();
+		}
 		if (message.content.startsWith(`${prefix}play`)) {
 			const voiceChannel = message.member.voice.channel;
 			if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
