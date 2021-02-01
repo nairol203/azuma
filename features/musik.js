@@ -25,7 +25,7 @@ module.exports = client => {
 			if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!');
 
 			if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-				const playList = await youtube.getPlaeaweaylist(url);
+				const playList = await youtube.getPlaylist(url);
 				const videos = await playList.getVideos();
 				for (const video of Object.values(videos)) {
 					const video2 = await youtube.getVideoByID(video.id);
