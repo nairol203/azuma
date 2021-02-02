@@ -1,21 +1,10 @@
 module.exports = client => {
+	const name = client.user.username;
 	client.on('message', message => {
 		if (message.author.bot) return;
+		if (!message.content.toLowerCase().includes(name.toLowerCase())) return;
 
-		if (message.content.toLowerCase().startsWith('hi'.toLowerCase())) {
-			const messages = [
-				'Na du',
-				'Hallo',
-				'Moin Moin!',
-				'<a:peepoHey:789156882404212808>',
-				'GuMo',
-				'Servus!',
-				'Wie geht\'s? <a:peepoHey:789156882404212808>',
-			];
-			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
-		}
-		const args1 = ['hey', 'hallo', 'moin', 'servus', 'na du'];
+		const args1 = ['hi', 'hey', 'hallo', 'moin', 'servus', 'na du'];
 		if (args1.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
 			const messages = [
 				'Na du',
