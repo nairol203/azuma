@@ -19,13 +19,13 @@ module.exports = {
 					{ name: 'Economy', value: '`addcoins` `coins` `daily` `pay`', inline: true },
 					{ name: 'Fun', value: '`8ball` `coinflip` `fish` `ohh` `rps` `triggered`', inline: true },
 					{ name: 'Level', value: '`rank` `leaderboard`', inline: true },
-					{ name: 'Musik', value: '`loop` `pause` `play` `queue` `resume` `skip` `stop` `volume`', inline: true },
-					{ name: 'Mod-Only', value: '`ban` `deploy` `ismuted` `kick` `mute` `poll` `prune` `unban` `unmute`', inline: true },
+					{ name: 'Musik', value: '`dc` `join` `loop` `np` `pause` `play` `queue` `resume` `skip` `stop` `volume`', inline: true },
+					{ name: 'Mod-Only', value: '`ban` `deploy` `ismuted` `kick` `mute` `poll` `prune` `rr` `rrmsg` `unban` `unmute`', inline: true },
 				);
 			return message.channel.send(embed);
 		}
 		else {
-			message.channel.send('<:no:767394810909949983> Error occured while running help command.');
+			message.channel.send('<:no:767394810909949983> | Error occured while running help command.');
 		}
 	},
 };
