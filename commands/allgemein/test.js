@@ -1,10 +1,34 @@
-const cooldowns = new Set();
+const DiscordJS = require('discord.js');
 
 module.exports = {
 	callback: ({ message }) => {
-		if (cooldowns.has(message.author.id)) return message.channel.send(`SPAMMER: ${cooldowns.has(message.author.id)}`);
-		cooldowns.add(message.author.id);
-		setTimeout(() => cooldowns.delete(message.author.id), 15000);
-		message.channel.send('SPAMMER: false');
+		const questions = [
+			'heyywoo, wie gehts?',
+			'was machste so?',
+			'deine mutter ist fett',
+		];
+		let counter = 0;
+
+		const filter = (m) => {
+			return m.author.id === message.author.id;
+		};
+
+		const collector = new DiscordJS.MessageCollector(message.channel, filter, {
+			max: questions.length,
+			time: 1000 * 15,
+		});
+
+		message.channel.send(questions[counter++]);
+		collector.on('collect', (m) => {
+			if (counter < questions.length) {
+				m.channel.send(questions[counter++]);
+			}
+		});
+
+		collector.on('end', (collected) => {
+			if (collected.size < questions.length) {
+				return;
+			}
+		});
 	},
 };
