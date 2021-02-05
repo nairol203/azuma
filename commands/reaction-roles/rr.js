@@ -19,7 +19,7 @@ module.exports = {
 
 		if (role.startsWith('<@&')) {
 			role = role.substring(3, role.length - 1);
-			const channel1 = client.channels.cache.find(channel => channel.id === '802523905512046602');
+			const channel1 = client.channels.cache.find(channel => channel.id === '781501076725563413');
 			channel1.send(`${role} wurde als Reaction Role hinzugefügt.`);
 		}
 
