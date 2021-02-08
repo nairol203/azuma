@@ -6,6 +6,7 @@ module.exports = {
 	expectedArgs: 'close',
 	callback: async ({ message, args }) => {
 		if (!args.length) {
+			if(!message.channel === '365763570371133451') return;
 			if (cooldowns.has(message.author.id)) return message.channel.send('Bitte spamme diesen Befehl nicht.');
 			cooldowns.add(message.author.id);
 			setTimeout(() => cooldowns.delete(message.author.id), 60000);
@@ -42,7 +43,9 @@ module.exports = {
 			newChannel.send(embed);
 		}
 		else if (args[0] === 'close') {
-			message.reply('dieses Feature befindet sich aktuell noch in der Entwicklung. Bitte frage einen Mod ob er das Ticket für dich schließen kann.');
+			message.channel.setParent('692533397796421662');
+			message.channel.updateOverwrite(message.author, { VIEW_CHANNEL: true });
+			message.reply('du hast diesen Kanal ins Archiv verschoben. Wenn du ihn endgültig löschen willst, muss ein Administrator das für dich tun.');
 		}
 	},
 };
