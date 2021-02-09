@@ -5,25 +5,20 @@ const textChannelSchema = require('../../schemas/textchannel-schema');
 
 module.exports = {
 	callback: async ({ message, args }) => {
-		const guildId = message.guild.id;
-		const userId = message.author.id;
-		const { channel } = message;
+		const { author, channel, guild } = message;
+		const guildId = guild.id;
+		const userId = author.id;
 
 		if(args[0] === 'create') {
-			/* const result = await textChannelSchema.findOne({
-				guildId,
-				userId,
-			});
-			if(result !== null) return message.reply('Du hast bereits einen eigenen Kanal.');*/
-			if (cooldowns.has(message.author.id)) return channel.send('Du kannst diesen Befehl nur alle 10 Minuten benutzen!');
-			cooldowns.add(message.author.id);
-			setTimeout(() => cooldowns.delete(message.author.id), 600 * 1000);
+			if (cooldowns.has(author.id)) return channel.send('Du kannst diesen Befehl nur alle 10 Minuten benutzen!');
+			cooldowns.add(author.id);
+			setTimeout(() => cooldowns.delete(author.id), 600 * 1000);
 
-			const newChannel = await message.guild.channels.create(`${message.author.username}'s channel`, {
+			const newChannel = await guild.channels.create(`${author.username}'s channel`, {
 				parent: '808409088886046720',
 				permissionOverwrites: [
 					{
-						id: message.author.id,
+						id: author.id,
 						allow: 'VIEW_CHANNEL',
 					},
 					{
@@ -45,7 +40,7 @@ module.exports = {
 				],
 			});
 			const embed = new Discord.MessageEmbed()
-				.setTitle(`Willkommen in deinem eigenen Textkanal, ${message.author.username}!`)
+				.setTitle(`Willkommen in deinem eigenen Textkanal, ${author.username}!`)
 				.setDescription('Du kannst mit diesen Befehlen deinen Kanal anpassen:')
 				.addFields(
 					{ name: 'Alle User freischalten:', value: '`!text unlock`', inline: true },
@@ -70,38 +65,35 @@ module.exports = {
 		});
 
 		if(result === null) {return message.reply('du bist nicht der Owner dieses Kanals.');}
+
 		else if(args[0] === 'name') {
-			if(result === null) return message.reply('du bist nicht der Owner dieses Kanals.');
 			if(!args[1]) return message.reply('versuche es so: `!text name <name>`');
 			channel.setName(args[1]);
-			message.channel.send(`Der Name des Kanals wurde geändert. Neuer Name: \`${args[1]}\`.`);
+			channel.send(`Der Name des Kanals wurde geändert. Neuer Name: \`${args[1]}\`.`);
 		}
 		else if(args[0] === 'lock') {
-			channel.updateOverwrite(message.author, { VIEW_CHANNEL: true });
+			channel.updateOverwrite(author, { VIEW_CHANNEL: true });
 			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
-			message.channel.send('Nur noch die User, denen du Rechte gegeben hast, können auf diesen Kanal zugreifen.');
+			channel.send('Nur noch die User, denen du Rechte gegeben hast, können auf diesen Kanal zugreifen.');
 		}
 		else if(args[0] === 'unlock') {
 			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: true });
-			message.channel.send('Alle User können jetzt auf diesen Kanal zugreifen.');
+			channel.send('Alle User können jetzt auf diesen Kanal zugreifen.');
 		}
 		else if(args[0] === 'permit') {
 			if(!args[1]) return message.reply('versuche es so: `!text permit <userId>`');
 			channel.updateOverwrite(args[1], { VIEW_CHANNEL: true });
-			message.channel.send(`Du hast <@${args[1]}> Zugriff auf diesen Kanal gegeben.`);
-
+			channel.send(`Du hast <@${args[1]}> Zugriff auf diesen Kanal gegeben.`);
 		}
 		else if(args[0] === 'reject') {
 			if(!args[1]) return message.reply('versuche es so: `!text reject <userId>`');
 			channel.updateOverwrite(args[1], { VIEW_CHANNEL: false });
-			message.channel.send(`Du hast <@${args[1]}> Zugriff auf diesen Kanal verweigert.`);
-
+			channel.send(`Du hast <@${args[1]}> den Zugriff auf diesen Kanal verweigert.`);
 		}
 		else if(args[0] === 'delete') {
 			channel.setParent('692533397796421662');
-			channel.updateOverwrite(message.author, { VIEW_CHANNEL: true });
+			channel.updateOverwrite(author, { VIEW_CHANNEL: true });
 			message.reply('der Kanal wurde in das Archiv verschoben.');
-
 		}
 	},
 };
