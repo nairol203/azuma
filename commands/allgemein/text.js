@@ -1,7 +1,8 @@
-const cooldowns = new Set();
 const Discord = require('discord.js');
 const database = require('../../features/textchannel');
 const textChannelSchema = require('../../schemas/textchannel-schema');
+
+const cooldowns = new Set();
 
 module.exports = {
 	callback: async ({ message, args }) => {
