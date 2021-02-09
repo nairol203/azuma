@@ -5,13 +5,13 @@ module.exports = {
 	maxArgs: 1,
 	expectedArgs: 'close',
 	callback: async ({ message, args }) => {
+		const { guild, member, author, channel } = message;
 		if (!args.length) {
 			if(!message.channel === '365763570371133451') return;
 			if (cooldowns.has(message.author.id)) return message.channel.send('Bitte spamme diesen Befehl nicht.');
 			cooldowns.add(message.author.id);
 			setTimeout(() => cooldowns.delete(message.author.id), 60000);
 
-			const { guild, member, author } = message;
 			const memberId = member.id;
 
 			message.reply('du hast ein Ticket erstellt und wurdest in deinem privaten Raum erwähnt.');
@@ -43,9 +43,11 @@ module.exports = {
 			newChannel.send(embed);
 		}
 		else if (args[0] === 'close') {
-			message.channel.setParent('692533397796421662');
-			message.channel.updateOverwrite(message.author, { VIEW_CHANNEL: true });
-			message.reply('du hast diesen Kanal ins Archiv verschoben. Wenn du ihn endgültig löschen willst, muss ein Administrator das für dich tun.');
+			/* channel.setParent('692533397796421662', { lockPermissions: false });
+			channel.updateOverwrite(author, { VIEW_CHANNEL: true });
+			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
+			message.reply('das Ticket wurde in das Archiv verschoben.');*/
+			channel.send('Dieser Befehl befindet sich aktuell in der Entwicklung. Bitte stattdessen ein Administrator dein Ticket zu schließen.');
 		}
 	},
 };
