@@ -53,6 +53,7 @@ module.exports = {
 				.setColor('#f77600')
 				.setFooter('Info: Administratoren und manche Bots haben immer Zugriff auf deinen Kanal.');
 			newChannel.send(embed).then((msg) => msg.pin());
+			message.reply(`dein Kanal wurde erstellt -> <#${newChannel.id}>`);
 			const channelId = newChannel.id;
 			// eslint-disable-next-line no-unused-vars
 			const uploadData = database.addChannel(guildId, userId, channelId);
