@@ -92,7 +92,7 @@ module.exports = {
 			channel.send(`Du hast <@${args[1]}> den Zugriff auf diesen Kanal verweigert.`);
 		}
 		else if(args[0] === 'delete') {
-			channel.setParent('692533397796421662');
+			channel.setParent('692533397796421662', { lockPermissions: false });
 			channel.updateOverwrite(author, { VIEW_CHANNEL: true });
 			message.reply('der Kanal wurde in das Archiv verschoben.');
 		}
