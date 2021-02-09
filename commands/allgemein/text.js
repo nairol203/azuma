@@ -94,6 +94,7 @@ module.exports = {
 		else if(args[0] === 'delete') {
 			channel.setParent('692533397796421662', { lockPermissions: false });
 			channel.updateOverwrite(author, { VIEW_CHANNEL: true });
+			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
 			message.reply('der Kanal wurde in das Archiv verschoben.');
 		}
 	},
