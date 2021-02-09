@@ -10,6 +10,8 @@ module.exports = {
 		const guildId = guild.id;
 		const userId = author.id;
 
+		if (guild.id !== '255741114273759232') return;
+
 		if(args[0] === 'create') {
 			if (cooldowns.has(author.id)) return channel.send('Du kannst diesen Befehl nur alle 10 Minuten benutzen!');
 			cooldowns.add(author.id);
@@ -49,8 +51,8 @@ module.exports = {
 					{ name: 'Den Namen ändern:', value: '`!text name <name>`', inline: false },
 					{ name: 'Einen User freischalten:', value: '`!text permit <userId>`', inline: true },
 					{ name: 'Einen User sperren:', value: '`!text reject <userId>`', inline: true },
-					{ name: 'Den Kanal archivieren:', value: '`!text archive`', inline: true },
-					{ name: 'Den Kanal löschen:', value: '`!text delete`', inline: true },
+					{ name: 'Den Kanal archivieren:', value: '`!text archive`', inline: false },
+					{ name: 'Den Kanal löschen:', value: '`!text delete`', inline: false },
 				)
 				.setColor('#f77600')
 				.setFooter('Info: Administratoren und manche Bots haben immer Zugriff auf deinen Kanal.');
