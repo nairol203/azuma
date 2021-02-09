@@ -49,6 +49,8 @@ module.exports = {
 					{ name: 'Den Namen ändern:', value: '`!text name <name>`', inline: false },
 					{ name: 'Einen User freischalten:', value: '`!text permit <userId>`', inline: true },
 					{ name: 'Einen User sperren:', value: '`!text reject <userId>`', inline: true },
+					{ name: 'Den Kanal archivieren:', value: '`!text archive`', inline: true },
+					{ name: 'Den Kanal löschen:', value: '`!text delete`', inline: true },
 				)
 				.setColor('#f77600')
 				.setFooter('Info: Administratoren und manche Bots haben immer Zugriff auf deinen Kanal.');
@@ -92,7 +94,7 @@ module.exports = {
 			channel.updateOverwrite(args[1], { VIEW_CHANNEL: false });
 			channel.send(`Du hast <@${args[1]}> den Zugriff auf diesen Kanal verweigert.`);
 		}
-		else if(args[0] === 'delete') {
+		else if(args[0] === 'archive') {
 			channel.setParent('692533397796421662', { lockPermissions: false });
 			channel.updateOverwrite(author, { VIEW_CHANNEL: true });
 			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
