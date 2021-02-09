@@ -4,18 +4,17 @@ const database = require('../../features/textchannel');
 const textChannelSchema = require('../../schemas/textchannel-schema');
 
 module.exports = {
-	ownwerOnly: true,
 	callback: async ({ message, args }) => {
 		const guildId = message.guild.id;
 		const userId = message.author.id;
 		const { channel } = message;
 
 		if(args[0] === 'create') {
-			const result = await textChannelSchema.findOne({
+			/* const result = await textChannelSchema.findOne({
 				guildId,
 				userId,
 			});
-			if(result !== null) return message.reply('Du hast bereits einen eigenen Kanal.');
+			if(result !== null) return message.reply('Du hast bereits einen eigenen Kanal.');*/
 			if (cooldowns.has(message.author.id)) return channel.send('Du kannst diesen Befehl nur alle 10 Minuten benutzen!');
 			cooldowns.add(message.author.id);
 			setTimeout(() => cooldowns.delete(message.author.id), 600 * 1000);
@@ -75,12 +74,12 @@ module.exports = {
 			if(result === null) return message.reply('du bist nicht der Owner dieses Kanals.');
 			if(!args[1]) return message.reply('versuche es so: `!text name <name>`');
 			channel.setName(args[1]);
-			message.channel.send(`Der Name des Kanals wurde auf ${args[1]} geändert.`);
+			message.channel.send(`Der Name des Kanals wurde geändert. Neuer Name: \`${args[1]}\`.`);
 		}
 		else if(args[0] === 'lock') {
 			channel.updateOverwrite(message.author, { VIEW_CHANNEL: true });
 			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
-			message.channel.send('Der Kanal wurde abgeschlossen und nur noch die User, denen du Rechte gegeben hast, können auf diesen Kanal zugreifen.');
+			message.channel.send('Nur noch die User, denen du Rechte gegeben hast, können auf diesen Kanal zugreifen.');
 		}
 		else if(args[0] === 'unlock') {
 			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: true });
@@ -101,7 +100,8 @@ module.exports = {
 		else if(args[0] === 'delete') {
 			channel.setParent('692533397796421662');
 			channel.updateOverwrite(message.author, { VIEW_CHANNEL: true });
-			message.reply('du hast diesen Kanal ins Archiv verschoben. Wenn du ihn endgültig löschen willst, muss ein Administrator das für dich tun.');
+			message.reply('der Kanal wurde in das Archiv verschoben.');
+
 		}
 	},
 };
