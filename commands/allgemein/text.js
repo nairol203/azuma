@@ -50,7 +50,7 @@ module.exports = {
 					{ name: 'Einen User sperren:', value: '`!text reject <userId>`', inline: true },
 				)
 				.setColor('#f77600')
-				.setFooter('Administratoren und manche Bots haben immer Zugriff auf deinen Kanal.');
+				.setFooter('Info: Administratoren und manche Bots haben immer Zugriff auf deinen Kanal.');
 			newChannel.send(embed).then((msg) => msg.pin());
 			const channelId = newChannel.id;
 			// eslint-disable-next-line no-unused-vars
