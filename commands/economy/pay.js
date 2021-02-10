@@ -5,7 +5,7 @@ module.exports = {
 	minArgs: 2,
 	maxArgs: 2,
 	expectedArgs: '<user> <coins>',
-	callback: async ({ message/*, args, instance*/ }) => {
+	callback: async ({ message, args, instance }) => {
 		/* const { guild, member } = message;
 		const prefix = instance.getPrefix(guild);
 
@@ -37,6 +37,6 @@ module.exports = {
 			.setColor('#ffb800')
 			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `du hast <@${target.id}> bezahlt.\n<@${target.id}> hat jetzt **${newBalance}** Coin(s) und du hast noch **${remainingCoins}** Coin(s)!`);
 		message.channel.send(embed);*/
-		message.reply('du bist ein kleiner frechdachs');
+		message.reply('Der Pay-Befehl ist aufgrund einiger Bugs deaktivert.');
 	},
 };
