@@ -59,8 +59,13 @@ module.exports = {
 			newChannel.send(embed).then((msg) => msg.pin());
 			message.reply(`dein Kanal wurde erstellt -> <#${newChannel.id}>`);
 			const channelId = newChannel.id;
-			// eslint-disable-next-line no-unused-vars
-			const uploadData = database.addChannel(guildId, userId, channelId);
+			const result = await textChannelSchema.insertMany(
+				{
+					guildId,
+					userId,
+					channelId,
+				},
+			);
 			return;
 		}
 		const channelId = channel.id;
@@ -70,7 +75,9 @@ module.exports = {
 			channelId,
 		});
 
-		if(result === null) {return message.reply('du bist nicht der Owner dieses Kanals.');}
+		if(result === null) {
+			return message.reply('du bist nicht der Owner dieses Kanals.');
+		}
 
 		else if(args[0] === 'name') {
 			if(!args[1]) return message.reply('versuche es so: `!text name <name>`');
@@ -102,7 +109,7 @@ module.exports = {
 			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
 			message.reply('der Kanal wurde in das Archiv verschoben.');
 		}
-		else if(args[0] === 'test') {
+		else if(args[0] === 'delete') {
 			const result = await textChannelSchema.findOneAndDelete({
 				guildId,
 				userId,
