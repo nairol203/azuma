@@ -1,5 +1,5 @@
 module.exports = (client) => {
-	const autologs = client.channels.cache.find(channel => channel.id === '781501076725563413');
+	const autoLogs = client.channels.cache.find(channel => channel.id === '781501076725563413');
 
 	client.on('guildMemberAdd', member => {
 		if (member.guild.id === '255741114273759232') {
@@ -10,11 +10,11 @@ module.exports = (client) => {
 		else if (member.guild.id === '506518638564737025') {
 			member.roles.add('795453805789446144');
 		}
-		autologs.send(`📥 ${member.user} ist dem Server beigetreten.`);
+		autoLogs.send(`📥 ${member.user} ist dem Server beigetreten.`);
 	});
 
 	client.on('guildMemberRemove', member => {
-		autologs.send(`📤 ${member.user} hat den Server verlassen.`);
+		autoLogs.send(`📤 ${member.user} hat den Server verlassen.`);
 	});
 };
 

@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 module.exports = {
 	category: 'Help',
 	description: 'Alle Commands von diesem Bot.',
@@ -5,7 +7,6 @@ module.exports = {
 	minArgs: 0,
 	maxArgs: 1,
 	callback: ({ message, args, instance }) => {
-		const Discord = require('discord.js');
 		const prefix = instance.getPrefix(message.guild);
 
 		if (!args.length) {
@@ -15,12 +16,12 @@ module.exports = {
 				.setDescription(`Tipp: Benutze \`${prefix}help <command>\` um mehr über einen bestimmten Befehl zu erfahren.`)
 				.setThumbnail(`${message.guild.iconURL()}`)
 				.addFields (
-					{ name: 'Allgemein', value: '`ping` `server` `howto` `info` `invite`', inline: true },
+					{ name: 'Misc', value: '`howto` `info` `invite` `ping` `poll` `server` `text`', inline: true },
 					{ name: 'Economy', value: '`addcoins` `coins` `daily` `pay`', inline: true },
 					{ name: 'Fun', value: '`8ball` `coinflip` `fish` `ohh` `rps` `triggered`', inline: true },
 					{ name: 'Level', value: '`rank` `leaderboard`', inline: true },
-					{ name: 'Musik', value: '`dc` `join` `loop` `np` `pause` `play` `queue` `resume` `skip` `stop` `volume`', inline: true },
-					{ name: 'Mod-Only', value: '`ban` `deploy` `ismuted` `kick` `mute` `poll` `prune` `rr` `rrmsg` `unban` `unmute`', inline: true },
+					{ name: 'Musik', value: '`autoplay` `filter` `join` `loop` `pause` `play` `queue` `resume` `skip` `stop` `volume`', inline: true },
+					{ name: 'Admin', value: '`ban` `deploy` `ismuted` `kick` `mute` `prune` `unban` `unmute`', inline: true },
 				);
 			return message.channel.send(embed);
 		}

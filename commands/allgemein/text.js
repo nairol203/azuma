@@ -4,10 +4,11 @@ const textChannelSchema = require('../../schemas/textchannel-schema');
 const cooldowns = new Set();
 
 module.exports = {
-	callback: async ({ message, args }) => {
+	callback: async ({ client, message, args }) => {
 		const { author, channel, guild } = message;
 		const guildId = guild.id;
 		const userId = author.id;
+		const autoLogs = client.channels.cache.find(channel => channel.id === '781501076725563413');;
 
 		if (guild.id !== '255741114273759232') return;
 
@@ -57,6 +58,7 @@ module.exports = {
 				.setFooter('Info: Administratoren und manche Bots haben immer Zugriff auf deinen Kanal.');
 			newChannel.send(embed).then((msg) => msg.pin());
 			message.reply(`dein Kanal wurde erstellt -> <#${newChannel.id}>`);
+			autoLogs.send(`${author} hat ${newChannel} erstellt.`);
 			const channelId = newChannel.id;
 			const result = await textChannelSchema.insertMany(
 				{
@@ -115,6 +117,7 @@ module.exports = {
 				channelId,
 			});
 			channel.delete();
+			autoLogs.send(`${author} hat <#${channelId}> (ID: ${channelId}) gelöscht.`);
 		}
 	},
 };
