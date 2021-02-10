@@ -102,7 +102,12 @@ module.exports = {
 			channel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
 			message.reply('der Kanal wurde in das Archiv verschoben.');
 		}
-		else if(args[0] === 'delete') {
+		else if(args[0] === 'test') {
+			const result = await textChannelSchema.findOneAndDelete({
+				guildId,
+				userId,
+				channelId,
+			});
 			channel.delete();
 		}
 	},
