@@ -42,10 +42,11 @@ client.on('message', message => {
 const DisTube = require('distube');
 
 client.distube = new DisTube(client, { searchSongs: false, emitNewSongOnly: true });
+const status = (queue) => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || 'Off'}\` | Loop: \`${queue.repeatMode ? queue.repeatMode == 2 ? 'All Queue' : 'This Song' : 'Off'}\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
 
 client.distube
-	.on('playSong', (message, song) => message.channel.send(
-		`\`${song.name}\` - \`${song.formattedDuration}\` wird gespielt.\nRequested by: ${song.user}`,
+	.on('playSong', (message, queue, song) => message.channel.send(
+		`Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`,
 	))
 	.on('addSong', (message, song) => message.channel.send(
 		`${song.name} - \`${song.formattedDuration}\` wurde von ${song.user} zur Queue hinzugefügt.`,
