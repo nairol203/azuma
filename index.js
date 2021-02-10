@@ -42,20 +42,34 @@ client.on('message', message => {
 const DisTube = require('distube');
 
 client.distube = new DisTube(client, { searchSongs: false, emitNewSongOnly: true });
-const status = (queue) => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || 'Off'}\` | Loop: \`${queue.repeatMode ? queue.repeatMode == 2 ? 'All Queue' : 'This Song' : 'Off'}\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
+const status = (queue) => '';
 
 client.distube
 	.on('playSong', (message, queue, song) => message.channel.send(
-		`Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`,
+		`:notes: | \`${song.name}\` - \`${song.formattedDuration}\` wird gespielt...\n${status(queue)}`,
 	))
-	.on('addSong', (message, song) => message.channel.send(
-		`${song.name} - \`${song.formattedDuration}\` wurde von ${song.user} zur Queue hinzugefügt.`,
+	.on('addSong', (message, queue, song) => message.channel.send(
+		`:notes: | ${song.name} - \`${song.formattedDuration}\` wurde zur Queue hinzugefügt.\n${status(queue)}`,
 	))
-	.on('playList', (message, playlist, song) => message.channel.send(
-		`Playlist \`${playlist.name}\` wird abgespielt.\nRequested by: ${song.user}\nNow playing \`${song.name}\` - \`${song.formattedDuration}\``,
+	.on('playList', (message, queue, playlist, song) => message.channel.send(
+		`:notes: | Die Playlist \`${playlist.name}\` mit ${playlist.songs.length} Songs wurde zur Queue hinzugefügt.\n:notes: | \`${song.name}\` - \`${song.formattedDuration}\` wird gespielt...\n${status(queue)}`,
 	))
-	.on('addList', (message, song, playlist) => message.channel.send(
-		`Playlist \`${playlist.name}\` wurde von ${song.user} zur Queue hinzugefügt. `,
-	));
+	.on('addList', (message, queue, playlist) => message.channel.send(
+		`:notes: | Die Playlist \`${playlist.name}\` mit ${playlist.songs.length} Songs wurde zur Queue hinzugefügt.\n${status(queue)}`,
+	))
+	.on('searchResult', (message, result) => {
+		let i = 0;
+		const embed = new Discord.MessageEmbed()
+			.setTitle('Suchergebnisse:')
+			.setDescription(`\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join('\n')}`)
+			.setFooter('Wähle einen Song von 1-10 aus.')
+			.setColor('#fabe00');
+		message.channel.send(embed);
+	})
+	.on('searchCancel', (message) => message.channel.send('<:no:767394810909949983> | Es wurde keine gültige Eingabe erkannt.'))
+	.on('error', (message, e) => {
+		console.error(e);
+		message.channel.send('<:no:767394810909949983> | Error occured while running search command.');
+	});
 
 client.login(process.env.TOKEN);
