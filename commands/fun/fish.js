@@ -13,7 +13,7 @@ module.exports = {
 			const { member, author } = message;
 			const userId = author.id;
 
-			const coinsToGive = '10';
+			const coinsToGive = '-10';
 			const coinsOwned = await economy.getCoins(member.id);
 			if (coinsOwned < coinsToGive) {
 				message.channel.send('<:no:767394810909949983> Du hast nicht genügend Coins!');
@@ -74,11 +74,11 @@ module.exports = {
 				}
 				const remainingCoins = await economy.addCoins(
 					member.id,
-					coinsToGive * -1,
+					coinsToGive,
 				);
 				console.log('remainingcoins' + remainingCoins);
 				console.log('coinstogive' + coinsToGive);
-				const newBalance = await economy.addCoins(member.id, remainingCoins);
+				const newBalance = await economy.addCoins(member.id, coinsToGive);
 				console.log('newbalance' + newBalance);
 			}
 		}
