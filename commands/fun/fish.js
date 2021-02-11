@@ -78,7 +78,7 @@ module.exports = {
 				);
 				console.log('remainingcoins' + remainingCoins);
 				console.log('coinstogive' + coinsToGive);
-				const newBalance = await economy.addCoins(member.id, coinsToGive);
+				const newBalance = await economy.addCoins(member.id, remainingCoins);
 				console.log('newbalance' + newBalance);
 			}
 		}
