@@ -9,13 +9,16 @@ module.exports = {
 	callback: async ({ message, args, instance }) => {
 		const prefix = instance.getPrefix(message.guild);
 
+		const commonPrice = '12'; const uncommonPrice = '20';
+		const rarePrice = '1250'; const garbagePrice = '6';
+		const pricePerCast = '10';
+
 		if (!args.length) {
 			const { member, author } = message;
 			const userId = author.id;
 
-			const coinsToGive = '-10';
 			const coinsOwned = await economy.getCoins(member.id);
-			if (coinsOwned < coinsToGive) {
+			if (coinsOwned < pricePerCast) {
 				message.channel.send('<:no:767394810909949983> Du hast nicht genügend Coins!');
 				return;
 			}
@@ -37,6 +40,10 @@ module.exports = {
 					message.channel.send(mess1 + '🐟' + mess2);
 					const common = 1;
 					const allCommon = await fishing.addCommon(userId, common);
+					const remainingCoins = await economy.addCoins(
+						member.id,
+						commonPrice,
+					);
 				}
 				else if (d < 0.1015 & d > 0.0015) {
 					/* const embed = new Discord.MessageEmbed()
@@ -46,6 +53,10 @@ module.exports = {
 					message.channel.send(mess1 + '🐠' + mess2);
 					const uncommon = 1;
 					const allUncommon = await fishing.addUncommon(userId, uncommon);
+					const remainingCoins = await economy.addCoins(
+						member.id,
+						uncommonPrice,
+					);
 				}
 				else if (d < 0.0015 & d > 0.1015) {
 					const rare1 = [
@@ -59,6 +70,10 @@ module.exports = {
 					message.reply('du hast einen Rare geangelt! Glückwunsch 🎉');
 					const rare = 1;
 					const allRare = await fishing.addRare(userId, rare);
+					const remainingCoins = await economy.addCoins(
+						member.id,
+						rarePrice,
+					);
 				}
 				else if (d < 1 & d > 0.45) {
 					const garbage1 = [
@@ -71,10 +86,14 @@ module.exports = {
 					message.channel.send(mess1 + randomMessage + mess2);
 					const garbage = 1;
 					const allGarbage = await fishing.addGarbage(userId, garbage);
+					const remainingCoins = await economy.addCoins(
+						member.id,
+						garbagePrice,
+					);
 				}
 				const remainingCoins = await economy.addCoins(
 					member.id,
-					coinsToGive,
+					pricePerCast * -1,
 				);
 			}
 		}
@@ -110,10 +129,6 @@ module.exports = {
 			const mathCommon = Math.round(total * 0.3485); const mathUncommon = Math.round(total * 0.1);
 			const mathRare = Math.round(total * 0.0015); const mathGarbage = Math.round(total * 0.55);
 			const mathTotal = (mathCommon + mathUncommon + mathRare + mathGarbage);
-
-			const commonPrice = '12'; const uncommonPrice = '20';
-			const rarePrice = '1250'; const garbagePrice = '6';
-			const pricePerCast = '10';
 
 			const totalPrice = (common * commonPrice) + (uncommon * uncommonPrice) + (rare * rarePrice) + (garbage * garbagePrice);
 			const mathTotalPrice = (mathCommon * commonPrice) + (mathUncommon * uncommonPrice) + (mathRare * rarePrice) + (mathGarbage * garbagePrice);
