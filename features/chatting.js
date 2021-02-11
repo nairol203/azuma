@@ -1,8 +1,8 @@
 module.exports = client => {
-	const name = client.user.username;
+	// const name = client.user.username;
 	client.on('message', message => {
 		if (message.author.bot) return;
-		if (!message.content.toLowerCase().includes(name.toLowerCase())) return;
+		// if (!message.content.toLowerCase().includes(name.toLowerCase())) return;
 
 		const args1 = ['hi', 'hey', 'hallo', 'moin', 'servus', 'na du'];
 		if (args1.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
