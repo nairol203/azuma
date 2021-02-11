@@ -76,7 +76,10 @@ module.exports = {
 					member.id,
 					coinsToGive * -1,
 				);
+				console.log('remainingcoins' + remainingCoins);
+				console.log('coinstogive' + coinsToGive);
 				const newBalance = await economy.addCoins(member.id, coinsToGive);
+				console.log('newbalance' + newBalance);
 			}
 		}
 		else if (args[0] === 'help') {
