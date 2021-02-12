@@ -2,6 +2,7 @@
 const Discord = require('discord.js');
 const economy = require('../../features/economy');
 const fishing = require('../../features/fishing');
+const fishingInv = require('../../features/fishing-inv');
 
 const cooldowns = new Set();
 
@@ -40,10 +41,7 @@ module.exports = {
 					message.channel.send(mess1 + '🐟' + mess2);
 					const common = 1;
 					const allCommon = await fishing.addCommon(userId, common);
-					const remainingCoins = await economy.addCoins(
-						member.id,
-						commonPrice,
-					);
+					const invCommon = await fishingInv.addCommon(userId, common);
 				}
 				else if (d < 0.1015 & d > 0.0015) {
 					/* const embed = new Discord.MessageEmbed()
@@ -53,10 +51,7 @@ module.exports = {
 					message.channel.send(mess1 + '🐠' + mess2);
 					const uncommon = 1;
 					const allUncommon = await fishing.addUncommon(userId, uncommon);
-					const remainingCoins = await economy.addCoins(
-						member.id,
-						uncommonPrice,
-					);
+					const invUncommon = await fishingInv.addUncommon(userId, uncommon);
 				}
 				else if (d < 0.0015 & d > 0.1015) {
 					const rare1 = [
@@ -70,10 +65,7 @@ module.exports = {
 					message.reply('du hast einen Rare geangelt! Glückwunsch 🎉');
 					const rare = 1;
 					const allRare = await fishing.addRare(userId, rare);
-					const remainingCoins = await economy.addCoins(
-						member.id,
-						rarePrice,
-					);
+					const invRare = await fishingInv.addRare(userId, rare);
 				}
 				else if (d < 1 & d > 0.45) {
 					const garbage1 = [
@@ -86,10 +78,7 @@ module.exports = {
 					message.channel.send(mess1 + randomMessage + mess2);
 					const garbage = 1;
 					const allGarbage = await fishing.addGarbage(userId, garbage);
-					const remainingCoins = await economy.addCoins(
-						member.id,
-						garbagePrice,
-					);
+					const invRare = await fishingInv.addGarbage(userId, garbage);
 				}
 				const remainingCoins = await economy.addCoins(
 					member.id,
@@ -170,6 +159,28 @@ module.exports = {
 				.setColor('#00b8ff')
 				.addField(`:fishing_pole_and_fish:  **|**  **${target.username}'s** Angelstatistik:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🦑 **Seltene Fische** | ${rare}\n🗑️ **Müll** | ${garbage}`);
 			return message.channel.send(embed);
+		}
+		else if (args[0] === 'sell') {
+			const target = message.mentions.users.first() || message.author;
+			const userId = target.id;
+			if (args[1] === 'common') {
+				const common = await fishingInv.getCommon(userId);
+				const removeCommon = await fishingInv.addCommon(userId, common * -1);
+				const newCoins = await economy.addCoins(userId, commonPrice * common);
+				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${common}** gewöhnliche Fische für **${commonPrice * common}**<a:Coin:795346652599812147>verkauft.`);
+			}
+			if (args[1] === 'uncommon') {
+				const uncommon = await fishingInv.getUncommon(userId);
+				const removeUncommon = await fishingInv.addUncommon(userId, uncommon * -1);
+				const newCoins = await economy.addCoins(userId, uncommonPrice * uncommon);
+				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${uncommon}** ungewöhnliche Fische für **${uncommonPrice * uncommon}**<a:Coin:795346652599812147>verkauft.`);
+			}
+			if (args[1] === 'garbage') {
+				const garbage = await fishingInv.getGarbage(userId);
+				const removeGarbage = await fishingInv.addGarbage(userId, garbage * -1);
+				const newCoins = await economy.addCoins(userId, garbagePrice * garbage);
+				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${garbage}** Müll für **${garbagePrice * garbage}**<a:Coin:795346652599812147>verkauft.`);
+			}
 		}
 		else {
 			return message.reply(`versuche es so: \`${prefix}fish\` oder \`${prefix}fish help | info | math | rollen | stats\``);
