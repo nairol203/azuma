@@ -5,7 +5,7 @@ module.exports = client => {
 		// if (!message.content.toLowerCase().includes(name.toLowerCase())) return;
 
 		const args1 = ['hi', 'hey', 'hallo', 'moin', 'servus', 'na du'];
-		if (args1.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
+		if (args1.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'Na du',
 				'Hallo',
@@ -19,7 +19,7 @@ module.exports = client => {
 			message.channel.send(randomMessage);
 		}
 		const args7 = ['guten morgen', 'guden morjen', 'gumo'];
-		if (args7.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
+		if (args7.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'GuMo <a:peepoHey:789156882404212808>',
 				`${message.author} gumo <a:peepoHey:789156882404212808>`,
@@ -31,8 +31,8 @@ module.exports = client => {
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
 		}
-		const args2 = ['alles gut', 'wie geht\'s', 'alles fit'];
-		if (args2.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
+		const args2 = ['alles gut', 'wie geht', 'alles fit'];
+		if (args2.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'Ganz okay',
 				'Muss ja^^',
@@ -48,7 +48,7 @@ module.exports = client => {
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
 		}
-		else if (message.content.toLowerCase().includes('was machst du'.toLowerCase())) {
+		else if (message.content.toLowerCase().startsWith('was machst du'.toLowerCase())) {
 			const messages = [
 				'Mit 100 Leuten gleichzeitig schreiben <a:peepoChat:791826601888448533>',
 				'Nichts, mir ist ziemlich langweilig <:peepoSad:761295891503120445>',
@@ -63,10 +63,10 @@ module.exports = client => {
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
 		}
-		else if (message.content.toLowerCase().includes('wie ist das wetter'.toLowerCase())) {
+		else if (message.content.toLowerCase().startsWith('wie ist das wetter'.toLowerCase())) {
 			message.channel.send('Schau doch aus dem Fenster <:FeelsDankMan:780215649384398908>');
 		}
-		else if (message.content.toLowerCase().includes('und sonst so'.toLowerCase())) {
+		else if (message.content.toLowerCase().startsWith('und sonst so'.toLowerCase())) {
 			const messages = [
 				'joa muss ja^^',
 				'das übliche, muss noch ein paar Dinge erledigen',
@@ -74,7 +74,7 @@ module.exports = client => {
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
 		}
-		else if (message.content.toLowerCase().includes('was geht'.toLowerCase())) {
+		else if (message.content.toLowerCase().startsWith('was geht'.toLowerCase())) {
 			const messages = [
 				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
 				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
@@ -91,7 +91,7 @@ module.exports = client => {
 			message.channel.send(randomMessage);
 		}
 		const args3 = ['gute nacht', 'gude nacht', 'guna'];
-		if (args3.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
+		if (args3.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'GuNa <a:peepoHey:789156882404212808>',
 				`${message.author} guna <a:peepoHey:789156882404212808>`,
@@ -104,7 +104,7 @@ module.exports = client => {
 			message.channel.send(randomMessage);
 		}
 		const args4 = ['tschüss', 'bye', 'bis später', 'see ya'];
-		if (args4.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
+		if (args4.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'tschüss <a:peepoBye:791063849540649001>',
 				'byeee <a:peepoBye:791063849540649001>',
