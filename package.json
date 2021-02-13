@@ -25,10 +25,7 @@
     "distube": "^2.8.8",
     "eslint": "^7.17.0",
     "ffmpeg-static": "^4.2.7",
-    "got": "^11.8.1",
     "mongoose": "^5.11.11",
-    "simple-youtube-api": "^5.2.1",
-    "wokcommands": "^1.2.1",
-    "ytdl-core": "^4.4.5"
+    "wokcommands": "^1.2.1"
   }
 }
