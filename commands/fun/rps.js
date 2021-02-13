@@ -32,8 +32,6 @@ module.exports = {
 							const collected = await msg.channel.awaitMessages(filter1, {
 								max: 1,
 								time: 15000,
-							}).catch(() => {
-								message.test.send('Du warst zu langsam!');
 							});
 
 							const msg1 = await message.author.send('Nimmst du Schere, Stein oder Papier?');
@@ -41,8 +39,6 @@ module.exports = {
 							const collected1 = await msg1.channel.awaitMessages(filter2, {
 								max: 1,
 								time: 15000,
-							}).catch(() => {
-								message.author.send('Du warst zu langsam!');
 							});
 
 							if(collected.first().content.toLowerCase() === 'stein') {
@@ -50,12 +46,12 @@ module.exports = {
 								if(collected1.first().content.toLowerCase() === 'schere') {
 									await economy.addCoins(test.id, args[1]);
 									await economy.addCoins(target.id, args[1] * -1);
-									message.channel.send(`${test} hat Stein genommen und ${target} Schere!\nDamit gewinnt ${test}!`);
+									message.channel.send(`${test} hat Stein genommen und ${target} Schere!\nDamit gewinnt ${test}!\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
 								}
 								if(collected1.first().content.toLowerCase() === 'papier') {
 									await economy.addCoins(test.id, args[1] * -1);
 									await economy.addCoins(target.id, args[1]);
-									message.channel.send(`${test} hat Stein genommen und ${target} Papier!\nDamit gewinnt ${target}!`);
+									message.channel.send(`${test} hat Stein genommen und ${target} Papier!\nDamit gewinnt ${target}}!\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
 								}
 							}
 							if(collected.first().content.toLowerCase() === 'schere') {
@@ -63,12 +59,12 @@ module.exports = {
 								if(collected1.first().content.toLowerCase() === 'papier') {
 									await economy.addCoins(test.id, args[1]);
 									await economy.addCoins(target.id, args[1] * -1);
-									message.channel.send(`${test} hat Schere genommen und ${target} Papier!\nDamit gewinnt ${test}!`);
+									message.channel.send(`${test} hat Schere genommen und ${target} Papier!\nDamit gewinnt ${test}!\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
 								}
 								if(collected1.first().content.toLowerCase() === 'stein') {
 									await economy.addCoins(test.id, args[1] * -1);
 									await economy.addCoins(target.id, args[1]);
-									message.channel.send(`${test} hat Schere genommen und ${target} Stein!\nDamit gewinnt ${target}!`);
+									message.channel.send(`${test} hat Schere genommen und ${target} Stein!\nDamit gewinnt ${target}!\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
 								}
 							}
 							if(collected.first().content.toLowerCase() === 'papier') {
@@ -76,12 +72,12 @@ module.exports = {
 								if(collected1.first().content.toLowerCase() === 'stein') {
 									await economy.addCoins(test.id, args[1]);
 									await economy.addCoins(target.id, args[1] * -1);
-									message.channel.send(`${test} hat Papier genommen und ${target} Stein!\nDamit gewinnt ${test}!`);
+									message.channel.send(`${test} hat Papier genommen und ${target} Stein!\nDamit gewinnt ${test}!\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
 								}
 								if(collected1.first().content.toLowerCase() === 'schere') {
 									await economy.addCoins(test.id, args[1] * -1);
 									await economy.addCoins(target.id, args[1]);
-									message.channel.send(`${test} hat Papier genommen und ${target} Schere!\nDamit gewinnt ${target}!`);
+									message.channel.send(`${test} hat Papier genommen und ${target} Schere!\nDamit gewinnt ${target}}!\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
 								}
 							}
 						}
