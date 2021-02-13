@@ -3,11 +3,12 @@ const economy = require('../../features/economy');
 module.exports = {
 	callback: async ({ message, args }) => {
 		if (!args.length) return message.channel.send('Lass uns doch um etwas Geld spielen! `!rps <coins>`');
+
 		if ((isNaN(args[0])) || args[0] < 1) return message.channel.send('Bitte setze einen gültigen Betrag!');
 		const coinsOwned = await economy.getCoins(message.author.id);
 		if (coinsOwned < args[0]) return message.channel.send(`Du hast doch gar keine ${args[0]} Coins <:Susge:809947745342980106>`);
 
-		const acceptedReplies = ['schere', 'stein', 'papier'];
+		const acceptedReplies = ['Schere', 'Stein', 'Papier'];
 		const random = Math.floor((Math.random() * acceptedReplies.length));
 		const result = acceptedReplies[random];
 
@@ -25,9 +26,8 @@ module.exports = {
 				.then(message => {
 					message = message.first();
 					if (message.content.toLowerCase() == 'stein') {
-						if (result === 'stein') message.channel.send('Ich habe Stein genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
-						if (result === 'schere') message.channel.send('Ich habe Schere genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
-						if (result === 'papier') message.channel.send('Ich habe Papier genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
+						message.channel.send(`Ich habe ${result} genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>`);
+
 
 						if (result === 'stein') {
 							message.reply(drawMessage);
@@ -47,9 +47,7 @@ module.exports = {
 
 					}
 					else if (message.content.toLowerCase() == 'schere') {
-						if (result === 'stein') message.channel.send('Ich habe Stein genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
-						if (result === 'schere') message.channel.send('Ich habe Schere genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
-						if (result === 'papier') message.channel.send('Ich habe Papier genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
+						message.channel.send(`Ich habe ${result} genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>`);
 
 						if (result === 'schere') {
 							message.reply(drawMessage);
@@ -68,9 +66,7 @@ module.exports = {
 						}
 					}
 					else if (message.content.toLowerCase() == 'papier') {
-						if (result === 'stein') message.channel.send('Ich habe Stein genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
-						if (result === 'schere') message.channel.send('Ich habe Schere genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
-						if (result === 'papier') message.channel.send('Ich habe Papier genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>');
+						message.channel.send(`Ich habe ${result} genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>`);
 
 						if (result === 'papier') {
 							message.reply(drawMessage);
