@@ -1,12 +1,12 @@
-/* const Discord = require('discord.js');
-const economy = require('../../features/economy');*/
+const Discord = require('discord.js');
+const economy = require('../../features/economy');
 
 module.exports = {
 	minArgs: 2,
 	maxArgs: 2,
 	expectedArgs: '<user> <coins>',
 	callback: async ({ message, args, instance }) => {
-		/* const { guild, member } = message;
+		const { guild, member } = message;
 		const prefix = instance.getPrefix(guild);
 
 		const target = message.mentions.users.first();
@@ -16,7 +16,7 @@ module.exports = {
 		}
 
 		const coinsToGive = args[1];
-		if (isNaN(coinsToGive)) {
+		if ((isNaN(args[0])) || args[0] < 1) {
 			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <coins>\``);
 			return;
 		}
@@ -36,7 +36,6 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')
 			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `du hast <@${target.id}> bezahlt.\n<@${target.id}> hat jetzt **${newBalance}** Coin(s) und du hast noch **${remainingCoins}** Coin(s)!`);
-		message.channel.send(embed);*/
-		message.reply('Der Pay-Befehl ist aufgrund einiger Bugs deaktivert.');
+		message.channel.send(embed);
 	},
 };
