@@ -5,7 +5,7 @@ module.exports = {
 		if (!args.length) return message.channel.send('Lass uns doch um etwas Geld spielen! `!rps <coins>`');
 		if ((isNaN(args[0])) || args[0] < 1) return message.channel.send('Bitte setze einen gültigen Betrag!');
 		const coinsOwned = await economy.getCoins(message.author.id);
-		if (coinsOwned < args[0]) return message.channel.send(`<:no:767394810909949983> Du hast doch gar keine ${args[0]} Coins <:Susge:809947745342980106>`);
+		if (coinsOwned < args[0]) return message.channel.send(`Du hast doch gar keine ${args[0]} Coins <:Susge:809947745342980106>`);
 
 		const acceptedReplies = ['schere', 'stein', 'papier'];
 		const random = Math.floor((Math.random() * acceptedReplies.length));
