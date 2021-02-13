@@ -3,6 +3,7 @@ const fishing = require('./fishing');
 module.exports = (client) => {
 	client.on('message', async message => {
 		if(message.author.bot) return;
+		if(!message.guild) return;
 		const userId = message.author.id;
 		const uncommon = await fishing.getUncommon(userId); const rare = await fishing.getRare(userId);
 
