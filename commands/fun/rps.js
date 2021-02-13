@@ -12,6 +12,7 @@ module.exports = {
 		const random = Math.floor((Math.random() * acceptedReplies.length));
 		const result = acceptedReplies[random];
 
+		const resultMessage = `Ich habe ${result} genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>`;
 		const drawMessage = 'es ist unendschieden! Gut gespielt! <:FeelsOkayMan:743222752449790054>';
 		const loseMessage = `damit habe ich gewonnen und du hast ${args[0]} Coins Verlust gemacht!`;
 		const winMessage = `du hast gewonnen! Rip meine ${args[0]} Coins i guess <:Sadge:743222752756105269>`;
@@ -26,7 +27,7 @@ module.exports = {
 				.then(message => {
 					message = message.first();
 					if (message.content.toLowerCase() == 'stein') {
-						message.channel.send(`Ich habe ${result} genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>`);
+						message.channel.send(resultMessage);
 
 
 						if (result === 'stein') {
@@ -47,7 +48,7 @@ module.exports = {
 
 					}
 					else if (message.content.toLowerCase() == 'schere') {
-						message.channel.send(`Ich habe ${result} genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>`);
+						message.channel.send(resultMessage);
 
 						if (result === 'schere') {
 							message.reply(drawMessage);
@@ -66,7 +67,7 @@ module.exports = {
 						}
 					}
 					else if (message.content.toLowerCase() == 'papier') {
-						message.channel.send(`Ich habe ${result} genommen <:pepeLaugh:750018556636168283> <a:TeaTime:786266751909232661>`);
+						message.channel.send(resultMessage);
 
 						if (result === 'papier') {
 							message.reply(drawMessage);
