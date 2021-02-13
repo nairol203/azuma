@@ -106,6 +106,19 @@ module.exports = {
 				.setFooter('Falls du eine Übersicht zu den Rollen haben möchtest, probiere mal !fish rollen aus!');
 			return message.channel.send(embed);
 		}
+		else if (args[0] === 'inv') {
+			const target = message.mentions.users.first() || message.author;
+			const userId = target.id;
+
+			const common = await fishingInv.getCommon(userId);
+			const uncommon = await fishingInv.getUncommon(userId);
+			const garbage = await fishingInv.getGarbage(userId);
+
+			const embed = new Discord.MessageEmbed()
+				.setColor('#00b8ff')
+				.addField(`:fishing_pole_and_fish:  **|**  **${target.username}'s** Angel-Inventar:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🗑️ **Müll** | ${garbage}`);
+			return message.channel.send(embed);
+		}
 		else if (args[0] === 'math') {
 			const target = message.mentions.users.first() || message.author;
 
@@ -137,6 +150,12 @@ module.exports = {
 					{ name: 'Road to 100 Rares:', value: `Du brauchst aktuell noch **${Math.round(100 / (rare / total)) - total}** Angelversuche (insgesamt **${Math.round(100 / (rare / total))}** Versuche) bis zu den 100 Rares! Weiter so, **${total}** Versuche hast du schon.`, inline: false },
 				);
 			return message.channel.send(embed);
+		}
+		else if (args[0] === 'rarefish') {
+			return message.channel.send('WIP - Coming soon');
+		}
+		else if (args[0] === 'redeem') {
+			return message.channel.send('WIP - Coming soon');
 		}
 		else if ((args[0] === 'rollen') || (args[0] === 'roles')) {
 			const embed = new Discord.MessageEmbed()
