@@ -96,13 +96,17 @@ module.exports = {
 		}
 		else if(args[0] === 'permit') {
 			if(!args[1]) return message.reply('versuche es so: `!text permit <userId>`');
-			channel.updateOverwrite(args[1], { VIEW_CHANNEL: true });
-			channel.send(`Du hast <@${args[1]}> Zugriff auf diesen Kanal gegeben.`);
+			const mention = args[1].toString().replace('<@!', '');
+			const mentionId = mention.toString().replace('>', '');
+			channel.updateOverwrite(mentionId, { VIEW_CHANNEL: true });
+			channel.send(`Du hast <@${mentionId}> Zugriff auf diesen Kanal gegeben.`);
 		}
 		else if(args[0] === 'reject') {
 			if(!args[1]) return message.reply('versuche es so: `!text reject <userId>`');
-			channel.updateOverwrite(args[1], { VIEW_CHANNEL: false });
-			channel.send(`Du hast <@${args[1]}> den Zugriff auf diesen Kanal verweigert.`);
+			const mention = args[1].toString().replace('<@!', '');
+			const mentionId = mention.toString().replace('>', '');
+			channel.updateOverwrite(mentionId, { VIEW_CHANNEL: false });
+			channel.send(`Du hast <@${mentionId}> den Zugriff auf diesen Kanal verweigert.`);
 		}
 		else if(args[0] === 'archive') {
 			channel.setParent('692533397796421662', { lockPermissions: false });
