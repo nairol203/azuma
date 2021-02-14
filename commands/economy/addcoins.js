@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
+	ownerOnly: true,
 	aliases: 'addbal',
 	minArgs: 2,
 	maxArgs: 2,
