@@ -23,7 +23,7 @@ client.on('ready', async () => {
 		.setDefaultPrefix(prefix)
 		.setDefaultLanguage('german')
 		.setMongoPath(process.env.MONGO_URI)
-		.setBotOwner('255739211112513536');
+		.setBotOwner(['255739211112513536']);
 });
 
 client.on('message', message => {
