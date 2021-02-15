@@ -79,7 +79,7 @@ module.exports = {
 		else if (args[0] === 'limit') {
 			const amount = parseInt(args[1]) + 1;
 			if (amount > 100) return channel.send('Dein Raum hat nur eine Größe für 99 Personen!');
-			if (amount <= 1) return;
+			if (amount <= 0) return;
 			const channelLimit = args[1];
 			voiceChannel.setUserLimit(channelLimit);
 			channel.send(`Alles klar, ich habe das Personenlimit auf ${channelLimit} gesetzt.`);
