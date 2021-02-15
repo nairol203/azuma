@@ -49,8 +49,8 @@ module.exports = {
 					{ name: 'Alle User freischalten:', value: '`!text unlock`', inline: true },
 					{ name: 'Alle User sperren:', value: '`!text lock`', inline: true },
 					{ name: 'Den Namen ändern:', value: '`!text name <name>`', inline: false },
-					{ name: 'Einen User freischalten:', value: '`!text permit <userId>`', inline: true },
-					{ name: 'Einen User sperren:', value: '`!text reject <userId>`', inline: true },
+					{ name: 'Einen User freischalten:', value: '`!text permit <@user>`', inline: true },
+					{ name: 'Einen User sperren:', value: '`!text reject <@user>`', inline: true },
 					{ name: 'Den Kanal archivieren:', value: '`!text archive`', inline: false },
 					{ name: 'Den Kanal löschen:', value: '`!text delete`', inline: false },
 				)
