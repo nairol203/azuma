@@ -2,7 +2,7 @@ const customsMain = require('../../schemas/customs-main');
 const customs = require('../../schemas/customs');
 
 module.exports = {
-	callback: async ({ message, args }) => {
+	callback: async ({ client, message, args }) => {
 		const { author, channel, guild } = message;
 		const voiceChannel = message.member.voice.channel;
 		const userId = author.id;
@@ -60,17 +60,21 @@ module.exports = {
 		}
 		else if (args[0] === 'reject') {
 			if(!args[1]) return message.reply('versuche es so: `!voice reject <@user>`');
-			const mention = args[1].toString().replace('<@!', '');
-			const mentionId = mention.toString().replace('>', '');
-			voiceChannel.updateOverwrite(mentionId, { CONNECT: false });
-			channel.send(`<@${mentionId}> hat den Schlüssel zu deinem Zimmer zurückgegeben.`);
+			const argument = args.join(' ');
+			const name = argument.toString().replace('reject ', '');
+			const mention = client.users.cache.find(u => u.username == `${name}`);
+			if (mention === undefined) return channel.send('Ich konnte keine finden, der so heißt.');
+			voiceChannel.updateOverwrite(mention.id, { CONNECT: false });
+			channel.send(`${mention} hat den Schlüssel zu deinem Zimmer zurückgegeben.`);
 		}
 		else if (args[0] === 'permit') {
 			if(!args[1]) return message.reply('versuche es so: `!voice permit <@user>');
-			const mention = args[1].toString().replace('<@!', '');
-			const mentionId = mention.toString().replace('>', '');
-			voiceChannel.updateOverwrite(mentionId, { CONNECT: true });
-			channel.send(`Ich habe <@${mentionId}> den Schlüssel zu deinem Zimmer gegeben.`);
+			const argument = args.join(' ');
+			const name = argument.toString().replace('reject ', '');
+			const mention = client.users.cache.find(u => u.username == `${name}`);
+			if (mention === undefined) return channel.send('Ich konnte keine finden, der so heißt.');
+			voiceChannel.updateOverwrite(mention.id, { CONNECT: true });
+			channel.send(`Ich habe <@${mention.id}> den Schlüssel zu deinem Zimmer gegeben.`);
 		}
 		else if (args[0] === 'limit') {
 			const amount = parseInt(args[1]) + 1;
