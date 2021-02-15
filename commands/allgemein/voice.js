@@ -1,4 +1,4 @@
-const customsMain = require('../schemas/customs-main');
+const customsMain = require('../../schemas/customs-main');
 
 module.exports = {
 	callback: async ({ message, args }) => {
