@@ -31,12 +31,12 @@ module.exports = {
 		}
 
 		if (args[0] === 'lock') {
-			voiceChannel.updateOverwrite(author, { VIEW_CHANNEL: true });
-			voiceChannel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
+			voiceChannel.updateOverwrite(author, { CONNECT: true });
+			voiceChannel.updateOverwrite('255741114273759232', { CONNECT: false });
 			channel.send('Alles klar, ich habe dein Zimmer für dich abgeschlossen.');
 		}
 		else if (args[0] === 'unlock') {
-			voiceChannel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: true });
+			voiceChannel.updateOverwrite('255741114273759232', { CONNECT: true });
 			channel.send('Alles klar, ich habe dein Zimmer für dich aufgeschlossen.');
 		}
 		else if (args[0] === 'name') {
@@ -62,14 +62,14 @@ module.exports = {
 			if(!args[1]) return message.reply('versuche es so: `!voice reject <@user>`');
 			const mention = args[1].toString().replace('<@!', '');
 			const mentionId = mention.toString().replace('>', '');
-			voiceChannel.updateOverwrite(mentionId, { VIEW_CHANNEL: false });
+			voiceChannel.updateOverwrite(mentionId, { CONNECT: false });
 			channel.send(`Ich habe <@${mentionId} den Schlüssel zu deinem Zimmer gegeben.`);
 		}
 		else if (args[0] === 'permit') {
 			if(!args[1]) return message.reply('versuche es so: `!voice permit <@user>');
 			const mention = args[1].toString().replace('<@!', '');
 			const mentionId = mention.toString().replace('>', '');
-			voiceChannel.updateOverwrite(mentionId, { VIEW_CHANNEL: true });
+			voiceChannel.updateOverwrite(mentionId, { CONNECT: true });
 			channel.send(`<@${mentionId} hat den Schlüssel zu deinem Zimmer zurückgegeben.`);
 		}
 		else if (args[0] === 'limit') {
