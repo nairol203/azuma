@@ -22,7 +22,7 @@ module.exports = client => {
 			userId,
 		});
 		if (customsMainId !== null) {
-			const customsVoiceChannel = await guild.channels.create(`${member.user.username}'s Bereich`, {
+			const customsVoiceChannel = await guild.channels.create(`${member.user.username}'s Zimmer`, {
 				type: 'voice',
 				parent: parentId,
 			});
@@ -34,7 +34,7 @@ module.exports = client => {
 				await customsVoiceChannel.setUserLimit(searchChannel.channelLimit);
 			}
 
-			const customsTextChannel = await guild.channels.create(`${member.user.username}'s-bereich`, {
+			const customsTextChannel = await guild.channels.create(`${member.user.username}'s-gästebuch`, {
 				type: 'text',
 				parent: parentId,
 				permissionOverwrites: [
