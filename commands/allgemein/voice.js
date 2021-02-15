@@ -59,20 +59,20 @@ module.exports = {
 			);
 		}
 		else if (args[0] === 'reject') {
-			if(!args[1]) return message.reply('versuche es so: `!voice reject <@user>`');
+			if(!args[1]) return message.reply('versuche es so: `!voice reject <username>`');
 			const argument = args.join(' ');
 			const name = argument.toString().replace('reject ', '');
 			const mention = client.users.cache.find(u => u.username == `${name}`);
-			if (mention === undefined) return channel.send('Ich konnte keine finden, der so heißt.');
+			if (mention === undefined) return channel.send('Ich konnte niemand finden, der so heißt. Tipp: Ich kann aktuell noch keine Nicknamen verstehen!');
 			voiceChannel.updateOverwrite(mention.id, { CONNECT: false });
 			channel.send(`${mention} hat den Schlüssel zu deinem Zimmer zurückgegeben.`);
 		}
 		else if (args[0] === 'permit') {
-			if(!args[1]) return message.reply('versuche es so: `!voice permit <@user>');
+			if(!args[1]) return message.reply('versuche es so: `!voice permit <username>');
 			const argument = args.join(' ');
 			const name = argument.toString().replace('reject ', '');
 			const mention = client.users.cache.find(u => u.username == `${name}`);
-			if (mention === undefined) return channel.send('Ich konnte keine finden, der so heißt.');
+			if (mention === undefined) return channel.send('Ich konnte niemand finden, der so heißt. Tipp: Ich kann aktuell noch keine Nicknamen verstehen!');
 			voiceChannel.updateOverwrite(mention.id, { CONNECT: true });
 			channel.send(`Ich habe <@${mention.id}> den Schlüssel zu deinem Zimmer gegeben.`);
 		}

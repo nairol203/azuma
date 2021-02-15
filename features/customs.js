@@ -79,8 +79,8 @@ module.exports = client => {
 					{ name: 'Abschließen:', value: '`!voice lock`', inline: true },
 					{ name: 'Aufschließen:', value: '`!voice unlock`', inline: true },
 					{ name: 'Das Türschild ändern:', value: '`!voice name <name>`', inline: true },
-					{ name: 'Personen einen Zweitschlüssel geben:', value: '`!voice permit <@user>`', inline: false },
-					{ name: 'Personen den Zweitschlüssel nehmen:', value: '`!voice reject <@user>`', inline: false },
+					{ name: 'Personen einen Zweitschlüssel geben:', value: '`!voice permit <username>`', inline: false },
+					{ name: 'Personen den Zweitschlüssel nehmen:', value: '`!voice reject <username>`', inline: false },
 					{ name: 'Ein Personenlimit einstellen:', value: '`!voice limit <number>`', inline: false },
 				)
 				.setColor('#b8ff00')

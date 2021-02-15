@@ -49,8 +49,8 @@ module.exports = {
 					{ name: 'Alle User freischalten:', value: '`!text unlock`', inline: true },
 					{ name: 'Alle User sperren:', value: '`!text lock`', inline: true },
 					{ name: 'Den Namen ändern:', value: '`!text name <name>`', inline: false },
-					{ name: 'Einen User freischalten:', value: '`!text permit <@user>`', inline: true },
-					{ name: 'Einen User sperren:', value: '`!text reject <@user>`', inline: true },
+					{ name: 'Einen User freischalten:', value: '`!text permit <username>`', inline: true },
+					{ name: 'Einen User sperren:', value: '`!text reject <username>`', inline: true },
 					{ name: 'Den Kanal archivieren:', value: '`!text archive`', inline: false },
 					{ name: 'Den Kanal löschen:', value: '`!text delete`', inline: false },
 				)
@@ -97,18 +97,22 @@ module.exports = {
 			channel.send('Alle User können jetzt auf diesen Kanal zugreifen.');
 		}
 		else if(args[0] === 'permit') {
-			if(!args[1]) return message.reply('versuche es so: `!text permit <userId>`');
-			const mention = args[1].toString().replace('<@!', '');
-			const mentionId = mention.toString().replace('>', '');
-			channel.updateOverwrite(mentionId, { VIEW_CHANNEL: true });
-			channel.send(`Du hast <@${mentionId}> Zugriff auf diesen Kanal gegeben.`);
+			if(!args[1]) return message.reply('versuche es so: `!text permit <username>`');
+			const argument = args.join(' ');
+			const name = argument.toString().replace('reject ', '');
+			const mention = client.users.cache.find(u => u.username == `${name}`);
+			if (mention === undefined) return channel.send('Ich konnte niemand finden, der so heißt. Tipp: Ich kann aktuell noch keine Nicknamen verstehen!');
+			channel.updateOverwrite(mention.id, { VIEW_CHANNEL: true });
+			channel.send(`Du hast ${mention} Zugriff auf diesen Kanal gegeben.`);
 		}
 		else if(args[0] === 'reject') {
-			if(!args[1]) return message.reply('versuche es so: `!text reject <userId>`');
-			const mention = args[1].toString().replace('<@!', '');
-			const mentionId = mention.toString().replace('>', '');
-			channel.updateOverwrite(mentionId, { VIEW_CHANNEL: false });
-			channel.send(`Du hast <@${mentionId}> den Zugriff auf diesen Kanal verweigert.`);
+			if(!args[1]) return message.reply('versuche es so: `!text reject <username>`');
+			const argument = args.join(' ');
+			const name = argument.toString().replace('reject ', '');
+			const mention = client.users.cache.find(u => u.username == `${name}`);
+			if (mention === undefined) return channel.send('Ich konnte niemand finden, der so heißt. Tipp: Ich kann aktuell noch keine Nicknamen verstehen!');
+			channel.updateOverwrite(mention.id, { VIEW_CHANNEL: false });
+			channel.send(`Du hast ${mention} den Zugriff auf diesen Kanal verweigert.`);
 		}
 		else if(args[0] === 'archive') {
 			channel.setParent('692533397796421662', { lockPermissions: false });
