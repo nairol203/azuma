@@ -16,12 +16,14 @@ module.exports = client => {
 		const customsMainId = await customsMain.findOne({
 			channelId,
 		});
-
 		const userId = member.user.id;
 		const searchChannel = await customs.findOne({
 			userId,
 		});
 		if (customsMainId !== null) {
+			const testChannel = guild.channels.cache.get(customsMainId.channelId);
+			testChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: false });
+
 			const customsVoiceChannel = await guild.channels.create(`${member.user.username}'s Zimmer`, {
 				type: 'voice',
 				parent: parentId,
@@ -83,7 +85,7 @@ module.exports = client => {
 				)
 				.setColor('#b8ff00')
 				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
-			customsTextChannel.send(embed);
+			customsTextChannel.send(embed).then((msg) => msg.pin());
 
 			const userId = newState.id;
 			const channelId = customsVoiceChannel.id;
@@ -129,6 +131,8 @@ module.exports = client => {
 			channel.delete();
 			textChannel.delete();
 
+			const testChannel = guild.channels.cache.get('810768943736160276');
+			testChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
 		}
 	});
 };

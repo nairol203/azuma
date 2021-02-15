@@ -40,10 +40,12 @@ module.exports = {
 			channel.send('Alles klar, ich habe dein Zimmer für dich aufgeschlossen.');
 		}
 		else if (args[0] === 'name') {
+			const argument = args.join(' ');
+			const name = argument.toString().replace('name ', '');
 			if(!args[1]) return message.reply('versuche es so: `!voice name <name>`');
-			voiceChannel.setName(args[1]);
-			channel.send(`Ich habe dein Türschild geändert: \`${args[1]}\`.`);
-			const channelName = args[1];
+			voiceChannel.setName(name);
+			channel.send(`Ich habe dein Türschild geändert: \`${name}\`.`);
+			const channelName = name;
 			const uploadChannelName = await customs.findOneAndUpdate(
 				{
 					userId,

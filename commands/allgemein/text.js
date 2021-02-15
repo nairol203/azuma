@@ -82,8 +82,10 @@ module.exports = {
 
 		else if(args[0] === 'name') {
 			if(!args[1]) return message.reply('versuche es so: `!text name <name>`');
-			channel.setName(args[1]);
-			channel.send(`Der Name des Kanals wurde geändert. Neuer Name: \`${args[1]}\`.`);
+			const argument = args.join(' ');
+			const name = argument.toString().replace('name ', '');
+			channel.setName(name);
+			channel.send(`Der Name des Kanals wurde geändert. Neuer Name: \`${name}\`.`);
 		}
 		else if(args[0] === 'lock') {
 			channel.updateOverwrite(author, { VIEW_CHANNEL: true });
