@@ -5,8 +5,8 @@ const reqString = {
 	required: true,
 };
 
-const customs = mongoose.Schema({
+const customsMain = mongoose.Schema({
 	channelId: reqString,
 });
 
-module.exports = mongoose.model('customs', customs);
+module.exports = mongoose.model('customs-main', customsMain);
