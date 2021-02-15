@@ -25,6 +25,16 @@ module.exports = client => {
 			const customsVoiceChannel = await guild.channels.create(`${member.user.username}'s Zimmer`, {
 				type: 'voice',
 				parent: parentId,
+				permissionOverwrites: [
+					{
+						id: member.user.id,
+						allow: 'CONNECT',
+					},
+					{
+						id: '255741114273759232',
+						deny: 'CONNECT',
+					},
+				],
 			});
 
 			await member.voice.setChannel(customsVoiceChannel);
@@ -44,7 +54,7 @@ module.exports = client => {
 					},
 					{
 						id: '255741114273759232',
-						deny: 'CONNECT',
+						deny: 'VIEW_CHANNEL',
 					},
 					{
 						id: '770785336829018164',
