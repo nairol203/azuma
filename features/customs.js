@@ -72,7 +72,7 @@ module.exports = client => {
 			});
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
-				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerserive kann Ihnen bei ein paar Dingen behilflich sein:')
+				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein:')
 				.addFields(
 					{ name: 'Abschließen:', value: '`!voice lock`', inline: true },
 					{ name: 'Aufschließen:', value: '`!voice unlock`', inline: true },
