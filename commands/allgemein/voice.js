@@ -20,7 +20,17 @@ module.exports = {
 			);
 			return;
 		}
-		else if (args[0] === 'lock') {
+
+		const result = await customs.findOne({
+			userId,
+			channelId,
+		});
+
+		if(result === null) {
+			return message.reply('du bist nicht der Owner dieses Kanals.');
+		}
+
+		if (args[0] === 'lock') {
 			voiceChannel.updateOverwrite(author, { VIEW_CHANNEL: true });
 			voiceChannel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
 			channel.send('Nur noch die User, denen du Rechte gegeben hast, können auf diesen Kanal zugreifen.');
