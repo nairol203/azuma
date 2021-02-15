@@ -8,7 +8,7 @@ module.exports = {
 		const { author, channel, guild } = message;
 		const guildId = guild.id;
 		const userId = author.id;
-		const autoLogs = client.channels.cache.find(channel => channel.id === '781501076725563413');;
+		const autoLogs = client.channels.cache.find(channel => channel.id === '781501076725563413');
 
 		if (guild.id !== '255741114273759232') return;
 
