@@ -44,7 +44,7 @@ module.exports = client => {
 					},
 					{
 						id: '255741114273759232',
-						deny: 'VIEW_CHANNEL',
+						deny: 'CONNECT',
 					},
 					{
 						id: '770785336829018164',
