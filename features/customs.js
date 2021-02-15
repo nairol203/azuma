@@ -82,7 +82,7 @@ module.exports = client => {
 					{ name: 'Ein Personenlimit einstellen:', value: '`!voice limit <number>`', inline: false },
 				)
 				.setColor('#b8ff00')
-				.setFooter('Info: Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
+				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
 			customsTextChannel.send(embed);
 
 			const userId = newState.id;
