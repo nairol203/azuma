@@ -34,7 +34,7 @@ module.exports = client => {
 				await customsVoiceChannel.setUserLimit(searchChannel.channelLimit);
 			}
 
-			const customsTextChannel = await guild.channels.create(`${member.user.username}'s-gästebuch`, {
+			const customsTextChannel = await guild.channels.create(`${member.user.username}'s-channel`, {
 				type: 'text',
 				parent: parentId,
 				permissionOverwrites: [
@@ -61,18 +61,18 @@ module.exports = client => {
 				],
 			});
 			const embed = new Discord.MessageEmbed()
-				.setTitle(`Willkommen in deinem eigenen Sprachkanal, ${member.user.username}!`)
-				.setDescription('Du kannst mit diesen Befehlen deinen Kanal anpassen:')
+				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
+				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerserive kann Ihnen bei ein paar Dingen behilflich sein:')
 				.addFields(
 					{ name: 'Abschließen:', value: '`!voice lock`', inline: true },
 					{ name: 'Aufschließen:', value: '`!voice unlock`', inline: true },
-					{ name: 'Den Namen ändern:', value: '`!voice name <name>`', inline: true },
-					{ name: 'Für bestimmte Personen abschließen:', value: '`!text reject <@user>`', inline: false },
-					{ name: 'Für bestimmte Personen aufschließen:', value: '`!text permit <@user>`', inline: false },
-					{ name: 'Die Zimmergröße beschränken:', value: '`!voice limit <number>`', inline: false },
+					{ name: 'Das Türschild ändern:', value: '`!voice name <name>`', inline: true },
+					{ name: 'Personen den Schlüssel geben', value: '`!text reject <@user>`', inline: false },
+					{ name: 'Personen den Schlüssel wegnehmen', value: '`!text permit <@user>`', inline: false },
+					{ name: 'Ein Personenlimit einstellen:', value: '`!voice limit <number>`', inline: false },
 				)
 				.setColor('#b8ff00')
-				.setFooter('Info: Administratoren und manche Bots haben immer Zugriff auf deinen Kanal.');
+				.setFooter('Info: Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
 			customsTextChannel.send(embed);
 
 			const userId = newState.id;

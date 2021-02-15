@@ -27,22 +27,22 @@ module.exports = {
 		});
 
 		if(result === null) {
-			return message.reply('du bist nicht der Owner dieses Kanals.');
+			return message.reply('du hast dieses Zimmer nicht gebucht und kannst deswegen den Zimmerservice nicht in Anspruch nehmen.');
 		}
 
 		if (args[0] === 'lock') {
 			voiceChannel.updateOverwrite(author, { VIEW_CHANNEL: true });
 			voiceChannel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false });
-			channel.send('Nur noch die User, denen du Rechte gegeben hast, können auf diesen Kanal zugreifen.');
+			channel.send('Alles klar, ich habe dein Zimmer für dich abgeschlossen.');
 		}
 		else if (args[0] === 'unlock') {
 			voiceChannel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: true });
-			channel.send('Alle User können jetzt auf diesen Kanal zugreifen.');
+			channel.send('Alles klar, ich habe dein Zimmer für dich aufgeschlossen.');
 		}
 		else if (args[0] === 'name') {
 			if(!args[1]) return message.reply('versuche es so: `!voice name <name>`');
 			voiceChannel.setName(args[1]);
-			channel.send(`Der Name des Kanals wurde geändert. Neuer Name: \`${args[1]}\`.`);
+			channel.send(`Ich habe dein Türschild geändert: \`${args[1]}\`.`);
 			const channelName = args[1];
 			const uploadChannelName = await customs.findOneAndUpdate(
 				{
@@ -61,24 +61,22 @@ module.exports = {
 			const mention = args[1].toString().replace('<@!', '');
 			const mentionId = mention.toString().replace('>', '');
 			voiceChannel.updateOverwrite(mentionId, { VIEW_CHANNEL: false });
-			channel.send(`Du hast <@${mentionId}> den Zugriff auf diesen Kanal verweigert.`);
+			channel.send(`Ich habe <@${mentionId} den Schlüssel zu deinem Zimmer gegeben.`);
 		}
 		else if (args[0] === 'permit') {
 			if(!args[1]) return message.reply('versuche es so: `!voice permit <@user>');
 			const mention = args[1].toString().replace('<@!', '');
 			const mentionId = mention.toString().replace('>', '');
 			voiceChannel.updateOverwrite(mentionId, { VIEW_CHANNEL: true });
-			channel.send(`Du hast <@${mentionId}> Zugriff auf diesen Kanal gegeben.`);
+			channel.send(`<@${mentionId} hat den Schlüssel zu deinem Zimmer zurückgegeben.`);
 		}
 		else if (args[0] === 'limit') {
 			const amount = parseInt(args[1]) + 1;
-
-			if (amount <= 1 || amount > 100) {
-				return channel.send('Das Limit kann nur von 1-99 gesetzt werden.');
-			}
+			if (amount > 100) return channel.send('Dein Raum hat nur eine Größe für 99 Personen!');
+			if (amount <= 1) return;
 			const channelLimit = args[1];
 			voiceChannel.setUserLimit(channelLimit);
-			channel.send(`Du hast das Limit deines Sprachkanals auf ${channelLimit} gesetzt.`);
+			channel.send(`Alles klar, ich habe das Personenlimit auf ${channelLimit} gesetzt.`);
 			const uploadChannelLimit = await customs.findOneAndUpdate(
 				{
 					userId,
