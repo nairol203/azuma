@@ -63,14 +63,14 @@ module.exports = {
 			const mention = args[1].toString().replace('<@!', '');
 			const mentionId = mention.toString().replace('>', '');
 			voiceChannel.updateOverwrite(mentionId, { CONNECT: false });
-			channel.send(`Ich habe <@${mentionId} den Schlüssel zu deinem Zimmer gegeben.`);
+			channel.send(`<@${mentionId}> hat den Schlüssel zu deinem Zimmer zurückgegeben.`);
 		}
 		else if (args[0] === 'permit') {
 			if(!args[1]) return message.reply('versuche es so: `!voice permit <@user>');
 			const mention = args[1].toString().replace('<@!', '');
 			const mentionId = mention.toString().replace('>', '');
 			voiceChannel.updateOverwrite(mentionId, { CONNECT: true });
-			channel.send(`<@${mentionId} hat den Schlüssel zu deinem Zimmer zurückgegeben.`);
+			channel.send(`Ich habe <@${mentionId}> den Schlüssel zu deinem Zimmer gegeben.`);
 		}
 		else if (args[0] === 'limit') {
 			const amount = parseInt(args[1]) + 1;
