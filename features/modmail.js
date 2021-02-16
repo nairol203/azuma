@@ -16,7 +16,9 @@ const firstMessage = async (client, id, text, reactions = []) => {
 				.setTitle(':envelope: Support Ticket')
 				.setDescription('Du hast eine Frage oder ein Problem über den Server die nicht in <#786936121774702603> geklärt wurde?\nUm ein Ticket zu erstellen reagiere mit :envelope: !')
 				.setColor('#f77600')
-				.setImage('https://media.discordapp.net/attachments/792499474609602561/811178842369949706/Hnet.com-image_1.gif');
+				.setImage('https://media.discordapp.net/attachments/792499474609602561/811178842369949706/Hnet.com-image_1.gif')
+				.setFooter('Letztes Update')
+				.setTimestamp('2021-02-16T13:31:00.000Z');
 			channel.send(embed).then((message) => {
 				addReactions(message, reactions);
 			});
