@@ -1,7 +1,7 @@
 {
   "name": "azuma",
   "version": "1.1.0",
-  "description": "",
+  "description": "Azuma ist ein deutscher Discordbot mit vielen Funktionen! Klicke [hier](https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=3156038&scope=bot) um Azuma auf deinen Server einzuladen!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,5 +27,6 @@
     "ffmpeg-static": "^4.2.7",
     "mongoose": "^5.11.11",
     "wokcommands": "^1.2.1"
-  }
+  },
+  "devDependencies": {}
 }
