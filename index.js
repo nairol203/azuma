@@ -26,19 +26,6 @@ client.on('ready', async () => {
 		.setBotOwner(['255739211112513536']);
 });
 
-client.on('message', message => {
-	if (message.channel.id === '794366711565385768') {
-		message.channel.messages.fetch({ limit: 99 })
-			.then(fetched => {
-				const notPinned = fetched.filter(fetchedMsg => !fetchedMsg.pinned);
-				setTimeout(function() {
-					message.channel.bulkDelete(notPinned, true);
-				}, 10000);
-			})
-			.catch(console.error);
-	}
-});
-
 const DisTube = require('distube');
 
 client.distube = new DisTube(client, { searchSongs: false, emitNewSongOnly: true });
