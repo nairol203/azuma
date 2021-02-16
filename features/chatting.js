@@ -146,8 +146,3 @@ module.exports = client => {
 		}
 	});
 };
-
-module.exports.config = {
-	displayName: 'Chatting',
-	dbName: 'CHATTING',
-};
