@@ -1,8 +1,6 @@
 const muteSchema = require('../schemas/mute-schema');
 module.exports = (client) => {
 	const checkMutes = async () => {
-		// console.log('CHECKING MUTE DATA');
-
 		const now = new Date();
 
 		const conditional = {
@@ -13,7 +11,6 @@ module.exports = (client) => {
 		};
 
 		const results = await muteSchema.find(conditional);
-		// console.log('results:', results);
 
 		if (results && results.length) {
 			for (const result of results) {
