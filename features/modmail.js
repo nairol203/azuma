@@ -92,7 +92,7 @@ module.exports = (client) => {
 				.setTitle(`Willkommen in deinem Ticket-Kanal, ${user.username}!`)
 				.setDescription('Hier kannst du den Mods dein Problem schildern. Sie werden dir schnellstmöglich antworten.\n\nDu kannst das Ticket schließen indem du auf <:no:767394810909949983> reagierst.')
 				.setColor('f77600');
-			newChannel.send(`${user} <@&7a99397095337230387>`);
+			newChannel.send(`${user} <@&799397095337230387>`);
 			const msgEmbed = await newChannel.send(embed);
 			msgEmbed.react('<:no:767394810909949983>');
 
