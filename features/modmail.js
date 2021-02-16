@@ -14,9 +14,9 @@ const firstMessage = async (client, id, text, reactions = []) => {
 		if (messages.size === 0) {
 			const embed = new Discord.MessageEmbed()
 				.setTitle(':envelope: Support Ticket')
-				.setDescription('Du hast eine Frage oder ein Problem über den Server die nicht in <#365763570371133451> geklärt wurden?\nUm ein Ticket zu erstellen reagiere mit :envelope: !')
+				.setDescription('Du hast eine Frage oder ein Problem über den Server die nicht in <#786936121774702603> geklärt wurden?\nUm ein Ticket zu erstellen reagiere mit :envelope: !')
 				.setColor('#f77600')
-				.setImage('https://media.discordapp.net/attachments/792499474609602561/811166605929218078/Hnet.com-image.gif');
+				.setImage('https://media.discordapp.net/attachments/792499474609602561/811178842369949706/Hnet.com-image_1.gif');
 			channel.send(embed).then((message) => {
 				addReactions(message, reactions);
 			});
@@ -92,7 +92,7 @@ module.exports = (client) => {
 				.setTitle(`Willkommen in deinem Ticket-Kanal, ${user.username}!`)
 				.setDescription('Hier kannst du den Mods dein Problem schildern. Sie werden dir schnellstmöglich antworten.\n\nDu kannst das Ticket schließen indem du auf <:no:767394810909949983> reagierst.')
 				.setColor('f77600');
-			newChannel.send(`${user} <@&799397095337230387>`);
+			newChannel.send(`${user} <@&7a99397095337230387>`);
 			const msgEmbed = await newChannel.send(embed);
 			msgEmbed.react('<:no:767394810909949983>');
 
