@@ -11,20 +11,21 @@ const addReactions = (message, reactions) => {
 const firstMessage = async (client, id, text, reactions = []) => {
 	const channel = await client.channels.fetch(id);
 	channel.messages.fetch().then((messages) => {
+		const embed = new Discord.MessageEmbed()
+			.setTitle(':envelope: Support Ticket')
+			.setDescription('Du hast eine Frage oder ein Problem über den Server die nicht in <#786936121774702603> geklärt wurde?\nUm ein Ticket zu erstellen reagiere mit :envelope: !')
+			.setColor('#f77600')
+			.setImage('https://media.discordapp.net/attachments/792499474609602561/811178842369949706/Hnet.com-image_1.gif')
+			.setFooter('Letztes Update')
+			.setTimestamp('2021-02-16T13:31:00.000Z');
 		if (messages.size === 0) {
-			const embed = new Discord.MessageEmbed()
-				.setTitle(':envelope: Support Ticket')
-				.setDescription('Du hast eine Frage oder ein Problem über den Server die nicht in <#786936121774702603> geklärt wurde?\nUm ein Ticket zu erstellen reagiere mit :envelope: !')
-				.setColor('#f77600')
-				.setImage('https://media.discordapp.net/attachments/792499474609602561/811178842369949706/Hnet.com-image_1.gif')
-				.setFooter('Letztes Update')
-				.setTimestamp('2021-02-16T13:31:00.000Z');
 			channel.send(embed).then((message) => {
 				addReactions(message, reactions);
 			});
 		}
 		else {
 			for (const message of messages) {
+				message[1].edit(embed);
 				addReactions(message[1], reactions);
 			}
 		}
