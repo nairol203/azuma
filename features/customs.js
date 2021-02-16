@@ -91,11 +91,6 @@ module.exports = client => {
 			const channelId = customsVoiceChannel.id;
 			const textChannelId = customsTextChannel.id;
 
-			const findVoiceChannel = await customs.findOne(
-				{
-					userId,
-				},
-			);
 			const uploadVoiceChannel = await customs.findOneAndUpdate(
 				{
 					userId,
