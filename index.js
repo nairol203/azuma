@@ -27,7 +27,7 @@ client.on('ready', async () => {
 });
 
 client.on('message', message => {
-	if (message.channel.id === '794366711565385768' || message.channel.id === '365763570371133451') {
+	if (message.channel.id === '794366711565385768') {
 		message.channel.messages.fetch({ limit: 99 })
 			.then(fetched => {
 				const notPinned = fetched.filter(fetchedMsg => !fetchedMsg.pinned);
