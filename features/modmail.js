@@ -53,7 +53,7 @@ module.exports = (client) => {
 	firstMessage(client, channelId, emojiText, reactions);
 
 	const handleReaction = async (reaction, user, add, message) => {
-		if (user.id === '771360781907656714') {
+		if (user.id === '772508572647030796') {
 			return;
 		}
 
@@ -98,7 +98,7 @@ module.exports = (client) => {
 
 			client.on('messageReactionAdd', (reaction, user) => {
 				if (reaction.message.channel.id === newChannel.id) {
-					if (user.id === '771360781907656714') {
+					if (user.id === '772508572647030796') {
 						return;
 					}
 					if (reaction._emoji.id === '767394810909949983') {
