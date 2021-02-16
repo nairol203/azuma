@@ -13,7 +13,7 @@ const firstMessage = async (client, id, text, reactions = []) => {
 	channel.messages.fetch().then((messages) => {
 		const embed = new Discord.MessageEmbed()
 			.setTitle(':clipboard: Rollenverteilung')
-			.setDescription('```Füge eine Reaktion hinzu oder entferne eine, je nach dem welche Rolle du haben willst (●\'◡\'●)```\n<:EpicGames:782650903156621382> **Free Epic Games** - Bekomme immer eine Benachrichtigung wenn ein Spiel im Epic Store gratis ist!\n\n:bell: **Changelogs** - Bekomme immer eine Benachrichtigung wenn ein Update von diesem Server gepostet wird!')
+			.setDescription('```Füge eine Reaktion hinzu oder entferne eine, je nach dem welche Rolle du haben willst (●\'◡\'●)```\n<:EpicGames:782650903156621382> **Free Epic Games** - Bekomme immer eine Benachrichtigung wenn ein Spiel im Epic Store gratis ist!\n\n:bell: **Server-News** - Bekomme immer eine Benachrichtigung wenn ein Update von diesem Server gepostet wird!')
 			.setColor('#f77600');
 		if (messages.size === 0) {
 			channel.send(embed).then((message) => {
