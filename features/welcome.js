@@ -1,10 +1,10 @@
 module.exports = (client) => {
 	const autoLogs = client.channels.cache.find(channel => channel.id === '781501076725563413');
 
-	const memberRole = client.guild.roles.cache.find(role => role.name === 'Member');
-	const botRole = client.guild.roles.cache.find(role => role.name === 'Bot');
-
 	client.on('guildMemberAdd', member => {
+		const memberRole = member.guild.roles.cache.find(role => role.name === 'Member');
+		const botRole = member.guild.roles.cache.find(role => role.name === 'Bot');
+
 		if (member.user.bot) {
 			member.roles.add(botRole);
 		}
