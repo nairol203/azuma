@@ -10,8 +10,6 @@ const client = new Discord.Client({
 const prefix = process.env.PREFIX;
 
 client.on('ready', async () => {
-	client.user.setActivity(`${prefix}help`, { type : 'PLAYING' });
-
 	await mongo();
 
 	new WOKCommands(client, {
