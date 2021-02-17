@@ -129,7 +129,7 @@ module.exports = client => {
 
 		const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
 		if (lvl1 === undefined) return;
-		if (user.level === null & user.level <= 4) {
+		if (user === null || user.level <= 4) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl1);
 		}
 		else {
@@ -210,7 +210,7 @@ module.exports = client => {
 		}
 		const lvl80 = message.guild.roles.cache.find(role => role.name === 'Level 80');
 		if (lvl80 === undefined) return;
-		if (user.level >= 70 & user.level <= 79) {
+		if (user.level >= 80 & user.level <= 89) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl80);
 		}
 		else {
@@ -218,7 +218,7 @@ module.exports = client => {
 		}
 		const lvl90 = message.guild.roles.cache.find(role => role.name === 'Level 90');
 		if (lvl90 === undefined) return;
-		if (user.level >= 70 & user.level <= 79) {
+		if (user.level >= 90 & user.level <= 99) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl90);
 		}
 		else {
@@ -226,7 +226,7 @@ module.exports = client => {
 		}
 		const lvl100 = message.guild.roles.cache.find(role => role.name === 'Level 100');
 		if (lvl100 === undefined) return;
-		if (user.level >= 70 & user.level <= 79) {
+		if (user.level >= 100) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl100);
 		}
 		else {
