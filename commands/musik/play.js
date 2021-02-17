@@ -6,8 +6,11 @@ const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 const queue = new Map();
 
 module.exports = {
-	callback: async ({ message, args }) => {
-		const searchString = args.join(' ');
+	callback: async ({ message, instance }) => {
+		const prefix = instance.getPrefix(message.guild);
+
+		const args = message.content.substring(prefix.length).split(' ');
+		const searchString = args.slice(1).join(' ');
 		const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
 
 		const voiceChannel = message.member.voice.channel;
@@ -47,9 +50,14 @@ module.exports = {
 async function handleVideo(video, message, voiceChannel, playList = false) {
 	const serverQueue = queue.get(message.guild.id);
 
+	const duration = toSecond(Number(video.durationSeconds));
+	const isLive = video.durationSeconds === 0;
+	const formattedDuration = isLive ? 'Live' : formatDuration(duration * 1000);
+
 	const song = {
 		id: video.id,
 		title: Util.escapeMarkdown(video.title),
+		duration: formattedDuration,
 		url: `https://www.youtube.com/watch?v=${video.id}`,
 	};
 
@@ -80,7 +88,7 @@ async function handleVideo(video, message, voiceChannel, playList = false) {
 	else {
 		serverQueue.songs.push(song);
 		if(playList) return undefined;
-		return message.channel.send(`\`${song.title}\` wurde zur Queue hinzugefügt`);
+		return message.channel.send(`\`${song.title}\` - \`${song.duration}\` wurde zur Queue hinzugefügt`);
 	}
 	return undefined;
 }
@@ -101,7 +109,7 @@ function play(guild, song) {
 			console.log(error);
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-	serverQueue.textChannel.send(`:notes: | \`${serverQueue.songs[0].title}\` wird gespielt...`);
+	serverQueue.textChannel.send(`:notes: | \`${serverQueue.songs[0].title}\` - \`${serverQueue.songs[0].duration}\` wird gespielt...`);
 }
 
 module.exports.serverQueue = (message) => {
@@ -110,3 +118,45 @@ module.exports.serverQueue = (message) => {
 };
 
 module.exports.handleVideo = handleVideo;
+
+const formatInt = int => {
+	if (int < 10) return `0${int}`;
+	return `${int}`;
+};
+
+function formatDuration(milliseconds) {
+	if (!milliseconds || !parseInt(milliseconds)) return '00:00';
+	const seconds = Math.floor(milliseconds % 60000 / 1000);
+	const minutes = Math.floor(milliseconds % 3600000 / 60000);
+	const hours = Math.floor(milliseconds / 3600000);
+	if (hours > 0) {
+		return `${formatInt(hours)}:${formatInt(minutes)}:${formatInt(seconds)}`;
+	}
+	if (minutes > 0) {
+		return `${formatInt(minutes)}:${formatInt(seconds)}`;
+	}
+	return `00:${formatInt(seconds)}`;
+}
+
+function toSecond(string) {
+	if (!string) return 0;
+	if (typeof string !== 'string') return parseInt(string);
+	let h = 0,
+		m = 0,
+		s = 0;
+	if (string.match(/:/g)) {
+		const time = string.split(':');
+		if (time.length === 2) {
+			m = parseInt(time[0], 10);
+			s = parseInt(time[1], 10);
+		}
+		else if (time.length === 3) {
+			h = parseInt(time[0], 10);
+			m = parseInt(time[1], 10);
+			s = parseInt(time[2], 10);
+		}
+	}
+	else {s = parseInt(string, 10);}
+	// eslint-disable-next-line no-mixed-operators
+	return h * 60 * 60 + m * 60 + s;
+}
