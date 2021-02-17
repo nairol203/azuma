@@ -46,7 +46,7 @@ async function addXP(guildId, userId, xpToAdd, message, client) {
 	if (xp >= needed) {
 		++level;
 		xp -= needed;
-		const levelupChannel = client.channels.cache.find(channel => channel.id === '800036089078874132');
+		const levelupChannel = client.channels.cache.find(channel => channel.name === 'levelup');
 		levelupChannel.send(`${message.member} ist jetzt Level ${level}!`);
 
 		await profileSchema.updateOne(
