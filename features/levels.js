@@ -115,14 +115,18 @@ async function computeLeaderboard(client, leaderboard, fetchUsers = false) {
 }
 module.exports.computeLeaderboard = computeLeaderboard;
 
-module.exports = async client => {
-	const user = await profileSchema.findOne(
-		{
-			guildId,
-			userId,
-		},
+module.exports = client => {
+	client.on('message', async message => {
+		const guildId = message.guild.id;
+		const userId = message.member.id;
 
-	client.on('message', message => {
+		const user = await profileSchema.findOne(
+			{
+				guildId,
+				userId,
+			},
+		);
+
 		const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
 		if (lvl1 === undefined) return;
 		if (user.level <= 4) {
@@ -147,7 +151,7 @@ module.exports = async client => {
 		else {
 			message.guild.members.cache.get(message.author.id).roles.remove(lvl10);
 		}
-	
+
 		const lvl15 = message.guild.roles.cache.find(role => role.name === 'Level 15');
 		if (lvl15 === undefined) return;
 		if (user.level >= 15 & user.level <= 19) {
@@ -228,5 +232,6 @@ module.exports = async client => {
 		else {
 			message.guild.members.cache.get(message.author.id).roles.remove(lvl100);
 		}
+
 	});
-}
+};
