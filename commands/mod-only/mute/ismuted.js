@@ -22,19 +22,19 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setAuthor(
-				`Mute info for ${target ? target.user.tag : id}`,
+				`Mute info von ${target ? target.user.tag : id}`,
 				target ? target.user.displayAvatarURL() : '',
 			)
-			.addField('Currently muted', currentMute ? 'Yes' : 'No')
-			.addField('Is in Discord', isInDiscord ? 'Yes' : 'No');
+			.addField('Aktuell muted', currentMute ? 'Ja' : 'Nein')
+			.addField('Ist auf diesem Server', isInDiscord ? 'Ja' : 'Nein');
 
 		if (currentMute) {
 			const date = new Date(currentMute.expires);
 
 			embed
-				.addField('Muted by', `<@${currentMute.staffId}>`)
-				.addField('Muted for', currentMute.reason.toLowerCase())
-				.addField('Mute expires', `${date.toLocaleString()} EST`);
+				.addField('Gemuted von', `<@${currentMute.staffId}>`)
+				.addField('Gemuted für', currentMute.reason.toLowerCase())
+				.addField('Mute läuft aus in', `${date.toLocaleString()} EST`);
 		}
 
 		message.reply(embed);

@@ -38,10 +38,10 @@ module.exports = {
 				guildMember.roles.remove(mutedRole);
 			}
 
-			message.reply(`You unmuted <@${id}>`);
+			message.reply(`du hast <@${id}> entmuted.`);
 		}
 		else {
-			message.reply('That user is not muted');
+			message.reply('dieser User ist akutell nicht gemuted.');
 		}
 
 	},

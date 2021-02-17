@@ -3,7 +3,6 @@ const muteSchema = require('../../../schemas/mute-schema');
 const reasons = {
 	SPAMMING: 5,
 	ADVERTISING: 24,
-	TEST: 0.01,
 };
 
 module.exports = {
@@ -15,7 +14,7 @@ module.exports = {
 
 		const target = message.mentions.users.first();
 		if (!target) {
-			message.reply('Please specify someone to mute');
+			message.reply('Erwähne jemanden den du bannen willst! `!ban <@user> <reason>`');
 			return;
 		}
 
@@ -28,7 +27,7 @@ module.exports = {
 			validReasons = validReasons.substr(0, validReasons.length - 2);
 
 			message.reply(
-				`Unknown reason, please use one of the following: ${validReasons}`,
+				`bitte gebe einen Grund ein: ${validReasons}`,
 			);
 			return;
 		}
@@ -42,7 +41,7 @@ module.exports = {
 		});
 
 		if (currentlyMuted.length) {
-			message.reply('That user is already muted');
+			message.reply('dieser User ist akutell schon gemuted.');
 			return;
 		}
 
@@ -55,7 +54,7 @@ module.exports = {
 			return role.name === 'Muted';
 		});
 		if (!mutedRole) {
-			message.reply('Could not find a "Muted" role');
+			message.reply('ich konnte keine "Muted" Rolle finden.');
 			return;
 		}
 
@@ -73,7 +72,7 @@ module.exports = {
 		}).save();
 
 		message.reply(
-			`You muted <@${target.id}> for "${reason}". They will be unmuted in ${duration} hours.`,
+			`du hast <@${target.id}> für "${reason}" gemuted. Er/Sie wird in ${duration} Stunden entmuted.`,
 		);
 	},
 };
