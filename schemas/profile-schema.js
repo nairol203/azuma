@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const profileSchema = mongoose.Schema({
+	guildId: {
+		type: String,
+		required: true,
+	},
 	userId: {
 		type: String,
 		required: true,

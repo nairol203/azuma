@@ -8,9 +8,10 @@ module.exports = {
 	callback: async ({ message }) => {
 		const target = message.mentions.users.first() || message.author;
 
+		const guildId = message.guild.id;
 		const userId = target.id;
 
-		const coins = await economy.getCoins(userId);
+		const coins = await economy.getCoins(guildId, userId);
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')

@@ -27,7 +27,7 @@ module.exports = {
 
 		const userId = mention.id;
 
-		const newCoins = await economy.addCoins(userId, coins);
+		const newCoins = await economy.addCoins(guild.id, userId, coins);
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')

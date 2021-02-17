@@ -21,17 +21,18 @@ module.exports = {
 			return;
 		}
 
-		const coinsOwned = await economy.getCoins(member.id);
+		const coinsOwned = await economy.getCoins(guild.id, member.id);
 		if (coinsOwned < coinsToGive) {
 			message.channel.send(`<:no:767394810909949983> Du hast nicht ${coinsToGive} coins!`);
 			return;
 		}
 
 		const remainingCoins = await economy.addCoins(
+			guild.id,
 			member.id,
 			coinsToGive * -1,
 		);
-		const newBalance = await economy.addCoins(target.id, coinsToGive);
+		const newBalance = await economy.addCoins(guild.id, target.id, coinsToGive);
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')

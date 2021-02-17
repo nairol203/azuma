@@ -2,12 +2,14 @@ const profileSchema = require('../schemas/profile-schema');
 
 const coinsCache = {};
 
-module.exports.addCoins = async (userId, coins) => {
+module.exports.addCoins = async (guildId, userId, coins) => {
 	const result = await profileSchema.findOneAndUpdate(
 		{
+			guildId,
 			userId,
 		},
 		{
+			guildId,
 			userId,
 			$inc: {
 				coins,
@@ -24,13 +26,14 @@ module.exports.addCoins = async (userId, coins) => {
 	return result.coins;
 };
 
-module.exports.getCoins = async (userId) => {
-	const cachedValue = coinsCache[`${userId}`];
+module.exports.getCoins = async (guildId, userId) => {
+	const cachedValue = coinsCache[`${guildId, userId}`];
 	if (cachedValue) {
 		return cachedValue;
 	}
 
 	const result = await profileSchema.findOne({
+		guildId,
 		userId,
 	});
 
@@ -40,12 +43,13 @@ module.exports.getCoins = async (userId) => {
 	}
 	else {
 		await new profileSchema({
+			guildId,
 			userId,
 			coins,
 		}).save();
 	}
 
-	coinsCache[`${userId}`] = coins;
+	coinsCache[`${guildId, userId}`] = coins;
 
 	return coins;
 };
