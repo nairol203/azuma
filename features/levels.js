@@ -3,10 +3,10 @@ const cooldowns = new Set();
 
 
 module.exports = (client) => {
-	client.on('message', (message) => {
+	client.on('message', async (message) => {
 		if (message.author.bot) return;
 
-		roleLevels(message);
+		await roleLevels(message);
 
 		if (cooldowns.has(message.author.id)) return;
 		cooldowns.add(message.author.id);
