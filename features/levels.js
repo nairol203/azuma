@@ -6,6 +6,8 @@ module.exports = (client) => {
 	client.on('message', (message) => {
 		if (message.author.bot) return;
 
+		roleLevels(message);
+
 		if (cooldowns.has(message.author.id)) return;
 		cooldowns.add(message.author.id);
 		setTimeout(() => cooldowns.delete(message.author.id), 60000);
@@ -13,7 +15,6 @@ module.exports = (client) => {
 
 		const randomXp = Math.floor(Math.random() * (25 - 15 + 1) + 15);
 		addXP(message.guild.id, message.member.id, randomXp, message, client);
-		roleLevels(message);
 	});
 };
 
