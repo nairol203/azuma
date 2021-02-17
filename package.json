@@ -22,11 +22,12 @@
     "canvacord": "^5.0.8",
     "discord-xp": "^1.1.7",
     "discord.js": "^12.5.1",
-    "distube": "^2.8.8",
     "eslint": "^7.17.0",
     "ffmpeg-static": "^4.2.7",
     "mongoose": "^5.11.11",
-    "wokcommands": "^1.2.1"
+    "simple-youtube-api": "^5.2.1",
+    "wokcommands": "^1.2.1",
+    "ytdl-core": "^4.4.5"
   },
   "devDependencies": {}
 }
