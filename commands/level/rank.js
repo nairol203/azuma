@@ -10,6 +10,7 @@ module.exports = {
 	expectedArgs: '<@user>',
 	callback: async ({ message }) => {
 		const target = message.mentions.users.first() || message.author;
+		if (target.bot) return;
 		const guildId = message.guild.id;
 		const userId = target.id;
 		const user = await profileSchema.findOne({

@@ -109,6 +109,7 @@ module.exports = {
 		else if (args[0] === 'inv') {
 			const target = message.mentions.users.first() || message.author;
 			const userId = target.id;
+			if (target.bot) return;
 
 			const common = await fishingInv.getCommon(userId);
 			const uncommon = await fishingInv.getUncommon(userId);
@@ -121,8 +122,8 @@ module.exports = {
 		}
 		else if (args[0] === 'math') {
 			const target = message.mentions.users.first() || message.author;
-
 			const userId = target.id;
+			if (target.bot) return;
 
 			const common = await fishing.getCommon(userId); const uncommon = await fishing.getUncommon(userId);
 			const rare = await fishing.getRare(userId); const garbage = await fishing.getGarbage(userId);
@@ -168,6 +169,7 @@ module.exports = {
 		else if (args[0] === 'stats') {
 			const target = message.mentions.users.first() || message.author;
 			const userId = target.id;
+			if (target.bot) return;
 
 			const common = await fishing.getCommon(userId);
 			const uncommon = await fishing.getUncommon(userId);
@@ -182,6 +184,8 @@ module.exports = {
 		else if (args[0] === 'sell') {
 			const target = message.mentions.users.first() || message.author;
 			const userId = target.id;
+			if (target.bot) return;
+
 			if (args[1] === 'common') {
 				const common = await fishingInv.getCommon(userId);
 				const removeCommon = await fishingInv.addCommon(userId, common * -1);

@@ -13,6 +13,7 @@ module.exports = {
 		const prefix = instance.getPrefix(guild);
 
 		const mention = message.mentions.users.first();
+		if (mention.bot) return;
 
 		if (!mention) {
 			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}addcoins <user> <coins>\``);

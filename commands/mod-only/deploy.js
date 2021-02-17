@@ -10,6 +10,7 @@ module.exports = {
 		const prefix = instance.getPrefix(message.guild);
 
 		const mention = message.mentions.users.first();
+		if (mention.bot) return;
 
 		if (!mention) {
 			message.reply(`versuche es so: \`${prefix}deploy <member> <common> <uncommon> <rare> <garbage>\``);

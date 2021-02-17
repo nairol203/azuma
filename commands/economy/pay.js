@@ -14,6 +14,7 @@ module.exports = {
 			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <coins>\``);
 			return;
 		}
+		if (target.bot) return;
 
 		const coinsToGive = args[1];
 		if ((isNaN(args[0])) || args[0] < 1) {
