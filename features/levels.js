@@ -19,6 +19,7 @@ module.exports = (client) => {
 function getNeededXP(level) {
 	1.72 * Math.pow(level, 3) + 22.29 * Math.pow(level, 2) + 121.11 * level - 45.12;
 }
+module.exports.getNeededXP = getNeededXP;
 
 async function addXP(guildId, userId, xpToAdd, message, client) {
 	const result = await profileSchema.findOneAndUpdate(
@@ -68,6 +69,7 @@ async function fetchLeaderboard(guildId, limit) {
 
 	return users.slice(0, limit);
 }
+module.exports.fetchLeaderboard = fetchLeaderboard;
 
 async function computeLeaderboard(client, leaderboard, fetchUsers = false) {
 	if (!client) throw new TypeError('A client was not provided.');
@@ -105,8 +107,4 @@ async function computeLeaderboard(client, leaderboard, fetchUsers = false) {
 
 	return computedArray;
 }
-
-module.exports.fetchLeaderboard = fetchLeaderboard;
 module.exports.computeLeaderboard = computeLeaderboard;
-
-module.exports.getNeededXP = getNeededXP;
