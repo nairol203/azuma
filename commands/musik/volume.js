@@ -13,7 +13,7 @@ module.exports = {
 		if(!args[0]) return message.channel.send(`Die Lautstärke des Bot's ist **${serverQueue.volume}**.`);
 		if(isNaN(args[0])) return message.channel.send('<:no:767394810909949983> | Keine gültige Eingabe erkannt.');
 		serverQueue.volume = args[0];
-		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
+		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[0] / 5);
 		message.channel.send(`Die Lautstärke wurde zu **${args[0]}** geändert.`);
 	},
 };
