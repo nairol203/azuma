@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 const Discord = require('discord.js');
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
