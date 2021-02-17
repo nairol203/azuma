@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 const ytdl = require('ytdl-core');
 const Util = require('discord.js');
 const YouTube = require('simple-youtube-api');
@@ -34,7 +33,6 @@ module.exports = {
 			catch {
 				try {
 					const videos = await youtube.searchVideos(searchString, 1);
-					// eslint-disable-next-line no-redeclare
 					var video = await youtube.getVideoByID(videos[0].id);
 				}
 				catch {
