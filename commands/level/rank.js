@@ -11,18 +11,21 @@ module.exports = {
 	callback: async ({ message }) => {
 		const target = message.mentions.users.first() || message.author;
 		const guildId = message.guild.id;
-		const userId = message.author.id;
+		const userId = target.id;
 		const user = await profileSchema.findOne({
 			guildId,
 			userId,
 		});
 
-		const xp1 = Levels.getNeededXP(user.level) - user.xp;
-		const xp2 = Levels.getNeededXP(user.level) - Levels.getNeededXP(user.level - 1);
+		const neededCurrent = Math.round(Levels.getNeededXP(user.level - 1));
+		const needed = Math.round(Levels.getNeededXP(user.level));
+		const xp1 = user.xp - neededCurrent;
+		const xp2 = needed - neededCurrent;
 
-		console.log(user.xp, user.level, Levels.getNeededXP(user.level));
+		console.log('1', neededCurrent, user.xp);
+		console.log('2', neededCurrent, needed);
 
-		console.log(xp1, xp2);
+		console.log('3', xp1, xp2, user.level);
 		const rank = new Canvacord.Rank()
 			.setAvatar(target.displayAvatarURL({ dynamic: false, format: 'png' }))
 			.setCurrentXP(xp1)
