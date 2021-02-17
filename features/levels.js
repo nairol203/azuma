@@ -45,7 +45,9 @@ async function addXP(guildId, userId, xpToAdd, message, client) {
 	if (xp >= needed) {
 		++level;
 		xp -= needed;
-		const levelupChannel = client.channels.cache.find(channel => channel.name === 'levelup');
+		const guild = client.guilds.cache.get(guildId);
+		const levelupChannel = guild.channels.cache.find(channel => channel.id === '802523905512046602');
+
 		if (levelupChannel !== undefined) {
 			levelupChannel.send(`${message.member} ist jetzt Level ${level}!`);
 		}
