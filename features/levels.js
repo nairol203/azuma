@@ -16,9 +16,8 @@ module.exports = (client) => {
 	});
 };
 
-function getNeededXP(level) {
-	1.72 * Math.pow(level, 3) + 22.29 * Math.pow(level, 2) + 121.11 * level - 45.12;
-}
+const getNeededXP = (level) => 1.72 * Math.pow(level, 3) + 22.29 * Math.pow(level, 2) + 121.11 * level - 45.12;
+
 module.exports.getNeededXP = getNeededXP;
 
 async function addXP(guildId, userId, xpToAdd, message, client) {
