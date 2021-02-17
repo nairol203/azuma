@@ -6,6 +6,7 @@ const music = require('./play');
 module.exports = {
 	callback: async ({ message, args }) => {
 		const searchString = args.join(' ');
+
 		const voiceChannel = message.member.voice.channel;
 		if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
 		const permissons = voiceChannel.permissionsFor(message.client.user);
