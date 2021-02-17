@@ -127,9 +127,11 @@ async function roleLevels(message) {
 		},
 	);
 
+	if (user === null) return;
+
 	const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
 	if (lvl1 === undefined) return;
-	if (user === null || user.level <= 4) {
+	if (user.level <= 4) {
 		message.guild.members.cache.get(message.author.id).roles.add(lvl1);
 	}
 	else {
