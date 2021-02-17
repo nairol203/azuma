@@ -129,7 +129,7 @@ module.exports = client => {
 
 		const lvl1 = message.guild.roles.cache.find(role => role.name === 'Level 1');
 		if (lvl1 === undefined) return;
-		if (user.level <= 4) {
+		if (user.level === null & user.level <= 4) {
 			message.guild.members.cache.get(message.author.id).roles.add(lvl1);
 		}
 		else {
