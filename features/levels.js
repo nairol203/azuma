@@ -18,7 +18,7 @@ module.exports = (client) => {
 
 const getNeededXP = (level) => 1.72 * Math.pow(level, 3) + 22.29 * Math.pow(level, 2) + 121.11 * level - 45.12;
 
-const addXP = async (guildId, userId, xpToAdd, message, client) => {
+async function addXP(guildId, userId, xpToAdd, message, client) {
 	const result = await profileSchema.findOneAndUpdate(
 		{
 			guildId,
@@ -56,18 +56,18 @@ const addXP = async (guildId, userId, xpToAdd, message, client) => {
 			},
 		);
 	}
-};
+}
 
-const fetchLeaderboard = async (guildId, limit) => {
+async function fetchLeaderboard(guildId, limit) {
 	if (!guildId) throw new TypeError('A guild id was not provided.');
 	if (!limit) throw new TypeError('A limit was not provided.');
 
 	const users = await profileSchema.find({ guildId: guildId }).sort([['xp', 'descending']]).exec();
 
 	return users.slice(0, limit);
-};
+}
 
-const computeLeaderboard = async (client, leaderboard, fetchUsers = false) => {
+async function computeLeaderboard(client, leaderboard, fetchUsers = false) {
 	if (!client) throw new TypeError('A client was not provided.');
 	if (!leaderboard) throw new TypeError('A leaderboard id was not provided.');
 
@@ -102,7 +102,7 @@ const computeLeaderboard = async (client, leaderboard, fetchUsers = false) => {
 	}
 
 	return computedArray;
-};
+}
 
 module.exports.fetchLeaderboard = fetchLeaderboard;
 module.exports.computeLeaderboard = computeLeaderboard;

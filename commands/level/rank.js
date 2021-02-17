@@ -17,23 +17,19 @@ module.exports = {
 			userId,
 		});
 
-		const neededCurrent = Math.round(Levels.getNeededXP(user.level - 1));
-		const needed = Math.round(Levels.getNeededXP(user.level));
-		const xp1 = user.xp - neededCurrent;
-		const xp2 = needed - neededCurrent;
+		const needed = Math.round(Levels.getNeededXP(user.level - 1));
+		const neededCurrent = Math.round(Levels.getNeededXP(user.level));
+		const currendXp = user.xp - needed;
+		const requiredXp = neededCurrent - needed;
 
-		console.log('1', neededCurrent, user.xp);
-		console.log('2', neededCurrent, needed);
-
-		console.log('3', xp1, xp2, user.level);
 		const rank = new Canvacord.Rank()
 			.setAvatar(target.displayAvatarURL({ dynamic: false, format: 'png' }))
-			.setCurrentXP(xp1)
+			.setCurrentXP(currendXp)
 			.setDiscriminator(target.discriminator)
 			.setLevel(user.level)
 			.setProgressBar('#f77600')
 			.setRank(1, 'test', false)
-			.setRequiredXP(xp2)
+			.setRequiredXP(requiredXp)
 			.setStatus(target.presence.status, false, false)
 			.setUsername(target.username);
 		rank.build()
