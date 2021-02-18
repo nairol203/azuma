@@ -115,9 +115,11 @@ module.exports = client => {
 
 		if (newState.channelID !== null) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
+			textChannel.updateOverwrite(customsMainId, { VIEW_CHANNEL: false });
 		}
 		else if (newState.channelID === null) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
+			textChannel.updateOverwrite(customsMainId, { VIEW_CHANNEL: true });
 		}
 
 		if (customsId !== null) {
