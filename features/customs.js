@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 
-const customsMain = require('../schemas/customs-main');
 const customs = require('../schemas/customs');
 
 const parentId = '810764515582672917';
+const mainChannelId = '810768943736160276';
 
 module.exports = client => {
 	client.on('voiceStateUpdate', async (oldState, newState) => {
@@ -13,18 +13,17 @@ module.exports = client => {
 		const channelId = joined ? newState.channelID : oldState.channelID;
 		const channel = guild.channels.cache.get(channelId);
 
-		const customsMainId = await customsMain.findOne({
-			channelId,
-		});
-		const customsMainChannel = guild.channels.cache.get('810768943736160276');
+		const mainChannel = guild.channels.cache.get(mainChannelId);
 
 		const userId = member.user.id;
+
 		const searchChannel = await customs.findOne({
 			userId,
 		});
-		if (customsMainId !== null) {
-			const testChannel = guild.channels.cache.get(customsMainId.channelId);
-			testChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: false });
+
+		if (mainChannelId !== null) {
+			if (searchChannel) return;
+			mainChannelId.updateOverwrite(member.user.id, { VIEW_CHANNEL: false });
 
 			const customsVoiceChannel = await guild.channels.create(`${member.user.username}'s Zimmer`, {
 				type: 'voice',
@@ -117,11 +116,11 @@ module.exports = client => {
 
 		if (newState.channelID !== null) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
-			customsMainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
+			mainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
 		}
 		else if (newState.channelID === null) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
-			customsMainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
+			mainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
 		}
 
 		if (customsId !== null) {
@@ -129,9 +128,7 @@ module.exports = client => {
 			if (channel.members.size !== 0) return;
 			channel.delete();
 			textChannel.delete();
-
-			const testChannel = guild.channels.cache.get('810768943736160276');
-			testChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
+			mainChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
 		}
 	});
 };
