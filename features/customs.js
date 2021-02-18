@@ -21,12 +21,28 @@ module.exports = client => {
 			userId,
 		});
 
-		if (mainChannelId !== null) {
-			mainChannelId.updateOverwrite(member.user.id, { VIEW_CHANNEL: false });
+		const isNull = searchChannel;
+		const channelName1 = isNull ? 'yes' : `${member.user.username}'s Zimmer`;
 
-			const customsVoiceChannel = await guild.channels.create(`${member.user.username}'s Zimmer`, {
+		function getChannelName(channelName) {
+			if (channelName === `${member.user.username}'s Zimmer`) return channelName;
+
+			const isUndefined = searchChannel.channelName;
+			const channelName2 = isUndefined ? searchChannel.channelName : `${member.user.username}'s Zimmer`;
+			return channelName2;
+		}
+
+
+		if (mainChannelId === newState.channelID) {
+			mainChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: false });
+
+			const userLimit = isNull ? searchChannel.channelLimit : 0;
+
+			const customsVoiceChannel = await guild.channels.create(getChannelName(channelName1), {
 				type: 'voice',
 				parent: parentId,
+				userLimit: userLimit,
+				bitrate: 96000,
 				permissionOverwrites: [
 					{
 						id: member.user.id,
@@ -40,11 +56,6 @@ module.exports = client => {
 			});
 
 			await member.voice.setChannel(customsVoiceChannel);
-
-			if (searchChannel !== null) {
-				await customsVoiceChannel.setName(searchChannel.channelName);
-				await customsVoiceChannel.setUserLimit(searchChannel.channelLimit);
-			}
 
 			const customsTextChannel = await guild.channels.create(`${member.user.username}'s-channel`, {
 				type: 'text',
