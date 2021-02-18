@@ -4,7 +4,7 @@ const cooldowns = new Set();
 
 module.exports = (client) => {
 	client.on('message', async (message) => {
-		if (message.author.bot) return;
+		if ((!message.guild) || (message.author.bot)) return;
 
 		await roleLevels(message);
 
