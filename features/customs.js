@@ -16,7 +16,7 @@ module.exports = client => {
 		const customsMainId = await customsMain.findOne({
 			channelId,
 		});
-		const customsMainChannel = guild.channels.cache.get(customsMainId.channelId);
+		const customsMainChannel = guild.channels.cache.get('810768943736160276');
 
 		const userId = member.user.id;
 		const searchChannel = await customs.findOne({
