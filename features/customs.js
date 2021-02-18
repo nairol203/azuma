@@ -16,6 +16,8 @@ module.exports = client => {
 		const customsMainId = await customsMain.findOne({
 			channelId,
 		});
+		const customsMainChannel = guild.channels.cache.get(customsMainId);
+
 		const userId = member.user.id;
 		const searchChannel = await customs.findOne({
 			userId,
@@ -115,11 +117,11 @@ module.exports = client => {
 
 		if (newState.channelID !== null) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
-			customsMain.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
+			customsMainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
 		}
 		else if (newState.channelID === null) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
-			customsMain.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
+			customsMainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
 		}
 
 		if (customsId !== null) {
