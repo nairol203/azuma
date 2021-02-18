@@ -3,13 +3,14 @@ const economy = require('../../features/economy');
 module.exports = {
 	callback: async ({ message, args }) => {
 		const target = message.mentions.users.first();
+		const guildId = message.guild.id;
 		const test = message.author;
 		if (target) {
 			if (!args[1]) return message.channel.send('Lass uns doch um etwas Geld spielen! `!rps <user> <coins>`');
 			if (target.id === test.id) return message.channel.send('Du kannst doch nicht mit dir selbst spielen <:FeelsDankMan:780215649384398908>');
 
 			if ((isNaN(args[1])) || args[1] < 1) return message.channel.send('Bitte setze einen gültigen Betrag!');
-			const coinsOwned = await economy.getCoins(message.author.id);
+			const coinsOwned = await economy.getCoins(guildId, message.author.id);
 			if (coinsOwned < args[1]) return message.channel.send(`Du hast doch gar keine ${args[1]} Coins <:Susge:809947745342980106>`);
 
 			const filter = m => m.author.id === target.id;
@@ -22,7 +23,7 @@ module.exports = {
 					.then(async message => {
 						message = message.first();
 						if (message.content.toLowerCase() == 'accept') {
-							const targetCoins = await economy.getCoins(target.id);
+							const targetCoins = await economy.getCoins(guildId, target.id);
 							if (targetCoins < args[1]) return message.channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} Coins hast <:Susge:809947745342980106>`);
 
 							message.channel.send('Ich werde euch nacheinander per DM fragen, was ihr nimmt! Anwortet bitte jeweils innerhalb von 15 Sekunden!');
@@ -44,39 +45,39 @@ module.exports = {
 							if(collected.first().content.toLowerCase() === 'stein') {
 								if(collected1.first().content.toLowerCase() === 'stein') return message.channel.send('Ihr habt beide Stein genommen! Unendschieden!');
 								if(collected1.first().content.toLowerCase() === 'schere') {
-									await economy.addCoins(test.id, args[1]);
-									await economy.addCoins(target.id, args[1] * -1);
+									await economy.addCoins(guildId, test.id, args[1]);
+									await economy.addCoins(guildId, target.id, args[1] * -1);
 									message.channel.send(`${test} hat Stein genommen und ${target} Schere!\nDamit gewinnt ${test}!\n\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
 								}
 								if(collected1.first().content.toLowerCase() === 'papier') {
-									await economy.addCoins(test.id, args[1] * -1);
-									await economy.addCoins(target.id, args[1]);
+									await economy.addCoins(guildId, test.id, args[1] * -1);
+									await economy.addCoins(guildId, target.id, args[1]);
 									message.channel.send(`${test} hat Stein genommen und ${target} Papier!\nDamit gewinnt ${target}}!\n\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
 								}
 							}
 							if(collected.first().content.toLowerCase() === 'schere') {
 								if(collected1.first().content.toLowerCase() === 'schere') return message.channel.send('Ihr habt beide Schere genommen! Unendschieden!');
 								if(collected1.first().content.toLowerCase() === 'papier') {
-									await economy.addCoins(test.id, args[1]);
-									await economy.addCoins(target.id, args[1] * -1);
+									await economy.addCoins(guildId, test.id, args[1]);
+									await economy.addCoins(guildId, target.id, args[1] * -1);
 									message.channel.send(`${test} hat Schere genommen und ${target} Papier!\nDamit gewinnt ${test}!\n\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
 								}
 								if(collected1.first().content.toLowerCase() === 'stein') {
-									await economy.addCoins(test.id, args[1] * -1);
-									await economy.addCoins(target.id, args[1]);
+									await economy.addCoins(guildId, test.id, args[1] * -1);
+									await economy.addCoins(guildId, target.id, args[1]);
 									message.channel.send(`${test} hat Schere genommen und ${target} Stein!\nDamit gewinnt ${target}!\n\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
 								}
 							}
 							if(collected.first().content.toLowerCase() === 'papier') {
 								if(collected1.first().content.toLowerCase() === 'papier') return message.channel.send('Ihr habt beide Papier genommen! Unendschieden!');
 								if(collected1.first().content.toLowerCase() === 'stein') {
-									await economy.addCoins(test.id, args[1]);
-									await economy.addCoins(target.id, args[1] * -1);
+									await economy.addCoins(guildId, test.id, args[1]);
+									await economy.addCoins(guildId, target.id, args[1] * -1);
 									message.channel.send(`${test} hat Papier genommen und ${target} Stein!\nDamit gewinnt ${test}!\n\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
 								}
 								if(collected1.first().content.toLowerCase() === 'schere') {
-									await economy.addCoins(test.id, args[1] * -1);
-									await economy.addCoins(target.id, args[1]);
+									await economy.addCoins(guildId, test.id, args[1] * -1);
+									await economy.addCoins(guildId, target.id, args[1]);
 									message.channel.send(`${test} hat Papier genommen und ${target} Schere!\nDamit gewinnt ${target}}!\n\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
 								}
 							}
