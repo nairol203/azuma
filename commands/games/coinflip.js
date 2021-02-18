@@ -3,7 +3,7 @@ const economy = require('../../features/economy');
 module.exports = {
 	callback: async ({ message, args }) => {
 		const target = message.mentions.users.first();
-		const guildId, test = message.author;
+		const test = message.author;
 		const guildId = message.guild.id;
 
 		if (!target) return message.reply('`!coinflip <@user> <coins>`');
