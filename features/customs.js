@@ -22,7 +22,6 @@ module.exports = client => {
 		});
 
 		if (mainChannelId !== null) {
-			if (searchChannel) return;
 			mainChannelId.updateOverwrite(member.user.id, { VIEW_CHANNEL: false });
 
 			const customsVoiceChannel = await guild.channels.create(`${member.user.username}'s Zimmer`, {
