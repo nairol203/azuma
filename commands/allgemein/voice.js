@@ -31,13 +31,17 @@ module.exports = {
 		}
 
 		if (args[0] === 'lock') {
+			message.delete();
 			voiceChannel.updateOverwrite(author, { CONNECT: true });
 			voiceChannel.updateOverwrite('255741114273759232', { CONNECT: false });
 			channel.send('Alles klar, ich habe dein Zimmer für dich abgeschlossen.');
+			message.delete(5000);
 		}
 		else if (args[0] === 'unlock') {
+			message.delete();
 			voiceChannel.updateOverwrite('255741114273759232', { CONNECT: true });
 			channel.send('Alles klar, ich habe dein Zimmer für dich aufgeschlossen.');
+			message.delete(5000);
 		}
 		else if (args[0] === 'name') {
 			const argument = args.join(' ');
