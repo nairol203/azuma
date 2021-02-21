@@ -13,7 +13,7 @@ module.exports = {
 		const guildId = guild.id;
 		const userId = author.id;
 
-		const targetCoins = await economy.getCoins(guildId, userId);
+		const targetCoins = 999999999;// await economy.getCoins(guildId, userId);
 		const getBusiness = await business.getBusiness(guildId, userId);
 
 		if (args[0] === 'buy') {
@@ -50,7 +50,7 @@ Bitte schreibe die jeweilige Zahl für das Unternehmen das du kaufen willst oder
 								if (getBusiness.type === company.name) return channel.send('Du besitzt bereits dieses Unternehmen!');
 							}
 							await business.buyBusiness(guildId, userId, company.name);
-							await economy.addCoins(guildId, userId, company.price * -1);
+							// await economy.addCoins(guildId, userId, company.price * -1);
 							return channel.send(`Du hast eine ${company.name} gekauft!`);
 						}
 						else {
@@ -97,21 +97,21 @@ Bitte schreibe die jeweilige Zahl für das Upgrade das du kaufen willst oder \`c
 							if (getBusiness.upgrade1 === true) return channel.send('Du hast bereits mehr Personal eingestellt!');
 							if (targetCoins < company.priceUpgrade1) return channel.send(`Du hast doch gar nicht ${company.priceUpgrade1} Coins <:Susge:809947745342980106>`);
 							await business.buyUpgrade1(guildId, userId, getBusiness.type);
-							await economy.addCoins(guildId, userId, company.priceUpgrade1 * -1);
+							// await economy.addCoins(guildId, userId, company.priceUpgrade1 * -1);
 							channel.send(`Du hast für dein Unternehmen das Personalupgrade gekauft! \`-${company.priceUpgrade1} Coins\``);
 						}
 						else if (message.content === '2') {
 							if (getBusiness.upgrade2 === true) return channel.send('Du kaufst bereits bei einem besseren Zulieferer!');
 							if (targetCoins < company.priceUpgrade2) return channel.send(`Du hast doch gar nicht ${company.priceUpgrade2} Coins <:Susge:809947745342980106>`);
 							await business.buyUpgrade2(guildId, userId, getBusiness.type);
-							await economy.addCoins(guildId, userId, company.priceUpgrade2 * -1);
+							// await economy.addCoins(guildId, userId, company.priceUpgrade2 * -1);
 							channel.send(`Du kauft nun deine Rohware bei einem besseren Zulieferer ein! \`-${company.priceUpgrade1} Coins\``);
 						}
 						else if (message.content === '3') {
 							if (getBusiness.upgrade3 === true) return channel.send(`Du hast bereits ${company.textUpgrade3}!`);
 							if (targetCoins < company.priceUpgrade3) return channel.send(`Du hast doch gar nicht ${company.priceUpgrade3} Coins <:Susge:809947745342980106>`);
 							await business.buyUpgrade3(guildId, userId, getBusiness.type);
-							await economy.addCoins(guildId, userId, company.priceUpgrade3 * -1);
+							// await economy.addCoins(guildId, userId, company.priceUpgrade3 * -1);
 							channel.send(`Du hast ${company.textUpgrade3} gekauft! \`-${company.priceUpgrade1} Coins\``);
 						}
 						else if (message.content === 'cancel') {
