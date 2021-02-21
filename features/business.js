@@ -160,3 +160,36 @@ module.exports.buyUpgrade3 = async (guildId, userId, type) => {
 		},
 	);
 };
+
+module.exports.setCompany = async (guildId, userId) => {
+	const getBusiness = await this.getBusiness(guildId, userId);
+
+	let company = [];
+	if (getBusiness.type === 'Dokumentenfälscherei') company = documents;
+	if (getBusiness.type === 'Handplantage') company = weed;
+	if (getBusiness.type === 'Geldfälscherei') company = fakeMoney;
+	if (getBusiness.type === 'Methproduktion') company = meth;
+	if (getBusiness.type === 'Kokainproduktion') company = cocaine;
+
+	return company;
+};
+
+module.exports.checkProfit = async (guildId, userId) => {
+	const getBusiness = await this.getBusiness(guildId, userId);
+	const company = await this.setCompany(guildId, userId);
+
+	const upgrade1 = company.profit * upgrades.upgrade1;
+	const upgrade2 = company.profit * upgrades.upgrade2;
+	const upgrade3 = company.profit * upgrades.upgrade3;
+
+	let checkUpgrade1 = 0;
+	if (getBusiness.upgrade1 === true) checkUpgrade1 = upgrade1;
+	let checkUpgrade2 = 0;
+	if (getBusiness.upgrade2 === true) checkUpgrade2 = upgrade2;
+	let checkUpgrade3 = 0;
+	if (getBusiness.upgrade3 === true) checkUpgrade3 = upgrade3;
+
+	const profit = company.profit + checkUpgrade1 + checkUpgrade2 + checkUpgrade3;
+
+	return profit;
+};
