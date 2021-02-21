@@ -13,7 +13,7 @@ module.exports = {
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
 
-		// await economy.addCoins(guildId, userId, profit);
+		await economy.addCoins(guildId, userId, profit);
 
 		const embed = new Discord.MessageEmbed()
 			.setTitle('Ware verkaufen')
