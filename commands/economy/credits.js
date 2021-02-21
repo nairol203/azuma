@@ -16,7 +16,7 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')
-			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `${target} hat aktuell **${coins}** Coins.`);
+			.addField(`💵  |  **${message.author.username}**,`, `${target} hat aktuell **${coins}** Credits.`);
 		message.channel.send(embed);
 	},
 };

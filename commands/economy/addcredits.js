@@ -6,7 +6,7 @@ module.exports = {
 	aliases: 'addbal',
 	minArgs: 2,
 	maxArgs: 2,
-	expectedArgs: '<user> <coins>',
+	expectedArgs: '<user> <credits>',
 	requiredPermissions: ['ADMINISTRATOR'],
 	callback: async ({ message, args, instance }) => {
 		const guild = message.guild;
@@ -16,13 +16,13 @@ module.exports = {
 		if (mention.bot) return;
 
 		if (!mention) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}addcoins <user> <coins>\``);
+			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}addcoins <user> <credits>\``);
 			return;
 		}
 
 		const coins = args[1];
 		if (isNaN(coins)) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}addcoins <user> <coins>\``);
+			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}addcoins <user> <credits>\``);
 			return;
 		}
 
@@ -32,7 +32,7 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')
-			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `du hast <@${userId}> **${coins}** Coin(s) gegeben.\n<@${userId}> hat jetzt **${newCoins}** Coin(s)!`);
+			.addField(`💵  |  **${message.author.username}**,`, `du hast <@${userId}> **${coins}** Credit(s) gegeben.\n<@${userId}> hat jetzt **${newCoins}** Credit(s)!`);
 		message.channel.send(embed);
 	},
 };

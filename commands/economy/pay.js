@@ -11,20 +11,20 @@ module.exports = {
 
 		const target = message.mentions.users.first();
 		if (!target) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <coins>\``);
+			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <credits>\``);
 			return;
 		}
 		if (target.bot) return;
 
 		const coinsToGive = args[1];
 		if ((isNaN(args[0])) || args[0] < 1) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <coins>\``);
+			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <credits>\``);
 			return;
 		}
 
 		const coinsOwned = await economy.getCoins(guild.id, member.id);
 		if (coinsOwned < coinsToGive) {
-			message.channel.send(`<:no:767394810909949983> Du hast nicht ${coinsToGive} coins!`);
+			message.channel.send(`<:no:767394810909949983> Du hast nicht ${coinsToGive} credits!`);
 			return;
 		}
 
@@ -37,7 +37,7 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#ffb800')
-			.addField(`<a:Coin:795346652599812147>  |  **${message.author.username}**,`, `du hast <@${target.id}> bezahlt.\n<@${target.id}> hat jetzt **${newBalance}** Coin(s) und du hast noch **${remainingCoins}** Coin(s)!`);
+			.addField(`💵  |  **${message.author.username}**,`, `du hast <@${target.id}> bezahlt.\n<@${target.id}> hat jetzt **${newBalance}** Credit(s) und du hast noch **${remainingCoins}** Credit(s)!`);
 		message.channel.send(embed);
 	},
 };
