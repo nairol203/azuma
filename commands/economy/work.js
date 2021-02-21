@@ -12,6 +12,9 @@ module.exports = {
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
+		const getBusiness = await business.getBusiness(guildId, userId);
+
+		if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
 
 		await economy.addCoins(guildId, userId, profit);
 
