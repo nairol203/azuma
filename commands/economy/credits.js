@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
-	aliases: ['bal', 'balance', 'wallet'],
+	aliases: ['coins'],
 	maxArgs: 1,
 	expectedArgs: '<user>',
 	callback: async ({ message }) => {

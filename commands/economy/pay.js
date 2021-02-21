@@ -4,7 +4,7 @@ const economy = require('../../features/economy');
 module.exports = {
 	minArgs: 2,
 	maxArgs: 2,
-	expectedArgs: '<user> <coins>',
+	expectedArgs: '<user> <credits>',
 	callback: async ({ message, args, instance }) => {
 		const { guild, member } = message;
 		const prefix = instance.getPrefix(guild);

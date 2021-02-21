@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
-const economy = require('../../../features/economy');
-const business = require('../../../features/business');
+const economy = require('../../features/economy');
+const business = require('../../features/business');
 
 module.exports = {
 	// cooldown: '8h',
