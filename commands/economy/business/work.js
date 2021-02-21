@@ -17,7 +17,8 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 			.setTitle('Ware verkaufen')
-			.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.\nUmsatz: \`${profit}\` 💵`)
+			.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
+			.addField('Umsatz', `\`${profit}\` 💵`)
 			.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.');
 		channel.send(embed);
 	},
