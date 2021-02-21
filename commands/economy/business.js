@@ -47,7 +47,7 @@ module.exports = {
 						if (message.content === '3') company = fakeMoney;
 						if (message.content === '4') company = meth;
 						if (message.content === '5') company = cocaine;
-						if (message.content === 'cancel') return channel.send('Du hast den Kauf eines Unternehmens abgebrochen!');
+						if (message.content === 'cancel') return channel.send('<:no:767394810909949983> | Du hast den Kauf eines Unternehmens abgebrochen!');
 
 						if (company !== []) {
 							if (targetCoins < company.price) return channel.send(`Du hast doch gar nicht ${company.price} 💵 <:Susge:809947745342980106>`);
@@ -59,17 +59,17 @@ module.exports = {
 							return channel.send(`Du hast eine ${company.name} gekauft! \`-${company.price} 💵\``);
 						}
 						else {
-							return channel.send('Ich habe keine gültige Eingabe erkannt!');
+							return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
 						}
 
 					})
 					.catch(collected => {
-						return channel.send('Ich habe keine gültige Eingabe erkannt!');
+						return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
 					});
 			});
 		}
 		else if (args[0] === 'upgrade') {
-			if (getBusiness === null) return channel.send('Du brauchst ein Unternehmen um Upgrades zu kaufen!');
+			if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du brauchst ein Unternehmen um Upgrades zu kaufen!');
 			const company = await business.setCompany(guildId, userId);
 
 			const filter = m => m.author.id === message.author.id;
@@ -113,19 +113,19 @@ module.exports = {
 							channel.send(`Du hast ${company.textUpgrade3} gekauft! \`-${company.priceUpgrade1} 💵\``);
 						}
 						else if (message.content === 'cancel') {
-							return channel.send('Du hast den Kauf von einem Upgrade abgebrochen!');
+							return channel.send('<:no:767394810909949983> | Du hast den Kauf von einem Upgrade abgebrochen!');
 						}
 						else {
-							return channel.send('Ich habe keine gültige Eingabe erkannt!');
+							return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
 						}
 					})
 					.catch(collected => {
-						return channel.send('Ich habe keine gültige Eingabe erkannt!');
+						return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
 					});
 			});
 		}
 		else {
-			if (getBusiness === null) return channel.send('Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
+			if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
 
 			const company = await business.setCompany(guildId, userId);
 			const profit = await business.checkProfit(guildId, userId);
