@@ -38,7 +38,7 @@ module.exports = {
 
 		const profit = company.profit + checkUpgrade1 + checkUpgrade2 + checkUpgrade3;
 
-		await economy.addCoins(guildId, userId, profit);
+		// await economy.addCoins(guildId, userId, profit);
 		channel.send(`Du hast die hergestellte Ware von deiner ${company.name} verkauft und hast dabei ${profit} Coins erwirtschaftet!`);
 	},
 };
