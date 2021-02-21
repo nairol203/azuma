@@ -4,7 +4,7 @@ const economy = require('../../features/economy');
 const business = require('../../features/business');
 
 module.exports = {
-	// cooldown: '8h',
+	cooldown: '8h',
 	callback: async ({ message }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
