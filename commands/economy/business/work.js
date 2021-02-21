@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 const economy = require('../../../features/economy');
 const business = require('../../../features/business');
 
@@ -12,6 +14,11 @@ module.exports = {
 		const profit = await business.checkProfit(guildId, userId);
 
 		// await economy.addCoins(guildId, userId, profit);
-		channel.send(`Du hast die hergestellte Ware von deiner ${company.name} verkauft und hast dabei ${profit} Coins erwirtschaftet!`);
+
+		const embed = new Discord.MessageEmbed()
+			.setTitle('Ware verkaufen')
+			.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.\nUmsatz: \`${profit}\` 💵`)
+			.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.');
+		channel.send(embed);
 	},
 };
