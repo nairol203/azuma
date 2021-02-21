@@ -132,7 +132,7 @@ module.exports = {
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
 					{ name: 'Akuteller Umsatz', value: `\`${profit}\` 💵` },
-					{ name: 'Zeit bis das Lager voll ist:', value: '*coming soon*' },
+					{ name: 'Lagerbestand', value: '*coming soon*' },
 					{ name: 'Upgrades:', value: `- Personalupgrade: ${getBusiness.upgrade1}\n- Besserer Zulieferer: ${getBusiness.upgrade2}\n- ${company.nameUpgrade3}: ${getBusiness.upgrade3}` },
 				);
 			channel.send(embed);
