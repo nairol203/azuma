@@ -50,9 +50,10 @@ module.exports = {
 						if (message.content === 'cancel') return channel.send('<:no:767394810909949983> | Du hast den Kauf eines Unternehmens abgebrochen!');
 
 						if (company !== []) {
-							if (targetCoins < company.price) return channel.send(`Du hast doch gar nicht ${company.price} 💵 <:Susge:809947745342980106>`);
+							const balance = await economy.getCoins(guildId, userId);
+							if (targetCoins < company.price) return channel.send(`<:no:767394810909949983> | Dir fehlen noch \`${company.price - balance}\` 💵 um dir dieses Unternehmen leisten zu können!`);
 							if (getBusiness !== null) {
-								if (getBusiness.type === company.name) return channel.send('Du besitzt bereits dieses Unternehmen!');
+								if (getBusiness.type === company.name) return channel.send('<:no:767394810909949983> | Du besitzt bereits dieses Unternehmen!');
 							}
 							await business.buyBusiness(guildId, userId, company.name);
 							await economy.addCoins(guildId, userId, company.price * -1);
