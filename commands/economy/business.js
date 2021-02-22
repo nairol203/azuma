@@ -148,13 +148,13 @@ module.exports = {
 			const up2 = getBusiness.upgrade2 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
 			const up3 = getBusiness.upgrade3 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
 
-			const cooldown = 0;
+			const cooldown = 14400;
 
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
 					{ name: 'Akuteller Umsatz', value: `\`${format(profit)}\` 💵` },
-					{ name: 'Lagerbestand', value: showBar(cooldown) },
+					{ name: '[DEMO] Lagerbestand', value: showBar(cooldown) },
 					{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 				)
 				.setColor('#2f3136');
