@@ -8,57 +8,57 @@ const upgrades = {
 
 const documents = {
 	name: 'Dokumentenfälscherei',
-	price: 2500,
-	priceUpgrade1: 100,
-	priceUpgrade2: 200,
-	priceUpgrade3: 300,
+	price: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(2500),
+	priceUpgrade1: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(100),
+	priceUpgrade2: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(200),
+	priceUpgrade3: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(300),
 	nameUpgrade3: 'Bessere Pressen',
 	textUpgrade3: 'verbesserte Pressen',
-	profit: 100,
+	profit: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(100),
 };
 
 const weed = {
 	name: 'Hanfplantage',
-	price: 5000,
-	priceUpgrade1: 500,
-	priceUpgrade2: 1000,
-	priceUpgrade3: 1500,
+	price: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(5000),
+	priceUpgrade1: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(500),
+	priceUpgrade2: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(1000),
+	priceUpgrade3: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(1500),
 	nameUpgrade3: 'UV-Lampen',
 	textUpgrade3: 'UV-Lampen',
-	profit: 500,
+	profit: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(500),
 };
 
 const fakeMoney = {
 	name: 'Geldfälscherei',
-	price: 25000,
-	priceUpgrade1: 2000,
-	priceUpgrade2: 4000,
-	priceUpgrade3: 6000,
+	price: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(25000),
+	priceUpgrade1: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(2000),
+	priceUpgrade2: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(4000),
+	priceUpgrade3: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(6000),
 	nameUpgrade3: 'Laserdrucker',
 	textUpgrade3: 'einen Laserdrucker',
-	profit: 2000,
+	profit: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(2000),
 };
 
 const meth = {
 	name: 'Methproduktion',
-	price: 100000,
-	priceUpgrade1: 8000,
-	priceUpgrade2: 10000,
-	priceUpgrade3: 12000,
+	price: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(100000),
+	priceUpgrade1: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(8000),
+	priceUpgrade2: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(100000),
+	priceUpgrade3: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(120000),
 	nameUpgrade3: 'Destillationsanlage',
 	textUpgrade3: 'eine Destillationsanlage',
-	profit: 5000,
+	profit: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(5000),
 };
 
 const cocaine = {
 	name: 'Kokainproduktion',
-	price: 250000,
-	priceUpgrade1: 15000,
-	priceUpgrade2: 20000,
-	priceUpgrade3: 25000,
+	price: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(25000),
+	priceUpgrade1: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(15000),
+	priceUpgrade2: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(20000),
+	priceUpgrade3: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(25000),
 	nameUpgrade3: 'Mehr Arbeitsfläche',
 	textUpgrade3: 'mehr Arbeitfäche',
-	profit: 10000,
+	profit: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(10000),
 };
 
 module.exports.getInfo = (type) => {
