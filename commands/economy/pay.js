@@ -36,7 +36,7 @@ module.exports = {
 		const newBalance = await economy.addCoins(guild.id, target.id, coinsToGive);
 
 		const embed = new Discord.MessageEmbed()
-			.setColor('#ffb800')
+			.setColor('#f77600')
 			.addField(`💵  |  **${message.author.username}**,`, `du hast <@${target.id}> bezahlt.\n<@${target.id}> hat jetzt **${newBalance}** Credit(s) und du hast noch **${remainingCoins}** Credit(s)!`);
 		message.channel.send(embed);
 	},

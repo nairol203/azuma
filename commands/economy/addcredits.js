@@ -31,7 +31,7 @@ module.exports = {
 		const newCoins = await economy.addCoins(guild.id, userId, coins);
 
 		const embed = new Discord.MessageEmbed()
-			.setColor('#ffb800')
+			.setColor('#f77600')
 			.addField(`💵  |  **${message.author.username}**,`, `du hast <@${userId}> **${coins}** Credit(s) gegeben.\n<@${userId}> hat jetzt **${newCoins}** Credit(s)!`);
 		message.channel.send(embed);
 	},

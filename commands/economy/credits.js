@@ -15,7 +15,7 @@ module.exports = {
 		const coins = await economy.getCoins(guildId, userId);
 
 		const embed = new Discord.MessageEmbed()
-			.setColor('#ffb800')
+			.setColor('#f77600')
 			.addField(`💵  |  **${message.author.username}**,`, `${target} hat aktuell **${coins}** Credits.`);
 		message.channel.send(embed);
 	},

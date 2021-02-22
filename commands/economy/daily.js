@@ -11,7 +11,7 @@ module.exports = {
 		const newBalance = await economy.addCoins(guild.id, author.id, coinsToGive);
 
 		const embed = new Discord.MessageEmbed()
-			.setColor('#ffb800')
+			.setColor('#f77600')
 			.addField(`💵  |  **${message.author.username}**,`, `du hast deinen Daily geclaimed!\n\`+${coinsToGive} Credits\`\ndu hast insgesamt \`${newBalance} Credits\`.`);
 		message.channel.send(embed);
 	},
