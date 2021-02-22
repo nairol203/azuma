@@ -52,7 +52,7 @@ const meth = {
 
 const cocaine = {
 	name: 'Kokainproduktion',
-	price: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(25000),
+	price: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(250000),
 	priceUpgrade1: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(15000),
 	priceUpgrade2: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(20000),
 	priceUpgrade3: Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(25000),
