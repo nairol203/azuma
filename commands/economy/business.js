@@ -9,6 +9,11 @@ const fakeMoney = business.getInfo(3);
 const meth = business.getInfo(4);
 const cocaine = business.getInfo(5);
 
+function format(number) {
+	const result = Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(number);
+	return result;
+}
+
 module.exports = {
 	callback: async ({ message, args }) => {
 		const { author, guild, channel } = message;
@@ -24,11 +29,11 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Verfügbare Immobilien')
 				.addFields(
-					{ name: `:one: ${documents.name}`, value: `Kosten: \`${documents.price}\` 💵\nUmsatz ohne Upgrades:  \`${documents.profit}\` 💵` },
-					{ name: `:two: ${weed.name}`, value: `Kosten: \`${weed.price}\` 💵\nUmsatz ohne Upgrades:  \`${weed.profit}\` 💵` },
-					{ name: `:three: ${fakeMoney.name}`, value: `Kosten: \`${fakeMoney.price}\` 💵\nUmsatz ohne Upgrades:  \`${fakeMoney.profit}\` 💵` },
-					{ name: `:four: ${meth.name}`, value: `Kosten: \`${meth.price}\` 💵\nUmsatz ohne Upgrades:  \`${meth.profit}\` 💵` },
-					{ name: `:five: ${cocaine.name}`, value: `Kosten: \`${cocaine.price}\` 💵\nUmsatz ohne Upgrades:  \`${cocaine.profit}\` 💵` },
+					{ name: `:one: ${documents.name}`, value: `Kosten: \`${format(documents.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(documents.profit)}\` 💵` },
+					{ name: `:two: ${weed.name}`, value: `Kosten: \`${format(weed.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(weed.profit)}\` 💵` },
+					{ name: `:three: ${fakeMoney.name}`, value: `Kosten: \`${format(fakeMoney.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(fakeMoney.profit)}\` 💵` },
+					{ name: `:four: ${meth.name}`, value: `Kosten: \`${format(meth.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(meth.profit)}\` 💵` },
+					{ name: `:five: ${cocaine.name}`, value: `Kosten: \`${format(cocaine.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(cocaine.profit)}\` 💵` },
 				)
 				.setFooter('Bitte schreibe die jeweilige Zahl für das Upgrade das du kaufen willst oder cancel zum abbrechen.')
 				.setColor('#2f3136');
@@ -57,7 +62,7 @@ module.exports = {
 							}
 							await business.buyBusiness(guildId, userId, company.name);
 							await economy.addCoins(guildId, userId, company.price * -1);
-							return channel.send(`Du hast eine ${company.name} gekauft! \`-${company.price} 💵\``);
+							return channel.send(`Du hast eine ${company.name} gekauft! \`-${format(company.price)} \` 💵`);
 						}
 						else {
 							return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
@@ -78,9 +83,9 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Verfügbare Upgrades')
 				.addFields(
-					{ name: ':one: Personalupgrade', value: `Stelle mehr Personal ein, um mehr zu produzieren!\nKosten:  \`${company.priceUpgrade1}\` 💵` },
-					{ name: ':two: Besserer Zulieferer', value: `Kaufe deine Rohware bei einem zuverlässigerem Zulieferer ein!\nKosten:  \`${company.priceUpgrade2}\` 💵` },
-					{ name: `:three: ${company.nameUpgrade3}`, value: `Kaufe für eine bessere Produktion ${company.textUpgrade3}!\nKosten:  \`${company.priceUpgrade3}\` 💵` },
+					{ name: ':one: Personalupgrade', value: `Stelle mehr Personal ein, um mehr zu produzieren!\nKosten:  \`${format(company.priceUpgrade1)}\` 💵` },
+					{ name: ':two: Besserer Zulieferer', value: `Kaufe deine Rohware bei einem zuverlässigerem Zulieferer ein!\nKosten:  \`${format(company.priceUpgrade2)}\` 💵` },
+					{ name: `:three: ${company.nameUpgrade3}`, value: `Kaufe für eine bessere Produktion ${company.textUpgrade3}!\nKosten:  \`${format(company.priceUpgrade3)}\` 💵` },
 				)
 				.setFooter('Bitte schreibe die jeweilige Zahl für das Upgrade das du kaufen willst oder cancel zum abbrechen.')
 				.setColor('#2f3136');
@@ -94,24 +99,24 @@ module.exports = {
 						message = message.first();
 						if (message.content === '1') {
 							if (getBusiness.upgrade1 === true) return channel.send('Du hast bereits mehr Personal eingestellt!');
-							if (targetCoins < company.priceUpgrade1) return channel.send(`Du hast doch gar nicht ${company.priceUpgrade1} 💵 <:Susge:809947745342980106>`);
+							if (targetCoins < company.priceUpgrade1) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade1)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade1(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade1 * -1);
-							channel.send(`Du hast für dein Unternehmen das Personalupgrade gekauft! \`-${company.priceUpgrade1} 💵\``);
+							channel.send(`Du hast für dein Unternehmen das Personalupgrade gekauft! \`-${format(company.priceUpgrade1)} 💵\``);
 						}
 						else if (message.content === '2') {
 							if (getBusiness.upgrade2 === true) return channel.send('Du kaufst bereits bei einem besseren Zulieferer!');
-							if (targetCoins < company.priceUpgrade2) return channel.send(`Du hast doch gar nicht ${company.priceUpgrade2} 💵 <:Susge:809947745342980106>`);
+							if (targetCoins < company.priceUpgrade2) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade2)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade2(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade2 * -1);
-							channel.send(`Du kauft nun deine Rohware bei einem besseren Zulieferer ein! \`-${company.priceUpgrade1} 💵\``);
+							channel.send(`Du kauft nun deine Rohware bei einem besseren Zulieferer ein! \`-${format(company.priceUpgrade1)} 💵\``);
 						}
 						else if (message.content === '3') {
 							if (getBusiness.upgrade3 === true) return channel.send(`Du hast bereits ${company.textUpgrade3}!`);
-							if (targetCoins < company.priceUpgrade3) return channel.send(`Du hast doch gar nicht ${company.priceUpgrade3} 💵 <:Susge:809947745342980106>`);
+							if (targetCoins < company.priceUpgrade3) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade3)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade3(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade3 * -1);
-							channel.send(`Du hast ${company.textUpgrade3} gekauft! \`-${company.priceUpgrade1} 💵\``);
+							channel.send(`Du hast ${company.textUpgrade3} gekauft! \`-${format(company.priceUpgrade1)} 💵\``);
 						}
 						else if (message.content === 'cancel') {
 							return channel.send('<:no:767394810909949983> | Du hast den Kauf von einem Upgrade abgebrochen!');
@@ -140,7 +145,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
-					{ name: 'Akuteller Umsatz', value: `\`${profit}\` 💵` },
+					{ name: 'Akuteller Umsatz', value: `\`${format(profit)}\` 💵` },
 					{ name: 'Lagerbestand', value: showBar(cooldown) },
 					{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 				)
