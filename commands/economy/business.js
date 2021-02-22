@@ -131,19 +131,16 @@ module.exports = {
 			const company = await business.setCompany(guildId, userId);
 			const profit = await business.checkProfit(guildId, userId);
 
-			let up1 = getBusiness.upgrade1;
-			let up2 = getBusiness.upgrade2;
-			let up3 = getBusiness.upgrade3;
-
-			const upg1 = up1 ? true : false;
-			console.log(upg1)
+			const up1 = getBusiness.upgrade1 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
+			const up2 = getBusiness.upgrade2 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
+			const up3 = getBusiness.upgrade3 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
 
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
-					{ name: 'Akuteller Umsatz', value: `\`${profit}\` 💵` },
+					{ name: 'Akuteller Umsatz', value: `\`${company.profit}\` 💵` },
 					{ name: 'Lagerbestand', value: '*coming soon*' },
-					{ name: 'Upgrades:', value: `- Personalupgrade: ${getBusiness.upgrade1}\n- Besserer Zulieferer: ${getBusiness.upgrade2}\n- ${company.nameUpgrade3}: ${getBusiness.upgrade3}` },
+					{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 				)
 				.setColor('#2f3136');
 			channel.send(embed);
