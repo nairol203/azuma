@@ -166,7 +166,7 @@ module.exports.setCompany = async (guildId, userId) => {
 
 	let company = [];
 	if (getBusiness.type === 'Dokumentenfälscherei') company = documents;
-	if (getBusiness.type === 'Handplantage') company = weed;
+	if (getBusiness.type === 'Hanfplantage') company = weed;
 	if (getBusiness.type === 'Geldfälscherei') company = fakeMoney;
 	if (getBusiness.type === 'Methproduktion') company = meth;
 	if (getBusiness.type === 'Kokainproduktion') company = cocaine;
