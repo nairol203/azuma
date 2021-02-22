@@ -15,7 +15,7 @@ function format(number) {
 }
 
 function showBar(cd) {
-	const progress = (cd % 28800) / 28800;
+	const progress = (28800 % cd) / 28800;
 	const progressOutOf18 = Math.round(progress * 18);
 
 	const barStr = `${'█'.repeat(progressOutOf18)}${'░'.repeat(18 - progressOutOf18)}`;
@@ -148,13 +148,15 @@ module.exports = {
 			const up2 = getBusiness.upgrade2 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
 			const up3 = getBusiness.upgrade3 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
 
-			const cooldown = 14400;
+			const getCooldown = await business.getCooldown('work', guildId, userId);
+
+			const cooldown = getCooldown.cooldown;
 
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
 					{ name: 'Akuteller Umsatz', value: `\`${format(profit)}\` 💵` },
-					{ name: '[DEMO] Lagerbestand', value: showBar(cooldown) },
+					{ name: 'Lagerbestand', value: showBar(cooldown) },
 					{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 				)
 				.setColor('#2f3136');
