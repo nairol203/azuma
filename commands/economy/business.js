@@ -31,7 +31,7 @@ module.exports = {
 					{ name: `:five: ${cocaine.name}`, value: `Kosten: \`${cocaine.price}\`\nUmsatz ohne Upgrades:  \`${cocaine.profit}\` 💵` },
 				)
 				.setFooter('Bitte schreibe die jeweilige Zahl für das Upgrade das du kaufen willst oder cancel zum abbrechen.')
-				.setColor('#2c2f33');
+				.setColor('#2f3136');
 			channel.send(embed).then(() =>{
 				channel.awaitMessages(filter, {
 					max: 1,
@@ -83,7 +83,7 @@ module.exports = {
 					{ name: `:three: ${company.nameUpgrade3}`, value: `Kaufe für eine bessere Produktion ${company.textUpgrade3}!\nKosten:  \`${company.priceUpgrade3}\` 💵` },
 				)
 				.setFooter('Bitte schreibe die jeweilige Zahl für das Upgrade das du kaufen willst oder cancel zum abbrechen.')
-				.setColor('#2c2f33');
+				.setColor('#2f3136');
 			channel.send(embed).then(() => {
 				channel.awaitMessages(filter, {
 					max: 1,
@@ -138,7 +138,7 @@ module.exports = {
 					{ name: 'Lagerbestand', value: '*coming soon*' },
 					{ name: 'Upgrades:', value: `- Personalupgrade: ${getBusiness.upgrade1}\n- Besserer Zulieferer: ${getBusiness.upgrade2}\n- ${company.nameUpgrade3}: ${getBusiness.upgrade3}` },
 				)
-				.setColor('#2c2f33');
+				.setColor('#2f3136');
 			channel.send(embed);
 		}
 	},
