@@ -138,7 +138,7 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
-					{ name: 'Akuteller Umsatz', value: `\`${company.profit}\` 💵` },
+					{ name: 'Akuteller Umsatz', value: `\`${profit}\` 💵` },
 					{ name: 'Lagerbestand', value: '*coming soon*' },
 					{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 				)
