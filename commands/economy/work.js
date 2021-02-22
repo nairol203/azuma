@@ -31,7 +31,7 @@ module.exports = {
 		}
 		else if (d < 0.15) {
 			const embed = new Discord.MessageEmbed()
-				.setTitle('Ware verkaufen')
+				.setTitle('Verkauf gescheitert')
 				.setDescription('Du warst beim Verkauf deiner Waren unaufmerksam und hast dich von den Cops erwischen lassen.')
 				.addField('Umsatz', '`0` 💵')
 				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
