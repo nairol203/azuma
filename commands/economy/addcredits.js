@@ -16,13 +16,13 @@ module.exports = {
 		if (mention.bot) return;
 
 		if (!mention) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}addcoins <user> <credits>\``);
+			message.channel.send(`<:no:767394810909949983> | Ungültiger Befehl, versuche es so: \`${prefix}addcredits <user> <credits>\``);
 			return;
 		}
 
 		const coins = args[1];
 		if (isNaN(coins)) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}addcoins <user> <credits>\``);
+			message.channel.send(`<:no:767394810909949983> | Ungültiger Befehl, versuche es so: \`${prefix}addcredits <user> <credits>\``);
 			return;
 		}
 
