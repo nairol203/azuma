@@ -10,7 +10,7 @@ module.exports = {
 			.addFields (
 				{ name: 'Allgemeine Info', value: 'Dieser Bot wurde von <@!255739211112513536> programmiert. Falls irgendetwas nicht funktioniert, schreibt ihm!' },
 				{ name: 'Bekannte Bugs', value: '/' },
-				{ name: 'Roadmap', value: '/' },
+				{ name: 'Roadmap', value: '- Großes Hotel Update mit Reactions, Jukebox, etc.' },
 				{ name: 'Version', value: version, inline: true },
 				{ name: 'Aktuelle Laufzeit', value: `${hours} h (${minutes} min)`, inline: true },
 				{ name: 'Server Count', value: `${client.guilds.cache.size} Server`, inline: true },
