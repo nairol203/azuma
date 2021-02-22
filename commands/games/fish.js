@@ -21,7 +21,7 @@ module.exports = {
 
 			const coinsOwned = await economy.getCoins(guildId, member.id);
 			if (coinsOwned < pricePerCast) {
-				message.channel.send('<:no:767394810909949983> Du hast nicht genügend Coins!');
+				message.channel.send('<:no:767394810909949983> | Du hast nicht genügend Credits!');
 				return;
 			}
 			else {
@@ -32,7 +32,7 @@ module.exports = {
 				const d = Math.random();
 
 				const mess1 = `:fishing_pole_and_fish:  **|**  **${author.username}**, du hast einen `;
-				const mess2 = ' gefangen! Du hast **10**<a:Coin:795346652599812147> bezahlt.';
+				const mess2 = ' gefangen! Du hast **10** 💵 bezahlt.';
 
 				if (d < 0.45 & d > 0.1015) {
 					/* const embed = new Discord.MessageEmbed()
@@ -148,8 +148,8 @@ module.exports = {
 					{ name: 'Deine Fang-Chancen:', value: `\n🐟 - ${Number((common / total) * 100).toFixed(3)}%\n🐠 - ${Number((uncommon / total) * 100).toFixed(3)}%\n🦑 - ${Number((rare / total) * 100).toFixed(3)}%\n🗑️ - ${Number((garbage / total) * 100).toFixed(3)}%`, inline: true },
 					{ name: 'Eigentliche Fang-Chancen:', value: '\n🐟 - 34.85%\n🐠 - 10%\n🦑 - 0.15%\n🗑️ - 55%', inline: true },
 					{ name: 'Funfact:', value: 'Das Fischen ist eigentlich immer ein Verlust wenn du die Rares nicht verkaufst!', inline: false },
-					{ name: 'Dein Umsatz:', value: `Profit: **${Math.round(totalPrice - total * pricePerCast)}** <a:Coin:795346652599812147>\nOhne Rares: **${Math.round((totalPrice - total * pricePerCast) - rare * rarePrice)}** <a:Coin:795346652599812147>`, inline: true },
-					{ name: 'Eigentlicher Umsatz:', value: `Profit: **${Math.round(mathTotalPrice - mathTotal * pricePerCast)}** <a:Coin:795346652599812147>\nOhne Rares: **${Math.round((mathTotalPrice - mathTotal * pricePerCast) - mathRare * rarePrice)}** <a:Coin:795346652599812147>`, inline: true },
+					{ name: 'Dein Umsatz:', value: `Profit: **${Math.round(totalPrice - total * pricePerCast)}** 💵\nOhne Rares: **${Math.round((totalPrice - total * pricePerCast) - rare * rarePrice)}** 💵`, inline: true },
+					{ name: 'Eigentlicher Umsatz:', value: `Profit: **${Math.round(mathTotalPrice - mathTotal * pricePerCast)}** 💵\nOhne Rares: **${Math.round((mathTotalPrice - mathTotal * pricePerCast) - mathRare * rarePrice)}** 💵`, inline: true },
 					{ name: 'Road to 100 Rares:', value: `Du brauchst aktuell noch **${Math.round(100 / (rare / total)) - total}** Angelversuche (insgesamt **${Math.round(100 / (rare / total))}** Versuche) bis zu den 100 Rares! Weiter so, **${total}** Versuche hast du schon.`, inline: false },
 				);
 			return message.channel.send(embed);
@@ -193,19 +193,19 @@ module.exports = {
 				const common = await fishingInv.getCommon(userId);
 				const removeCommon = await fishingInv.addCommon(userId, common * -1);
 				const newCoins = await economy.addCoins(guildId, userId, commonPrice * common);
-				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${common}** gewöhnliche Fische für **${commonPrice * common}**<a:Coin:795346652599812147>verkauft.`);
+				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${common}** gewöhnliche Fische für **${commonPrice * common}** 💵 verkauft.`);
 			}
 			if (args[1] === 'uncommon') {
 				const uncommon = await fishingInv.getUncommon(userId);
 				const removeUncommon = await fishingInv.addUncommon(userId, uncommon * -1);
 				const newCoins = await economy.addCoins(guildId, userId, uncommonPrice * uncommon);
-				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${uncommon}** ungewöhnliche Fische für **${uncommonPrice * uncommon}**<a:Coin:795346652599812147>verkauft.`);
+				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${uncommon}** ungewöhnliche Fische für **${uncommonPrice * uncommon}** 💵 verkauft.`);
 			}
 			if (args[1] === 'garbage') {
 				const garbage = await fishingInv.getGarbage(userId);
 				const removeGarbage = await fishingInv.addGarbage(userId, garbage * -1);
 				const newCoins = await economy.addCoins(guildId, userId, garbagePrice * garbage);
-				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${garbage}** Müll für **${garbagePrice * garbage}**<a:Coin:795346652599812147>verkauft.`);
+				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${garbage}** Müll für **${garbagePrice * garbage}** 💵 verkauft.`);
 			}
 		}
 		else {
