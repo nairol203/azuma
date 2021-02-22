@@ -16,9 +16,9 @@ module.exports = {
 				.setDescription(`Tipp: Benutze \`${prefix}help <command>\` um mehr über einen bestimmten Befehl zu erfahren.`)
 				.setThumbnail(`${message.guild.iconURL()}`)
 				.addFields (
-					{ name: 'Misc', value: '`howto` `info` `ping` `poll` `server` `text`', inline: true },
-					{ name: 'Economy', value: '`addcoins` `coins` `daily` `pay`', inline: true },
-					{ name: 'Fun', value: '`8ball` `coinflip` `fish` `ohh` `rps` `triggered`', inline: true },
+					{ name: 'Misc', value: '`howto` `info` `ping` `server` `text`', inline: true },
+					{ name: 'Economy', value: '`credits` `daily` `pay` `business` `work`', inline: true },
+					{ name: 'Games', value: '`coinflip` `fish` `rps`', inline: true },
 					{ name: 'Level', value: '`rank` `leaderboard`', inline: true },
 					{ name: 'Musik', value: '`loop` `nowplaying` `pause` `play` `queue` `resume` `search` `skip` `stop` `volume`', inline: true },
 					{ name: 'Admin', value: '`ban` `deploy` `ismuted` `kick` `mute` `prune` `unban` `unmute`', inline: true },
