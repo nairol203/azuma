@@ -6,7 +6,7 @@ module.exports = {
 	callback: async ({ message }) => {
 		const { author, guild } = message;
 
-		const coinsToGive = 5000;
+		const coinsToGive = 500;
 
 		const newBalance = await economy.addCoins(guild.id, author.id, coinsToGive);
 
