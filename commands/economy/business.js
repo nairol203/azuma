@@ -77,14 +77,14 @@ module.exports = {
 							return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
 						}
 
-						const balance = await economy.getCoins(guildId, userId);
-						if (targetCoins < company.price) return channel.send(`<:no:767394810909949983> | Dir fehlen noch \`${company.price - balance}\` 💵 um dir dieses Unternehmen leisten zu können!`);
+						if (targetCoins < company.price) return channel.send('<:no:767394810909949983> | Du hast nicht genug Credits um dir dieses Unternehmen leisten zu können!');
 						if (getBusiness !== null) {
 							if (getBusiness.type === company.name) return channel.send('<:no:767394810909949983> | Du besitzt bereits dieses Unternehmen!');
 						}
 						await business.buyBusiness(guildId, userId, company.name);
 						await economy.addCoins(guildId, userId, company.price * -1);
-						return channel.send(`Du hast eine ${company.name} gekauft! \`-${format(company.price)} \` 💵`);
+						await business.setCooldown('work', guildId, userId);
+						return channel.send(`Du hast eine ${company.name} gekauft! Du hast \`${format(company.price)} \` 💵 bezahlt.`);
 					})
 					.catch(collected => {
 						return channel.send('<:no:767394810909949983> | Ich habe keine Eingabe erkannt!');
@@ -119,21 +119,21 @@ module.exports = {
 							if (targetCoins < company.priceUpgrade1) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade1)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade1(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade1 * -1);
-							channel.send(`Du hast für dein Unternehmen das Personalupgrade gekauft! \`-${format(company.priceUpgrade1)} 💵\``);
+							channel.send(`Du hast für dein Unternehmen das Personalupgrade gekauft! Du hast \`${format(company.priceUpgrade1)} 💵\` bezahlt.`);
 						}
 						else if (message.content === '2') {
 							if (getBusiness.upgrade2 === true) return channel.send('Du kaufst bereits bei einem besseren Zulieferer!');
 							if (targetCoins < company.priceUpgrade2) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade2)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade2(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade2 * -1);
-							channel.send(`Du kauft nun deine Rohware bei einem besseren Zulieferer ein! \`-${format(company.priceUpgrade1)} 💵\``);
+							channel.send(`Du kauft nun deine Rohware bei einem besseren Zulieferer ein! Du hast \`${format(company.priceUpgrade1)} 💵\` bezahlt.`);
 						}
 						else if (message.content === '3') {
 							if (getBusiness.upgrade3 === true) return channel.send(`Du hast bereits ${company.textUpgrade3}!`);
 							if (targetCoins < company.priceUpgrade3) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade3)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade3(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade3 * -1);
-							channel.send(`Du hast ${company.textUpgrade3} gekauft! \`-${format(company.priceUpgrade1)} 💵\``);
+							channel.send(`Du hast ${company.textUpgrade3} gekauft! Du hast \`${format(company.priceUpgrade1)} 💵\` bezahlt.`);
 						}
 						else if (message.content === 'cancel') {
 							return channel.send('<:no:767394810909949983> | Du hast den Kauf von einem Upgrade abgebrochen!');
@@ -159,13 +159,20 @@ module.exports = {
 
 			const getCooldown = await business.getCooldown('work', guildId, userId);
 
-			const cooldown = getCooldown.cooldown;
-
+			let cd = '';
+			let cooldown = '';
+			if (getCooldown === null) {
+				cd = '██████████████████\nDein Lager ist voll! Verkaufe die Ware mit `!work`';
+			}
+			else {
+				cooldown = getCooldown.cooldown;
+				cd = showBar(cooldown);
+			}
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
 					{ name: 'Akuteller Umsatz', value: `\`${format(profit)}\` 💵` },
-					{ name: 'Lagerbestand', value: showBar(cooldown) },
+					{ name: 'Lagerbestand', value: cd },
 					{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 				)
 				.setColor('#2f3136');
