@@ -8,57 +8,57 @@ const upgrades = {
 
 const documents = {
 	name: 'Dokumentenfälscherei',
-	price: 25000,
-	priceUpgrade1: 1000,
-	priceUpgrade2: 2000,
-	priceUpgrade3: 3000,
+	price: 2500,
+	priceUpgrade1: 100,
+	priceUpgrade2: 200,
+	priceUpgrade3: 300,
 	nameUpgrade3: 'Bessere Pressen',
 	textUpgrade3: 'verbesserte Pressen',
-	profit: 1000,
+	profit: 100,
 };
 
 const weed = {
 	name: 'Hanfplantage',
-	price: 50000,
-	priceUpgrade1: 5000,
-	priceUpgrade2: 10000,
-	priceUpgrade3: 15000,
+	price: 5000,
+	priceUpgrade1: 500,
+	priceUpgrade2: 1000,
+	priceUpgrade3: 1500,
 	nameUpgrade3: 'UV-Lampen',
 	textUpgrade3: 'UV-Lampen',
-	profit: 5000,
+	profit: 500,
 };
 
 const fakeMoney = {
 	name: 'Geldfälscherei',
-	price: 250000,
-	priceUpgrade1: 20000,
-	priceUpgrade2: 40000,
-	priceUpgrade3: 60000,
+	price: 25000,
+	priceUpgrade1: 2000,
+	priceUpgrade2: 4000,
+	priceUpgrade3: 6000,
 	nameUpgrade3: 'Laserdrucker',
 	textUpgrade3: 'einen Laserdrucker',
-	profit: 20000,
+	profit: 2000,
 };
 
 const meth = {
 	name: 'Methproduktion',
-	price: 1000000,
-	priceUpgrade1: 80000,
-	priceUpgrade2: 100000,
-	priceUpgrade3: 120000,
+	price: 100000,
+	priceUpgrade1: 8000,
+	priceUpgrade2: 10000,
+	priceUpgrade3: 12000,
 	nameUpgrade3: 'Destillationsanlage',
 	textUpgrade3: 'eine Destillationsanlage',
-	profit: 50000,
+	profit: 5000,
 };
 
 const cocaine = {
 	name: 'Kokainproduktion',
-	price: 2500000,
-	priceUpgrade1: 150000,
-	priceUpgrade2: 200000,
-	priceUpgrade3: 250000,
+	price: 250000,
+	priceUpgrade1: 15000,
+	priceUpgrade2: 20000,
+	priceUpgrade3: 25000,
 	nameUpgrade3: 'Mehr Arbeitsfläche',
 	textUpgrade3: 'mehr Arbeitfäche',
-	profit: 100000,
+	profit: 10000,
 };
 
 module.exports.getInfo = (type) => {
