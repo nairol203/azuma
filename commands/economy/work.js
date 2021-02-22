@@ -23,7 +23,7 @@ module.exports = {
 			.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
 			.addField('Umsatz', `\`${profit}\` 💵`)
 			.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
-			.setColor('#2c2f33');
+			.setColor('#2f3136');
 		channel.send(embed);
 	},
 };
