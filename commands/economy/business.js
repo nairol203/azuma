@@ -14,6 +14,14 @@ function format(number) {
 	return result;
 }
 
+function showBar(cd) {
+	const progress = (cd % 28800) / 28800;
+	const progressOutOf18 = Math.round(progress * 18);
+
+	const barStr = `${'█'.repeat(progressOutOf18)}${'░'.repeat(18 - progressOutOf18)}`;
+	return barStr;
+}
+
 module.exports = {
 	callback: async ({ message, args }) => {
 		const { author, guild, channel } = message;
@@ -151,14 +159,6 @@ module.exports = {
 				)
 				.setColor('#2f3136');
 			channel.send(embed);
-		}
-
-		function showBar(cd) {
-			const progress = (cd % 28800) / 28800;
-			const progressOutOf18 = Math.round(progress * 18);
-
-			const barStr = `${'█'.repeat(progressOutOf18)}${'░'.repeat(18 - progressOutOf18)}`;
-			return barStr;
 		}
 	},
 };
