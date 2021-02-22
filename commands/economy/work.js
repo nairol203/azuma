@@ -16,14 +16,27 @@ module.exports = {
 
 		if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
 
-		await economy.addCoins(guildId, userId, profit);
+		const d = Math.random();
 
-		const embed = new Discord.MessageEmbed()
-			.setTitle('Ware verkaufen')
-			.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
-			.addField('Umsatz', `\`${profit}\` 💵`)
-			.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
-			.setColor('#2f3136');
-		channel.send(embed);
+		if (d > 0.15) {
+			await economy.addCoins(guildId, userId, profit);
+
+			const embed = new Discord.MessageEmbed()
+				.setTitle('Ware verkaufen')
+				.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
+				.addField('Umsatz', `\`${profit}\` 💵`)
+				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
+				.setColor('#2f3136');
+			channel.send(embed);
+		}
+		if (d < 0.15) {
+			const embed = new Discord.MessageEmbed()
+				.setTitle('Ware verkaufen')
+				.setDescription('Du warst beim Verkauf deiner Waren unaufmerksam und hast dich von den Cops erwischen lassen.')
+				.addField('Umsatz', '`0` 💵')
+				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
+				.setColor('#2f3136');
+			channel.send(embed);
+		}
 	},
 };
