@@ -22,7 +22,7 @@ module.exports = {
 			await economy.addCoins(guildId, userId, profit);
 
 			const embed = new Discord.MessageEmbed()
-				.setTitle('Ware verkaufen')
+				.setTitle('Verkauf erfolgreich')
 				.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
 				.addField('Umsatz', `\`${profit}\` 💵`)
 				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
