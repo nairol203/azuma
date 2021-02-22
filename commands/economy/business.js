@@ -55,30 +55,39 @@ module.exports = {
 						message = message.first();
 						let company = [];
 
-						if (message.content === '1') company = documents;
-						if (message.content === '2') company = weed;
-						if (message.content === '3') company = fakeMoney;
-						if (message.content === '4') company = meth;
-						if (message.content === '5') company = cocaine;
-						if (message.content === 'cancel') return channel.send('<:no:767394810909949983> | Du hast den Kauf eines Unternehmens abgebrochen!');
-
-						if (company !== []) {
-							const balance = await economy.getCoins(guildId, userId);
-							if (targetCoins < company.price) return channel.send(`<:no:767394810909949983> | Dir fehlen noch \`${company.price - balance}\` 💵 um dir dieses Unternehmen leisten zu können!`);
-							if (getBusiness !== null) {
-								if (getBusiness.type === company.name) return channel.send('<:no:767394810909949983> | Du besitzt bereits dieses Unternehmen!');
-							}
-							await business.buyBusiness(guildId, userId, company.name);
-							await economy.addCoins(guildId, userId, company.price * -1);
-							return channel.send(`Du hast eine ${company.name} gekauft! \`-${format(company.price)} \` 💵`);
+						if (message.content === '1') {
+							company = documents;
+						}
+						else if (message.content === '2') {
+							company = weed;
+						}
+						else if (message.content === '3') {
+							company = fakeMoney;
+						}
+						else if (message.content === '4') {
+							company = meth;
+						}
+						else if (message.content === '5') {
+							company = cocaine;
+						}
+						else if (message.content === 'cancel') {
+							return channel.send('<:no:767394810909949983> | Du hast den Kauf eines Unternehmens abgebrochen!');
 						}
 						else {
 							return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
 						}
 
+						const balance = await economy.getCoins(guildId, userId);
+						if (targetCoins < company.price) return channel.send(`<:no:767394810909949983> | Dir fehlen noch \`${company.price - balance}\` 💵 um dir dieses Unternehmen leisten zu können!`);
+						if (getBusiness !== null) {
+							if (getBusiness.type === company.name) return channel.send('<:no:767394810909949983> | Du besitzt bereits dieses Unternehmen!');
+						}
+						await business.buyBusiness(guildId, userId, company.name);
+						await economy.addCoins(guildId, userId, company.price * -1);
+						return channel.send(`Du hast eine ${company.name} gekauft! \`-${format(company.price)} \` 💵`);
 					})
 					.catch(collected => {
-						return channel.send('<:no:767394810909949983> | Ich habe keine gültige Eingabe erkannt!');
+						return channel.send('<:no:767394810909949983> | Ich habe keine Eingabe erkannt!');
 					});
 			});
 		}
