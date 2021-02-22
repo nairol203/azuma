@@ -24,11 +24,11 @@ module.exports = {
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Verfügbare Immobilien')
 				.addFields(
-					{ name: `:one: ${documents.name}`, value: `Kosten: \`${documents.price}\`\nUmsatz ohne Upgrades:  \`${documents.profit}\` 💵` },
-					{ name: `:two: ${weed.name}`, value: `Kosten: \`${weed.price}\`\nUmsatz ohne Upgrades:  \`${weed.profit}\` 💵` },
-					{ name: `:three: ${fakeMoney.name}`, value: `Kosten: \`${fakeMoney.price}\`\nUmsatz ohne Upgrades:  \`${fakeMoney.profit}\` 💵` },
-					{ name: `:four: ${meth.name}`, value: `Kosten: \`${meth.price}\`\nUmsatz ohne Upgrades:  \`${meth.profit}\` 💵` },
-					{ name: `:five: ${cocaine.name}`, value: `Kosten: \`${cocaine.price}\`\nUmsatz ohne Upgrades:  \`${cocaine.profit}\` 💵` },
+					{ name: `:one: ${documents.name}`, value: `Kosten: \`${documents.price}\` 💵\nUmsatz ohne Upgrades:  \`${documents.profit}\` 💵` },
+					{ name: `:two: ${weed.name}`, value: `Kosten: \`${weed.price}\` 💵\nUmsatz ohne Upgrades:  \`${weed.profit}\` 💵` },
+					{ name: `:three: ${fakeMoney.name}`, value: `Kosten: \`${fakeMoney.price}\` 💵\nUmsatz ohne Upgrades:  \`${fakeMoney.profit}\` 💵` },
+					{ name: `:four: ${meth.name}`, value: `Kosten: \`${meth.price}\` 💵\nUmsatz ohne Upgrades:  \`${meth.profit}\` 💵` },
+					{ name: `:five: ${cocaine.name}`, value: `Kosten: \`${cocaine.price}\` 💵\nUmsatz ohne Upgrades:  \`${cocaine.profit}\` 💵` },
 				)
 				.setFooter('Bitte schreibe die jeweilige Zahl für das Upgrade das du kaufen willst oder cancel zum abbrechen.')
 				.setColor('#2f3136');
