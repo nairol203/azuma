@@ -29,7 +29,7 @@ module.exports = {
 				.setColor('#2f3136');
 			channel.send(embed);
 		}
-		if (d < 0.15) {
+		else if (d < 0.15) {
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Ware verkaufen')
 				.setDescription('Du warst beim Verkauf deiner Waren unaufmerksam und hast dich von den Cops erwischen lassen.')
