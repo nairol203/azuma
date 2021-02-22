@@ -131,6 +131,13 @@ module.exports = {
 			const company = await business.setCompany(guildId, userId);
 			const profit = await business.checkProfit(guildId, userId);
 
+			let up1 = getBusiness.upgrade1;
+			let up2 = getBusiness.upgrade2;
+			let up3 = getBusiness.upgrade3;
+
+			const upg1 = up1 ? true : false;
+			console.log(upg1)
+
 			const embed = new Discord.MessageEmbed()
 				.setTitle(`${author.username}'s ${getBusiness.type}`)
 				.addFields(
