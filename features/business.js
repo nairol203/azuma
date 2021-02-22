@@ -204,3 +204,22 @@ module.exports.getCooldown = async (name, guildId, userId) => {
 	);
 	return cooldown;
 };
+
+module.exports.setCooldown = async (name, guildId, userId) => {
+	const _id = name + '-' + guildId + '-' + userId;
+	await cooldownSchema.findOneAndUpdate(
+		{
+			_id,
+		},
+		{
+			_id,
+			name,
+			type: 'per-user',
+			cooldown: 28800,
+		},
+		{
+			upsert: true,
+			new: true,
+		},
+	);
+};
