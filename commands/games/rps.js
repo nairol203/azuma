@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -14,17 +15,23 @@ module.exports = {
 			if (coinsOwned < args[1]) return message.channel.send(`Du hast doch gar keine ${args[1]} Coins <:Susge:809947745342980106>`);
 
 			const filter = m => m.author.id === target.id;
-			message.channel.send(`${target}, du wurdest zu einer Runde Schere, Stein, Papier von ${message.author} mit ${args[1]} Coins Einsatz herausgefordert!\nSchreibe \`accept\` in den Chat um die Herausforderung anzunehmen!`).then(() => {
+
+			const embed = new Discord.MessageEmbed()
+				.setTitle('Schere, Stein, Papier')
+				.setDescription(`${target}, du wurdest zu einem Spiel herausgefordert!\nTippe \`accept\` um teilzunehmen!`)
+				.addField('Einsatz', `\`${args[1]}\` 💵`)
+				.setFooter('Nach 30 Sekunden verfällt die Herausforderung');
+			message.channel.send(embed).then(() => {
 				message.channel.awaitMessages(filter, {
 					max: 1,
-					time: 15000,
+					time: 30000,
 					errors: ['time'],
 				})
 					.then(async message => {
 						message = message.first();
 						if (message.content.toLowerCase() == 'accept') {
 							const targetCoins = await economy.getCoins(guildId, target.id);
-							if (targetCoins < args[1]) return message.channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} Coins hast <:Susge:809947745342980106>`);
+							if (targetCoins < args[1]) return message.channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} 💵 hast!`);
 
 							message.channel.send('Ich werde euch nacheinander per DM fragen, was ihr nimmt! Anwortet bitte jeweils innerhalb von 15 Sekunden!');
 
@@ -43,61 +50,130 @@ module.exports = {
 							});
 
 							if(collected.first().content.toLowerCase() === 'stein') {
-								if(collected1.first().content.toLowerCase() === 'stein') return message.channel.send('Ihr habt beide Stein genommen! Unendschieden!');
+								const embed = new Discord.MessageEmbed()
+									.setTitle('Schere, Stein, Papier')
+									.setDescription('Ihr habt beide Stein genommen!')
+									.addFields(
+										{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+										{ name: 'Gewinner', value: 'keiner' },
+									);
+								if(collected1.first().content.toLowerCase() === 'stein') return message.channel.send(embed);
 								if(collected1.first().content.toLowerCase() === 'schere') {
 									await economy.addCoins(guildId, test.id, args[1]);
 									await economy.addCoins(guildId, target.id, args[1] * -1);
-									message.channel.send(`${test} hat Stein genommen und ${target} Schere!\nDamit gewinnt ${test}!\n\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
+
+									const embed = new Discord.MessageEmbed()
+										.setTitle('Schere, Stein, Papier')
+										.setDescription(`${test} hat Stein genommen und ${target} Schere!`)
+										.addFields(
+											{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+											{ name: 'Gewinner', value: `${test}` },
+										);
+									message.channel.send(embed);
 								}
 								if(collected1.first().content.toLowerCase() === 'papier') {
 									await economy.addCoins(guildId, test.id, args[1] * -1);
 									await economy.addCoins(guildId, target.id, args[1]);
-									message.channel.send(`${test} hat Stein genommen und ${target} Papier!\nDamit gewinnt ${target}}!\n\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
+
+									const embed = new Discord.MessageEmbed()
+										.setTitle('Schere, Stein, Papier')
+										.setDescription(`${test} hat Stein genommen und ${target} Papier!`)
+										.addFields(
+											{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+											{ name: 'Gewinner', value: `${target}` },
+										);
+									message.channel.send(embed);
 								}
 							}
 							if(collected.first().content.toLowerCase() === 'schere') {
-								if(collected1.first().content.toLowerCase() === 'schere') return message.channel.send('Ihr habt beide Schere genommen! Unendschieden!');
+								const embed = new Discord.MessageEmbed()
+									.setTitle('Schere, Stein, Papier')
+									.setDescription('Ihr habt beide Schere genommen!')
+									.addFields(
+										{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+										{ name: 'Gewinner', value: 'keiner' },
+									);
+								if(collected1.first().content.toLowerCase() === 'schere') return message.channel.send(embed);
 								if(collected1.first().content.toLowerCase() === 'papier') {
 									await economy.addCoins(guildId, test.id, args[1]);
 									await economy.addCoins(guildId, target.id, args[1] * -1);
-									message.channel.send(`${test} hat Schere genommen und ${target} Papier!\nDamit gewinnt ${test}!\n\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
+
+									const embed = new Discord.MessageEmbed()
+										.setTitle('Schere, Stein, Papier')
+										.setDescription(`${test} hat Schere genommen und ${target} Papier!`)
+										.addFields(
+											{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+											{ name: 'Gewinner', value: `${test}` },
+										);
+									message.channel.send(embed);
 								}
 								if(collected1.first().content.toLowerCase() === 'stein') {
 									await economy.addCoins(guildId, test.id, args[1] * -1);
 									await economy.addCoins(guildId, target.id, args[1]);
-									message.channel.send(`${test} hat Schere genommen und ${target} Stein!\nDamit gewinnt ${target}!\n\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
+
+									const embed = new Discord.MessageEmbed()
+										.setTitle('Schere, Stein, Papier')
+										.setDescription(`${test} hat Schere genommen und ${target} Stein!`)
+										.addFields(
+											{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+											{ name: 'Gewinner', value: `${target}` },
+										);
+									message.channel.send(embed);
 								}
 							}
 							if(collected.first().content.toLowerCase() === 'papier') {
-								if(collected1.first().content.toLowerCase() === 'papier') return message.channel.send('Ihr habt beide Papier genommen! Unendschieden!');
+								const embed = new Discord.MessageEmbed()
+									.setTitle('Schere, Stein, Papier')
+									.setDescription('Ihr habt beide Papier genommen!')
+									.addFields(
+										{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+										{ name: 'Gewinner', value: 'keiner' },
+									);
+								if(collected1.first().content.toLowerCase() === 'papier') return message.channel.send(embed);
 								if(collected1.first().content.toLowerCase() === 'stein') {
 									await economy.addCoins(guildId, test.id, args[1]);
 									await economy.addCoins(guildId, target.id, args[1] * -1);
-									message.channel.send(`${test} hat Papier genommen und ${target} Stein!\nDamit gewinnt ${test}!\n\n${test} + ${args[1]} Coins\n${target} - ${args[1]} Coins`);
+
+									const embed = new Discord.MessageEmbed()
+										.setTitle('Schere, Stein, Papier')
+										.setDescription(`${test} hat Papier genommen und ${target} Stein!`)
+										.addFields(
+											{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+											{ name: 'Gewinner', value: `${test}` },
+										);
+									message.channel.send(embed);
 								}
 								if(collected1.first().content.toLowerCase() === 'schere') {
 									await economy.addCoins(guildId, test.id, args[1] * -1);
 									await economy.addCoins(guildId, target.id, args[1]);
-									message.channel.send(`${test} hat Papier genommen und ${target} Schere!\nDamit gewinnt ${target}}!\n\n${target} + ${args[1]} Coins\n${test} - ${args[1]} Coins`);
+
+									const embed = new Discord.MessageEmbed()
+										.setTitle('Schere, Stein, Papier')
+										.setDescription(`${test} hat Papier genommen und ${target} Schere!`)
+										.addFields(
+											{ name: 'Einsatz', value: `\`${args[1]}\` 💵` },
+											{ name: 'Gewinner', value: `${target}` },
+										);
+									message.channel.send(embed);
 								}
 							}
 						}
 						else {
-							message.channel.send('Du hast nicht `accept` geschrieben!');
+							message.channel.send('<:no:767394810909949983> | Du hast nicht `accept` geschrieben!');
 						}
 					})
 					.catch(collected => {
-						message.channel.send('Timeout! Bitte anwortet immer innerhalb von 15 Sekunden!');
+						message.channel.send('<:no:767394810909949983> | Timeout! Bitte anwortet immer innerhalb von 15 Sekunden!');
 					});
 			});
 			return;
 		}
 
-		if (!args.length) return message.channel.send('Lass uns doch um etwas Geld spielen! `!rps <coins>`');
+		if (!args.length) return message.channel.send('<:no:767394810909949983> | Lass uns doch um etwas Geld spielen! `!rps <coins>`');
 
-		if ((isNaN(args[0])) || args[0] < 1) return message.channel.send('Bitte setze einen gültigen Betrag!');
+		if ((isNaN(args[0])) || args[0] < 1) return message.channel.send('<:no:767394810909949983> | Bitte setze einen gültigen Betrag!');
 		const coinsOwned = await economy.getCoins(message.author.id);
-		if (coinsOwned < args[0]) return message.channel.send(`Du hast doch gar keine ${args[0]} Coins <:Susge:809947745342980106>`);
+		if (coinsOwned < args[0]) return message.channel.send(`<:no:767394810909949983> | Du hast doch gar keine ${args[0]} Coins <:Susge:809947745342980106>`);
 
 		const acceptedReplies = ['Schere', 'Stein', 'Papier'];
 		const random = Math.floor((Math.random() * acceptedReplies.length));
