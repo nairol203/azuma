@@ -17,6 +17,6 @@ module.exports = {
 		/* const embed = new Discord.MessageEmbed()
 			.setColor('#f77600')
 			.addField(`💵  |  **${message.author.username}**,`, `${target} hat aktuell **${coins}** Credits.`);*/
-		message.channel.send(`💵  |  **${target.username}**, du hast aktuell **${coins}** Credits.`);
+		message.channel.send(`💵  |  **${target.username}**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(coins)}** Credits.`);
 	},
 };
