@@ -6,7 +6,7 @@ module.exports = {
 	maxArgs: 1,
 	expectedArgs: '<user>',
 	callback: async ({ message }) => {
-		const target = /* message.mentions.users.first() || */message.author;
+		const target = message.mentions.users.first() || message.author;
 		if (target.bot) return;
 
 		const guildId = message.guild.id;
@@ -17,6 +17,6 @@ module.exports = {
 		/* const embed = new Discord.MessageEmbed()
 			.setColor('#f77600')
 			.addField(`💵  |  **${message.author.username}**,`, `${target} hat aktuell **${coins}** Credits.`);*/
-		message.channel.send(`💵  |  **${message.author.username}**, du hast aktuell **${coins}** Credits.`);
+		message.channel.send(`💵  |  **${target.username}**, du hast aktuell **${coins}** Credits.`);
 	},
 };
