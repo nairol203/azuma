@@ -6,7 +6,7 @@ module.exports = {
 	maxArgs: 1,
 	expectedArgs: '<user>',
 	callback: async ({ message }) => {
-		const target = message.mentions.users.first() || message.author;
+		const target = /* message.mentions.users.first() || */message.author;
 		if (target.bot) return;
 
 		const guildId = message.guild.id;
