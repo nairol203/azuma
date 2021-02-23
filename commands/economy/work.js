@@ -14,7 +14,7 @@ module.exports = {
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
 		const d = Math.random();
-		if (d > 0.15) {
+		if (d > 0.10) {
 			await economy.addCoins(guildId, userId, profit);
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Verkauf erfolgreich')
@@ -24,11 +24,20 @@ module.exports = {
 				.setColor('#2f3136');
 			channel.send(embed);
 		}
-		else if (d < 0.15) {
+		else if (d < 0.10 & d > 0.1) {
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Verkauf gescheitert')
 				.setDescription('Du warst beim Verkauf deiner Waren unaufmerksam und hast dich von den Cops erwischen lassen.')
 				.addField('Umsatz', '`0` 💵')
+				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
+				.setColor('#2f3136');
+			channel.send(embed);
+		}
+		else if (d < 0.1) {
+			const embed = new Discord.MessageEmbed()
+				.setTitle('Verkauf gescheitert')
+				.setDescription('Du hast leider eine toxic RL-Lobby erwischt und wurdest von einem Noobbike weggesprengt')
+				.addField('Umsatz', '`-10.000` 💵')
 				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
 				.setColor('#2f3136');
 			channel.send(embed);
