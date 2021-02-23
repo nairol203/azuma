@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const economy = require('../../features/economy');
 const fishing = require('../../features/fishing');
 const fishingInv = require('../../features/fishing-inv');
+const rarefish = require('../../features/rarefish');
 
 const cooldowns = new Set();
 
@@ -35,20 +36,12 @@ module.exports = {
 				const mess2 = ' gefangen! Du hast **10** 💵 bezahlt.';
 
 				if (d < 0.45 & d > 0.1015) {
-					/* const embed = new Discord.MessageEmbed()
-						.setColor('#00b8ff')
-						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, 'du hast einen 🐟 gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.');
-					message.channel.send(embed); */
 					message.channel.send(mess1 + '🐟' + mess2);
 					const common = 1;
 					const allCommon = await fishing.addCommon(userId, common);
 					const invCommon = await fishingInv.addCommon(userId, common);
 				}
 				else if (d < 0.1015 & d > 0.0015) {
-					/* const embed = new Discord.MessageEmbed()
-						.setColor('#00b8ff')
-						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, 'du hast einen 🐠 gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.');
-					message.channel.send(embed); */
 					message.channel.send(mess1 + '🐠' + mess2);
 					const uncommon = 1;
 					const allUncommon = await fishing.addUncommon(userId, uncommon);
@@ -58,10 +51,6 @@ module.exports = {
 					const rare1 = [
 						'🐧', '🐢', '🐙', '🦑', '🦐', '🦀', '🐡', '🐬', '🐳', '🐋', '🦈', '🐊'];
 					const randomMessage = rare1[Math.floor(Math.random() * rare1.length)];
-					/* const embed = new Discord.MessageEmbed()
-						.setColor('#00b8ff')
-						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, `du hast einen ${randomMessage} gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.`);
-					message.channel.send(embed); */
 					message.channel.send(mess1 + randomMessage + mess2);
 					message.reply('du hast einen Rare geangelt! Glückwunsch 🎉');
 					const rare = 1;
@@ -72,10 +61,6 @@ module.exports = {
 					const garbage1 = [
 						'🛒', '🔋', '🔧', '👞' ];
 					const randomMessage = garbage1[Math.floor(Math.random() * garbage1.length)];
-					/* const embed = new Discord.MessageEmbed()
-						.setColor('#00b8ff')
-						.addField(`:fishing_pole_and_fish:  **|**  **${author.username}**,`, `du hast einen ${randomMessage} gefangen!\nDu hast **10**<a:Coin:795346652599812147> bezahlt.`);
-					message.channel.send(embed); */
 					message.channel.send(mess1 + randomMessage + mess2);
 					const garbage = 1;
 					const allGarbage = await fishing.addGarbage(userId, garbage);
@@ -155,10 +140,90 @@ module.exports = {
 			return message.channel.send(embed);
 		}
 		else if (args[0] === 'rarefish') {
-			return message.channel.send('WIP - Coming soon');
+			const userId = message.author.id;
+			const result = await rarefish.resultRarefish(userId);
+			return message.channel.send(`:fishing_pole_and_fish:  |  ${message.author.username}'s Sammlung:\n${result}`);
 		}
 		else if (args[0] === 'redeem') {
-			return message.channel.send('WIP - Coming soon');
+			const guildId = message.guild.id;
+			const userId = message.author.id;
+			const result = await rarefish.check(userId);
+			if (result === null) return message.channel.send('Du besitzt keine seltenen Fische!');
+			if (!args[1]) return message.channel.send('Versuche es so: `!fish redeem <rare>`');
+			const arg = await rarefish.checkArg(args[1]);
+			const rare = await rarefish.check(userId);
+			if (arg === 'penguin') {
+				if (rare.penguin === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemPenguin(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.penguin} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'turtle') {
+				if (rare.turtle === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemTurtle(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.turtle} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'octopus') {
+				if (rare.octopus === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemOctopus(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.octopus} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'squid') {
+				if (rare.squid === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemSquid(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.squid} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'shrimp') {
+				if (rare.shrimp === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemShrimp(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.shrimp} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'crab') {
+				if (rare.crab === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemCrab(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.crab} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'blowfish') {
+				if (rare.blowfish === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemBlowfish(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.blowfish} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'dolphin') {
+				if (rare.dolphin === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemDolphin(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.dolphin} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'whale') {
+				if (rare.whale === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemWhale(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.whale} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'whale2') {
+				if (rare.whale2 === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemWhale2(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.whale2} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'shark') {
+				if (rare.shark === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemShark(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.shark} **1250** 💵 bekommen!`);
+			}
+			if (arg === 'crocodile') {
+				if (rare.crocodile === false) return message.channel.send('Du besitzt diesen seltenen Fisch nicht!');
+				await rarefish.redeemCrocodile(userId);
+				await economy.addCoins(guildId, userId, 1250);
+				message.channel.send(`Du hast für deinen ${rarefish.collection.crocodile} **1250** 💵 bekommen!`);
+			}
 		}
 		else if ((args[0] === 'rollen') || (args[0] === 'roles')) {
 			const embed = new Discord.MessageEmbed()

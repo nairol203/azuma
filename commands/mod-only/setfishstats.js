@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const fishing = require('../../features/fishing');
 
 module.exports = {
+	aliases: ['deploy'],
 	minArgs: 5,
 	maxArgs: 5,
 	expectedArgs: '<member> <common> <uncommon> <rare> <garbage>',
