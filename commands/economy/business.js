@@ -83,7 +83,6 @@ module.exports = {
 						}
 						await business.buyBusiness(guildId, userId, company.name);
 						await economy.addCoins(guildId, userId, company.price * -1);
-						await business.setCooldown('work', guildId, userId);
 						return channel.send(`Du hast eine ${company.name} gekauft! Du hast \`${format(company.price)} \` 💵 bezahlt.`);
 					})
 					.catch(collected => {
