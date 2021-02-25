@@ -3,7 +3,7 @@ module.exports = {
 	callback: ({ client, args }) => {
 		const arg = args.join(' ');
 		client.user.setActivity('with depression', {
-			type: 'SPIELT',
+			type: 'LISTINING',
 			url: arg,
 		});
 	},
