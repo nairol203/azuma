@@ -2,8 +2,6 @@ const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
-	minArgs: 2,
-	maxArgs: 2,
 	expectedArgs: '<user> <credits>',
 	callback: async ({ message, args, instance }) => {
 		const { guild, member } = message;
@@ -11,14 +9,14 @@ module.exports = {
 
 		const target = message.mentions.users.first();
 		if (!target) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <credits>\``);
+			message.channel.send(`<:no:767394810909949983> Ungültiger Befeh1l, versuche es so: \`${prefix}pay <user> <credits>\``);
 			return;
 		}
 		if (target.bot) return;
 
 		const coinsToGive = args[1];
-		if ((isNaN(args[0])) || args[0] < 1) {
-			message.channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}pay <user> <credits>\``);
+		if ((isNaN(args[1])) || args[1] < 1) {
+			message.channel.send(`<:no:767394810909949983> Ungültiger Befe2hl, versuche es so: \`${prefix}pay <user> <credits>\``);
 			return;
 		}
 
