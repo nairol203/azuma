@@ -1,10 +1,8 @@
 module.exports = {
 	ownerOnly: true,
 	callback: ({ client, args }) => {
-		const arg = args.join(' ');
-		client.user.setActivity('with depression', {
-			type: 'LISTINING',
-			url: arg,
-		});
+		const argument = args.join(' ');
+		const arg = argument.toString().replace(args[1], '');
+		client.user.setActivity(arg, { type: args[1] });
 	},
 };
