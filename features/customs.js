@@ -32,7 +32,6 @@ module.exports = client => {
 			return channelName2;
 		}
 
-
 		if (mainChannelId === newState.channelID) {
 			mainChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: false });
 
@@ -97,6 +96,32 @@ module.exports = client => {
 				.setColor('#b8ff00')
 				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
 			customsTextChannel.send(embed).then((msg) => msg.pin());
+
+			const jukeboxEmbed = new Discord.MessageEmbed()
+				.setTitle('[DEMO] Jukebox')
+				.setDescription(`
+Du kannst dir deine Lieblingssong abspeichern 
+und diese dann per Shortcut abspielen!
+
+\`!jukebox save <song>\` - Speichere einen Song ab
+\`!jukebox delete <number>\` - Lösche einen Song
+					
+Deine gespeichterten Songs:
+:one: NO HUGS - Ufo361
+:two: 7 million ways - Rass Limit
+:three: Ohne dich - KASIMIR1441
+:four: WINGS - Ufo361
+:five: Hilf mir - Edo Saiya`)
+				.setFooter('Du kannst maximal fünf Songs abspeichern!')
+				.setColor('#f77600');
+			customsTextChannel.send(jukeboxEmbed).then(async (msg) => {
+				await msg.react('1️⃣');
+				await msg.react('2️⃣');
+				await msg.react('3️⃣');
+				await msg.react('4️⃣');
+				await msg.react('5️⃣');
+			});
+
 
 			const userId = newState.id;
 			const channelId = customsVoiceChannel.id;
