@@ -24,7 +24,7 @@ module.exports = {
 				.setColor('#2f3136');
 			channel.send(embed);
 		}
-		else if (d < 0.10 & d > 0.1) {
+		else if (d < 0.10 & d > 0.01) {
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Verkauf gescheitert')
 				.setDescription('Du warst beim Verkauf deiner Waren unaufmerksam und hast dich von den Cops erwischen lassen.')
@@ -33,7 +33,7 @@ module.exports = {
 				.setColor('#2f3136');
 			channel.send(embed);
 		}
-		else if (d < 0.1) {
+		else if (d < 0.01) {
 			const embed = new Discord.MessageEmbed()
 				.setTitle('Verkauf gescheitert')
 				.setDescription('Du hast leider eine toxic RL-Lobby erwischt und wurdest von einem Noobbike weggesprengt')
