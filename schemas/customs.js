@@ -16,6 +16,11 @@ const customs = mongoose.Schema({
 	channelName: opString,
 	channelLimit: opString,
 	textChannelId: opString,
+	args1: opString,
+	args2: opString,
+	args3: opString,
+	args4: opString,
+	args5: opString,
 });
 
 module.exports = mongoose.model('customs', customs);
