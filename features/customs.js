@@ -105,7 +105,7 @@ und diese dann per Shortcut abspielen!
 
 \`!jukebox save <song>\` - Speichere einen Song ab
 \`!jukebox delete <number>\` - Lösche einen Song
-					
+
 Deine gespeichterten Songs:
 :one: NO HUGS - Ufo361
 :two: 7 million ways - Rass Limit
@@ -122,12 +122,11 @@ Deine gespeichterten Songs:
 				await msg.react('5️⃣');
 			});
 
-
 			const userId = newState.id;
 			const channelId = customsVoiceChannel.id;
 			const textChannelId = customsTextChannel.id;
 
-			const uploadVoiceChannel = await customs.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},

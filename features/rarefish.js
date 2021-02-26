@@ -58,17 +58,17 @@ module.exports.resultRarefish = async (userId) => {
 	if (rarefish === null) return nullResult;
 
 	if (rarefish.penguin === true) result = collection.penguin;
-	if (rarefish.turtle === true) result = result + ', ' + collection.turtle;
-	if (rarefish.octopus === true) result = result + ', ' + collection.octopus;
-	if (rarefish.squid === true) result = result + ', ' + collection.squid;
-	if (rarefish.shrimp === true) result = result + ', ' + collection.shrimp;
-	if (rarefish.crab === true) result = result + ', ' + collection.crab;
-	if (rarefish.blowfish === true) result = result + ', ' + collection.blowfish;
-	if (rarefish.dolphin === true) result = result + ', ' + collection.dolphin;
-	if (rarefish.whale === true) result = result + ', ' + collection.whale;
-	if (rarefish.whale2 === true) result = result + ', ' + collection.whale2;
-	if (rarefish.shark === true) result = result + ', ' + collection.shark;
-	if (rarefish.crocodile === true) result = result + ', ' + collection.crocodile;
+	if (rarefish.turtle === true) result = result + collection.turtle;
+	if (rarefish.octopus === true) result = result + collection.octopus;
+	if (rarefish.squid === true) result = result + collection.squid;
+	if (rarefish.shrimp === true) result = result + collection.shrimp;
+	if (rarefish.crab === true) result = result + collection.crab;
+	if (rarefish.blowfish === true) result = result + collection.blowfish;
+	if (rarefish.dolphin === true) result = result + collection.dolphin;
+	if (rarefish.whale === true) result = result + collection.whale;
+	if (rarefish.whale2 === true) result = result + collection.whale2;
+	if (rarefish.shark === true) result = result + collection.shark;
+	if (rarefish.crocodile === true) result = result + collection.crocodile;
 
 	return result;
 };

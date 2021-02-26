@@ -6,13 +6,9 @@ const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 const queue = new Map();
 
 module.exports = {
-	callback: async ({ message, instance }) => {
-		const prefix = instance.getPrefix(message.guild);
-
-		const args = message.content.substring(prefix.length).split(' ');
+	callback: async ({ message, args }) => {
 		const searchString = args.slice(1).join(' ');
 		const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
-
 		const voiceChannel = message.member.voice.channel;
 		if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
 		const permissons = voiceChannel.permissionsFor(message.client.user);
@@ -24,7 +20,7 @@ module.exports = {
 			const videos = await playList.getVideos();
 			for (const video of Object.values(videos)) {
 				const video2 = await youtube.getVideoByID(video.id);
-				await handleVideo(video2, message, voiceChannel, true);
+				await this.handleVideo(video2, message, voiceChannel, true);
 			}
 			message.channel.send(`Playlist **${playList.title}** wurde zur Queue hinzugefügt.`);
 			return undefined;
@@ -42,12 +38,12 @@ module.exports = {
 					return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
 				}
 			}
-			return handleVideo(video, message, voiceChannel);
+			return this.handleVideo(video, message, voiceChannel);
 		}
 	},
 };
 
-async function handleVideo(video, message, voiceChannel, playList = false) {
+module.exports.handleVideo = async (video, message, voiceChannel, playList = false) => {
 	const serverQueue = queue.get(message.guild.id);
 
 	const duration = toSecond(Number(video.durationSeconds));
@@ -91,7 +87,7 @@ async function handleVideo(video, message, voiceChannel, playList = false) {
 		return message.channel.send(`\`${song.title}\` - \`${song.duration}\` wurde zur Queue hinzugefügt`);
 	}
 	return undefined;
-}
+};
 function play(guild, song) {
 	const serverQueue = queue.get(guild.id);
 
@@ -116,8 +112,6 @@ module.exports.serverQueue = (message) => {
 	const serverQueue = queue.get(message.guild.id);
 	return serverQueue;
 };
-
-module.exports.handleVideo = handleVideo;
 
 const formatInt = int => {
 	if (int < 10) return `0${int}`;
@@ -157,6 +151,5 @@ function toSecond(string) {
 		}
 	}
 	else {s = parseInt(string, 10);}
-	// eslint-disable-next-line no-mixed-operators
 	return h * 60 * 60 + m * 60 + s;
 }

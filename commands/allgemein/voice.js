@@ -1,4 +1,3 @@
-const customsMain = require('../../schemas/customs-main');
 const customs = require('../../schemas/customs');
 
 module.exports = {
@@ -9,16 +8,9 @@ module.exports = {
 		const channelId = voiceChannel.id;
 
 		if(args[0] === 'setup') {
-			const customChannel = await guild.channels.create('Customs', {
+			await guild.channels.create('Customs', {
 				type: 'voice',
 			});
-			const channelId = customChannel.id;
-			const uploadChannel = await customsMain.insertMany(
-				{
-					channelId,
-				},
-			);
-			return;
 		}
 
 		const result = await customs.findOne({
