@@ -1,4 +1,4 @@
-const muteSchema = require('../schemas/mute-schema');
+const muteSchema = require('../models/mute-schema');
 module.exports = (client) => {
 	const checkMutes = async () => {
 		const now = new Date();

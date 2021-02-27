@@ -1,4 +1,4 @@
-const muteSchema = require('../../../schemas/mute-schema');
+const muteSchema = require('../../../models/mute-schema');
 
 module.exports = {
 	minArgs: 1,

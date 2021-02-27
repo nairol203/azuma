@@ -1,4 +1,4 @@
-const rarefishSchema = require('../schemas/rarefish');
+const rarefishSchema = require('../models/rarefish');
 
 const collection = {
 	penguin: '🐧',

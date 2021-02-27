@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const textChannelSchema = require('../../schemas/textchannel-schema');
+const textChannelSchema = require('../../models/textchannel-schema');
 
 const cooldowns = new Set();
 

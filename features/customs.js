@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const customs = require('../schemas/customs');
+const customs = require('../models/customs');
 
 const parentId = '810764515582672917';
 const mainChannelId = '810768943736160276';

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const Levels = require('../../features/levels');
-const profileSchema = require('../../schemas/profile-schema');
+const profileSchema = require('../../models/profile-schema');
 const Canvacord = require('canvacord');
 
 module.exports = {

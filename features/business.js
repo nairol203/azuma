@@ -1,4 +1,4 @@
-const businessSchema = require('../schemas/business');
+const businessSchema = require('../models/business');
 const cooldownSchema = require('../node_modules/wokcommands/dist/models/cooldown');
 
 const upgrades = {

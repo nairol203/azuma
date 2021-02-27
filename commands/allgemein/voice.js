@@ -1,4 +1,4 @@
-const customs = require('../../schemas/customs');
+const customs = require('../../models/customs');
 
 module.exports = {
 	callback: async ({ client, message, args }) => {

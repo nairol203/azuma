@@ -1,7 +1,7 @@
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
-const music = require('../commands/musik/play');
-const customs = require('../schemas/customs');
+const music = require('../commands/music/play');
+const customs = require('../models/customs');
 
 async function play(message, args, voiceChannel) {
 	const searchString = args.slice(1).join(' ');
