@@ -86,12 +86,12 @@ module.exports = client => {
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
 				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein:')
 				.addFields(
-					{ name: 'Abschließen:', value: '`!voice lock`', inline: true },
-					{ name: 'Aufschließen:', value: '`!voice unlock`', inline: true },
-					{ name: 'Das Türschild ändern:', value: '`!voice name <name>`', inline: true },
-					{ name: 'Personen einen Zweitschlüssel geben:', value: '`!voice permit <username>`', inline: false },
-					{ name: 'Personen den Zweitschlüssel nehmen:', value: '`!voice reject <username>`', inline: false },
-					{ name: 'Ein Personenlimit einstellen:', value: '`!voice limit <number>`', inline: false },
+					{ name: 'Abschließen:', value: '`!lock`', inline: true },
+					{ name: 'Aufschließen:', value: '`!unlock`', inline: true },
+					{ name: 'Das Türschild ändern:', value: '`!name <name>`', inline: true },
+					{ name: 'Personen einen Zweitschlüssel geben:', value: '`!permit <username>`', inline: false },
+					{ name: 'Personen den Zweitschlüssel nehmen:', value: '`!reject <username>`', inline: false },
+					{ name: 'Ein Personenlimit einstellen:', value: '`!limit <number>`', inline: false },
 				)
 				.setColor('#b8ff00')
 				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
@@ -114,8 +114,8 @@ module.exports = client => {
 Du kannst dir deine Lieblingssong abspeichern 
 und diese dann per Shortcut abspielen!
 
-\`!jukebox save <number> <song>\` - Speichere einen Song ab
-\`!jukebox delete <number>\` - Lösche einen Song
+\`!save <number> <song>\` - Speichere einen Song ab
+\`!delete <number>\` - Lösche einen Song
 
 Deine gespeichterten Songs:
 :one: ${args1}
