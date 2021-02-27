@@ -4,7 +4,7 @@ const music = require('../commands/music/play');
 const customs = require('../models/customs');
 
 async function play(message, args, voiceChannel) {
-	const searchString = args.slice(1).join(' ');
+	const searchString = args;
 	const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
 	try {
 		var video = await youtube.getVideoByID(url);
@@ -25,33 +25,36 @@ module.exports = (client) => {
 	client.on('messageReactionAdd', async (reaction, user) => {
 		const { _emoji, message } = reaction;
 		if (user.bot == true) return;
-		const userId = user.id;
-		const customsChannel = await customs.findOne({
-			userId,
-		});
-		if (customsChannel == null) return;
-		if (message.channel.id != customsChannel.textChannelId) return;
+		const textChannelId = message.channel.id;
+		const data = await customs.findOne({ textChannelId });
+		if (!data) return;
+		if (message.channel.id != data.textChannelId) return;
 		const guild = client.guilds.cache.get('255741114273759232');
-		const voiceChannel = guild.channels.cache.get(customsChannel.channelId);
+		const voiceChannel = guild.channels.cache.get(data.channelId);
 		reaction.users.remove(user.id);
 		if (_emoji.name == '1️⃣') {
-			const args = [ 'NO', 'HUGS', 'Ufo361' ];
+			const args = await data.args1;
+			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '2️⃣') {
-			const args = [ '7', 'million', 'ways', 'Rass', 'Limit' ];
+			const args = await data.args2;
+			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '3️⃣') {
-			const args = [ 'Ohne', 'dich', 'KASIMIR' ];
+			const args = await data.args3;
+			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '4️⃣') {
-			const args = [ 'WINGS', 'Ufo361' ];
+			const args = await data.args4;
+			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '5️⃣') {
-			const args = [ 'Hilf', 'mir', 'Edo', 'Saiya' ];
+			const args = await data.args5;
+			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 	});

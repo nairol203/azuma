@@ -97,21 +97,32 @@ module.exports = client => {
 				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
 			customsTextChannel.send(embed).then((msg) => msg.pin());
 
+			let args1 = searchChannel.args1;
+			if (!args1) args1 = '/';
+			let args2 = searchChannel.args2;
+			if (!args2) args2 = '/';
+			let args3 = searchChannel.args3;
+			if (!args3) args3 = '/';
+			let args4 = searchChannel.args4;
+			if (!args4) args4 = '/';
+			let args5 = searchChannel.args5;
+			if (!args5) args5 = '/';
+
 			const jukeboxEmbed = new Discord.MessageEmbed()
-				.setTitle('[DEMO] Jukebox')
+				.setTitle('[BETA] Jukebox')
 				.setDescription(`
 Du kannst dir deine Lieblingssong abspeichern 
 und diese dann per Shortcut abspielen!
 
-\`!jukebox save <song>\` - Speichere einen Song ab
+\`!jukebox save <number> <song>\` - Speichere einen Song ab
 \`!jukebox delete <number>\` - Lösche einen Song
 
 Deine gespeichterten Songs:
-:one: NO HUGS - Ufo361
-:two: 7 million ways - Rass Limit
-:three: Ohne dich - KASIMIR1441
-:four: WINGS - Ufo361
-:five: Hilf mir - Edo Saiya`)
+:one: ${args1}
+:two: ${args2}
+:three: ${args3}
+:four: ${args4}
+:five: ${args5}`)
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			customsTextChannel.send(jukeboxEmbed).then(async (msg) => {
