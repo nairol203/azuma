@@ -20,7 +20,7 @@ module.exports = {
 			const videos = await playList.getVideos();
 			for (const video of Object.values(videos)) {
 				const video2 = await youtube.getVideoByID(video.id);
-				await this.handleVideo(video2, message, voiceChannel, true);
+				await handleVideo(video2, message, voiceChannel, true);
 			}
 			message.channel.send(`Playlist **${playList.title}** wurde zur Queue hinzugefügt.`);
 			return undefined;
@@ -38,12 +38,12 @@ module.exports = {
 					return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
 				}
 			}
-			return this.handleVideo(video, message, voiceChannel);
+			return handleVideo(video, message, voiceChannel);
 		}
 	},
 };
 
-module.exports.handleVideo = async (video, message, voiceChannel, playList = false) => {
+async function handleVideo(video, message, voiceChannel, playList = false) {
 	const serverQueue = queue.get(message.guild.id);
 
 	const duration = toSecond(Number(video.durationSeconds));
@@ -87,7 +87,7 @@ module.exports.handleVideo = async (video, message, voiceChannel, playList = fal
 		return message.channel.send(`\`${song.title}\` - \`${song.duration}\` wurde zur Queue hinzugefügt`);
 	}
 	return undefined;
-};
+}
 function play(guild, song) {
 	const serverQueue = queue.get(guild.id);
 
@@ -107,7 +107,7 @@ function play(guild, song) {
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 	serverQueue.textChannel.send(`:notes: | \`${serverQueue.songs[0].title}\` - \`${serverQueue.songs[0].duration}\` wird gespielt...`);
 }
-
+module.exports.handleVideo = handleVideo;
 module.exports.serverQueue = (message) => {
 	const serverQueue = queue.get(message.guild.id);
 	return serverQueue;
