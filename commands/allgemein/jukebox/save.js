@@ -1,17 +1,17 @@
-const customsSchema = require('../../../models/customs');
+const customs = require('../../../models/customs');
 
 module.exports = {
 	callback: async ({ message, args }) => {
 		const { author, channel } = message;
 		const song = args.join(' ');
 		const userId = author.id;
-		const data = await customsSchema.findOne({ userId });
+		const data = await customs.findOne({ userId });
 		if (data.userId != userId) return;
 		if (!data) return;
 		if (data.textChannelId != channel.id) return;
 		if (args[0] === '1') {
 			const args1 = song.toString().replace('1 ', '');
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -24,7 +24,7 @@ module.exports = {
 		}
 		else if (args[0] === '2') {
 			const args2 = song.toString().replace('2 ', '');
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -37,7 +37,7 @@ module.exports = {
 		}
 		else if (args[0] === '3') {
 			const args3 = song.toString().replace('3 ', '');
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -50,7 +50,7 @@ module.exports = {
 		}
 		else if (args[0] === '4') {
 			const args4 = song.toString().replace('4 ', '');
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -63,7 +63,7 @@ module.exports = {
 		}
 		else if (args[0] === '5') {
 			const args5 = song.toString().replace('5 ', '');
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},

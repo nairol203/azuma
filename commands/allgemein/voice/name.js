@@ -6,16 +6,9 @@ module.exports = {
 		const voiceChannel = message.member.voice.channel;
 		const userId = author.id;
 		const channelId = voiceChannel.id;
-
-		const result = await customs.findOne({
-			userId,
-			channelId,
-		});
-
-		if(!result) {
-			message.delete();
-			return message.reply('du hast dieses Zimmer nicht gebucht und kannst deswegen den Zimmerservice nicht in Anspruch nehmen.').then(msg => {msg.delete({ timeout: 5000 }); });
-		}
+		const result = await customs.findOne({ userId });
+		if (!result) return message.delete();
+		if (result.textChannelId != channel.id) return message.delete();
 
 		message.delete();
 		const name = args.join(' ');

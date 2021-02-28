@@ -1,10 +1,10 @@
-const customsSchema = require('../../../models/customs');
+const customs = require('../../../models/customs');
 
 module.exports = {
 	callback: async ({ message, args }) => {
 		const { author, channel } = message;
 		const userId = author.id;
-		const data = await customsSchema.findOne({ userId });
+		const data = await customs.findOne({ userId });
 		if (data.userId != userId) return;
 		if (!data) return;
 		if (data.textChannelId != channel.id) return;
@@ -16,7 +16,7 @@ module.exports = {
 		const args5 = undefined;
 
 		if (args[0] === '1') {
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -28,7 +28,7 @@ module.exports = {
 			channel.send('Du hast den ersten Slot zurückgesetzt!');
 		}
 		else if (args[0] === '2') {
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -40,7 +40,7 @@ module.exports = {
 			channel.send('Du hast den zweiten Slot zurückgesetzt!');
 		}
 		else if (args[0] === '3') {
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -52,7 +52,7 @@ module.exports = {
 			channel.send('Du hast den dritten Slot zurückgesetzt!');
 		}
 		else if (args[0] === '4') {
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},
@@ -64,7 +64,7 @@ module.exports = {
 			channel.send('Du hast den vierten Slot zurückgesetzt!');
 		}
 		else if (args[0] === '5') {
-			await customsSchema.findOneAndUpdate(
+			await customs.findOneAndUpdate(
 				{
 					userId,
 				},

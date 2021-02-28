@@ -149,20 +149,20 @@ module.exports = client => {
 		const customsId = await customs.findOne({
 			channelId,
 		});
-		if (customsId === null) return;
+		if (!customsId) return;
 		const textChannel = guild.channels.cache.get(customsId.textChannelId);
 
-		if (newState.channelID !== null) {
+		if (newState.channelID) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
 			mainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
 		}
-		else if (newState.channelID === null) {
+		else if (!newState.channelID) {
 			textChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: false });
 			mainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
 		}
 
-		if (customsId !== null) {
-			if (newState.channelID !== null) return;
+		if (customsId) {
+			if (newState.channelID) return;
 			if (channel.members.size !== 0) return;
 			channel.delete();
 			textChannel.delete();
