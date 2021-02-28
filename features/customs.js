@@ -110,19 +110,12 @@ module.exports = client => {
 
 			const jukeboxEmbed = new Discord.MessageEmbed()
 				.setTitle('[BETA] Jukebox')
-				.setDescription(`
-Du kannst dir deine Lieblingssong abspeichern 
-und diese dann per Shortcut abspielen!
-
-\`!save <number> <song>\` - Speichere einen Song ab
-\`!delete <number>\` - Lösche einen Song
-
-Deine gespeichterten Songs:
-:one: ${args1}
-:two: ${args2}
-:three: ${args3}
-:four: ${args4}
-:five: ${args5}`)
+				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
+				.addFields(
+					{ name: 'Speichere Songs:', value: '`!save <number> <song>`', inline: true },
+					{ name: 'Lösche Songs:', value: '`!delete <number>`', inline: true },
+					{ name: 'Deine gespeichterten Songs:', value: `:one: ${args1}\n:two: ${args2}\n:three: ${args3}\n:four: ${args4}\n:five: ${args5}` },
+				)
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			customsTextChannel.send(jukeboxEmbed).then(async (msg) => {
