@@ -16,6 +16,7 @@ const customs = mongoose.Schema({
 	channelName: opString,
 	channelLimit: opString,
 	textChannelId: opString,
+	jukeboxId: opString,
 	args1: opString,
 	args2: opString,
 	args3: opString,
