@@ -1,6 +1,9 @@
 const customs = require('../../../models/customs');
 
 module.exports = {
+	minArgs: 2,
+	maxArgs: 2,
+	expectedArgs: '<1-5> <song>',
 	callback: async ({ message, args }) => {
 		const { author, channel } = message;
 		const song = args.join(' ');
