@@ -45,7 +45,7 @@ module.exports = {
 				)
 				.setFooter('Bitte schreibe die jeweilige Zahl für das Upgrade das du kaufen willst oder cancel zum abbrechen.')
 				.setColor('#2f3136');
-			channel.send(embed).then(() =>{
+			channel.send(embed).then(() => {
 				channel.awaitMessages(filter, {
 					max: 1,
 					time: 30000,
