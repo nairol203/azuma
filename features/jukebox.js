@@ -15,10 +15,10 @@ async function play(message, args, voiceChannel) {
 			var video = await youtube.getVideoByID(videos[0].id);
 		}
 		catch {
-			message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
+			return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
 		}
 	}
-	music.handleVideo(video, message, voiceChannel);
+	return music.handleVideo(video, message, voiceChannel);
 }
 
 module.exports = (client) => {
@@ -32,33 +32,37 @@ module.exports = (client) => {
 		const guild = client.guilds.cache.get('255741114273759232');
 		const voiceChannel = guild.channels.cache.get(data.channelId);
 		if (_emoji.name == '1️⃣') {
+			reaction.users.remove(user.id);
 			const args = await data.args1;
 			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '2️⃣') {
+			reaction.users.remove(user.id);
 			const args = await data.args2;
 			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '3️⃣') {
+			reaction.users.remove(user.id);
 			const args = await data.args3;
 			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '4️⃣') {
+			reaction.users.remove(user.id);
 			const args = await data.args4;
 			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		if (_emoji.name == '5️⃣') {
+			reaction.users.remove(user.id);
 			const args = await data.args5;
 			if (!args) return;
 			play(message, args, voiceChannel);
 		}
 		else {
-			return;
+			return reaction.users.remove(user.id);
 		}
-		reaction.users.remove(user.id);
 	});
 };
