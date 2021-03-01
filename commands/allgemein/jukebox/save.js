@@ -16,6 +16,7 @@ module.exports = {
 		const msg = await channel.messages.fetch(data.jukeboxId);
 
 		if (args[0] === '1') {
+			message.delete();
 			const args1 = song.toString().replace('1 ', '');
 			await customs.findOneAndUpdate(
 				{
@@ -49,9 +50,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send(`Du hast ${args1} auf der 1 gespeichert!`);
+			channel.send(`Du hast ${args1} auf der 1 gespeichert!`).then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '2') {
+			message.delete();
 			const args2 = song.toString().replace('2 ', '');
 			await customs.findOneAndUpdate(
 				{
@@ -85,9 +87,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send(`Du hast ${args2} auf der 2 gespeichert!`);
+			channel.send(`Du hast ${args2} auf der 2 gespeichert!`).then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '3') {
+			message.delete();
 			const args3 = song.toString().replace('3 ', '');
 			await customs.findOneAndUpdate(
 				{
@@ -121,9 +124,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send(`Du hast ${args3} auf der 3 gespeichert!`);
+			channel.send(`Du hast ${args3} auf der 3 gespeichert!`).then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '4') {
+			message.delete();
 			const args4 = song.toString().replace('4 ', '');
 			await customs.findOneAndUpdate(
 				{
@@ -157,9 +161,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send(`Du hast ${args4} auf der 4 gespeichert!`);
+			channel.send(`Du hast ${args4} auf der 4 gespeichert!`).then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '5') {
+			message.delete();
 			const args5 = song.toString().replace('5 ', '');
 			await customs.findOneAndUpdate(
 				{
@@ -193,7 +198,7 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send(`Du hast ${args5} auf der 5 gespeichert!`);
+			channel.send(`Du hast ${args5} auf der 5 gespeichert!`).then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 
 	},
