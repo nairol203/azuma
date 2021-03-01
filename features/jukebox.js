@@ -31,7 +31,6 @@ module.exports = (client) => {
 		if (message.channel.id != data.textChannelId) return;
 		const guild = client.guilds.cache.get('255741114273759232');
 		const voiceChannel = guild.channels.cache.get(data.channelId);
-		reaction.users.remove(user.id);
 		if (_emoji.name == '1️⃣') {
 			const args = await data.args1;
 			if (!args) return;
@@ -57,5 +56,9 @@ module.exports = (client) => {
 			if (!args) return;
 			play(message, args, voiceChannel);
 		}
+		else {
+			return;
+		}
+		reaction.users.remove(user.id);
 	});
 };
