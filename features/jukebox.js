@@ -62,7 +62,7 @@ module.exports = (client) => {
 			play(message, args, voiceChannel);
 		}
 		else {
-			return reaction.users.remove(user.id);
+			return;
 		}
 	});
 };
