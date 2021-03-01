@@ -15,10 +15,10 @@ async function play(message, args, voiceChannel) {
 			var video = await youtube.getVideoByID(videos[0].id);
 		}
 		catch {
-			return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
+			message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
 		}
 	}
-	return music.handleVideo(video, message, voiceChannel);
+	music.handleVideo(video, message, voiceChannel);
 }
 
 module.exports = (client) => {
