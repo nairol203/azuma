@@ -22,6 +22,7 @@ module.exports = {
 		const args5 = undefined;
 
 		if (args[0] === '1') {
+			message.delete();
 			await customs.findOneAndUpdate(
 				{
 					userId,
@@ -53,9 +54,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send('Du hast den ersten Slot zurückgesetzt!');
+			channel.send('Du hast den ersten Slot zurückgesetzt!').then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '2') {
+			message.delete();
 			await customs.findOneAndUpdate(
 				{
 					userId,
@@ -87,9 +89,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send('Du hast den zweiten Slot zurückgesetzt!');
+			channel.send('Du hast den zweiten Slot zurückgesetzt!').then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '3') {
+			message.delete();
 			await customs.findOneAndUpdate(
 				{
 					userId,
@@ -121,9 +124,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send('Du hast den dritten Slot zurückgesetzt!');
+			channel.send('Du hast den dritten Slot zurückgesetzt!').then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '4') {
+			message.delete();
 			await customs.findOneAndUpdate(
 				{
 					userId,
@@ -155,9 +159,10 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send('Du hast den vierten Slot zurückgesetzt!');
+			channel.send('Du hast den vierten Slot zurückgesetzt!').then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 		else if (args[0] === '5') {
+			message.delete();
 			await customs.findOneAndUpdate(
 				{
 					userId,
@@ -189,7 +194,7 @@ module.exports = {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			msg.edit(embed);
-			channel.send('Du hast den fünften Slot zurückgesetzt!');
+			channel.send('Du hast den fünften Slot zurückgesetzt!').then(msg => {msg.delete({ timeout: 5000 }); });
 		}
 	},
 };
