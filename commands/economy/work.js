@@ -6,6 +6,12 @@ const cooldowns = require('../../features/cooldowns');
 
 module.exports = {
 	callback: async ({ message }) => {
+		const { author, guild, channel } = message;
+		const guildId = guild.id;
+		const userId = author.id;
+		const getBusiness = await business.getBusiness(guildId, userId);
+		if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
+
 		const getCd = await cooldowns.getCooldown(message.author.id, 'work');
 		if (!getCd) {
 			await cooldowns.setCooldown(message.author.id, 'work', 8 * 60 * 60);
@@ -15,11 +21,6 @@ module.exports = {
 			return;
 		}
 
-		const { author, guild, channel } = message;
-		const guildId = guild.id;
-		const userId = author.id;
-		const getBusiness = await business.getBusiness(guildId, userId);
-		if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
 		const d = Math.random();
