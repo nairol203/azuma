@@ -1,18 +1,17 @@
 const Discord = require('discord.js');
-const business = require('../../features/business');
+const cooldowns = require('../../features/cooldowns');
 
 module.exports = {
 	aliases: 'cd',
 	callback: async ({ message }) => {
-		const { author, channel, guild } = message;
-		const guildId = guild.id;
+		const { author, channel } = message;
 		const userId = author.id;
 		async function getCooldown(type) {
-			const cooldown = await business.getCooldown(type, guildId, userId);
+			const cooldown = await cooldowns.getCooldown(userId, type);
 			if (!cooldown) {
 				return 'Ready!';
 			}
-			let seconds = cooldown.cooldown;
+			let seconds = cooldown;
 			const hours = Math.floor((seconds % (3600 * 24)) / 3600);
 			const minutes = Math.floor((seconds % 3600) / 60);
 			seconds = Math.floor(seconds % 60);

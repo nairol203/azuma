@@ -25,8 +25,6 @@
     "ffmpeg-static": "^4.2.7",
     "mongoose": "^5.11.11",
     "simple-youtube-api": "^5.2.1",
-    "wokcommands": "^1.2.1",
-    "ytdl": "^1.4.1",
     "ytdl-core": "^4.5.0"
   },
   "devDependencies": {}

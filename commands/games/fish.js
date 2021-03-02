@@ -8,8 +8,10 @@ const rarefish = require('../../features/rarefish');
 const cooldowns = new Set();
 
 module.exports = {
-	callback: async ({ message, args, instance }) => {
-		const prefix = instance.getPrefix(message.guild);
+	minArgs: 0,
+	maxArgs: 2,
+	callback: async ({ message, args }) => {
+		const prefix = process.env.PREFIX;
 
 		const commonPrice = '12'; const uncommonPrice = '20';
 		const rarePrice = '1250'; const garbagePrice = '6';

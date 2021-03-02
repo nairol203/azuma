@@ -1,6 +1,9 @@
 const economy = require('../../features/economy');
 
 module.exports = {
+	minArgs: 2,
+	maxArgs: 2,
+	expectedArgs: '<@user> <credits>',
 	callback: async ({ message, args }) => {
 		const target = message.mentions.users.first();
 		const { author, channel, guild } = message;

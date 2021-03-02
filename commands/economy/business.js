@@ -23,6 +23,7 @@ function showBar(cd) {
 }
 
 module.exports = {
+	disabled: true,
 	callback: async ({ message, args }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
