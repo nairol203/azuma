@@ -31,14 +31,14 @@ module.exports = {
 		if (!command) {
 			return message.reply('der Befehl konnte nicht gefunden werden.');
 		}
-
+		/*
 		data.push(`WIP\n**Name:** ${name}`);
-
 		if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
 		if (command.description) data.push(`**Beschreibung:** ${command.description}`);
 		if (command.expectedArgs) data.push(`**Benutzung:** ${prefix}${command.name} ${command.expectedArgs}`);
 		if (command.cooldown) data.push(`**Cooldown:** ${command.cooldown} second(s)`);
 
-		message.channel.send(data, { split: true });
+		message.channel.send(data, { split: true });*/
+		message.channel.send('Dieser Befehl bedindet sich aktuell in der Entwicklung.');
 	},
 };
