@@ -28,6 +28,7 @@ const modmail = require('./features/modmail');
 const mute = require('./features/mute');
 const rollenverteilung = require('./features/rollenverteilung');
 const welcome = require('./features/welcome');
+const { cpuUsage } = require('process');
 
 const cooldowns = new Discord.Collection();
 
@@ -47,7 +48,7 @@ client.once('ready', async () => {
 	console.log('Ready!');
 });
 
-client.on('message', message => {
+client.on('message', async message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -84,25 +85,39 @@ client.on('message', message => {
 
 		return message.reply(reply);
 	}
-	if (!cooldowns.has(commandName)) {
-		cooldowns.set(commandName, new Discord.Collection());
-	}
-
-	const now = Date.now();
-	const timestamps = cooldowns.get(commandName);
-	const cooldownAmount = (command.cooldown || 0) * 1000;
-
-	if (timestamps.has(message.author.id)) {
-		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-		if (now < expirationTime) {
-			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`du kannst diesen Befehl in ${timeLeft.toFixed(1)} Sekunden wieder benutzen.`);
+	const cdd = require('./features/cooldowns');
+	if (command.cooldown > 600) {
+		const getCd = await cdd.getCooldown(message.author.id, commandName);
+		if (!getCd) {
+			await cdd.setCooldown(message.author.id, commandName, command.cooldown);
+		}
+		else {
+			message.reply(`du hast noch ${getCd.cooldown} Sekunden Cooldown!`);
 		}
 	}
+	if (command.cooldown <= 600) {
+		if (!cooldowns.has(commandName)) {
+			cooldowns.set(commandName, new Discord.Collection());
+		}
 
-	timestamps.set(message.author.id, now);
-	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+		const now = Date.now();
+		const timestamps = cooldowns.get(commandName);
+		const cooldownAmount = (command.cooldown || 0) * 1000;
+		if (timestamps.has(message.author.id)) {
+			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+			console.log(expirationTime, now)
+
+			if (now < expirationTime) {
+				const timeLeft = (expirationTime - now) / 1000;
+				console.log(timeLeft)
+				return message.reply(`du kannst diesen Befehl in ${timeLeft.toFixed(1)} Sekunden wieder benutzen.`);
+			}
+		}
+		timestamps.set(message.author.id, now);
+		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+	}
+
+
 
 	try {
 		command.callback({ client, message, args });

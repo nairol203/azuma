@@ -2,24 +2,15 @@ const Discord = require('discord.js');
 
 const economy = require('../../features/economy');
 const business = require('../../features/business');
-const cooldowns = require('../../features/cooldowns');
 
 module.exports = {
+	cooldown: 8 * 60 * 60,
 	callback: async ({ message }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
 		const userId = author.id;
 		const getBusiness = await business.getBusiness(guildId, userId);
 		if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
-
-		const getCd = await cooldowns.getCooldown(message.author.id, 'work');
-		if (!getCd) {
-			await cooldowns.setCooldown(message.author.id, 'work', 8 * 60 * 60);
-		}
-		else {
-			message.reply(`du hast noch ${getCd.cooldown} Sekunden Cooldown!`);
-			return;
-		}
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
