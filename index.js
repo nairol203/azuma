@@ -58,9 +58,9 @@ client.on('message', message => {
 
 	if (!command) return;
 	if (command.disabled) {
-		return message.reply('dieser Befehl ist auf diesem Server zur Zeit deaktiviert.');
+		return message.reply('es finden gerade Wartungsarbeiten an diesem Befehl statt.');
 	}
-	if (command.guildOnly && message.channel.type === 'dm') {
+	if (!command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('du kannst diesen Befehl nicht in Direktnachrichten benutzen.');
 	}
 
