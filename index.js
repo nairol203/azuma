@@ -21,7 +21,7 @@ for (const folder of commandFolders) {
 
 const chatting = require('./features/chatting');
 const customs = require('./features/customs');
-const cds = require('./features/cooldowns');
+const cooldown = require('./features/cooldowns');
 const jukebox = require('./features/jukebox');
 const levels = require('./features/levels');
 const modmail = require('./features/modmail');
@@ -35,7 +35,7 @@ client.once('ready', async () => {
 	await mongo();
 
 	chatting(client);
-	cds.updateCooldown();
+	cooldown.updateCooldown();
 	customs(client);
 	jukebox(client);
 	levels(client);
@@ -52,29 +52,23 @@ client.on('message', async message => {
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
-
 	const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if (!command) return;
-	if (command.disabled) {
-		return;
-	}
+	if (command.disabled) return;
 	if (!command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('du kannst diesen Befehl nicht in Direktnachrichten benutzen.');
 	}
-
 	if (command.ownerOnly && message.author.id != '255739211112513536') {
 		return message.reply('nur der Bot-Owner kann diesen Befehl benutzen.');
 	}
-
 	if (command.requiredPermissions) {
 		const authorPerms = message.channel.permissionsFor(message.author);
 		if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
 			return message.reply(`du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
 		}
 	}
-
 	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
 		let reply = `versuche es so: \`${prefix}${commandName}\``;
 
@@ -84,14 +78,13 @@ client.on('message', async message => {
 
 		return message.reply(reply);
 	}
-	const cdd = require('./features/cooldowns');
 	if (command.cooldown > 600) {
-		const getCd = await cdd.getCooldown(message.author.id, commandName);
+		const getCd = await cooldown.getCooldown(message.author.id, commandName);
 		if (!getCd) {
-			await cdd.setCooldown(message.author.id, commandName, command.cooldown);
+			await cooldown.setCooldown(message.author.id, commandName, command.cooldown);
 		}
 		else {
-			const result = await cdd.mathCooldown(message.author.id, commandName);
+			const result = await cooldown.mathCooldown(message.author.id, commandName);
 			return message.reply(`du hast noch **${result}**Cooldown!`);
 		}
 	}
@@ -112,7 +105,6 @@ client.on('message', async message => {
 		timestamps.set(message.author.id, now);
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 	}
-
 	try {
 		command.callback({ client, message, args });
 	}
