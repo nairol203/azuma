@@ -269,23 +269,32 @@ module.exports = {
 			const guildId = message.guild.id;
 			if (target.bot) return;
 
+			const common = await fishingInv.getCommon(userId);
+			const uncommon = await fishingInv.getUncommon(userId);
+			const garbage = await fishingInv.getGarbage(userId);
+
 			if (args[1] === 'common') {
-				const common = await fishingInv.getCommon(userId);
-				const removeCommon = await fishingInv.addCommon(userId, common * -1);
-				const newCoins = await economy.addCoins(guildId, userId, commonPrice * common);
+				await fishingInv.addCommon(userId, common * -1);
+				await economy.addCoins(guildId, userId, commonPrice * common);
 				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${common}** gewöhnliche Fische für **${commonPrice * common}** 💵 verkauft.`);
 			}
 			if (args[1] === 'uncommon') {
-				const uncommon = await fishingInv.getUncommon(userId);
-				const removeUncommon = await fishingInv.addUncommon(userId, uncommon * -1);
-				const newCoins = await economy.addCoins(guildId, userId, uncommonPrice * uncommon);
+				await fishingInv.addUncommon(userId, uncommon * -1);
+				await economy.addCoins(guildId, userId, uncommonPrice * uncommon);
 				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${uncommon}** ungewöhnliche Fische für **${uncommonPrice * uncommon}** 💵 verkauft.`);
 			}
 			if (args[1] === 'garbage') {
-				const garbage = await fishingInv.getGarbage(userId);
-				const removeGarbage = await fishingInv.addGarbage(userId, garbage * -1);
-				const newCoins = await economy.addCoins(guildId, userId, garbagePrice * garbage);
+				await fishingInv.addGarbage(userId, garbage * -1);
+				await economy.addCoins(guildId, userId, garbagePrice * garbage);
 				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${garbage}** Müll für **${garbagePrice * garbage}** 💵 verkauft.`);
+			}
+			if (args[1] === 'all') {
+				await fishingInv.addCommon(userId, common * -1);
+				await fishingInv.addUncommon(userId, uncommon * -1);
+				await fishingInv.addGarbage(userId, garbage * -1);
+				const credits = commonPrice * common + uncommonPrice * uncommon + garbagePrice * garbage;
+				await economy.addCoins(guildId, userId, credits);
+				return message.channel.send(`:fishing_pole_and_fish:  **|**  Du hast **${common}** gewöhnliche Fische, **${uncommon}** ungewöhnliche Fische und **${garbage}** Müll für **${credits}** 💵 verkauft.`);
 			}
 		}
 		else {
