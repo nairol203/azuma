@@ -92,7 +92,7 @@ client.on('message', async message => {
 		}
 		else {
 			const result = await cdd.mathCooldown(message.author.id, commandName);
-			return message.reply(`du hast noch ${result}Cooldown!`);
+			return message.reply(`du hast noch **${result}**Cooldown!`);
 		}
 	}
 	if (command.cooldown <= 600) {
