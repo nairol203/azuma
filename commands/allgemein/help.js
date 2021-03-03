@@ -42,7 +42,7 @@ module.exports = {
 		if (command.cooldown) cooldown = `${command.cooldown} Sekunde(n)`;
 
 		const embed = new Discord.MessageEmbed()
-			.setTitle(`${prefix}${name}`)
+			.setTitle(`[BETA] ${prefix}${name}`)
 			.setDescription(`\`\`\`${description}\`\`\``)
 			.addFields(
 				{ name: 'Aliases', value: aliases },
