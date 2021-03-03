@@ -6,7 +6,6 @@ module.exports = {
 	maxArgs: 1,
 	callback: ({ message, args }) => {
 		const prefix = process.env.PREFIX;
-		const data = [];
 		const { commands } = message.client;
 
 		if (!args.length) {
@@ -31,6 +30,7 @@ module.exports = {
 		if (!command) {
 			return message.reply('der Befehl konnte nicht gefunden werden.');
 		}
+
 		let description = '/';
 		let aliases = '/';
 		let expectedArgs = '/';
