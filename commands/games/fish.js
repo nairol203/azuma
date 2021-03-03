@@ -5,7 +5,7 @@ const fishing = require('../../features/fishing');
 const fishingInv = require('../../features/fishing-inv');
 const rarefish = require('../../features/rarefish');
 
-const cooldowns = new Set();
+const cooldowns = new Discord.Collection();
 
 module.exports = {
 	minArgs: 0,
@@ -30,9 +30,20 @@ module.exports = {
 				return;
 			}
 			else {
-				if (cooldowns.has(message.author.id)) return message.channel.send(':fishing_pole_and_fish:  **|  du kannst nur alle 30 Sekunden fischen!**');
-				cooldowns.add(message.author.id);
-				setTimeout(() => cooldowns.delete(message.author.id), 30000);
+				if (!cooldowns.has('fish')) {
+					cooldowns.set('fish', new Discord.Collection());
+				}				const now = Date.now();
+				const timestamps = cooldowns.get('fish');
+				const cooldownAmount = 30 * 1000;
+				if (timestamps.has(message.author.id)) {
+					const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+					if (now < expirationTime) {
+						const timeLeft = (expirationTime - now) / 1000;
+						return message.channel.send(`:fishing_pole_and_fish:  **|  du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.**`);
+					}
+				}
+				timestamps.set(message.author.id, now);
+				setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
 				const d = Math.random();
 
