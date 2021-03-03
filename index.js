@@ -92,7 +92,7 @@ client.on('message', async message => {
 			await cdd.setCooldown(message.author.id, commandName, command.cooldown);
 		}
 		else {
-			message.reply(`du hast noch ${getCd.cooldown} Sekunden Cooldown!`);
+			return message.reply(`du hast noch ${getCd.cooldown} Sekunden Cooldown!`);
 		}
 	}
 	if (command.cooldown <= 600) {
