@@ -71,7 +71,7 @@ client.on('message', message => {
 	if (command.requiredPermissions) {
 		const authorPerms = message.channel.permissionsFor(message.author);
 		if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-			return message.reply(`du brauchst \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
+			return message.reply(`du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
 		}
 	}
 
