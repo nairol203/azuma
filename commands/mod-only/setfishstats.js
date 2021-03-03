@@ -7,8 +7,8 @@ module.exports = {
 	maxArgs: 5,
 	expectedArgs: '<member> <common> <uncommon> <rare> <garbage>',
 	requiredPermissions: ['ADMINISTRATOR'],
-	callback: async ({ message, args, instance }) => {
-		const prefix = instance.getPrefix(message.guild);
+	callback: async ({ message, args }) => {
+		const prefix = process.env.PREFIX;
 
 		const mention = message.mentions.users.first();
 		if (mention.bot) return;
