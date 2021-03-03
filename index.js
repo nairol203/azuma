@@ -109,7 +109,7 @@ client.on('message', message => {
 	}
 	catch (error) {
 		console.error(error);
-		message.reply(`<:no:767394810909949983> Error occured while running ${commandName} command`);
+		message.channel.send(`<:no:767394810909949983> Error occured while running ${commandName} command`);
 	}
 });
 
