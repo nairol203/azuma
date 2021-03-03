@@ -1,15 +1,14 @@
 require('dotenv').config();
-const mongo = require('./mongo');
 
 const fs = require('fs');
 const Discord = require('discord.js');
+const mongo = require('./mongo');
 const prefix = process.env.PREFIX;
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const commandFolders = fs.readdirSync('./commands');
-
 for (const folder of commandFolders) {
 	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
@@ -18,16 +17,15 @@ for (const folder of commandFolders) {
 		client.commands.set(commandName, command);
 	}
 }
-
 const chatting = require('./features/chatting');
-const customs = require('./features/customs');
 const cooldown = require('./features/cooldowns');
-const jukebox = require('./features/jukebox');
-const levels = require('./features/levels');
-const modmail = require('./features/modmail');
-const mute = require('./features/mute');
-const rollenverteilung = require('./features/rollenverteilung');
-const welcome = require('./features/welcome');
+const customs = require('./features/customs')
+const jukebox = require('./features/jukebox')
+const levels = require('./features/levels')
+const modmail = require('./features/modmail')
+const mute = require('./features/mute')
+const rollenverteilung = require('./features/rollenverteilung')
+const welcome = require('./features/welcome')
 
 const cooldowns = new Discord.Collection();
 
@@ -44,7 +42,7 @@ client.once('ready', async () => {
 	rollenverteilung(client);
 	welcome(client);
 
-	console.log('Ready!');
+	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + '.');
 });
 
 client.on('message', async message => {
@@ -99,7 +97,7 @@ client.on('message', async message => {
 			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
-				return message.reply(`du kannst diesen Befehl in ${timeLeft.toFixed(1)} Sekunden wieder benutzen.`);
+				return message.reply(`du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.');
 			}
 		}
 		timestamps.set(message.author.id, now);

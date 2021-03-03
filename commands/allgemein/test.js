@@ -1,5 +1,5 @@
 module.exports = {
-	cooldown: 650,
+	disabled: true,
 	callback: async () => {
 		return;
 	},
