@@ -120,7 +120,6 @@ module.exports = client => {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			await customsTextChannel.send(jukeboxEmbed).then(async (msg) => {
-				msg.pin();
 				jukeboxId = msg.id;
 				await msg.react('1️⃣');
 				await msg.react('2️⃣');
