@@ -68,10 +68,10 @@ client.on('message', message => {
 		return message.reply('nur der Bot-Owner kann diesen Befehl benutzen.');
 	}
 
-	if (command.permissions) {
+	if (command.requiredPermissions) {
 		const authorPerms = message.channel.permissionsFor(message.author);
-		if (!authorPerms || !authorPerms.has(command.permissions)) {
-			return message.reply(`du brauchst \`${command.permissions}\` um diesen Befehl zu benutzen.`);
+		if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
+			return message.reply(`du brauchst \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
 		}
 	}
 
