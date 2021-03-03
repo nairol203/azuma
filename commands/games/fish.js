@@ -10,6 +10,8 @@ const cooldowns = new Set();
 module.exports = {
 	minArgs: 0,
 	maxArgs: 2,
+	expectedArgs: '[inventory | math | redeem <fish> | \nrarefish | sell <type> | stats]',
+	description: 'Fischen in Discord! 10 Credits pro Angelversuch',
 	callback: async ({ message, args }) => {
 		const prefix = process.env.PREFIX;
 
@@ -95,7 +97,7 @@ module.exports = {
 				.setFooter('Falls du eine Übersicht zu den Rollen haben möchtest, probiere mal !fish rollen aus!');
 			return message.channel.send(embed);
 		}
-		else if (args[0] === 'inv') {
+		else if ((args[0] === 'inv') || (args[0] === 'inventory')) {
 			const target = message.mentions.users.first() || message.author;
 			const userId = target.id;
 			if (target.bot) return;

@@ -97,7 +97,7 @@ client.on('message', message => {
 
 		if (now < expirationTime) {
 			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`bitte warte ${timeLeft.toFixed(1)} Sekunden.`);
+			return message.reply(`du kannst diesen Befehl in ${timeLeft.toFixed(1)} Sekunden wieder benutzen.`);
 		}
 	}
 
@@ -109,7 +109,7 @@ client.on('message', message => {
 	}
 	catch (error) {
 		console.error(error);
-		message.reply(`Error occured while running ${commandName} command`);
+		message.reply(`<:no:767394810909949983> Error occured while running ${commandName} command`);
 	}
 });
 

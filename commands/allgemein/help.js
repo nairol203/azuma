@@ -31,14 +31,25 @@ module.exports = {
 		if (!command) {
 			return message.reply('der Befehl konnte nicht gefunden werden.');
 		}
-		/*
-		data.push(`WIP\n**Name:** ${name}`);
-		if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
-		if (command.description) data.push(`**Beschreibung:** ${command.description}`);
-		if (command.expectedArgs) data.push(`**Benutzung:** ${prefix}${command.name} ${command.expectedArgs}`);
-		if (command.cooldown) data.push(`**Cooldown:** ${command.cooldown} second(s)`);
+		let description = '/';
+		let aliases = '/';
+		let expectedArgs = '/';
+		let cooldown = '/';
 
-		message.channel.send(data, { split: true });*/
-		message.channel.send('Dieser Befehl bedindet sich aktuell in der Entwicklung.');
+		if (command.aliases) aliases = command.aliases.join(', ');
+		if (command.description) description = command.description;
+		if (command.expectedArgs) expectedArgs = `\`${prefix}${name} ${command.expectedArgs}\``;
+		if (command.cooldown) cooldown = `${command.cooldown} Sekunde(n)`;
+
+		const embed = new Discord.MessageEmbed()
+			.setTitle(`${prefix}${name}`)
+			.setDescription(`\`\`\`${description}\`\`\``)
+			.addFields(
+				{ name: 'Aliases', value: aliases },
+				{ name: 'Benutzung', value: expectedArgs },
+				{ name: 'Cooldown', value: cooldown },
+			)
+			.setColor('#f77600');
+		message.channel.send(embed);
 	},
 };
