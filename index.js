@@ -113,8 +113,6 @@ client.on('message', async message => {
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 	}
 
-
-
 	try {
 		command.callback({ client, message, args });
 	}
