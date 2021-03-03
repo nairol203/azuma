@@ -9,6 +9,6 @@ module.exports = {
 		if(!serverQueue.playing) return message.channel.send('Die Musik ist schon pausiert.');
 		serverQueue.playing = false;
 		serverQueue.connection.dispatcher.pause();
-		message.channel.send(':pause_button: | Die Musik wurde pausiert.');
+		message.channel.send('Die Musik wurde pausiert.');
 	},
 };

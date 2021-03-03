@@ -7,6 +7,6 @@ module.exports = {
 		if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird nichts gespielt');
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end();
-		message.channel.send(':stop_button: | Die Musik wurde gestoppt.');
+		message.channel.send('Die Musik wurde gestoppt.');
 	},
 };

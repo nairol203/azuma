@@ -9,6 +9,6 @@ module.exports = {
 
 		serverQueue.loop = !serverQueue.loop;
 
-		return message.channel.send(`:repeat_one: | Loop ist jetzt ${serverQueue.loop ? 'aktiviert' : 'deaktivert'}.`);
+		return message.channel.send(`Loop ist jetzt ${serverQueue.loop ? 'aktiviert' : 'deaktivert'}.`);
 	},
 };
