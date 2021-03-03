@@ -58,7 +58,7 @@ client.on('message', message => {
 
 	if (!command) return;
 	if (command.disabled) {
-		return message.reply('es finden gerade Wartungsarbeiten an diesem Befehl statt.');
+		return;
 	}
 	if (!command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('du kannst diesen Befehl nicht in Direktnachrichten benutzen.');
