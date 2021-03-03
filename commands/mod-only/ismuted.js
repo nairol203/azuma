@@ -5,6 +5,7 @@ module.exports = {
 	minArgs: 1,
 	maxArgs: 1,
 	expectedArgs: '<userId>',
+	requiredPermissions: ['ADMINISTRATOR'],
 	callback: async ({ message, args }) => {
 		const { guild } = message;
 

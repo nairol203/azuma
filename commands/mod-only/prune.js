@@ -1,7 +1,7 @@
 module.exports = {
-	expectedArgs: '<1-99>',
 	minArgs: 1,
 	maxArgs: 1,
+	expectedArgs: '<1-99>',
 	requiredPermissions: ['MANAGE_MESSAGES'],
 	callback: ({ message, args, instance }) => {
 		const { channel } = message;

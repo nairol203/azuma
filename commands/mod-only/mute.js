@@ -9,6 +9,7 @@ module.exports = {
 	minArgs: 2,
 	maxArgs: 2,
 	expectedArgs: '<@user> <reason>',
+	requiredPermissions: ['ADMINISTRATOR'],
 	callback : async ({ message, args }) => {
 		const { guild, author: staff } = message;
 

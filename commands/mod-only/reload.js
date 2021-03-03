@@ -4,6 +4,7 @@ module.exports = {
 	minArgs: 1,
 	maxArgs: 1,
 	expectedArgs: '<command>',
+	requiredPermissions: ['ADMINISTRATOR'],
 	callback: ({ message, args }) => {
 		const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName)
