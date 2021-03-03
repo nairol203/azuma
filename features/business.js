@@ -194,13 +194,3 @@ module.exports.checkProfit = async (guildId, userId) => {
 
 	return profit;
 };
-
-module.exports.getCooldown = async (name, guildId, userId) => {
-	const _id = name + '-' + guildId + '-' + userId;
-	const cooldown = await cooldownSchema.findOne(
-		{
-			_id,
-		},
-	);
-	return cooldown;
-};

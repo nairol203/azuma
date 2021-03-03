@@ -28,7 +28,6 @@ const modmail = require('./features/modmail');
 const mute = require('./features/mute');
 const rollenverteilung = require('./features/rollenverteilung');
 const welcome = require('./features/welcome');
-const { cpuUsage } = require('process');
 
 const cooldowns = new Discord.Collection();
 
@@ -92,24 +91,21 @@ client.on('message', async message => {
 			await cdd.setCooldown(message.author.id, commandName, command.cooldown);
 		}
 		else {
-			return message.reply(`du hast noch ${getCd.cooldown} Sekunden Cooldown!`);
+			const result = await cdd.mathCooldown(message.author.id, commandName);
+			return message.reply(`du hast noch ${result}Cooldown!`);
 		}
 	}
 	if (command.cooldown <= 600) {
 		if (!cooldowns.has(commandName)) {
 			cooldowns.set(commandName, new Discord.Collection());
 		}
-
 		const now = Date.now();
 		const timestamps = cooldowns.get(commandName);
 		const cooldownAmount = (command.cooldown || 0) * 1000;
 		if (timestamps.has(message.author.id)) {
 			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-			console.log(expirationTime, now)
-
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
-				console.log(timeLeft)
 				return message.reply(`du kannst diesen Befehl in ${timeLeft.toFixed(1)} Sekunden wieder benutzen.`);
 			}
 		}

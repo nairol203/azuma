@@ -22,6 +22,28 @@ module.exports.getCooldown = async (userId, command) => {
 	return result;
 };
 
+module.exports.mathCooldown = async (userId, type) => {
+	const cooldown = await this.getCooldown(userId, type);
+	if (!cooldown) {
+		return;
+	}
+	let seconds = cooldown;
+	const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+	const minutes = Math.floor((seconds % 3600) / 60);
+	seconds = Math.floor(seconds % 60);
+	let result = '';
+	if (hours) {
+		result += hours + 'h ';
+	}
+	if (minutes) {
+		result += minutes + 'm ';
+	}
+	if (seconds) {
+		result += seconds + 's ';
+	}
+	return result;
+};
+
 async function updateCooldown() {
 	const results = await cooldowns.find();
 	if (results && results.length) {
