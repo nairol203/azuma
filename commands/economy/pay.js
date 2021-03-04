@@ -1,9 +1,8 @@
-const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
 	expectedArgs: '<user> <credits>',
-	callback: async ({ message, args }) => {
+	callback: async ({ message, args, Discord }) => {
 		const { guild, member } = message;
 		const prefix = process.env.PREFIX;
 

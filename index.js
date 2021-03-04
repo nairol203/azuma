@@ -94,7 +94,7 @@ client.on('message', async message => {
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 	}
 	try {
-		command.callback({ client, message, args });
+		command.callback({ client, message, args, Discord });
 	}
 	catch (error) {
 		console.error(error);

@@ -1,11 +1,10 @@
 /* eslint-disable no-shadow */
-const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
 	minArgs: 1,
 	maxArgs: 2,
-	callback: async ({ message, args }) => {
+	callback: async ({ message, args, Discord }) => {
 		const target = message.mentions.users.first();
 		const { author, channel, guild } = message;
 		const guildId = guild.id;

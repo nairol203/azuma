@@ -1,9 +1,8 @@
-const Discord = require('discord.js');
 const cooldowns = require('../../features/cooldowns');
 
 module.exports = {
 	aliases: 'cd',
-	callback: async ({ message }) => {
+	callback: async ({ message, Discord }) => {
 		const { author, channel } = message;
 		const userId = author.id;
 		const embed = new Discord.MessageEmbed()

@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 const economy = require('../../features/economy');
 const business = require('../../features/business');
 const cooldowns = require('../../features/cooldowns');
@@ -24,7 +22,7 @@ function showBar(cd) {
 }
 
 module.exports = {
-	callback: async ({ message, args }) => {
+	callback: async ({ message, args, Discord }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
 		const userId = author.id;

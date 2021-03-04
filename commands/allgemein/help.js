@@ -1,10 +1,8 @@
-const Discord = require('discord.js');
-
 module.exports = {
 	expectedArgs: '<command>',
 	minArgs: 0,
 	maxArgs: 1,
-	callback: ({ message, args }) => {
+	callback: ({ message, args, Discord }) => {
 		const prefix = process.env.PREFIX;
 		const { commands } = message.client;
 

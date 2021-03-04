@@ -1,10 +1,9 @@
-const Discord = require('discord.js');
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 const music = require('./play');
 
 module.exports = {
-	callback: async ({ message, args }) => {
+	callback: async ({ message, args, Discord }) => {
 		const searchString = args.join(' ');
 
 		const voiceChannel = message.member.voice.channel;

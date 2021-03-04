@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const fish_stats = require('../../features/fish_stats');
 
 module.exports = {
@@ -7,7 +6,7 @@ module.exports = {
 	maxArgs: 5,
 	expectedArgs: '<member> <common> <uncommon> <rare> <garbage>',
 	requiredPermissions: ['ADMINISTRATOR'],
-	callback: async ({ message, args }) => {
+	callback: async ({ message, args, Discord }) => {
 		const prefix = process.env.PREFIX;
 
 		const mention = message.mentions.users.first();

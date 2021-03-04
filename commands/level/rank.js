@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const Levels = require('../../features/levels');
 const profileSchema = require('../../models/profile-schema');
 const Canvacord = require('canvacord');
@@ -8,7 +7,7 @@ module.exports = {
 	minArgs: 0,
 	maxArgs: 1,
 	expectedArgs: '<@user>',
-	callback: async ({ message }) => {
+	callback: async ({ message, Discord }) => {
 		const target = message.mentions.users.first() || message.author;
 		if (target.bot) return;
 		const guildId = message.guild.id;

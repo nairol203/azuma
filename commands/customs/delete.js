@@ -1,11 +1,10 @@
-const Discord = require('discord.js');
 const customs = require('../../models/customs');
 
 module.exports = {
 	minArgs: 1,
 	maxArgs: 1,
 	expectedArgs: '<1-5>',
-	callback: async ({ message, args }) => {
+	callback: async ({ message, args, Discord }) => {
 		const prefix = process.env.PREFIX;
 		const { author, channel } = message;
 		const userId = author.id;

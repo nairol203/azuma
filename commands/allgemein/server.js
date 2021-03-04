@@ -1,6 +1,5 @@
 module.exports = {
-	callback: ({ message }) => {
-		const Discord = require('discord.js');
+	callback: ({ message, Discord }) => {
 		const embed = new Discord.MessageEmbed()
 			.setColor('#f77600')
 			.setTitle(`${message.guild.name}`)

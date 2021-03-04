@@ -1,4 +1,3 @@
-const { MessageEmbed } = require('discord.js');
 const muteSchema = require('../../models/mute-schema');
 
 module.exports = {
@@ -6,7 +5,7 @@ module.exports = {
 	maxArgs: 1,
 	expectedArgs: '<userId>',
 	requiredPermissions: ['ADMINISTRATOR'],
-	callback: async ({ message, args }) => {
+	callback: async ({ message, args, Discord }) => {
 		const { guild } = message;
 
 		const id = args[0];
@@ -21,7 +20,7 @@ module.exports = {
 			current: true,
 		});
 
-		const embed = new MessageEmbed()
+		const embed = new Discord.MessageEmbed()
 			.setAuthor(
 				`Mute info von ${target ? target.user.tag : id}`,
 				target ? target.user.displayAvatarURL() : '',
