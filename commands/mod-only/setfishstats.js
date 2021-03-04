@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const fishing = require('../../features/fishing');
+const fish_stats = require('../../features/fish_stats');
 
 module.exports = {
 	aliases: ['deploy'],
@@ -40,10 +40,10 @@ module.exports = {
 		}
 		const userId = mention.id;
 
-		const newCommon = await fishing.setCommon(userId, common);
-		const newUncommon = await fishing.setUncommon(userId, uncommon);
-		const newRare = await fishing.setRare(userId, rare);
-		const newGarbage = await fishing.setGarbage(userId, garbage);
+		const newCommon = await fish_stats.setCommon(userId, common);
+		const newUncommon = await fish_stats.setUncommon(userId, uncommon);
+		const newRare = await fish_stats.setRare(userId, rare);
+		const newGarbage = await fish_stats.setGarbage(userId, garbage);
 
 		const embed = new Discord.MessageEmbed()
 			.setColor('#00b8ff')
