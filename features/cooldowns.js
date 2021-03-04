@@ -25,7 +25,7 @@ module.exports.getCooldown = async (userId, command) => {
 module.exports.mathCooldown = async (userId, type) => {
 	const cooldown = await this.getCooldown(userId, type);
 	if (!cooldown) {
-		return;
+		return 'Ready!';
 	}
 	let seconds = cooldown;
 	const hours = Math.floor((seconds % (3600 * 24)) / 3600);

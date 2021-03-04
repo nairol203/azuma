@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 
 const economy = require('../../features/economy');
 const business = require('../../features/business');
+const cooldowns = require('../../features/cooldowns');
 
 const documents = business.getInfo(1);
 const weed = business.getInfo(2);
@@ -23,7 +24,6 @@ function showBar(cd) {
 }
 
 module.exports = {
-	disabled: true,
 	callback: async ({ message, args }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
@@ -157,7 +157,7 @@ module.exports = {
 			const up2 = getBusiness.upgrade2 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
 			const up3 = getBusiness.upgrade3 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
 
-			const getCooldown = await business.getCooldown('work', guildId, userId);
+			const getCooldown = await cooldowns.getCooldown(userId, 'work');
 
 			let cd = '';
 			let cooldown = '';
@@ -165,7 +165,7 @@ module.exports = {
 				cd = '██████████████████\nDein Lager ist voll! Verkaufe die Ware mit `!work`';
 			}
 			else {
-				cooldown = getCooldown.cooldown;
+				cooldown = getCooldown;
 				cd = showBar(cooldown);
 			}
 			const embed = new Discord.MessageEmbed()
