@@ -5,8 +5,9 @@ const customs = require('../models/customs');
 const parentId = '810764515582672917';
 const mainChannelId = '810768943736160276';
 
-module.exports = client => {
-	client.on('voiceStateUpdate', async (oldState, newState) => {
+module.exports = {
+	name: 'voiceStateUpdate',
+	async run(oldState, newState) {
 		const { guild, member } = newState;
 
 		const joined = !!newState.channelID;
@@ -170,5 +171,5 @@ module.exports = client => {
 			textChannel.delete();
 			mainChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
 		}
-	});
+	},
 };

@@ -17,30 +17,27 @@ for (const folder of commandFolders) {
 		client.commands.set(commandName, command);
 	}
 }
-const chatting = require('./features/chatting');
+
+const featuresFiles = fs.readdirSync('./features').filter(file => file.endsWith('.js'));
+
+for (const file of featuresFiles) {
+	const feature = require(`./features/${file}`);
+	client.on(feature.name, (...args) => feature.run(...args, client));
+
+}
+
 const cooldown = require('./features/cooldowns');
-const customs = require('./features/customs')
-const jukebox = require('./features/jukebox')
-const levels = require('./features/levels')
-const modmail = require('./features/modmail')
-const mute = require('./features/mute')
-const rollenverteilung = require('./features/rollenverteilung')
-const welcome = require('./features/welcome')
+const modmail = require('./features/modmail');
+const rollenverteilung = require('./features/rollenverteilung');
 
 const cooldowns = new Discord.Collection();
 
 client.once('ready', async () => {
 	await mongo();
 
-	chatting(client);
 	cooldown.updateCooldown();
-	customs(client);
-	jukebox(client);
-	levels(client);
 	modmail(client);
-	mute(client);
 	rollenverteilung(client);
-	welcome(client);
 
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + '.');
 });

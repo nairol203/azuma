@@ -2,7 +2,6 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	minArgs: 1,
-	maxArgs: 1,
 	expectedArgs: '<username>',
 	callback: async ({ client, message, args }) => {
 		const { author, channel } = message;
