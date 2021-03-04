@@ -8,7 +8,7 @@ const queue = new Map();
 module.exports = {
 	callback: async ({ message, args }) => {
 		const searchString = args.slice(1).join(' ');
-		const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
+		const url = args[0] ? args[0].replace(/<(.+)>/g, '$1') : '';
 		const voiceChannel = message.member.voice.channel;
 		if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
 		const permissons = voiceChannel.permissionsFor(message.client.user);
