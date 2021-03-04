@@ -5,10 +5,9 @@ module.exports = {
 	name: 'messageReactionAdd',
 	async run(reaction, user) {
 		const { message, _emoji } = reaction;
-		if (user.bot) return;
-		const channelId = '782595813196038175';
-		const channelId2 = '365763570371133451';
-		if (message.channel.id == channelId) {
+		if (reaction.message.partial) await reaction.message.fetch();
+		if (reaction.partial) await reaction.fetch();if (user.bot) return;
+		if (message.channel.id == '782595813196038175') {
 			if (_emoji.id == '782650903156621382') {
 				await message.guild.members.cache.get(user.id).roles.add('794708386930753586');
 			}
@@ -16,9 +15,8 @@ module.exports = {
 				await message.guild.members.cache.get(user.id).roles.add('796010383441133578');
 			}
 		}
-		else if (message.channel.id == channelId2) {
+		else if (message.channel.id == '365763570371133451') {
 			if (_emoji.name == '✉️') {
-				reaction.users.remove(user.id);
 				const newChannel = await message.guild.channels.create(`${user.username}'s ticket`, {
 					parent: '770778171280719902',
 					permissionOverwrites: [

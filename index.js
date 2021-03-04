@@ -5,9 +5,10 @@ const Discord = require('discord.js');
 const mongo = require('./mongo');
 const prefix = process.env.PREFIX;
 
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
 
+const cooldown = require('./features/cooldowns');
 const commandFolders = fs.readdirSync('./commands');
 
 for (const folder of commandFolders) {
@@ -26,15 +27,11 @@ for (const file of featuresFiles) {
 	client.on(feature.name, (...args) => feature.run(...args, client));
 }
 
-const cooldown = require('./features/cooldowns');
-
 const cooldowns = new Discord.Collection();
 
 client.once('ready', async () => {
 	await mongo();
-
 	cooldown.updateCooldown();
-
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 });
 
