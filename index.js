@@ -24,7 +24,6 @@ const featuresFiles = fs.readdirSync('./features').filter(file => file.endsWith(
 for (const file of featuresFiles) {
 	const feature = require(`./features/${file}`);
 	client.on(feature.name, (...args) => feature.run(...args, client));
-
 }
 
 const cooldown = require('./features/cooldowns');
@@ -40,7 +39,7 @@ client.once('ready', async () => {
 	modmail(client);
 	rollenverteilung(client);
 
-	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + '.');
+	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 });
 
 client.on('message', async message => {
