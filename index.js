@@ -27,8 +27,6 @@ for (const file of featuresFiles) {
 }
 
 const cooldown = require('./features/cooldowns');
-const modmail = require('./features/modmail');
-const rollenverteilung = require('./features/rollenverteilung');
 
 const cooldowns = new Discord.Collection();
 
@@ -36,8 +34,6 @@ client.once('ready', async () => {
 	await mongo();
 
 	cooldown.updateCooldown();
-	modmail(client);
-	rollenverteilung(client);
 
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 });
