@@ -1,4 +1,4 @@
-const customs = require('../../models/customs');
+const customs = require('../../../models/customs');
 
 module.exports = {
 	callback: async ({ message }) => {

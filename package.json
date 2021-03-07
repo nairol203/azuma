@@ -21,11 +21,12 @@
     "@discordjs/opus": "^0.3.3",
     "canvacord": "^5.0.8",
     "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
     "eslint": "^7.17.0",
     "ffmpeg-static": "^4.2.7",
     "mongoose": "^5.11.11",
     "simple-youtube-api": "^5.2.1",
+    "wokcommands": "^1.2.6",
+    "ytdl": "^1.4.1",
     "ytdl-core": "^4.5.0"
   },
   "devDependencies": {}

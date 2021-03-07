@@ -1,6 +1,5 @@
-module.exports = {
-	name: 'message',
-	run(message) {
+module.exports = client => {
+	client.on('message', message => {
 		if (message.author.bot) return;
 
 		const args1 = ['hi', 'hey', 'hallo', 'moin', 'servus', 'na du'];
@@ -133,7 +132,9 @@ module.exports = {
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(`${message.author} ${randomMessage}`);
 		}
+	});
 
+	client.on('message', message => {
 		if (message.author.id === '172002275412279296') {
 			const args6 = [
 				'you caught: 🐧', 'you caught: 🐢', 'you caught: 🐙', 'you caught: 🦑', 'you caught: 🦐', 'you caught: 🦀', 'you caught: 🐡', 'you caught: 🐬', 'you caught: 🐳', 'you caught: 🐋', 'you caught: 🦈', 'you caught: 🐊'];
@@ -141,5 +142,5 @@ module.exports = {
 				message.channel.send('Glückwunsch zu deinem Rare!');
 			}
 		}
-	},
+	});
 };

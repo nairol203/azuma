@@ -1,6 +1,8 @@
+const Discord = require('discord.js');
+
 module.exports = {
 	ownerOnly: true,
-	callback: async ({ args, client, Discord }) => {
+	callback: async ({ args, client }) => {
 		if (args[0] == '<#782595813196038175>') {
 			const channel = await client.channels.fetch('782595813196038175');
 			channel.messages.fetch().then(async (messages) => {

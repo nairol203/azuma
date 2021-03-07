@@ -1,10 +1,9 @@
-const muteSchema = require('../../models/mute-schema');
+const muteSchema = require('../../../models/mute-schema');
 
 module.exports = {
 	minArgs: 1,
 	maxArgs: 1,
 	expectedArgs: '<@user or userId>',
-	requiredPermissions: ['ADMINISTRATOR'],
 	callback: async ({ message, args }) => {
 		const { guild } = message;
 

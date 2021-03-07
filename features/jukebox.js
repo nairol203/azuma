@@ -21,9 +21,8 @@ async function play(message, args, voiceChannel) {
 	return music.handleVideo(video, message, voiceChannel);
 }
 
-module.exports = {
-	name: 'messageReactionAdd',
-	async run(reaction, user, client) {
+module.exports = (client) => {
+	client.on('messageReactionAdd', async (reaction, user) => {
 		const { _emoji, message } = reaction;
 		if (user.bot == true) return;
 		const textChannelId = message.channel.id;
@@ -65,5 +64,5 @@ module.exports = {
 		else {
 			return;
 		}
-	},
+	});
 };

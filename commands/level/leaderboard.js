@@ -1,8 +1,9 @@
 const Levels = require('../../features/levels');
+const Discord = require('discord.js');
 
 module.exports = {
 	aliases: 'lb',
-	callback: async ({ client, message, Discord }) => {
+	callback: async ({ client, message }) => {
 		const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, 10);
 
 		if (rawLeaderboard.length < 1) return message.reply('Aktuell ist hat noch niemand XP gesammelt.');

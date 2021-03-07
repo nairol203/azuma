@@ -1,3 +1,4 @@
+// const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -13,6 +14,9 @@ module.exports = {
 
 		const coins = await economy.getCoins(guildId, userId);
 
+		/* const embed = new Discord.MessageEmbed()
+			.setColor('#f77600')
+			.addField(`💵  |  **${message.author.username}**,`, `${target} hat aktuell **${coins}** Credits.`);*/
 		message.channel.send(`💵  |  **${target.username}**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(coins)}** Credits.`);
 	},
 };

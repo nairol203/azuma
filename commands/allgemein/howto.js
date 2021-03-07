@@ -1,5 +1,6 @@
 module.exports = {
-	callback: ({ message, Discord }) => {
+	callback: ({ message }) => {
+		const Discord = require('discord.js');
 		const embed = new Discord.MessageEmbed()
 			.setColor('#f77600')
 			.setTitle('How to: Social Interaction')

@@ -1,11 +1,12 @@
-const customs = require('../../models/customs');
+const Discord = require('discord.js');
+const customs = require('../../../models/customs');
 
 module.exports = {
 	minArgs: 1,
 	maxArgs: 1,
 	expectedArgs: '<1-5>',
-	callback: async ({ message, args, Discord }) => {
-		const prefix = process.env.PREFIX;
+	callback: async ({ message, args, instance }) => {
+		const prefix = instance.getPrefix(message.guild);
 		const { author, channel } = message;
 		const userId = author.id;
 		const data = await customs.findOne({ userId });

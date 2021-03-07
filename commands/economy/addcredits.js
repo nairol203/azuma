@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -7,9 +8,9 @@ module.exports = {
 	maxArgs: 2,
 	expectedArgs: '<user> <credits>',
 	requiredPermissions: ['ADMINISTRATOR'],
-	callback: async ({ message, args, Discord }) => {
+	callback: async ({ message, args, instance }) => {
 		const guild = message.guild;
-		const prefix = process.env.PREFIX;
+		const prefix = instance.getPrefix(guild);
 
 		const mention = message.mentions.users.first();
 		if (mention.bot) return;

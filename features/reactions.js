@@ -1,9 +1,8 @@
 const Discord = require('discord.js');
 const channel = new Discord.Collection();
 
-module.exports = {
-	name: 'messageReactionAdd',
-	async run(reaction, user) {
+module.exports = (client) => {
+	client.on('messageReactionAdd', async (reaction, user) => {
 		const { message, _emoji } = reaction;
 		if (reaction.message.partial) await reaction.message.fetch();
 		if (reaction.partial) await reaction.fetch();
@@ -56,5 +55,20 @@ module.exports = {
 		else {
 			return;
 		}
-	},
+	});
+	client.on('messageReactionRemove', async (reaction, user) => {
+		const { message, _emoji } = reaction;
+		if (user.bot) return;
+		if (message.channel.id == '782595813196038175') {
+			if (_emoji.id == '782650903156621382') {
+				await message.guild.members.cache.get(user.id).roles.remove('794708386930753586');
+			}
+			if (_emoji.name == '🔔') {
+				await message.guild.members.cache.get(user.id).roles.remove('796010383441133578');
+			}
+		}
+		else {
+			return;
+		}
+	});
 };

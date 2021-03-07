@@ -1,8 +1,9 @@
+const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
-	cooldown: 24 * 60 * 60,
-	callback: async ({ message, Discord }) => {
+	cooldown: '24h',
+	callback: async ({ message }) => {
 		const { author, guild } = message;
 
 		const coinsToGive = 500;

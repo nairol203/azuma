@@ -1,7 +1,7 @@
-module.exports = {
-	name: 'guildMemberAdd',
-	run(member, client) {
-		const autoLogs = client.channels.cache.find(channel => channel.id === '781501076725563413');
+module.exports = (client) => {
+	const autoLogs = client.channels.cache.find(channel => channel.id === '781501076725563413');
+
+	client.on('guildMemberAdd', member => {
 		const memberRole = member.guild.roles.cache.find(role => role.name === 'Member');
 		const botRole = member.guild.roles.cache.find(role => role.name === 'Bot');
 
@@ -19,6 +19,12 @@ module.exports = {
 			member.roles.add(memberRole);
 			return;
 		}
+	});
 
-	},
+	client.on('guildMemberRemove', member => {
+		if (member.guild.id === '255741114273759232') {
+			autoLogs.send(`📤 ${member.user} hat den Server verlassen.`);
+			return;
+		}
+	});
 };
