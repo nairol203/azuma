@@ -22,6 +22,10 @@ function showBar(cd) {
 }
 
 module.exports = {
+	minArgs: 0,
+	maxArgs: 1,
+	expectedArgs: '[buy] | [upgrade]',
+	description: 'Verwalte dein eigenes Business und verdiene Credits!',
 	callback: async ({ message, args, Discord }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
@@ -124,14 +128,14 @@ module.exports = {
 							if (targetCoins < company.priceUpgrade2) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade2)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade2(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade2 * -1);
-							channel.send(`Du kauft nun deine Rohware bei einem besseren Zulieferer ein! Du hast \`${format(company.priceUpgrade1)}\` 💵 bezahlt.`);
+							channel.send(`Du kauft nun deine Rohware bei einem besseren Zulieferer ein! Du hast \`${format(company.priceUpgrade2)}\` 💵 bezahlt.`);
 						}
 						else if (message.content === '3') {
 							if (getBusiness.upgrade3 === true) return channel.send(`Du hast bereits ${company.textUpgrade3}!`);
 							if (targetCoins < company.priceUpgrade3) return channel.send(`Du hast doch gar nicht ${format(company.priceUpgrade3)} 💵 <:Susge:809947745342980106>`);
 							await business.buyUpgrade3(guildId, userId, getBusiness.type);
 							await economy.addCoins(guildId, userId, company.priceUpgrade3 * -1);
-							channel.send(`Du hast ${company.textUpgrade3} gekauft! Du hast \`${format(company.priceUpgrade1)}\` 💵 bezahlt.`);
+							channel.send(`Du hast ${company.textUpgrade3} gekauft! Du hast \`${format(company.priceUpgrade3)}\` 💵 bezahlt.`);
 						}
 						else if (message.content === 'cancel') {
 							return channel.send('<:no:767394810909949983> | Du hast den Kauf von einem Upgrade abgebrochen!');

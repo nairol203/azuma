@@ -29,25 +29,16 @@ module.exports = {
 			return message.reply('der Befehl konnte nicht gefunden werden.');
 		}
 
-		let description = '/';
-		let aliases = '/';
-		let expectedArgs = '/';
-		let cooldown = '/';
-
-		if (command.aliases) aliases = command.aliases.join(', ');
-		if (command.description) description = command.description;
-		if (command.expectedArgs) expectedArgs = `\`${prefix}${name} ${command.expectedArgs}\``;
-		if (command.cooldown) cooldown = `${command.cooldown} Sekunde(n)`;
 
 		const embed = new Discord.MessageEmbed()
-			.setTitle(`[BETA] ${prefix}${name}`)
-			.setDescription(`\`\`\`${description}\`\`\``)
-			.addFields(
-				{ name: 'Aliases', value: aliases },
-				{ name: 'Benutzung', value: expectedArgs },
-				{ name: 'Cooldown', value: cooldown },
-			)
+			.setTitle(prefix + name)
 			.setColor('#f77600');
+
+		if (command.description) embed.setDescription(`\`\`\`${command.description}\`\`\``);
+		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '));
+		if (command.expectedArgs) embed.addField('Benutzung', `\`${prefix + name + ' ' + command.expectedArgs}\``);
+		if (command.cooldown) embed.addField('Cooldown', command.cooldown + ' Sekunde(n)');
+
 		message.channel.send(embed);
 	},
 };

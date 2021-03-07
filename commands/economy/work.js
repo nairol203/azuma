@@ -3,6 +3,7 @@ const business = require('../../features/business');
 
 module.exports = {
 	cooldown: 8 * 60 * 60,
+	description: 'Verkaufe die Ware von deinem Unternehmen!\nBenötigt ein Business (!business buy)',
 	callback: async ({ message, Discord }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;

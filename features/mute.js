@@ -1,4 +1,5 @@
 const muteSchema = require('../models/mute-schema');
+
 module.exports = {
 	name: 'guildMemberAdd',
 	async run(member, client) {

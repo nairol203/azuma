@@ -6,7 +6,8 @@ module.exports = {
 	async run(reaction, user) {
 		const { message, _emoji } = reaction;
 		if (reaction.message.partial) await reaction.message.fetch();
-		if (reaction.partial) await reaction.fetch();if (user.bot) return;
+		if (reaction.partial) await reaction.fetch();
+		if (user.bot) return;
 		if (message.channel.id == '782595813196038175') {
 			if (_emoji.id == '782650903156621382') {
 				await message.guild.members.cache.get(user.id).roles.add('794708386930753586');

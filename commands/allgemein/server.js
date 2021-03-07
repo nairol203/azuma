@@ -1,18 +1,19 @@
 module.exports = {
 	callback: ({ message, Discord }) => {
+		const { channel, guild } = message;
 		const embed = new Discord.MessageEmbed()
 			.setColor('#f77600')
-			.setTitle(`${message.guild.name}`)
-			.setThumbnail(`${message.guild.iconURL()}`)
+			.setTitle(`${guild.name}`)
+			.setThumbnail(`${guild.iconURL()}`)
 			.addFields (
-				{ name: 'Server ID:', value: `${message.guild.id}`, inline: true },
-				{ name: 'Owner:', value: `${message.guild.owner}`, inline: true },
-				{ name: 'Mitglieder:', value: `${message.guild.memberCount}` },
-				{ name: 'Rollen:', value: `${message.guild.roles.cache.size}`, inline: true },
-				{ name: 'Emojis:', value: `${message.guild.emojis.cache.size}`, inline: true },
-				{ name: 'Region:', value: `${message.guild.region}` },
+				{ name: 'Server ID:', value: `${guild.id}`, inline: true },
+				{ name: 'Owner:', value: `${guild.owner}`, inline: true },
+				{ name: 'Mitglieder:', value: `${guild.memberCount}` },
+				{ name: 'Rollen:', value: `${guild.roles.cache.size}`, inline: true },
+				{ name: 'Emojis:', value: `${guild.emojis.cache.size}`, inline: true },
+				{ name: 'Region:', value: `${guild.region}` },
 			)
-			.setFooter(`${message.guild.createdAt}`);
-		message.channel.send(embed);
+			.setFooter(`${guild.createdAt}`);
+		channel.send(embed);
 	},
 };

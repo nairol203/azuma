@@ -1,7 +1,6 @@
 const profileSchema = require('../models/profile-schema');
 const cooldowns = new Set();
 
-
 module.exports = {
 	name: 'message',
 	async run(message, client) {
