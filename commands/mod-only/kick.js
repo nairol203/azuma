@@ -1,7 +1,7 @@
 module.exports = {
-	expectedArgs: '<member>',
 	minArgs: 1,
 	maxArgs: 1,
+	expectedArgs: '<member>',
 	requiredPermissions: ['KICK_MEMBERS'],
 	callback: ({ message }) => {
 		const user = message.mentions.users.first();

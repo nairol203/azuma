@@ -1,16 +1,16 @@
-const Discord = require('discord.js');
-
 const economy = require('../../features/economy');
 const business = require('../../features/business');
 
 module.exports = {
-	cooldown: '8h',
-	callback: async ({ message }) => {
+	cooldown: 8 * 60 * 60,
+	description: 'Verkaufe die Ware von deinem Unternehmen!\nBenötigt ein Business (!business buy)',
+	callback: async ({ message, Discord }) => {
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
 		const userId = author.id;
 		const getBusiness = await business.getBusiness(guildId, userId);
 		if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!');
+
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
 		const d = Math.random();

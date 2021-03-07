@@ -1,5 +1,4 @@
 const businessSchema = require('../models/business');
-const cooldownSchema = require('../node_modules/wokcommands/dist/models/cooldown');
 
 const upgrades = {
 	upgrade1: 0.1,
@@ -193,14 +192,4 @@ module.exports.checkProfit = async (guildId, userId) => {
 	const profit = company.profit + checkUpgrade1 + checkUpgrade2 + checkUpgrade3;
 
 	return profit;
-};
-
-module.exports.getCooldown = async (name, guildId, userId) => {
-	const _id = name + '-' + guildId + '-' + userId;
-	const cooldown = await cooldownSchema.findOne(
-		{
-			_id,
-		},
-	);
-	return cooldown;
 };

@@ -5,8 +5,9 @@ const customs = require('../models/customs');
 const parentId = '810764515582672917';
 const mainChannelId = '810768943736160276';
 
-module.exports = client => {
-	client.on('voiceStateUpdate', async (oldState, newState) => {
+module.exports = {
+	name: 'voiceStateUpdate',
+	async run(oldState, newState) {
 		const { guild, member } = newState;
 
 		const joined = !!newState.channelID;
@@ -110,7 +111,7 @@ module.exports = client => {
 
 			let jukeboxId = '';
 			const jukeboxEmbed = new Discord.MessageEmbed()
-				.setTitle('[BETA] Jukebox')
+				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(
 					{ name: 'Speichere Songs:', value: '`!save <number> <song>`', inline: true },
@@ -120,7 +121,6 @@ module.exports = client => {
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
 			await customsTextChannel.send(jukeboxEmbed).then(async (msg) => {
-				msg.pin();
 				jukeboxId = msg.id;
 				await msg.react('1️⃣');
 				await msg.react('2️⃣');
@@ -171,5 +171,5 @@ module.exports = client => {
 			textChannel.delete();
 			mainChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
 		}
-	});
+	},
 };

@@ -1,11 +1,10 @@
-const Discord = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
 	expectedArgs: '<user> <credits>',
-	callback: async ({ message, args, instance }) => {
+	callback: async ({ message, args, Discord }) => {
 		const { guild, member } = message;
-		const prefix = instance.getPrefix(guild);
+		const prefix = process.env.PREFIX;
 
 		const target = message.mentions.users.first();
 		if (!target) {

@@ -1,9 +1,9 @@
 const profileSchema = require('../models/profile-schema');
 const cooldowns = new Set();
 
-
-module.exports = (client) => {
-	client.on('message', async (message) => {
+module.exports = {
+	name: 'message',
+	async run(message, client) {
 		if ((!message.guild) || (message.author.bot)) return;
 
 		await roleLevels(message);
@@ -15,7 +15,7 @@ module.exports = (client) => {
 
 		const randomXp = Math.floor(Math.random() * (25 - 15 + 1) + 15);
 		addXP(message.guild.id, message.member.id, randomXp, message, client);
-	});
+	},
 };
 
 const getNeededXP = (level) => 1.72 * Math.pow(level, 3) + 22.29 * Math.pow(level, 2) + 121.11 * level - 45.12;
