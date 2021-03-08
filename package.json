@@ -21,7 +21,7 @@
     "canvacord": "^5.0.8",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "eslint": "^7.17.0",
+    "eslint": "^7.21.0",
     "ffmpeg-static": "^4.2.7",
     "mongoose": "^5.11.11",
     "simple-youtube-api": "^5.2.1",
