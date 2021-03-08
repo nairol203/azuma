@@ -2,9 +2,6 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	slash: true,
-	expectedArgs: '<command>',
-	minArgs: 0,
-	maxArgs: 1,
 	callback: ({ client, args, prefix, interaction }) => {
 		const { commands } = client;
 		if (!args.command) {

@@ -4,10 +4,6 @@ const economy = require('../../features/economy');
 module.exports = {
 	slash: true,
 	ownerOnly: true,
-	aliases: 'addbal',
-	minArgs: 2,
-	maxArgs: 2,
-	expectedArgs: '<user> <credits>',
 	requiredPermissions: ['ADMINISTRATOR'],
 	callback: async ({ client, args, prefix, interaction }) => {
 		const userId = args.user;

@@ -3,8 +3,6 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	slash: true,
-	minArgs: 2,
-	expectedArgs: '<1-5> <song>',
 	callback: async ({ client, args, interaction }) => {
 		const userId = interaction.member.user.id;
 		const channelId = interaction.channel_id;

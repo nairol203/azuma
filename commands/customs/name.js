@@ -2,8 +2,6 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	slash: true,
-	minArgs: 1,
-	expectedArgs: '<name>',
 	callback: async ({ client, args, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id

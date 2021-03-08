@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const cooldowns = require('../../features/cooldowns');
 
 module.exports = {
-	aliases: 'cd',
 	slash: true,
 	callback: async ({ interaction }) => {
 		const user = interaction.member.user;

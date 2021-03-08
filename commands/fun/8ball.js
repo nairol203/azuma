@@ -1,8 +1,5 @@
 module.exports = {
 	slash: true,
-	minArgs: 1,
-	maxArgs: 1,
-	expectedArgs: '<question>',
 	callback: ({}) => {
 		const messages = [
 			'Definitiv ja.',

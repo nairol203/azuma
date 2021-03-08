@@ -1,9 +1,6 @@
 const customs = require('../../models/customs');
 
 module.exports = {
-	minArgs: 1,
-	maxArgs: 1,
-	expectedArgs: '<1-99>',
 	slash: true,
 	callback: async ({ client, args, interaction }) => {
 		const user = interaction.member.user;
