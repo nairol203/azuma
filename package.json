@@ -1,7 +1,6 @@
 {
   "name": "azuma",
-  "version": "1.1.0",
-  "description": "Azuma ist ein deutscher Discordbot mit vielen Funktionen! Klicke [hier](https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=3156038&scope=bot) um Azuma auf deinen Server einzuladen!",
+  "version": "1.2.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
