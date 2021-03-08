@@ -4,15 +4,14 @@ const Canvacord = require('canvacord');
 const { MessageAttachment } = require('discord.js');
 
 module.exports = {
-	slash: true,
 	aliases: 'level',
 	minArgs: 0,
 	maxArgs: 1,
 	expectedArgs: '<@user>',
-	callback: async ({ args, interaction }) => {
-		const target = args.user || interaction.member.user;
+	callback: async ({ message }) => {
+		const target = message.mentions.users.first() || message.author;
 		if (target.bot) return;
-		const guildId = interaction.guild_id;
+		const guildId = message.guild.id;
 		const userId = target.id;
 		const user = await profileSchema.findOne({
 			guildId,
@@ -37,7 +36,7 @@ module.exports = {
 		rank.build()
 			.then(data => {
 				const attatchment = new MessageAttachment(data, 'levelcard.png');
-				return attatchment;
+				message.channel.send(attatchment);
 			});
 	},
 };
