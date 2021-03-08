@@ -12,7 +12,7 @@ module.exports = {
 
 		const credits = await economy.getCoins(guildId, userId);
 
-		return `💵  |  **${interaction.member.nick}**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(credits)}** Credits.`
+		return `💵  |  **${user.username}**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(credits)}** Credits.`
 
 		// const target = message.mentions.users.first() || message.author;
 		// if (target.bot) return;

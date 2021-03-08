@@ -14,7 +14,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setColor('#f77600')
-			.addField(`💵  |  **${interaction.member.nick}**,`, `du hast <@${userId}> **${credits}** Credit(s) gegeben.\n<@${userId}> hat jetzt **${newBalance}** Credit(s)!`);
+			.addField(`💵  |  **${interaction.member.user.username}**,`, `du hast <@${userId}> **${credits}** Credit(s) gegeben.\n<@${userId}> hat jetzt **${newBalance}** Credit(s)!`);
 		return embed;
 
 		// const guild = message.guild;

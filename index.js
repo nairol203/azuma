@@ -55,6 +55,7 @@ async function get(guildId) {
 
 client.on('ready', async () => {
 	await mongo();
+	cooldown.updateCooldown();
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get(guildId));
 	const name = 'leaderboard';
@@ -90,7 +91,6 @@ client.on('ready', async () => {
 		// 		return `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`;
 		// 	}
 		// }
-		console.log(userId, commandName, command.cooldown);
 		if (command.cooldown > 600) {
 			const getCd = await cooldown.getCooldown(userId, commandName);
 			if (!getCd) {

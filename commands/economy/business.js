@@ -63,7 +63,7 @@ module.exports = {
 			cd = showBar(cooldown);
 		}
 		const embed = new MessageEmbed()
-			.setTitle(`${member.nick}'s ${getBusiness.type}`)
+			.setTitle(`${member.user.username}'s ${getBusiness.type}`)
 			.addFields(
 				{ name: 'Akuteller Umsatz', value: `\`${format(profit)}\` 💵` },
 				{ name: 'Lagerbestand', value: cd },
