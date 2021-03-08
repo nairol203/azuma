@@ -11,7 +11,7 @@ module.exports = {
 		const newBalance = await economy.addCoins(guildId, userId, reward);
 		const embed = new MessageEmbed()
 			.setColor('#f77600')
-			.addField(`💵  |  **${message.author.username}**,`, `du hast deinen Daily geclaimed!\n\`+${coinsToGive} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(newBalance)} Credits\`.`);
+			.addField(`💵  |  **${interaction.member.nick}**,`, `du hast deinen Daily geclaimed!\n\`+${reward} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(newBalance)} Credits\`.`);
 		return embed;
 
 		// const { author, guild } = message;

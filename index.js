@@ -80,16 +80,17 @@ client.on('ready', async () => {
 		if (!command) return;
 		if (!command.slash) return;
 		if (command.disabled) return;
-		if (command.ownerOnly && userid != '255739211112513536') {
+		if (command.ownerOnly && userId != '255739211112513536') {
 			return reply(interaction, 'Nur der Bot-Owner kann diesen Befehl benutzen.');
 		}
-		if (command.requiredPermissions) {
-			const channel = client.channels.cache.get(interaction.channel_id);
-			const authorPerms = channel.permissionsFor(message.author);
-			if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-				return `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`;
-			}
-		}
+		// if (command.requiredPermissions) {
+		// 	const channel = client.channels.cache.get(interaction.channel_id);
+		// 	const authorPerms = channel.permissionsFor(message.author);
+		// 	if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
+		// 		return `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`;
+		// 	}
+		// }
+		console.log(userId, commandName, command.cooldown);
 		if (command.cooldown > 600) {
 			const getCd = await cooldown.getCooldown(userId, commandName);
 			if (!getCd) {
