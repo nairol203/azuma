@@ -87,12 +87,12 @@ module.exports = {
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
 				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein:')
 				.addFields(
-					{ name: 'Abschließen:', value: '`!lock`', inline: true },
-					{ name: 'Aufschließen:', value: '`!unlock`', inline: true },
-					{ name: 'Das Türschild ändern:', value: '`!name <name>`', inline: true },
-					{ name: 'Personen einen Zweitschlüssel geben:', value: '`!permit <username>`', inline: false },
-					{ name: 'Personen den Zweitschlüssel nehmen:', value: '`!reject <username>`', inline: false },
-					{ name: 'Ein Personenlimit einstellen:', value: '`!limit <number>`', inline: false },
+					{ name: 'Abschließen:', value: '`/lock`', inline: true },
+					{ name: 'Aufschließen:', value: '`/unlock`', inline: true },
+					{ name: 'Das Türschild ändern:', value: '`/name <name>`', inline: true },
+					{ name: 'Personen einen Zweitschlüssel geben:', value: '`/permit <user>`', inline: false },
+					{ name: 'Personen den Zweitschlüssel nehmen:', value: '`/reject <user>`', inline: false },
+					{ name: 'Ein Personenlimit einstellen:', value: '`/limit <number>`', inline: false },
 				)
 				.setColor('#b8ff00')
 				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
@@ -114,8 +114,8 @@ module.exports = {
 				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(
-					{ name: 'Speichere Songs:', value: '`!save <number> <song>`', inline: true },
-					{ name: 'Lösche Songs:', value: '`!delete <number>`', inline: true },
+					{ name: 'Speichere Songs:', value: '`/save <number> <song>`', inline: true },
+					{ name: 'Lösche Songs:', value: '`/delete <number>`', inline: true },
 					{ name: 'Deine gespeichterten Songs:', value: `:one: ${args1}\n:two: ${args2}\n:three: ${args3}\n:four: ${args4}\n:five: ${args5}` },
 				)
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')

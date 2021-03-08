@@ -59,7 +59,14 @@ client.on('ready', async () => {
 	// console.log(await get(guildId));
 	const name = '';
 	const description = '';
-	const options = [];
+	const options = [
+		{
+			name: 'slot',
+			description: 'Slot der Jukebox',
+			required: true,
+			type: 4,
+		}
+	];
 	if (name && description) {
 		await create(name, description, options, guildId);
 	}
@@ -80,7 +87,7 @@ client.on('ready', async () => {
 		if (!command.slash) return;
 		if (command.disabled) return;
 		try {
-			reply(interaction, command.callback({ client, args, interaction }));
+			reply(interaction, command.callback({ client, args, interaction, prefix }));
 		}
 		catch (error) {
 			console.error(error);
@@ -89,12 +96,12 @@ client.on('ready', async () => {
 });
 
 async function reply(interaction, response) {
+	const content = await response
 	let data = {
-		content: response,
+		content: content
 	};
-
-	if (typeof response === 'object') {
-		data = await createApiMessage(interaction, response);
+	if (typeof content === 'object') {
+		data = await createApiMessage(interaction, content);
 	}
 
 	client.api.interactions(interaction.id, interaction.token).callback.post({
