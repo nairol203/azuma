@@ -26,4 +26,4 @@ const muteSchema = mongoose.Schema(
 	},
 );
 
-module.exports = mongoose.model('mutes-testing', muteSchema);
+module.exports = mongoose.model('mute', muteSchema);

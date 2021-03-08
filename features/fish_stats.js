@@ -1,4 +1,4 @@
-const profileSchema = require('../models/fish-schema');
+const profileSchema = require('../models/fish_stats');
 
 const commonCache = {};
 
