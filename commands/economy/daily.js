@@ -6,12 +6,13 @@ module.exports = {
 	cooldown: 24 * 60 * 60,
 	callback: async ({ interaction }) => {
 		const guildId = interaction.guild_id;
-		const userId = interaction.member.user.id;
+		const user = interaction.member.user;
+		const userId = user.id;
 		const reward = 500;
 		const newBalance = await economy.addCoins(guildId, userId, reward);
 		const embed = new MessageEmbed()
 			.setColor('#f77600')
-			.addField(`💵  |  **${interaction.member.nick}**,`, `du hast deinen Daily geclaimed!\n\`+${reward} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(newBalance)} Credits\`.`);
+			.addField(`💵  |  **${user.username}**,`, `du hast deinen Daily geclaimed!\n\`+${reward} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(newBalance)} Credits\`.`);
 		return embed;
 
 		// const { author, guild } = message;
