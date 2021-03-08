@@ -31,7 +31,7 @@ const cooldowns = new Discord.Collection();
 
 const guildId = '255741114273759232';
 
-async function create(name, description, options) {
+async function create(name, description, options, guildId) {
 	const app = client.api.applications(client.user.id);
 	if (guildId) {
 		app.guilds(guildId);
@@ -57,8 +57,12 @@ client.on('ready', async () => {
 	await mongo();
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get(guildId));
-	await create('info', 'Informationen über Azuma', []);
-	await create('howto', 'Wie führe ich eine Soziale Interaktion?', []);
+	const name = '';
+	const description = '';
+	const options = [];
+	if (name && description) {
+		await create(name, description, options, guildId);
+	}
 
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {
 		const { name, options } = interaction.data;
@@ -76,7 +80,7 @@ client.on('ready', async () => {
 		if (!command.slash) return;
 		if (command.disabled) return;
 		try {
-			reply(interaction, command.callback({ client, args }));
+			reply(interaction, command.callback({ client, args, interaction }));
 		}
 		catch (error) {
 			console.error(error);
