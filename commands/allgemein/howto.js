@@ -3,6 +3,10 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	slash: 'both',
 	callback: ({ message }) => {
+		if (message) {
+			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/howto`!')
+			return;
+		}
 		const embed = new MessageEmbed()
 			.setColor('#f77600')
 			.setTitle('How to: Social Interaction')
@@ -14,9 +18,6 @@ module.exports = {
 				{ name: 'Step 4:', value: 'Sag "Tschüss", "Bye" or "Bis später"\nOder: "Gute Nacht", "Gude Nacht", "GuNa" or "guna"\nOder: "Guten Morgen, "Guden Morjen", "Gumo"' },
 				{ name: 'Optional Steps:', value: '- Frag "Was geht?"\n- Frag nach einem Hug\n- Benutze Pog-Emotes' },
 			);
-		if (message) {
-			message.channel.send(embed);
-		}
 		return embed;
 	},
 };

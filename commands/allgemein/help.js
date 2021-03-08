@@ -1,19 +1,23 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
+	slash: 'both',
 	expectedArgs: '<command>',
 	minArgs: 0,
 	maxArgs: 1,
-	callback: ({ message, args }) => {
-		const prefix = process.env.PREFIX;
-		const { commands } = message.client;
-
-		if (!args.length) {
+	callback: ({ client, message, args, prefix, interaction }) => {
+		if (message) {
+			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/help`!')
+			return;
+		}
+		const { commands } = client;
+		if (!args.command) {
+			const guild = client.guilds.cache.get(interaction.guild_id)
 			const embed = new MessageEmbed()
 				.setColor('#f77600')
-				.setTitle(`Befehle von ${message.guild.name}`)
+				.setTitle(`Befehle von ${guild.name}`)
 				.setDescription(`Tipp: Benutze \`${prefix}help <command>\` um mehr über einen bestimmten Befehl zu erfahren.`)
-				.setThumbnail(`${message.guild.iconURL()}`)
+				.setThumbnail(`${guild.iconURL()}`)
 				.addFields (
 					{ name: 'Misc', value: '`cooldowns` `howto` `info` `ping` `server`', inline: true },
 					{ name: 'Economy', value: '`credits` `daily` `pay` `business` `work`', inline: true },
@@ -22,15 +26,14 @@ module.exports = {
 					{ name: 'Musik', value: '`loop` `nowplaying` `pause` `play` `queue` `resume` `search` `skip` `stop` `volume`', inline: true },
 					{ name: 'Mod-Only', value: '`ban` `deploy` `ismuted` `kick` `mute` `prune` `unban` `unmute`', inline: true },
 				);
-			return message.channel.send(embed);
+			return embed;
 		}
-		const name = args[0].toLowerCase();
+		const name = args.command;
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return message.reply('der Befehl konnte nicht gefunden werden.');
+			return 'Der Befehl konnte nicht gefunden werden.';
 		}
-
 
 		const embed = new MessageEmbed()
 			.setTitle(prefix + name)
@@ -41,6 +44,6 @@ module.exports = {
 		if (command.expectedArgs) embed.addField('Benutzung', `\`${prefix + name + ' ' + command.expectedArgs}\``);
 		if (command.cooldown) embed.addField('Cooldown', command.cooldown + ' Sekunde(n)');
 
-		message.channel.send(embed);
+		return embed;
 	},
 };

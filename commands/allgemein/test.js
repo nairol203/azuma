@@ -1,6 +1,7 @@
 module.exports = {
+	slash: true,
 	disabled: true,
 	callback: async () => {
-		return;
+		return 'Test 123?';
 	},
 };

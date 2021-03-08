@@ -4,7 +4,7 @@ module.exports = {
 	slash: 'both',
 	callback: async ({ client, message, interaction }) => {
 		if (message) {
-			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/lock!`');
+			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/lock`!');
 			return;
 		}
 		const user = interaction.member.user;

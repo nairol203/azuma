@@ -1,8 +1,13 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	callback: ({ message }) => {
-		const { channel, guild } = message;
+	slash: 'both',
+	callback: ({ client, message, interaction }) => {
+		if (message) {
+			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/help`!')
+			return;
+		}
+		const guild = client.guilds.cache.get(interaction.guild_id);
 		const embed = new MessageEmbed()
 			.setColor('#f77600')
 			.setTitle(`${guild.name}`)
@@ -16,6 +21,6 @@ module.exports = {
 				{ name: 'Region:', value: `${guild.region}` },
 			)
 			.setFooter(`${guild.createdAt}`);
-		channel.send(embed);
+		return embed;
 	},
 };

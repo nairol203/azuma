@@ -4,6 +4,10 @@ const { version } = require('../../package.json');
 module.exports = {
 	slash: 'both',
 	callback: ({ client, message }) => {
+		if (message) {
+			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/info`!')
+			return;
+		}
 		const hours = ((process.uptime() / 60) / 60).toFixed(0);
 		const minutes = (process.uptime() / 60).toFixed(0);
 		const embed = new MessageEmbed()
@@ -17,9 +21,6 @@ module.exports = {
 				{ name: 'Server Count', value: `${client.guilds.cache.size} Server`, inline: true },
 			)
 			.setColor('f77600');
-		if (message) {
-			message.channel.send(embed);
-		}
 		return embed;
 	},
 };

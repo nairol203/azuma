@@ -57,16 +57,9 @@ client.on('ready', async () => {
 	await mongo();
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get(guildId));
-	const name = '';
-	const description = '';
-	const options = [
-		{
-			name: 'slot',
-			description: 'Slot der Jukebox',
-			required: true,
-			type: 4,
-		}
-	];
+	const name = 'test';
+	const description = 'Test test 123?';
+	const options = [];
 	if (name && description) {
 		await create(name, description, options, guildId);
 	}

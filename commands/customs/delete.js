@@ -8,7 +8,7 @@ module.exports = {
 	expectedArgs: '<1-5>',
 	callback: async ({ client, message, args, interaction }) => {
 		if (message) {
-			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/save!`');
+			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/save`!');
 			return;
 		}
 		const userId = interaction.member.user.id;
