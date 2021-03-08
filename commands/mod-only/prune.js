@@ -3,9 +3,8 @@ module.exports = {
 	maxArgs: 1,
 	expectedArgs: '<1-99>',
 	requiredPermissions: ['MANAGE_MESSAGES'],
-	callback: ({ message, args }) => {
+	callback: ({ message, args, prefix }) => {
 		const { channel } = message;
-		const prefix = process.env.PREFIX;
 		const amount = parseInt(args[0]) + 1;
 		if (amount <= 1 || amount > 100) {
 			return channel.send(`<:no:767394810909949983> Ungültiger Befehl, versuche es so: \`${prefix}prune <1-99>\``);

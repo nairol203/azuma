@@ -1,7 +1,9 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
-	callback: ({ message, Discord }) => {
+	callback: ({ message }) => {
 		const { channel, guild } = message;
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setColor('#f77600')
 			.setTitle(`${guild.name}`)
 			.setThumbnail(`${guild.iconURL()}`)

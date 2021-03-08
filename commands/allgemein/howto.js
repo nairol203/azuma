@@ -1,6 +1,9 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
-	callback: ({ message, Discord }) => {
-		const embed = new Discord.MessageEmbed()
+	slash: 'both',
+	callback: ({ message }) => {
+		const embed = new MessageEmbed()
 			.setColor('#f77600')
 			.setTitle('How to: Social Interaction')
 			.setDescription('Tipp: Groß- und Kleinschreibung ist egal.')
@@ -11,6 +14,9 @@ module.exports = {
 				{ name: 'Step 4:', value: 'Sag "Tschüss", "Bye" or "Bis später"\nOder: "Gute Nacht", "Gude Nacht", "GuNa" or "guna"\nOder: "Guten Morgen, "Guden Morjen", "Gumo"' },
 				{ name: 'Optional Steps:', value: '- Frag "Was geht?"\n- Frag nach einem Hug\n- Benutze Pog-Emotes' },
 			);
-		return message.channel.send(embed);
+		if (message) {
+			message.channel.send(embed);
+		}
+		return embed;
 	},
 };

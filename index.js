@@ -7,8 +7,8 @@ const prefix = process.env.PREFIX;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
-
 const cooldown = require('./features/cooldowns');
+
 const commandFolders = fs.readdirSync('./commands');
 
 for (const folder of commandFolders) {
@@ -29,11 +29,88 @@ for (const file of featuresFiles) {
 
 const cooldowns = new Discord.Collection();
 
-client.once('ready', async () => {
+const guildId = '255741114273759232';
+
+async function create(name, description, options) {
+	const app = client.api.applications(client.user.id);
+	if (guildId) {
+		app.guilds(guildId);
+	}
+	app.commands.post({
+		data: {
+			name: name,
+			description: description,
+			options: options,
+		},
+	});
+}
+
+async function get(guildId) {
+	const app = client.api.applications(client.user.id);
+	if (guildId) {
+		app.guilds(guildId);
+	}
+	return app.commands.get();
+}
+
+client.on('ready', async () => {
 	await mongo();
-	cooldown.updateCooldown();
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
+	// console.log(await get(guildId));
+	await create('info', 'Informationen über Azuma', []);
+	await create('howto', 'Wie führe ich eine Soziale Interaktion?', []);
+
+	client.ws.on('INTERACTION_CREATE', async (interaction) => {
+		const { name, options } = interaction.data;
+		const commandName = name.toLowerCase();
+		const args = {};
+		if (options) {
+			for (const option of options) {
+				const { name, value } = option;
+				args[name] = value;
+			}
+		}
+		const command = client.commands.get(commandName)
+		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+		if (!command) return;
+		if (!command.slash) return;
+		if (command.disabled) return;
+		try {
+			reply(interaction, command.callback({ client, args }));
+		}
+		catch (error) {
+			console.error(error);
+		}
+	});
 });
+
+async function reply(interaction, response) {
+	let data = {
+		content: response,
+	};
+
+	if (typeof response === 'object') {
+		data = await createApiMessage(interaction, response);
+	}
+
+	client.api.interactions(interaction.id, interaction.token).callback.post({
+		data: {
+			type: 4,
+			data,
+		},
+	});
+}
+
+async function createApiMessage(interaction, content) {
+	const { data, files } = await Discord.APIMessage.create(
+		client.channels.resolve(interaction.channel_id),
+		content,
+	)
+		.resolveData()
+		.resolveFiles();
+
+	return { ...data, files };
+}
 
 client.on('message', async message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -44,6 +121,7 @@ client.on('message', async message => {
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if (!command) return;
+	if (command.slash == true) return;
 	if (command.disabled) return;
 	if (!command.guildOnly && message.channel.type === 'dm') {
 		return message.reply('du kannst diesen Befehl nicht in Direktnachrichten benutzen.');
@@ -94,7 +172,7 @@ client.on('message', async message => {
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 	}
 	try {
-		command.callback({ client, message, args, Discord });
+		command.callback({ client, message, args, prefix, Discord });
 	}
 	catch (error) {
 		console.error(error);

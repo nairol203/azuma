@@ -1,8 +1,9 @@
 module.exports = {
-	callback: ({ message }) => {
-		message.channel.send(':ping_pong: Pong!').then((resultMessage) => {
-			const ping = resultMessage.createdTimestamp - message.createdTimestamp;
-			resultMessage.edit(`:ping_pong: Pong! - **${ping} ms**`);
-		});
+	slash: 'both',
+	callback: ({ client, message }) => {
+		if (message) {
+			message.channel.send(`:ping_pong: Pong! - **${Math.round(client.ws.ping)}ms**`);
+		}
+		return `:ping_pong: Pong! - **${Math.round(client.ws.ping)}ms**`;
 	},
 };

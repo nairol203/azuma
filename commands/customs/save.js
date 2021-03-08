@@ -39,7 +39,7 @@ module.exports = {
 			if (!field5) field5 = '/';
 
 			const embed = new Discord.MessageEmbed()
-				.setTitle('[BETA] Jukebox')
+				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(
 					{ name: 'Speichere Songs:', value: `\`${prefix}save <number> <song>\``, inline: true },
@@ -76,7 +76,7 @@ module.exports = {
 			if (!field5) field5 = '/';
 
 			const embed = new Discord.MessageEmbed()
-				.setTitle('[BETA] Jukebox')
+				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(
 					{ name: 'Speichere Songs:', value: `\`${prefix}save <number> <song>\``, inline: true },
@@ -113,7 +113,7 @@ module.exports = {
 			if (!field5) field5 = '/';
 
 			const embed = new Discord.MessageEmbed()
-				.setTitle('[BETA] Jukebox')
+				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(
 					{ name: 'Speichere Songs:', value: `\`${prefix}save <number> <song>\``, inline: true },
@@ -150,7 +150,7 @@ module.exports = {
 			if (!field5) field5 = '/';
 
 			const embed = new Discord.MessageEmbed()
-				.setTitle('[BETA] Jukebox')
+				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(
 					{ name: 'Speichere Songs:', value: `\`${prefix}save <number> <song>\``, inline: true },
@@ -187,7 +187,7 @@ module.exports = {
 			if (!field5) field5 = '/';
 
 			const embed = new Discord.MessageEmbed()
-				.setTitle('[BETA] Jukebox')
+				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(
 					{ name: 'Speichere Songs:', value: `\`${prefix}save <number> <song>\``, inline: true },

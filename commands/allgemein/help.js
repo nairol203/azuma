@@ -1,13 +1,15 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	expectedArgs: '<command>',
 	minArgs: 0,
 	maxArgs: 1,
-	callback: ({ message, args, Discord }) => {
+	callback: ({ message, args }) => {
 		const prefix = process.env.PREFIX;
 		const { commands } = message.client;
 
 		if (!args.length) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setColor('#f77600')
 				.setTitle(`Befehle von ${message.guild.name}`)
 				.setDescription(`Tipp: Benutze \`${prefix}help <command>\` um mehr über einen bestimmten Befehl zu erfahren.`)
@@ -30,7 +32,7 @@ module.exports = {
 		}
 
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setTitle(prefix + name)
 			.setColor('#f77600');
 

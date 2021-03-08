@@ -1,11 +1,12 @@
+const { MessageEmbed } = require('discord.js');
 const cooldowns = require('../../features/cooldowns');
 
 module.exports = {
 	aliases: 'cd',
-	callback: async ({ message, Discord }) => {
+	callback: async ({ message }) => {
 		const { author, channel } = message;
 		const userId = author.id;
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.addFields(
 				{ name: `Cooldowns von ${author.username}`, value: `
 Daily: **${await cooldowns.mathCooldown(userId, 'daily')}**

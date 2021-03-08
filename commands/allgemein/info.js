@@ -1,10 +1,12 @@
+const { MessageEmbed } = require('discord.js');
 const { version } = require('../../package.json');
 
 module.exports = {
-	callback: ({ client, message, Discord }) => {
+	slash: 'both',
+	callback: ({ client, message }) => {
 		const hours = ((process.uptime() / 60) / 60).toFixed(0);
 		const minutes = (process.uptime() / 60).toFixed(0);
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setAuthor(`Information über ${client.user.username}`, client.user.displayAvatarURL())
 			.addFields (
 				{ name: 'Allgemeine Info', value: 'Dieser Bot wurde von <@!255739211112513536> programmiert. Falls irgendetwas nicht funktioniert, schreibt ihm!' },
@@ -15,6 +17,9 @@ module.exports = {
 				{ name: 'Server Count', value: `${client.guilds.cache.size} Server`, inline: true },
 			)
 			.setColor('f77600');
-		return message.channel.send(embed);
+		if (message) {
+			message.channel.send(embed);
+		}
+		return embed;
 	},
 };
