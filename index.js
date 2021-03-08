@@ -148,7 +148,7 @@ async function createApiMessage(interaction, content) {
 }
 
 client.on('message', async message => {
-	if (message.content.startsWith('!')) return message.channel.send('Azuma unterstüzt jetzt Discord-Slash-Commands, daher ist die neue Prefix jetzt `/`.')
+	if (message.content.startsWith('!')) return message.channel.send('Azuma unterstüzt jetzt Discord-Slash-Commands! Das heißt aber auch, das der Bot jetzt eine andere Prefix (/) hat. Hoffe es ist nicht zu scheiße sich umzugewöhnen <:FeelsOkayMan:743222752449790054>\nDein cooler Gamer Florian :)')
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
