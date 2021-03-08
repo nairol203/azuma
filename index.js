@@ -57,8 +57,8 @@ client.on('ready', async () => {
 	await mongo();
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get(guildId));
-	const name = 'test';
-	const description = 'Test test 123?';
+	const name = 'leaderboard';
+	const description = 'Zeigt das Leaderboard vom Level-System an';
 	const options = [];
 	if (name && description) {
 		await create(name, description, options, guildId);
@@ -66,6 +66,7 @@ client.on('ready', async () => {
 
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {
 		const { name, options } = interaction.data;
+		const userId = interaction.member.user.id;
 		const commandName = name.toLowerCase();
 		const args = {};
 		if (options) {
@@ -79,6 +80,36 @@ client.on('ready', async () => {
 		if (!command) return;
 		if (!command.slash) return;
 		if (command.disabled) return;
+		if (command.ownerOnly && userid != '255739211112513536') {
+			return reply(interaction, 'Nur der Bot-Owner kann diesen Befehl benutzen.');
+		}
+		if (command.cooldown > 600) {
+			const getCd = await cooldown.getCooldown(userId, commandName);
+			if (!getCd) {
+				await cooldown.setCooldown(userId, commandName, command.cooldown);
+			}
+			else {
+				const result = await cooldown.mathCooldown(userId, commandName);
+				return reply(interaction, `Du hast noch **${result}**Cooldown!`);
+			}
+		}
+		if (command.cooldown <= 600) {
+			if (!cooldowns.has(commandName)) {
+				cooldowns.set(commandName, new Discord.Collection());
+			}
+			const now = Date.now();
+			const timestamps = cooldowns.get(commandName);
+			const cooldownAmount = (command.cooldown || 0) * 1000;
+			if (timestamps.has(userId)) {
+				const expirationTime = timestamps.get(userId) + cooldownAmount;
+				if (now < expirationTime) {
+					const timeLeft = (expirationTime - now) / 1000;
+					return reply(interaction, `Du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.');
+				}
+			}
+			timestamps.set(userId, now);
+			setTimeout(() => timestamps.delete(userId), cooldownAmount);
+		}
 		try {
 			reply(interaction, command.callback({ client, args, interaction, prefix }));
 		}
@@ -117,6 +148,7 @@ async function createApiMessage(interaction, content) {
 }
 
 client.on('message', async message => {
+	if (message.content.startsWith('!')) return message.channel.send('Azuma unterstüzt jetzt Discord-Slash-Commands, daher ist die neue Prefix jetzt `/`.')
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);

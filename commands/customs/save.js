@@ -2,14 +2,10 @@ const { MessageEmbed } = require('discord.js');
 const customs = require('../../models/customs');
 
 module.exports = {
-	slash: 'both',
+	slash: true,
 	minArgs: 2,
 	expectedArgs: '<1-5> <song>',
-	callback: async ({ client, message, args, interaction }) => {
-		if (message) {
-			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/save`!');
-			return;
-		}
+	callback: async ({ client, args, interaction }) => {
 		const userId = interaction.member.user.id;
 		const channelId = interaction.channel_id;
 		const slot = args.slot;

@@ -1,8 +1,9 @@
 module.exports = {
+	slash: true,
 	minArgs: 1,
 	maxArgs: 1,
 	expectedArgs: '<question>',
-	callback: ({ message }) => {
+	callback: ({}) => {
 		const messages = [
 			'Definitiv ja.',
 			'Auf keinen Fall!',
@@ -17,6 +18,6 @@ module.exports = {
 			'Meine Antwort ist nein.',
 		];
 		const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-		message.channel.send(randomMessage);
+		return randomMessage;
 	},
 };

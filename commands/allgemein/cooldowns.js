@@ -3,12 +3,8 @@ const cooldowns = require('../../features/cooldowns');
 
 module.exports = {
 	aliases: 'cd',
-	slash: 'both',
-	callback: async ({ message, interaction }) => {
-		if (message) {
-			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/cooldowns`!');
-			return;
-		}
+	slash: true,
+	callback: async ({ interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id;
 		const embed = new MessageEmbed()

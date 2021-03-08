@@ -1,13 +1,9 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	slash: 'both',
-	callback: ({ message }) => {
-		if (message) {
-			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/howto`!')
-			return;
-		}
-		const embed = new MessageEmbed()
+	slash: true,
+	callback: ({}) => {
+			const embed = new MessageEmbed()
 			.setColor('#f77600')
 			.setTitle('How to: Social Interaction')
 			.setDescription('Tipp: Groß- und Kleinschreibung ist egal.')

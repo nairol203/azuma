@@ -4,12 +4,8 @@ module.exports = {
 	minArgs: 1,
 	maxArgs: 1,
 	expectedArgs: '<1-99>',
-	slash: 'both',
-	callback: async ({ client, message, args, interaction }) => {
-		if (message) {
-			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/limit`!');
-			return;
-		}
+	slash: true,
+	callback: async ({ client, args, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id
 		const textChannelId = interaction.channel_id;

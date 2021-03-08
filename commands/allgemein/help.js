@@ -1,15 +1,11 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	slash: 'both',
+	slash: true,
 	expectedArgs: '<command>',
 	minArgs: 0,
 	maxArgs: 1,
-	callback: ({ client, message, args, prefix, interaction }) => {
-		if (message) {
-			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/help`!')
-			return;
-		}
+	callback: ({ client, args, prefix, interaction }) => {
 		const { commands } = client;
 		if (!args.command) {
 			const guild = client.guilds.cache.get(interaction.guild_id)

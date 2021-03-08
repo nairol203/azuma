@@ -3,12 +3,8 @@ const customs = require('../../models/customs');
 module.exports = {
 	minArgs: 1,
 	expectedArgs: '<username>',
-	slash: 'both',
-	callback: async ({ client, message, args, interaction }) => {
-		if (message) {
-			message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/permit`!');
-			return;
-		}
+	slash: true,
+	callback: async ({ client, args, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id
 		const textChannelId = interaction.channel_id;

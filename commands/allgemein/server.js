@@ -1,12 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	slash: 'both',
-	callback: ({ client, message, interaction }) => {
-		if (message) {
-			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/help`!')
-			return;
-		}
+	slash: true,
+	callback: ({ client, interaction }) => {
 		const guild = client.guilds.cache.get(interaction.guild_id);
 		const embed = new MessageEmbed()
 			.setColor('#f77600')

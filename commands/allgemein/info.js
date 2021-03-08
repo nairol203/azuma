@@ -2,12 +2,8 @@ const { MessageEmbed } = require('discord.js');
 const { version } = require('../../package.json');
 
 module.exports = {
-	slash: 'both',
-	callback: ({ client, message }) => {
-		if (message) {
-			message.cannel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/info`!')
-			return;
-		}
+	slash: true,
+	callback: ({ client }) => {
 		const hours = ((process.uptime() / 60) / 60).toFixed(0);
 		const minutes = (process.uptime() / 60).toFixed(0);
 		const embed = new MessageEmbed()

@@ -1,6 +1,7 @@
 const economy = require('../../features/economy');
 const business = require('../../features/business');
 const cooldowns = require('../../features/cooldowns');
+const { MessageEmbed } = require('discord.js');
 
 const documents = business.getInfo(1);
 const weed = business.getInfo(2);
@@ -22,11 +23,60 @@ function showBar(cd) {
 }
 
 module.exports = {
+	slash: false,
 	minArgs: 0,
 	maxArgs: 1,
 	expectedArgs: '[buy] | [upgrade]',
 	description: 'Verwalte dein eigenes Business und verdiene Credits!',
-	callback: async ({ message, args, Discord }) => {
+	callback: async ({ message, args, interaction }) => {
+		// if (message) {
+		// 	message.channel.send('Der Befehl wurde zu einem Slash-Command geupdatet! Benutze von jetzt an `/business`!');
+		// 	return;
+		// }
+		// const guildId = interaction.guild_id
+		// const member = interaction.member;
+		// const userId = member.user.id
+
+		// const targetCoins = await economy.getCoins(guildId, userId);
+		// const getBusiness = await business.getBusiness(guildId, userId);
+
+		// if (args.type === 'buy') {
+		// 	const filter = m => m.author.id === userId;
+		// 	return 'Dieser Befehl befindet sich aktuell in Wartungsarbeiten.';
+		// }
+		// if (args.type === 'upgrade') {
+		// 	return 'Dieser Befehl befindet sich aktuell in Wartungsarbeiten.';
+		// }
+		// if (getBusiness === null) return '<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!';
+
+		// const company = await business.setCompany(guildId, userId);
+		// const profit = await business.checkProfit(guildId, userId);
+
+		// const up1 = getBusiness.upgrade1 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
+		// const up2 = getBusiness.upgrade2 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
+		// const up3 = getBusiness.upgrade3 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
+
+		// const getCooldown = await cooldowns.getCooldown(userId, 'work');
+
+		// let cd = '';
+		// let cooldown = '';
+		// if (getCooldown === null) {
+		// 	cd = '██████████████████\nDein Lager ist voll! Verkaufe die Ware mit `!work`';
+		// }
+		// else {
+		// 	cooldown = getCooldown;
+		// 	cd = showBar(cooldown);
+		// }
+		// const embed = new MessageEmbed()
+		// 	.setTitle(`${member.nick}'s ${getBusiness.type}`)
+		// 	.addFields(
+		// 		{ name: 'Akuteller Umsatz', value: `\`${format(profit)}\` 💵` },
+		// 		{ name: 'Lagerbestand', value: cd },
+		// 		{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+		// 	)
+		// 	.setColor('#2f3136');
+		// return embed;
+
 		const { author, guild, channel } = message;
 		const guildId = guild.id;
 		const userId = author.id;
