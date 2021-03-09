@@ -58,8 +58,9 @@ client.on('ready', async () => {
 	cooldown.updateCooldown();
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get(guildId));
-	const name = 'leaderboard';
-	const description = 'Zeigt das Leaderboard vom Level-System an';
+	// client.api.applications(client.user.id).guilds(guildId).commands('').delete()
+	const name = '';
+	const description = '!';
 	const options = [];
 	if (name && description) {
 		await create(name, description, options, guildId);

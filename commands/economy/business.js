@@ -24,25 +24,14 @@ function showBar(cd) {
 
 module.exports = {
 	slash: true,
-	minArgs: 0,
-	maxArgs: 1,
-	expectedArgs: '[buy] | [upgrade]',
-	description: 'Verwalte dein eigenes Business und verdiene Credits!',
-	callback: async ({ args, interaction }) => {
+	callback: async ({ interaction }) => {
 		const guildId = interaction.guild_id
 		const member = interaction.member;
 		const userId = member.user.id
 
-		const targetCoins = await economy.getCoins(guildId, userId);
 		const getBusiness = await business.getBusiness(guildId, userId);
 
-		if (args.type === 'buy') {
-			return 'Dieser Befehl befindet sich aktuell in Wartungsarbeiten, versuche es später noch einmal.';
-		}
-		if (args.type === 'upgrade') {
-			return 'Dieser Befehl befindet sich aktuell in Wartungsarbeiten, versuche es später noch einmal.';
-		}
-		if (getBusiness === null) return '<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!';
+		if (getBusiness === null) return '<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!buy [business]`!';
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
