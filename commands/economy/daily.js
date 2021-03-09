@@ -14,16 +14,5 @@ module.exports = {
 			.setColor('#f77600')
 			.addField(`💵  |  **${user.username}**,`, `du hast deinen Daily geclaimed!\n\`+${reward} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(newBalance)} Credits\`.`);
 		return embed;
-
-		// const { author, guild } = message;
-
-		// const coinsToGive = 500;
-
-		// const newBalance = await economy.addCoins(guild.id, author.id, coinsToGive);
-
-		// const embed = new Discord.MessageEmbed()
-		// 	.setColor('#f77600')
-		// 	.addField(`💵  |  **${message.author.username}**,`, `du hast deinen Daily geclaimed!\n\`+${coinsToGive} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(newBalance)} Credits\`.`);
-		// message.channel.send(embed);
 	},
 };

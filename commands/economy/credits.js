@@ -13,15 +13,5 @@ module.exports = {
 		const credits = await economy.getCoins(guildId, userId);
 
 		return `💵  |  **${user.username}**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(credits)}** Credits.`
-
-		// const target = message.mentions.users.first() || message.author;
-		// if (target.bot) return;
-
-		// const guildId = message.guild.id;
-		// const userId = target.id;
-
-		// const coins = await economy.getCoins(guildId, userId);
-
-		// message.channel.send(`💵  |  **${target.username}**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(coins)}** Credits.`);
 	},
 };
