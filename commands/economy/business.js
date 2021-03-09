@@ -1,6 +1,7 @@
+const { MessageEmbed } = require('discord.js');
+
 const business = require('../../features/business');
 const cooldowns = require('../../features/cooldowns');
-const { MessageEmbed } = require('discord.js');
 
 function format(number) {
 	const result = Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(number);
