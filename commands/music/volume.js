@@ -2,7 +2,7 @@ const music = require('./play');
 
 module.exports = {
 	slash: true,
-	callback: ({ interaction, args }) => {
+	callback: ({ client, interaction, args }) => {
 		const serverQueue = music.serverQueue(interaction.guild_id);
 		const number = args.number;
 		const guild = client.guilds.cache.get(interaction.guild_id)
