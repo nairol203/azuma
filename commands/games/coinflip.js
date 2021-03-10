@@ -1,62 +1,55 @@
 const economy = require('../../features/economy');
 
 module.exports = {
-	minArgs: 2,
-	maxArgs: 2,
-	expectedArgs: '<@user> <credits>',
-	callback: async ({ message, args }) => {
-		const target = message.mentions.users.first();
-		const { author, channel, guild } = message;
-		const guildId = guild.id;
+	slash: true,
+	callback: async ({ client, args, interaction }) => {
+		const guildId = interaction.guild_id;
+		const userId = interaction.member.user.id;
+		const channel = client.channels.cache.get(interaction.channel_id);
 
-		if (!target) return message.reply('`!coinflip <@user> <credits>`');
-		if (!args[1]) return message.reply('du musst schon etwas Geld setzen! -> `!coinflip <@user> <credits>`');
-		if (target.id === author.id) return channel.send('Du kannst doch nicht mit dir selbst spielen <:FeelsDankMan:780215649384398908>');
+		const targetId = args.user;
+		const credits = args.credits;
 
-		if ((isNaN(args[1])) || args[1] < 1) return channel.send('Bitte setze einen gültigen Betrag!');
-		const coinsOwned = await economy.getCoins(guildId, author.id);
-		if (coinsOwned < args[1]) return channel.send(`Du hast doch gar keine ${args[1]} 💵!`);
+		const target = client.users.cache.get(targetId);
 
-		const messages = ['zahl', 'kopf'];
-		const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+		if (target.bot) return 'Du kannst nicht mit einem Bot spielen!';
+		if (userId === targetId) return 'Du kannst doch nicht mit dir selbst spielen <:FeelsDankMan:780215649384398908>';
+		if (credits < 1) return 'Netter Versuch, aber du kannst nicht mit negativen Einsatz spielen!';
+		const coinsOwned = await economy.getCoins(guildId, userId);
+		if (coinsOwned < credits) return `Du hast doch gar keine ${credits} 💵!`;
 
-		const filter = m => m.author.id === target.id;
-		channel.send(`${target}, du wurdest zu einem Coinflip von ${author} herausgefordert!\nSchreibe \`accept\` oder \`deny\`!`).then(() => {
-			channel.awaitMessages(filter, {
-				max: 1,
-				time: 30000,
-				errors: ['time'],
-			})
-				.then(async message => {
-					message = message.first();
-					if (message.content.toLowerCase() == 'accept') {
-						const targetCoins = await economy.getCoins(guildId, target.id);
-						if (targetCoins < args[1]) return channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} 💵 hast.`);
+		const randomNumber = [1, 2][Math.floor(Math.random() * 2)];
 
-						channel.send('<a:Coin:795346652599812147>*flipping...*');
-
-						setTimeout(async function() {
-							if(randomMessage === 'zahl') {
-								channel.send(`${target} hat ${args[1]} 💵 gewonnen!`);
-								await economy.addCoins(guildId, target.id, args[1]);
-								await economy.addCoins(guildId, author.id, args[1] * -1);
-							}
-							if(randomMessage === 'kopf') {
-								channel.send(`${author} hat ${args[1]} 💵 gewonnen!`);
-								await economy.addCoins(guildId, target.id, args[1] * -1);
-								await economy.addCoins(guildId, author.id, args[1]);
-							}
-						}, 1500);
-						return;
-					}
-					if (message.content.toLowerCase() == 'deny') {
-						return channel.send(`${target} hat den Coinflip abgelehnt!`);
-					}
-					else {
-						return channel.send(`${target}, du hast nicht \`accept\` oder \`deny\` geschrieben!`);
-					}
-				})
-				.catch(collected => {
+		channel.send(`<@${targetId}>, du wurdest zu einem Coinflip von <@${userId}> herausgefordert!\nReagiere innerhalb von 30 Sekunden mit 👍 oder 👎!`).then(async (msg) => {
+			await msg.react('👍');
+			await msg.react('👎');
+			msg.awaitReactions((reaction, user) => user.id == targetId && (reaction.emoji.name == '👍') || (reaction.emoji.name == '👎'),
+				{ max: 1, time: 30000 }).then(async collected => {
+					switch (collected.first().emoji.name) {
+						case '👍':
+							const targetCoins = await economy.getCoins(guildId, targetId);
+							if (targetCoins < args[1]) return channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} 💵 hast.`);
+							channel.send('<a:Coin:795346652599812147>*flipping...*');
+							setTimeout(async function() {
+								switch (randomNumber) {
+									case 1:
+										channel.send(`<@${targetId}> hat ${credits} 💵 gewonnen!`);
+										await economy.addCoins(guildId, targetId, credits);
+										await economy.addCoins(guildId, userId, credits * -1);
+										break;
+									case 2:
+										channel.send(`<@${userId}> hat ${credits} 💵 gewonnen!`);
+										await economy.addCoins(guildId, targetId, credits * -1);
+										await economy.addCoins(guildId, userId, credits);
+										break;
+								};
+							}, 1500);
+							break;
+						default: 
+							channel.send(`<@${targetId}>, du hast den Coinflip abgelehnt!`);
+							break;
+					};
+				}).catch(() => {
 					return channel.send('Timeout! Bitte anwortet immer innerhalb von 30 Sekunden!');
 				});
 		});

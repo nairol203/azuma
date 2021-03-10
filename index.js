@@ -59,46 +59,21 @@ client.on('ready', async () => {
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get(guildId));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete()
-	const name = 'fish';
-	const description = 'Angle in Discord ein paar Fische!';
+	const name = 'rps';
+	const description = 'Spiele mit einem anderen User Schere, Stein, Papier!';
 	const options = [
 		{
-			name: 'arguments',
-			description: 'Angle in Discord ein paar Fische!',
-			type: 3,
-			choices: [
-				{
-					name: 'inventory',
-					value: 'inventory',
-				},
-				{
-					name: 'math',
-					value: 'math',
-				},
-				{
-					name: 'rarefish',
-					value: 'rarefish',
-				},
-				{
-					name: 'redeem',
-					value: 'redeem',
-				},
-				{
-					name: 'sell',
-					value: 'sell',
-				},
-				{
-					name: 'stats',
-					value: 'stats',
-				},
-			]
+			name: 'user',
+			description: 'Beliebiges Servermitglied',
+			type: 6,
+			required: true,
 		},
 		{
-			name: 'type',
-			description: 'Nur bei redeem und sell benötigt!',
-			type: 3,
+			name: 'credits',
+			description: 'Anzahl der Credits mit denen du spielen möchtest!',
+			type: 4,
+			required: true,
 		}
-		
 	];
 	if (name && description) {
 		await create(name, description, options, guildId);
