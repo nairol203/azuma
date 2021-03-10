@@ -12,7 +12,7 @@ module.exports = {
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
 		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
-		const permissons = voiceChannel.permissionsFor(message.client.user);
+		const permissons = voiceChannel.permissionsFor(client.user);
 		if(!permissons.has('CONNECT')) return '<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!';
 		if(!permissons.has('SPEAK')) return '<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!';
 		const channel = client.channels.cache.get(interaction.channel_id);
