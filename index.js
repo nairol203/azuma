@@ -8,7 +8,6 @@ const prefix = process.env.PREFIX;
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
 const cooldown = require('./features/cooldowns');
-const { type } = require('os');
 
 const commandFolders = fs.readdirSync('./commands');
 
