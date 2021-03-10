@@ -8,13 +8,18 @@ const queue = new Map();
 module.exports = {
 	slash: true,
 	callback: async ({ client, args, interaction }) => {
+		const userId = interaction.member.user.id;
+		const guildId = interaction.guild_id;
+		const guild = client.guilds.cache.get(guildId)
 		const searchString = args.song;
 		const url = searchString ? searchString.replace(/<(.+)>/g, '$1') : '';
-		const voiceChannel = undefined;
+		const member = guild.members.cache.get(userId);
+		const voiceChannel = member.voice.channel;
+		console.log(voiceChannel)
 		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
-		// const permissons = voiceChannel.permissionsFor(message.client.user);
-		// if(!permissons.has('CONNECT')) return '<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!';
-		// if(!permissons.has('SPEAK')) return '<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!';
+		const permissons = voiceChannel.permissionsFor(client.user);
+		if(!permissons.has('CONNECT')) return '<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!';
+		if(!permissons.has('SPEAK')) return '<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!';
 
 		if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
 			const playList = await youtube.getPlaylist(url);
