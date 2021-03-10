@@ -8,21 +8,21 @@ const fish_rarefish = require('../../features/fish_rarefish');
 const cooldowns = new Collection();
 
 const price = {
-    common: 12,
-    uncommon: 20,
-    rare: 1250,
-    garbage: 6,
-    perCast: 10,
+	common: 12,
+	uncommon: 20,
+	rare: 1250,
+	garbage: 6,
+	perCast: 10,
 };
 
 module.exports = {
-    slash: true,
-    callback: async ({ args, interaction }) => {
-        const guildId = interaction.guild_id;
-        const user = interaction.member.user;
-        const userId = user.id;
+	slash: true,
+	callback: async ({ args, interaction }) => {
+		const guildId = interaction.guild_id;
+		const user = interaction.member.user;
+		const userId = user.id;
 
-        if (args.arguments === 'inventory') {
+		if (args.arguments === 'inventory') {
 			const common = await fish_inv.getCommon(userId);
 			const uncommon = await fish_inv.getUncommon(userId);
 			const garbage = await fish_inv.getGarbage(userId);
@@ -30,8 +30,9 @@ module.exports = {
 			const embed = new MessageEmbed()
 				.setColor('#00b8ff')
 				.addField(`:fishing_pole_and_fish:  **|**  **${user.username}'s** Angel-Inventar:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🗑️ **Müll** | ${garbage}`);
-			return embed;        }
-        else if (args.arguments === 'math') {
+			return embed;
+		}
+		else if (args.arguments === 'math') {
 			const common = await fish_stats.getCommon(userId); const uncommon = await fish_stats.getUncommon(userId);
 			const rare = await fish_stats.getRare(userId); const garbage = await fish_stats.getGarbage(userId);
 			const total = (common + uncommon + rare + garbage);
@@ -58,125 +59,115 @@ module.exports = {
 					{ name: 'Road to 100 Rares:', value: `Du brauchst aktuell noch **${Math.round(100 / (rare / total)) - total}** Angelversuche (insgesamt **${Math.round(100 / (rare / total))}** Versuche) bis zu den 100 Rares! Weiter so, **${total}** Versuche hast du schon.`, inline: false },
 				);
 			return embed;
-        }
-        else if (args.arguments === 'rarefish') {
+		}
+		else if (args.arguments === 'rarefish') {
 			const result = await fish_rarefish.resultRarefish(userId);
 			return `:fishing_pole_and_fish:  |  ${user.username}'s Sammlung:\n${result}`;
-        }
-        else if (args.arguments === 'redeem') {
-            if (!args.type) return 'Du musst einen Fisch definieren, den du einlösen möchtest!';
-            const result = await fish_rarefish.check(userId);
+		}
+		else if (args.arguments === 'redeem') {
+			if (!args.type) return 'Du musst einen Fisch definieren, den du einlösen möchtest!';
+			const result = await fish_rarefish.check(userId);
 			if (result === null) return 'Du besitzt keine seltenen Fische!';
 			const arg = await fish_rarefish.checkArg(args.type);
 			const rare = await fish_rarefish.check(userId);
-            if (arg === 'penguin') {
+			switch (arg) {
+			case 'penguin':
 				if (rare.penguin === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemPenguin(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.penguin + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'turtle') {
+				return 'Du hast für deinen' + fish_rarefish.collection.penguin + price.rare + '💵 bekommen!';
+			case 'turtle':
 				if (rare.turtle === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemTurtle(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.turtle + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'octopus') {
+				return 'Du hast für deinen' + fish_rarefish.collection.turtle + price.rare + '💵 bekommen!';
+			case 'octopus':
 				if (rare.octopus === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemOctopus(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.octopus + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'squid') {
+				return 'Du hast für deinen' + fish_rarefish.collection.octopus + price.rare + '💵 bekommen!';
+			case 'squid':
 				if (rare.squid === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemSquid(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.squid + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'shrimp') {
+				return 'Du hast für deinen' + fish_rarefish.collection.squid + price.rare + '💵 bekommen!';
+			case 'shrimp':
 				if (rare.shrimp === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemShrimp(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.shrimp + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'crab') {
+				return 'Du hast für deinen' + fish_rarefish.collection.shrimp + price.rare + '💵 bekommen!';
+			case 'crab':
 				if (rare.crab === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemCrab(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.crab + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'blowfish') {
+				return 'Du hast für deinen' + fish_rarefish.collection.crab + price.rare + '💵 bekommen!';
+			case 'blowfish':
 				if (rare.blowfish === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemBlowfish(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.blowfish + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'dolphin') {
+				return 'Du hast für deinen' + fish_rarefish.collection.blowfish + price.rare + '💵 bekommen!';
+			case 'dolphin':
 				if (rare.dolphin === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemDolphin(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.dolphin + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'whale') {
+				return 'Du hast für deinen' + fish_rarefish.collection.dolphin + price.rare + '💵 bekommen!';
+			case 'whale':
 				if (rare.whale === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemWhale(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.whale + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'whale2') {
+				return 'Du hast für deinen' + fish_rarefish.collection.whale + price.rare + '💵 bekommen!';
+			case 'whale2':
 				if (rare.whale2 === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemWhale2(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.whale2 + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'shark') {
+				return 'Du hast für deinen' + fish_rarefish.collection.whale2 + price.rare + '💵 bekommen!';
+			case 'shark':
 				if (rare.shark === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemShark(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.shark + price.rare + `💵 bekommen!`;
-            }
-            else if (arg === 'crocodile') {
+				return 'Du hast für deinen' + fish_rarefish.collection.shark + price.rare + '💵 bekommen!';
+			case 'crocodile':
 				if (rare.crocodile === false) return 'Du besitzt diesen seltenen Fisch nicht!';
 				await fish_rarefish.redeemCrocodile(userId);
 				await economy.addCoins(guildId, userId, 1250);
-				return `Du hast für deinen` + fish_rarefish.collection.crocodile + price.rare + `💵 bekommen!`;
-            }
-            else {
-                return 'Richtige Types wären: 🐧🐢🐙🦑🦐🦀🐡🐬🐳🐋🦈 oder 🐊';
-            }
-        }
-        else if (args.arguments === 'sell') {
-            if (!args.type) return 'Du musst einen Typ von Fischen definieren, den du verkaufen möchtest!';
-            
-            const common = await fish_inv.getCommon(userId);
+				return 'Du hast für deinen' + fish_rarefish.collection.crocodile + price.rare + '💵 bekommen!';
+			default:
+				return 'Richtige Types wären: 🐧🐢🐙🦑🦐🦀🐡🐬🐳🐋🦈 oder 🐊';
+			}
+		}
+		else if (args.arguments === 'sell') {
+			if (!args.type) return 'Du musst einen Typ von Fischen definieren, den du verkaufen möchtest!';
+
+			const common = await fish_inv.getCommon(userId);
 			const uncommon = await fish_inv.getUncommon(userId);
 			const garbage = await fish_inv.getGarbage(userId);
 
-            if (args.type === 'common') {
+			if (args.type === 'common') {
 				await fish_inv.addCommon(userId, common * -1);
 				await economy.addCoins(guildId, userId, price.common * common);
 				return `:fishing_pole_and_fish:  **|**  Du hast **${common}** gewöhnliche Fische für **${price.common * common}** 💵 verkauft.`;
-            }
-            if (args.type === 'uncommon') {
+			}
+			if (args.type === 'uncommon') {
 				await fish_inv.addUncommon(userId, uncommon * -1);
-				await economy.addCoins(guildId, userId, price-uncommon * uncommon);
+				await economy.addCoins(guildId, userId, price - uncommon * uncommon);
 				return `:fishing_pole_and_fish:  **|**  Du hast **${uncommon}** ungewöhnliche Fische für **${price.uncommon * uncommon}** 💵 verkauft.`;
-            }
-            if (args.type === 'garbage') {
+			}
+			if (args.type === 'garbage') {
 				await fish_inv.addGarbage(userId, garbage * -1);
 				await economy.addCoins(guildId, userId, price.garbage * garbage);
 				return `:fishing_pole_and_fish:  **|**  Du hast **${garbage}** Müll für **${price.garbage * garbage}** 💵 verkauft.`;
-            }
-            if (args.type === 'all') {
-                await fish_inv.addCommon(userId, common * -1);
+			}
+			if (args.type === 'all') {
+				await fish_inv.addCommon(userId, common * -1);
 				await fish_inv.addUncommon(userId, uncommon * -1);
 				await fish_inv.addGarbage(userId, garbage * -1);
 				const credits = price.common * common + price.uncommon * uncommon + price.garbage * garbage;
 				await economy.addCoins(guildId, userId, credits);
 				return `:fishing_pole_and_fish:  **|**  Du hast **${common}** gewöhnliche Fische, **${uncommon}** ungewöhnliche Fische und **${garbage}** Müll für **${credits}** 💵 verkauft.`;
-            }
-            return 'Gültige Types wären: `common` `uncommon` `garbage` `all`';        }
-        else if (args.arguments === 'stats') {
+			}
+			return 'Gültige Types wären: `common` `uncommon` `garbage` `all`';
+		}
+		else if (args.arguments === 'stats') {
 			const common = await fish_stats.getCommon(userId);
 			const uncommon = await fish_stats.getUncommon(userId);
 			const rare = await fish_stats.getRare(userId);
@@ -186,59 +177,59 @@ module.exports = {
 				.setColor('#00b8ff')
 				.addField(`:fishing_pole_and_fish:  **|**  **${user.username}'s** Angelstatistik:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🦑 **Seltene Fische** | ${rare}\n🗑️ **Müll** | ${garbage}`);
 			return embed;
-        }
-        const coinsOwned = await economy.getCoins(guildId, userId);
-        if (coinsOwned < price.perCast) return '<:no:767394810909949983> | Du hast nicht genügend Credits!';
+		}
+		const coinsOwned = await economy.getCoins(guildId, userId);
+		if (coinsOwned < price.perCast) return '<:no:767394810909949983> | Du hast nicht genügend Credits!';
 
-        if (!cooldowns.has('fish')) cooldowns.set('fish', new Collection());
-        const now = Date.now();
-        const timestamps = cooldowns.get('fish');
-        const cooldownAmount = 30 * 1000;
-        if (timestamps.has(userId)) {
-            const expirationTime = timestamps.get(userId) + cooldownAmount;
-            if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000;
-                return `:fishing_pole_and_fish:  **|  du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.**`;
-            }
-        }
-        timestamps.set(userId, now);
-        setTimeout(() => timestamps.delete(userId), cooldownAmount);
+		if (!cooldowns.has('fish')) cooldowns.set('fish', new Collection());
+		const now = Date.now();
+		const timestamps = cooldowns.get('fish');
+		const cooldownAmount = 30 * 1000;
+		if (timestamps.has(userId)) {
+			const expirationTime = timestamps.get(userId) + cooldownAmount;
+			if (now < expirationTime) {
+				const timeLeft = (expirationTime - now) / 1000;
+				return `:fishing_pole_and_fish:  **|  du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.**`;
+			}
+		}
+		timestamps.set(userId, now);
+		setTimeout(() => timestamps.delete(userId), cooldownAmount);
 
-        const d = Math.random();
+		const d = Math.random();
 
-        const mess1 = `:fishing_pole_and_fish:  **|**  **${user.username}**, du hast `;
-        const mess2 = ' gefangen! Du hast **10** 💵 bezahlt.';
+		const mess1 = `:fishing_pole_and_fish:  **|**  **${user.username}**, du hast `;
+		const mess2 = ' gefangen! Du hast **10** 💵 bezahlt.';
 
-        if (d < 0.45 & d > 0.1015) {
-            await fish_stats.addCommon(userId, 1);
-            await fish_inv.addCommon(userId, 1);
-            return mess1 + '🐟' + mess2;
-        }
-        else if (d < 0.1015 & d > 0.0015) {
-            await fish_stats.addUncommon(userId, 1);
-            await fish_inv.addUncommon(userId, 1);
-            return mess1 + '🐠' + mess2;
-        }
-        else if (d < 0.0015 & d > 0.1015) {
-            const rare1 = [
-                '🐧', '🐢', '🐙', '🦑', '🦐', '🦀', '🐡', '🐬', '🐳', '🐋', '🦈', '🐊'];
-            const randomMessage = rare1[Math.floor(Math.random() * rare1.length)];
-            await fish_stats.addRare(userId, 1);
-            await fish_inv.addRare(userId, 1);
-            return mess1 + randomMessage + mess2;
-        }
-        else if (d < 1 & d > 0.45) {
-            const garbage1 = [
-                '🛒', '🔋', '🔧', '👞' ];
-            const randomMessage = garbage1[Math.floor(Math.random() * garbage1.length)];
-            await fish_stats.addGarbage(userId, 1);
-            await fish_inv.addGarbage(userId, 1);
-            return mess1 + randomMessage + mess2;
-        }
-        await economy.addCoins(
-            guildId,
-            member.id,
-            price.perCast * -1,
-        );
-    }
-}
+		if (d < 0.45 & d > 0.1015) {
+			await fish_stats.addCommon(userId, 1);
+			await fish_inv.addCommon(userId, 1);
+			return mess1 + '🐟' + mess2;
+		}
+		else if (d < 0.1015 & d > 0.0015) {
+			await fish_stats.addUncommon(userId, 1);
+			await fish_inv.addUncommon(userId, 1);
+			return mess1 + '🐠' + mess2;
+		}
+		else if (d < 0.0015 & d > 0.1015) {
+			const rare1 = [
+				'🐧', '🐢', '🐙', '🦑', '🦐', '🦀', '🐡', '🐬', '🐳', '🐋', '🦈', '🐊'];
+			const randomMessage = rare1[Math.floor(Math.random() * rare1.length)];
+			await fish_stats.addRare(userId, 1);
+			await fish_inv.addRare(userId, 1);
+			return mess1 + randomMessage + mess2;
+		}
+		else if (d < 1 & d > 0.45) {
+			const garbage1 = [
+				'🛒', '🔋', '🔧', '👞' ];
+			const randomMessage = garbage1[Math.floor(Math.random() * garbage1.length)];
+			await fish_stats.addGarbage(userId, 1);
+			await fish_inv.addGarbage(userId, 1);
+			return mess1 + randomMessage + mess2;
+		}
+		await economy.addCoins(
+			guildId,
+			userId,
+			price.perCast * -1,
+		);
+	},
+};
