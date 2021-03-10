@@ -173,10 +173,7 @@ module.exports = {
 			const rare = await fish_stats.getRare(userId);
 			const garbage = await fish_stats.getGarbage(userId);
 
-			const embed = new MessageEmbed()
-				.setColor('#00b8ff')
-				.addField(`:fishing_pole_and_fish:  **|**  **${user.username}'s** Angelstatistik:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🦑 **Seltene Fische** | ${rare}\n🗑️ **Müll** | ${garbage}`);
-			return embed;
+			return `:fishing_pole_and_fish:  **|**  **${user.username}'s** Angelstatistik:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🦑 **Seltene Fische** | ${rare}\n🗑️ **Müll** | ${garbage}`;
 		}
 		const coinsOwned = await economy.getCoins(guildId, userId);
 		if (coinsOwned < price.perCast) return '<:no:767394810909949983> | Du hast nicht genügend Credits!';
