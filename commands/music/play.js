@@ -10,7 +10,7 @@ module.exports = {
 	callback: async ({ client, args, interaction }) => {
 		const searchString = args.song;
 		const url = searchString ? searchString.replace(/<(.+)>/g, '$1') : '';
-		
+
 		const guild = client.guilds.cache.get(interaction.guild_id)
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
@@ -24,7 +24,7 @@ module.exports = {
 			const videos = await playList.getVideos();
 			for (const video of Object.values(videos)) {
 				const video2 = await youtube.getVideoByID(video.id);
-				await handleVideo(video2, interaction, voiceChannel, true);
+				await handleVideo(video2, client, interaction, voiceChannel, true);
 			}
 			return `Playlist **${playList.title}** wurde zur Queue hinzugefügt.`;
 		}
@@ -41,7 +41,7 @@ module.exports = {
 					return '<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.';
 				}
 			}
-			return handleVideo(video, client, interaction, voiceChannel,);
+			return handleVideo(video, client, interaction, voiceChannel);
 		}
 	},
 };
@@ -78,7 +78,7 @@ async function handleVideo(video, client, interaction, voiceChannel, playList = 
 		try {
 			const connection = await voiceChannel.join();
 			queueConstruct.connection = connection;
-			play(guild, queueConstruct.songs[0]);
+			return play(guild, queueConstruct.songs[0]);
 		}
 		catch (error) {
 			console.log(`Error occured while connection to the voice channel: ${error}`);
@@ -91,7 +91,6 @@ async function handleVideo(video, client, interaction, voiceChannel, playList = 
 		if(playList) return undefined;
 		return `\`${song.title}\` - \`${song.duration}\` wurde zur Queue hinzugefügt`;
 	}
-	return undefined;
 }
 function play(guild, song) {
 	const serverQueue = queue.get(guild.id);
@@ -110,7 +109,7 @@ function play(guild, song) {
 			console.log(error);
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-	serverQueue.textChannel.send(`:notes: | \`${serverQueue.songs[0].title}\` - \`${serverQueue.songs[0].duration}\` wird gespielt...`);
+	return `:notes: | \`${serverQueue.songs[0].title}\` - \`${serverQueue.songs[0].duration}\` wird gespielt...`;
 }
 module.exports.handleVideo = handleVideo;
 module.exports.serverQueue = (guildId) => {
