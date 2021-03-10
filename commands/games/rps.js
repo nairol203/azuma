@@ -22,7 +22,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setTitle('Schere, Stein, Papier')
-			.setDescription(`<@${targetId}>, du wurdest zu einem Spiel herausgefordert!\nReagiere um teilzunehmen!`)
+			.setDescription(`${target} du wurdest zu einem Spiel herausgefordert!\nReagiere um teilzunehmen!`)
 			.addField('Einsatz', `\`${credits}\` 💵`)
 			.setFooter('Nach 30 Sekunden verfällt die Herausforderung');
 
@@ -67,10 +67,10 @@ module.exports = {
 
 									const embed = new MessageEmbed()
 										.setTitle('Schere, Stein, Papier')
-										.setDescription(`<@${user}> hat Stein genommen und <@${targetId}> Schere!`)
+										.setDescription(`${user} hat Stein genommen und ${target} Schere!`)
 										.addFields(
 											{ name: 'Einsatz', value: `\`${credits}\` 💵` },
-											{ name: 'Gewinner', value: `<@${userId}>` },
+											{ name: 'Gewinner', value: `${user} ` },
 										);
 									channel.send(embed);
 								}
@@ -80,10 +80,10 @@ module.exports = {
 
 									const embed = new MessageEmbed()
 										.setTitle('Schere, Stein, Papier')
-										.setDescription(`${author} hat Stein genommen und <@${targetId}> Papier!`)
+										.setDescription(`${user} hat Stein genommen und ${target} Papier!`)
 										.addFields(
 											{ name: 'Einsatz', value: `\`${credits}\` 💵` },
-											{ name: 'Gewinner', value: `<@${targetId}>` },
+											{ name: 'Gewinner', value: `${target}` },
 										);
 									channel.send(embed);
 								}
@@ -103,7 +103,7 @@ module.exports = {
 
 									const embed = new MessageEmbed()
 										.setTitle('Schere, Stein, Papier')
-										.setDescription(`<@${userId}> hat Schere genommen und <@${targetId}> Papier!`)
+										.setDescription(`${user} hat Schere genommen und ${target} Papier!`)
 										.addFields(
 											{ name: 'Einsatz', value: `\`${credits}\` 💵` },
 											{ name: 'Gewinner', value: `${author}` },
@@ -116,7 +116,7 @@ module.exports = {
 
 									const embed = new MessageEmbed()
 										.setTitle('Schere, Stein, Papier')
-										.setDescription(`<@${userId}> hat Schere genommen und <@${targetId}> Stein!`)
+										.setDescription(`${user} hat Schere genommen und ${target} Stein!`)
 										.addFields(
 											{ name: 'Einsatz', value: `\`${credits}\` 💵` },
 											{ name: 'Gewinner', value: `${target}` },
@@ -139,7 +139,7 @@ module.exports = {
 
 									const embed = new MessageEmbed()
 										.setTitle('Schere, Stein, Papier')
-										.setDescription(`<@${userId}> hat Papier genommen und <@${targetId}> Stein!`)
+										.setDescription(`${user} hat Papier genommen und ${target} Stein!`)
 										.addFields(
 											{ name: 'Einsatz', value: `\`${credits}\` 💵` },
 											{ name: 'Gewinner', value: `${author}` },
@@ -152,7 +152,7 @@ module.exports = {
 
 									const embed = new MessageEmbed()
 										.setTitle('Schere, Stein, Papier')
-										.setDescription(`<@${userId}> hat Papier genommen und <@${targetId}> Schere!`)
+										.setDescription(`${user} hat Papier genommen und ${target} Schere!`)
 										.addFields(
 											{ name: 'Einsatz', value: `\`${credits}\` 💵` },
 											{ name: 'Gewinner', value: `${target}` },
@@ -161,11 +161,11 @@ module.exports = {
 								}
 							}
 						default: 
-							channel.send(`<@${targetId}>, du hast den Coinflip abgelehnt!`);
+							channel.send(`${target}, du hast den Coinflip abgelehnt!`);
 							break;
 					}
 				}).catch(() => {
-					return channel.send('Timeout! Bitte anwortet immer innerhalb von 30 Sekunden!');
+					return channel.send(`${target} hat nicht innerhalb von 30 Sekunden reagiert!`);
 				});
 		});
 	},
