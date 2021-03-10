@@ -2,21 +2,24 @@ const { MessageEmbed } = require('discord.js');
 const Levels = require('../../features/levels');
 
 module.exports = {
-	aliases: 'lb',
-	callback: async ({ client, message }) => {
-		const rawLeaderboard = await Levels.fetchLeaderboard(message.guild.id, 10);
+	slash: true,
+	callback: async ({ client, interaction }) => {
+		const guildId = interaction.guild_id;
+		const guild = client.guilds.cache.get(guildId);
 
-		if (rawLeaderboard.length < 1) return message.reply('Aktuell ist hat noch niemand XP gesammelt.');
+		const rawLeaderboard = await Levels.fetchLeaderboard(guildId, 10);
+
+		if (rawLeaderboard.length < 1) return 'Aktuell ist hat noch niemand XP gesammelt.';
 
 		const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, true);
 
 		const lb = leaderboard.map(e => `\`${e.position}.\` **${e.username}:**\nLevel: ${e.level} • XP: ${e.xp.toLocaleString()}`);
 
 		const embed = new MessageEmbed()
-			.setTitle(`Leaderboard von ${message.guild.name}`)
+			.setTitle(`Leaderboard von ${guild.name}`)
 			.setDescription(`${lb.join('\n\n')}`)
 			.setColor('f77600')
-			.setThumbnail(`${message.guild.iconURL()}`);
-		message.channel.send(embed);
+			.setThumbnail(`${guild.iconURL()}`);
+		return embed;
 	},
 };
