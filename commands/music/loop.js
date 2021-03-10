@@ -1,14 +1,16 @@
 const music = require('./play');
 
 module.exports = {
-	callback: ({ message }) => {
-		const serverQueue = music.serverQueue(message);
-
-		if(!message.member.voice.channel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-		if(!serverQueue) return message.channel.send('<:no:767394810909949983> | Es wird gerade nichts gespielt');
+	slash: true,
+	callback: ({ interaction }) => {
+		const serverQueue = music.serverQueue(interaction.guild_id);
+		const voiceChannel = undefined;
+	
+		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
+		if(!serverQueue) return '<:no:767394810909949983> | Es wird gerade nichts gespielt';
 
 		serverQueue.loop = !serverQueue.loop;
 
-		return message.channel.send(`Loop ist jetzt ${serverQueue.loop ? 'aktiviert' : 'deaktivert'}.`);
+		return `Loop ist jetzt ${serverQueue.loop ? 'aktiviert' : 'deaktivert'}.`;
 	},
 };

@@ -1,42 +1,45 @@
+const { MessageEmbed } = require('discord.js');
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 const music = require('./play');
 
 module.exports = {
-	callback: async ({ message, args, Discord }) => {
-		const searchString = args.join(' ');
+	slash: true,
+	callback: async ({ client, interaction, args }) => {
+		const searchString = args.song;
 
-		const voiceChannel = message.member.voice.channel;
-		if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-		const permissons = voiceChannel.permissionsFor(message.client.user);
-		if(!permissons.has('CONNECT')) return message.channel.send('<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!');
-		if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!');
+		const voiceChannel = undefined;
+		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
+		// const permissons = voiceChannel.permissionsFor(message.client.user);
+		// if(!permissons.has('CONNECT')) return message.channel.send('<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!');
+		// if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!');
+		const channel = client.channels.cache.get(interaction.channel_id);
 
 		try {
 			const videos1 = await youtube.searchVideos(searchString, 10);
 			let index = 0;
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setTitle('Suchergebnisse:')
 				.setDescription(`${videos1.map(video2 => `**${++index}.** ${video2.title}`).join('\n')}`)
 				.setFooter('Bitte wähle einen Song von 1-10 aus.')
 				.setColor('#fabe00');
-			message.channel.send(embed);
+			channel.send(embed);
 			try {
-				var responce = await message.channel.awaitMessages(msg => msg.content > 0 && msg.content < 11, {
+				var responce = await channel.awaitMessages(msg => msg.content > 0 && msg.content < 11, {
 					max: 1,
 					time: 30000,
 					errors: ['time'],
 				});
 			}
 			catch {
-				message.channel.send('<:no:767394810909949983> | Keine oder eine ungültige Eingabe erkannt.');
+				return '<:no:767394810909949983> | Keine oder eine ungültige Eingabe erkannt.';
 			}
 			const videoIndex = parseInt(responce.first().content);
 			var video = await youtube.getVideoByID(videos1[videoIndex - 1].id);
 		}
 		catch {
-			return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
+			return '<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.';
 		}
-		return music.handleVideo(video, message, voiceChannel);
+		return music.handleVideo(video, client, interaction, voiceChannel);
 	},
 };

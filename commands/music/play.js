@@ -6,24 +6,24 @@ const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 const queue = new Map();
 
 module.exports = {
-	callback: async ({ message, args }) => {
-		const searchString = args.slice(1).join(' ');
-		const url = args[0] ? args[0].replace(/<(.+)>/g, '$1') : '';
-		const voiceChannel = message.member.voice.channel;
-		if(!voiceChannel) return message.channel.send('<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!');
-		const permissons = voiceChannel.permissionsFor(message.client.user);
-		if(!permissons.has('CONNECT')) return message.channel.send('<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!');
-		if(!permissons.has('SPEAK')) return message.channel.send('<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!');
+	slash: true,
+	callback: async ({ client, args, interaction }) => {
+		const searchString = args.song;
+		const url = searchString ? searchString.replace(/<(.+)>/g, '$1') : '';
+		const voiceChannel = undefined;
+		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
+		// const permissons = voiceChannel.permissionsFor(message.client.user);
+		// if(!permissons.has('CONNECT')) return '<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!';
+		// if(!permissons.has('SPEAK')) return '<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!';
 
 		if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
 			const playList = await youtube.getPlaylist(url);
 			const videos = await playList.getVideos();
 			for (const video of Object.values(videos)) {
 				const video2 = await youtube.getVideoByID(video.id);
-				await handleVideo(video2, message, voiceChannel, true);
+				await handleVideo(video2, interaction, voiceChannel, true);
 			}
-			message.channel.send(`Playlist **${playList.title}** wurde zur Queue hinzugefügt.`);
-			return undefined;
+			return `Playlist **${playList.title}** wurde zur Queue hinzugefügt.`;
 		}
 		else {
 			try {
@@ -35,16 +35,18 @@ module.exports = {
 					var video = await youtube.getVideoByID(videos[0].id);
 				}
 				catch {
-					return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
+					return '<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.';
 				}
 			}
-			return handleVideo(video, message, voiceChannel);
+			return handleVideo(video, client, interaction, voiceChannel,);
 		}
 	},
 };
 
-async function handleVideo(video, message, voiceChannel, playList = false) {
-	const serverQueue = queue.get(message.guild.id);
+async function handleVideo(video, client, interaction, voiceChannel, playList = false) {
+	const channel = client.channels.cache.get(interaction.channel_id);
+	const guild = client.guilds.cache.get(interaction.guild_id);
+	const serverQueue = queue.get(interaction.guild_id);
 
 	const duration = toSecond(Number(video.durationSeconds));
 	const isLive = video.durationSeconds === 0;
@@ -59,7 +61,7 @@ async function handleVideo(video, message, voiceChannel, playList = false) {
 
 	if(!serverQueue) {
 		const queueConstruct = {
-			textChannel: message.channel,
+			textChannel: channel,
 			voiceChannel: voiceChannel,
 			connection: null,
 			songs: [],
@@ -67,24 +69,24 @@ async function handleVideo(video, message, voiceChannel, playList = false) {
 			playing: true,
 			loop: false,
 		};
-		queue.set(message.guild.id, queueConstruct);
+		queue.set(interaction.guild_id, queueConstruct);
 		queueConstruct.songs.push(song);
 
 		try {
 			const connection = await voiceChannel.join();
 			queueConstruct.connection = connection;
-			play(message.guild, queueConstruct.songs[0]);
+			play(guild, queueConstruct.songs[0]);
 		}
 		catch (error) {
 			console.log(`Error occured while connection to the voice channel: ${error}`);
-			queue.delete(message.guild.id);
-			return message.channel.send(`<:no:767394810909949983> | ${error}`);
+			queue.delete(interaction.guild_id);
+			return `<:no:767394810909949983> | ${error}`;
 		}
 	}
 	else {
 		serverQueue.songs.push(song);
 		if(playList) return undefined;
-		return message.channel.send(`\`${song.title}\` - \`${song.duration}\` wurde zur Queue hinzugefügt`);
+		return `\`${song.title}\` - \`${song.duration}\` wurde zur Queue hinzugefügt`;
 	}
 	return undefined;
 }
@@ -108,8 +110,8 @@ function play(guild, song) {
 	serverQueue.textChannel.send(`:notes: | \`${serverQueue.songs[0].title}\` - \`${serverQueue.songs[0].duration}\` wird gespielt...`);
 }
 module.exports.handleVideo = handleVideo;
-module.exports.serverQueue = (message) => {
-	const serverQueue = queue.get(message.guild.id);
+module.exports.serverQueue = (guildId) => {
+	const serverQueue = queue.get(guildId);
 	return serverQueue;
 };
 
