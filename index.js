@@ -29,8 +29,10 @@ for (const file of featuresFiles) {
 }
 
 const cooldowns = new Discord.Collection();
-
 const guildId = '255741114273759232';
+// const newswire = require('./features/newswire');
+// const latestNews = new newswire('latest', 'https://discord.com/api/webhooks/819676913886298192/4S9csxzV8S6UhqWZ42t_sQr7MahQBeE4Yo-fwMu5H8R2IMn0GUgB12Q03Bhs6wTClrei');
+
 
 async function create(name, description, options, guildId) {
 	const app = client.api.applications(client.user.id);
