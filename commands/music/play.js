@@ -9,8 +9,7 @@ module.exports = {
 	slash: true,
 	callback: async ({ client, args, interaction }) => {
 		const searchString = args.song;
-		const url = searchString ? searchString.replace(/<(.+)>/g, '$1') : '';
-
+		const userId = interaction.member.user.id;
 		const guild = client.guilds.cache.get(interaction.guild_id)
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
@@ -19,18 +18,17 @@ module.exports = {
 		if(!permissons.has('CONNECT')) return '<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!';
 		if(!permissons.has('SPEAK')) return '<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!';
 
-		if(url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-			const playList = await youtube.getPlaylist(url);
+		if(searchString.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
+			const playList = await youtube.getPlaylist(searchString);
 			const videos = await playList.getVideos();
 			for (const video of Object.values(videos)) {
 				const video2 = await youtube.getVideoByID(video.id);
 				await handleVideo(video2, client, interaction, voiceChannel, true);
 			}
-			return `Playlist **${playList.title}** wurde zur Queue hinzugefügt.`;
 		}
 		else {
 			try {
-				var video = await youtube.getVideoByID(url);
+				var video = await youtube.getVideoByID(searchString);
 			}
 			catch {
 				try {
@@ -50,6 +48,7 @@ async function handleVideo(video, client, interaction, voiceChannel, playList = 
 	const channel = client.channels.cache.get(interaction.channel_id);
 	const guild = client.guilds.cache.get(interaction.guild_id);
 	const serverQueue = queue.get(interaction.guild_id);
+	const userId = interaction.member.user.id;
 
 	const duration = toSecond(Number(video.durationSeconds));
 	const isLive = video.durationSeconds === 0;
@@ -78,7 +77,7 @@ async function handleVideo(video, client, interaction, voiceChannel, playList = 
 		try {
 			const connection = await voiceChannel.join();
 			queueConstruct.connection = connection;
-			return play(guild, queueConstruct.songs[0]);
+			return play(guild, queueConstruct.songs[0], userId);
 		}
 		catch (error) {
 			console.log(`Error occured while connection to the voice channel: ${error}`);
@@ -89,10 +88,19 @@ async function handleVideo(video, client, interaction, voiceChannel, playList = 
 	else {
 		serverQueue.songs.push(song);
 		if(playList) return undefined;
-		return `\`${song.title}\` - \`${song.duration}\` wurde zur Queue hinzugefügt`;
+		const embed = new Util.MessageEmbed()
+		.setTitle('Added To Queue')
+		.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
+		.addFields(
+			{ name: 'Requested by', value: `<@${userId}>`, inline: true },
+			{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
+			{ name: 'Queue', value: `${serverQueue.songs.length} songs - \`00:00:00\``, inline: true },
+		)
+		.setColor('#f77600');
+		return embed;
 	}
 }
-function play(guild, song) {
+function play(guild, song, userId) {
 	const serverQueue = queue.get(guild.id);
 
 	if(!song) {
@@ -109,7 +117,16 @@ function play(guild, song) {
 			console.log(error);
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-	return `:notes: | \`${serverQueue.songs[0].title}\` - \`${serverQueue.songs[0].duration}\` wird gespielt...`;
+	const embed = new Util.MessageEmbed()
+	.setTitle('Playing...')
+	.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
+	.addFields(
+		{ name: 'Requested by', value: `<@${userId}>`, inline: true },
+		{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
+		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
+	)
+	.setColor('#f77600');
+	return embed;
 }
 module.exports.handleVideo = handleVideo;
 module.exports.serverQueue = (guildId) => {

@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const cooldowns = require('../../features/cooldowns');
+const cooldowns = require('../../cooldowns');
 
 module.exports = {
 	slash: true,

@@ -1,4 +1,4 @@
-const cooldowns = require('../models/cooldowns');
+const cooldowns = require('./models/cooldowns');
 
 module.exports.setCooldown = async (userId, command, cooldown) => {
 	await cooldowns.insertMany(

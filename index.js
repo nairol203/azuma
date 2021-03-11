@@ -7,7 +7,7 @@ const prefix = process.env.PREFIX;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
-const cooldown = require('./features/cooldowns');
+const cooldown = require('./cooldowns');
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -60,16 +60,9 @@ client.on('ready', async () => {
 	// console.log(await get(guildId));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete() 
 	// 818523352779194398 = /addcredits
-	const name = 'volume';
-	const description = 'Stelle die Lautstärke des Bot\'s ein';
-	const options = [
-		{
-			name: 'number',
-			description: 'Lautstärke von 0-5',
-			type: 4,
-			required: false,
-		}
-	];
+	const name = '';
+	const description = '';
+	const options = [];
 	if (name && description) {
 		await create(name, description, options, guildId);
 	}
