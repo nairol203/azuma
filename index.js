@@ -8,6 +8,7 @@ const prefix = process.env.PREFIX;
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
 const cooldown = require('./cooldowns');
+const { no } = require('./emoji.json')
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -59,22 +60,9 @@ client.on('ready', async () => {
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get(guildId));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete() 
-	// 818523352779194398 = /addcredits
-	const name = 'cooldowns';
-	const description = 'Zeigt alle Cooldowns an';
-	const options = [
-		{
-			name: 'reset',
-			description: 'Setze deine Cooldowns bei einem Bug zurück. Missbrauch wird bestraft!',
-			type: 3,
-			choices: [
-				{
-					name: 'reset',
-					value: 'reset',
-				},
-			]
-		}
-	];
+	const name = '';
+	const description = '';
+	const options = [];
 	if (name && description) {
 		await create(name, description, options, guildId);
 	}
@@ -235,7 +223,7 @@ client.on('message', async message => {
 	}
 	catch (error) {
 		console.error(error);
-		message.channel.send(`<:no:767394810909949983> Error occured while running ${commandName} command`);
+		message.channel.send(no + ` Error occured while running ${commandName} command`);
 	}
 });
 

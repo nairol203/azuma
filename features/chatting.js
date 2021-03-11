@@ -1,3 +1,5 @@
+const { PogChamp, PagChomp, PagShake, PagMan, Pause, PauseChamp, WeirdChamp, pepeLaugh, peepoHey, peepoBye, peepoHug, FeelsOkayNan, FeelsBadMan, dankHug } = require('../emoji.json');
+
 module.exports = {
 	name: 'message',
 	run(message) {
@@ -9,10 +11,10 @@ module.exports = {
 				'Na du',
 				'Hallo',
 				'Moin Moin!',
-				'<a:peepoHey:789156882404212808>',
+				peepoHey,
 				'GuMo',
 				'Servus!',
-				'Wie geht\'s? <a:peepoHey:789156882404212808>',
+				'Wie geht\'s? ' + peepoHey,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
@@ -20,10 +22,10 @@ module.exports = {
 		const args7 = ['guten morgen', 'guden morjen', 'gumo'];
 		if (args7.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
-				'GuMo <a:peepoHey:789156882404212808>',
-				`${message.author} gumo <a:peepoHey:789156882404212808>`,
-				'Guten Morgen! <a:peepoHey:789156882404212808>',
-				'guten morgen! <a:peepoHey:789156882404212808>',
+				'GuMo ' + peepoHey,
+				`${message.author} gumo ` + peepoHey,
+				'Guten Morgen! ' + peepoHey,
+				'guten morgen! ' + peepoHey,
 				'*gäääähhhhnnn* guten morgen!',
 				'*gähhhn* moin!',
 			];
@@ -35,13 +37,13 @@ module.exports = {
 			const messages = [
 				'Ganz okay',
 				'Muss ja^^',
-				'Gut, dir? <:FeelsOkayMan:743222752449790054>',
+				'Gut, dir? ' + FeelsOkayNan,
 				'WH<:OMEGALUL:743222752839729225> ASKED?',
 				'Könn\'t nicht besser sein!',
 				'Gut, danke der Nachfrage',
-				'Nicht so gut, hab heute n schlechten Tag <:Sadge:743222752756105269>',
-				'mir gehts schaise <:FeelsBadMan:743222750197579856>',
-				'Willst du wirklich gerade Smalltalk mit einem Discord-Bot führen??? <:WeirdChamp:798996992537001984>',
+				'Nicht so gut, hab heute n schlechten Tag ' + FeelsBadMan,
+				'mir gehts schaise ' + FeelsBadMan,
+				'Willst du wirklich gerade Smalltalk mit einem Discord-Bot führen??? ' + WeirdChamp,
 				'nett das du fragst <a:peepoShy:791825935862071338> mir gehts supi',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
@@ -50,7 +52,7 @@ module.exports = {
 		else if (message.content.toLowerCase().startsWith('was machst du'.toLowerCase())) {
 			const messages = [
 				'Mit 100 Leuten gleichzeitig schreiben <a:peepoChat:791826601888448533>',
-				'Nichts, mir ist ziemlich langweilig <:peepoSad:761295891503120445>',
+				'Nichts, mir ist ziemlich langweilig ' + FeelsBadMan,
 				'Darf ich nicht sagen :zipper_mouth:',
 				'<:MonkaLaugh:791062220653723661> Sportwetten',
 				'FORTNITE SPIELEN <:POGGERS:743222753066483883>',
@@ -75,16 +77,16 @@ module.exports = {
 		}
 		else if (message.content.toLowerCase().startsWith('was geht'.toLowerCase())) {
 			const messages = [
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Beine hat <a:PepeLaugh:786266753726414848>',
-				'Alles was Bäume hat <a:PepeLaugh:786266753726414848>',
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Beine hat ' + pepeLaugh,
+				'Alles was Bäume hat ' + pepeLaugh,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
@@ -92,11 +94,11 @@ module.exports = {
 		const args3 = ['gute nacht', 'gude nacht', 'guna'];
 		if (args3.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
-				'GuNa <a:peepoHey:789156882404212808>',
-				`${message.author} guna <a:peepoHey:789156882404212808>`,
-				'Gute Nacht! <a:peepoHey:789156882404212808>',
-				'gude nacht <a:peepoHey:789156882404212808>',
-				'schlaf schön<:peepoBlanket:785509831548993566>',
+				'GuNa ' + peepoBye,
+				`${message.author} guna ` + peepoBye,
+				'Gute Nacht! ' + peepoBye,
+				'gude nacht ' + peepoBye,
+				'schlaf schön <:peepoBlanket:785509831548993566>',
 				'süße träume <a:peepoShy:791825935862071338>',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
@@ -105,9 +107,9 @@ module.exports = {
 		const args4 = ['tschüss', 'bye', 'bis später', 'see ya'];
 		if (args4.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
-				'tschüss <a:peepoBye:791063849540649001>',
-				'byeee <a:peepoBye:791063849540649001>',
-				'<a:peepoBye:791063849540649001>',
+				'tschüss ' + peepoBye,
+				'byeee ' + peepoBye,
+				peepoBye,
 				'bis später!',
 				'see ya later',
 				'see ya later...               ...*alligator* :sunglasses:',
@@ -118,17 +120,20 @@ module.exports = {
 		const args5 = ['pog', 'pag'];
 		if (args5.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
 			const messages = [
-				'<:PagChomp:798996992382468136>',
-				'<:PagShake:798996992457179166>',
-				'<:PauseChamp:798996992419954729>',
+				PogChamp,
+				PagChomp,
+				PagShake,
+				PagMan,
+				Pause,
+				PauseChamp,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.react(randomMessage);
 		}
 		else if (message.content.toLowerCase().includes('hug'.toLowerCase())) {
 			const messages = [
-				'<:peepoHug:750428178979225640>',
-				'<:dankHug:791828072890368010>',
+				peepoHug,
+				dankHug,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(`${message.author} ${randomMessage}`);
