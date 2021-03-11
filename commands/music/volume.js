@@ -11,7 +11,7 @@ module.exports = {
 
 		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
 		if(!serverQueue) return '<:no:767394810909949983> | Es wird gerade nichts gespielt';
-		if(!args.length) return `Die Lautstärke des Bot's ist **${serverQueue.volume}**.`;
+		if(!number) return `Die Lautstärke des Bot's ist **${serverQueue.volume}**.`;
 
 		if (number < 0) return 'Du kannst keine negative Lautstärke einstellen!';
 		if (number > 5) return 'Wenn du dir die Ohren wegschallern willst hör lieber Metal!';
