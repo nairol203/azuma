@@ -74,3 +74,11 @@ async function updateCooldown() {
 updateCooldown;
 
 module.exports.updateCooldown = updateCooldown;
+
+module.exports.resetCooldown = async (userId) => {
+	await cooldowns.deleteMany(
+		{
+			userId,
+		},
+	);
+}

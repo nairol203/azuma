@@ -60,9 +60,21 @@ client.on('ready', async () => {
 	// console.log(await get(guildId));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete() 
 	// 818523352779194398 = /addcredits
-	const name = '';
-	const description = '';
-	const options = [];
+	const name = 'cooldowns';
+	const description = 'Zeigt alle Cooldowns an';
+	const options = [
+		{
+			name: 'reset',
+			description: 'Setze deine Cooldowns bei einem Bug zurück. Missbrauch wird bestraft!',
+			type: 3,
+			choices: [
+				{
+					name: 'reset',
+					value: 'reset',
+				},
+			]
+		}
+	];
 	if (name && description) {
 		await create(name, description, options, guildId);
 	}
@@ -70,6 +82,7 @@ client.on('ready', async () => {
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {
 		const { name, options } = interaction.data;
 		const userId = interaction.member.user.id;
+		const user = client.users.cache.get(userId)
 		const commandName = name.toLowerCase();
 		const args = {};
 		if (options) {
@@ -86,13 +99,13 @@ client.on('ready', async () => {
 		if (command.ownerOnly && userId != '255739211112513536') {
 			return reply(interaction, 'Nur der Bot-Owner kann diesen Befehl benutzen.');
 		}
-		// if (command.requiredPermissions) {
-		// 	const channel = client.channels.cache.get(interaction.channel_id);
-		// 	const authorPerms = channel.permissionsFor(message.author);
-		// 	if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-		// 		return `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`;
-		// 	}
-		// }
+		if (command.requiredPermissions) {
+			const channel = client.channels.cache.get(interaction.channel_id);
+			const authorPerms = channel.permissionsFor(user);
+			if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
+				return `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`;
+			}
+		}
 		if (command.cooldown > 600) {
 			const getCd = await cooldown.getCooldown(userId, commandName);
 			if (!getCd) {
