@@ -16,6 +16,36 @@ function format(number) {
 
 module.exports = {
     slash: true,
+	description: 'Kaufe ein Unternehmen!',
+	options: [
+		{
+			name: 'type',
+			description: 'Wähle das Unternehmen das du kaufen möchtest!',
+			type: 3,
+			choices: [
+                {
+                    name: 'Dokumentenfälscherei',
+                    value: 'documents',
+                },
+                {
+                    name: 'Hanfplantage',
+                    value: 'weed',
+                },
+                {
+                    name: 'Geldfälscherei',
+                    value: 'fakemoney',
+                },
+                {
+                    name: 'Methlabor',
+                    value: 'meth',
+                },
+                {
+                    name: 'Kokainlabor',
+                    value: 'cocaine',
+                },
+            ]
+		}
+	],
     callback: async ({ args, interaction }) => {
         const guildId = interaction.guild_id;
         const userId = interaction.member.user.id;

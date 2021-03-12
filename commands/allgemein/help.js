@@ -2,6 +2,14 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	slash: true,
+	description: 'Übersicht von allen Befehlen',
+	options: [
+		{
+			name: 'command',
+			description: 'Name des Befehls',
+			type: 3,
+		}
+	],
 	callback: ({ client, args, prefix, interaction }) => {
 		const { commands } = client;
 		if (!args.command) {

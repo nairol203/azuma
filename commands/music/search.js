@@ -5,6 +5,15 @@ const music = require('./play');
 
 module.exports = {
 	slash: true,
+	description: 'Spiele Musik in einem Sprachkanal ab!',
+	options: [
+		{
+			name: 'song',
+			description: 'Name des Songs',
+			type: 3,
+			required: true,
+		},
+	],
 	callback: async ({ client, interaction, args }) => {
 		const searchString = args.song;
 

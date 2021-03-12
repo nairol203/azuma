@@ -17,6 +17,45 @@ const price = {
 
 module.exports = {
 	slash: true,
+	description: 'Angle in Discord ein paar Fische!',
+	options: [
+		{
+			name: 'argument',
+			description: 'Angle in Discord ein paar Fische!',
+			type: 3,
+			choices: [
+                {
+                    name: 'inventory',
+                    value: 'inventory',
+                },
+				{
+                    name: 'math',
+                    value: 'math',
+                },
+				{
+                    name: 'rarefish',
+                    value: 'rarefish',
+                },
+				{
+                    name: 'redeem',
+                    value: 'redeem',
+                },
+				{
+                    name: 'sell',
+                    value: 'sell',
+                },
+				{
+                    name: 'stats',
+                    value: 'stats',
+                },
+            ]
+		},
+		{
+			name: 'type',
+			description: 'Nur bei redeem und sell benötigt!',
+			type: 3,
+		},
+	],
 	callback: async ({ args, interaction }) => {
 		const guildId = interaction.guild_id;
 		const user = interaction.member.user;

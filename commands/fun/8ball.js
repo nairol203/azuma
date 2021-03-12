@@ -1,5 +1,14 @@
 module.exports = {
 	slash: true,
+	description: 'Stelle der Magischen Glaskugel eine Ja / Nein Frage',
+	options: [
+		{
+			name: 'question',
+			description: 'Frag etwas!',
+			type: 3,
+			required: true,
+		}
+	],
 	callback: ({}) => {
 		const messages = [
 			'Definitiv ja.',

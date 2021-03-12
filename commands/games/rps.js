@@ -3,6 +3,21 @@ const economy = require('../../features/economy');
 
 module.exports = {
 	slash: true,
+	description: 'Spiele mit einem anderen Servermitglied eine Partie Schere, Stein, Papier!',
+	options: [
+		{
+			name: 'user',
+			description: 'Beliebiges Servermitglied',
+			type: 6,
+			required: true,
+		},
+		{
+			name: 'credits',
+			description: 'Beliebige Anzahl an Credits',
+			type: 4,
+			required: true,
+		},
+	],
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;
 		const userId = interaction.member.user.id;

@@ -3,6 +3,7 @@ const { version } = require('../../package.json');
 
 module.exports = {
 	slash: true,
+	description: 'Informationen über Azuma',
 	callback: ({ client }) => {
 		const hours = ((process.uptime() / 60) / 60).toFixed(0);
 		const minutes = (process.uptime() / 60).toFixed(0);

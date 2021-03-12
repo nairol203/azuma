@@ -8,7 +8,7 @@ const prefix = process.env.PREFIX;
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
 const cooldown = require('./cooldowns');
-const { no } = require('./emoji.json')
+const { no } = require('./emoji.json');
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -20,19 +20,6 @@ for (const folder of commandFolders) {
 		client.commands.set(commandName, command);
 	}
 }
-
-const featuresFiles = fs.readdirSync('./features').filter(file => file.endsWith('.js'));
-
-for (const file of featuresFiles) {
-	const feature = require(`./features/${file}`);
-	client.on(feature.name, (...args) => feature.run(...args, client));
-}
-
-const cooldowns = new Discord.Collection();
-const guildId = '255741114273759232';
-// const newswire = require('./features/newswire');
-// const latestNews = new newswire('latest', 'https://discord.com/api/webhooks/819676913886298192/4S9csxzV8S6UhqWZ42t_sQr7MahQBeE4Yo-fwMu5H8R2IMn0GUgB12Q03Bhs6wTClrei');
-
 
 async function create(name, description, options, guildId) {
 	const app = client.api.applications(client.user.id);
@@ -48,6 +35,17 @@ async function create(name, description, options, guildId) {
 	});
 }
 
+const featuresFiles = fs.readdirSync('./features').filter(file => file.endsWith('.js'));
+
+for (const file of featuresFiles) {
+	const feature = require(`./features/${file}`);
+	client.on(feature.name, (...args) => feature.run(...args, client));
+}
+
+const cooldowns = new Discord.Collection();
+// const newswire = require('./features/newswire');
+// const latestNews = new newswire('latest', 'https://discord.com/api/webhooks/819676913886298192/4S9csxzV8S6UhqWZ42t_sQr7MahQBeE4Yo-fwMu5H8R2IMn0GUgB12Q03Bhs6wTClrei');
+
 async function get(guildId) {
 	const app = client.api.applications(client.user.id);
 	if (guildId) {
@@ -60,13 +58,24 @@ client.on('ready', async () => {
 	await mongo();
 	cooldown.updateCooldown();
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
-	// console.log(await get(guildId));
+	// console.log(await get('255741114273759232'));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete() 
-	const name = '';
-	const description = '';
-	const options = [];
-	if (name && description) {
-		await create(name, description, options, guildId);
+
+	for (let command of client.commands) {
+		cmd = command[1]
+		if (!cmd.slash) return
+		if (!cmd.description) console.warn('Azuma > No Description in ' + command[0] + '.js')
+
+		for (let i = 0; i < cmd.minArgs; i++) {
+			
+		}
+
+		const name = command[0];
+		const description = cmd.description;
+		const options = cmd.options || [];
+		if (name && description) {
+			await create(name, description, options, '255741114273759232');
+		}
 	}
 
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {

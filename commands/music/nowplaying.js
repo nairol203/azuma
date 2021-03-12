@@ -3,6 +3,7 @@ const music = require('./play');
 
 module.exports = {
 	slash: true,
+	description: 'Zeigt an was aktuell gespielt wird',
 	callback: ({ interaction }) => {
 		const userId = interaction.member.user.id;
 		const serverQueue = music.serverQueue(interaction.guild_id);

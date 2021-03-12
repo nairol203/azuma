@@ -3,7 +3,21 @@ const economy = require('../../features/economy');
 
 module.exports = {
 	slash: true,
-	expectedArgs: '<user> <credits>',
+	description: 'Bezahle einen anderes Servermitglied mit Credits!',
+	options: [
+		{
+			name: 'user',
+			description: 'Beliebiges Servermitglied',
+			type: 3,
+			required: true,
+		},
+		{
+			name: 'credits',
+			description: 'Beliebige Anzahl an Credits',
+			type: 4,
+			required: true,
+		}
+	],
 	callback: async ({ args, interaction }) => {
 		const authorId = interaction.member.user.id
 		const userId = args.user;

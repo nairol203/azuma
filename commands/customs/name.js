@@ -2,6 +2,15 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	slash: true,
+	description: 'Ändert das Türschild von deinem Zimmer',
+	options: [
+		{
+			name: 'name',
+			description: 'Neuer Name',
+			type: 3,
+			required: true,
+		}
+	],
 	callback: async ({ client, args, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id

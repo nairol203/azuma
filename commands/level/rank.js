@@ -5,6 +5,7 @@ const Canvacord = require('canvacord');
 
 module.exports = {
 	slash: true,
+	description: 'Zeigt dein aktuelles Level an',
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;
 		const targetId = args.user;

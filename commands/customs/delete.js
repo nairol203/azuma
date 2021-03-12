@@ -3,6 +3,15 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	slash: true,
+	description: 'Löscht einen Song aus der Jukebox',
+	options: [
+		{
+			name: 'slot',
+			description: 'Slot der Jukebox',
+			type: 4,
+			required: true,
+		}
+	],
 	callback: async ({ client, args, interaction }) => {
 		const userId = interaction.member.user.id;
 		const channelId = interaction.channel_id;

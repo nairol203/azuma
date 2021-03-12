@@ -2,6 +2,15 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	slash: true,
+	description: 'Gibt einem bestimmten User den Zugriff auf dein Zimmer',
+	options: [
+		{
+			name: 'user',
+			description: 'User',
+			type: 6,
+			required: true,
+		}
+	],
 	callback: async ({ client, args, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id

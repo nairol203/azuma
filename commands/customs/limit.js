@@ -2,6 +2,15 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	slash: true,
+	description: 'Ändert das Userlimit von deinem Zimmer',
+	options: [
+		{
+			name: 'limit',
+			description: 'Zahl von 1-99',
+			type: 4,
+			required: true,
+		}
+	],
 	callback: async ({ client, args, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id

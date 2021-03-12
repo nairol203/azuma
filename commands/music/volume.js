@@ -2,6 +2,14 @@ const music = require('./play');
 
 module.exports = {
 	slash: true,
+	description: 'Stelle die Lautstärke des Bot \'s ein',
+	options: [
+		{
+			name: 'lautstärke',
+			description: 'Lautstärke von 0-5',
+			type: 4,
+		},
+	],
 	callback: ({ client, interaction, args }) => {
 		const serverQueue = music.serverQueue(interaction.guild_id);
 		const number = args.number;

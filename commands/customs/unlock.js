@@ -2,6 +2,7 @@ const customs = require('../../models/customs');
 
 module.exports = {
 	slash: true,
+	description: 'Schließt dein Zimmer auf',
 	callback: async ({ client, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id

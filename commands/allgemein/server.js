@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	slash: true,
+	description: 'Zeigt eine Server-Info an',
 	callback: ({ client, interaction }) => {
 		const guild = client.guilds.cache.get(interaction.guild_id);
 		const embed = new MessageEmbed()

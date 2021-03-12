@@ -2,6 +2,21 @@ const economy = require('../../features/economy');
 
 module.exports = {
 	slash: true,
+	description: 'Mache mit einem anderen User einen Coinflip!',
+	options: [
+		{
+			name: 'user',
+			description: 'Beliebiges Servermitglied',
+			type: 6,
+			required: true,
+		},
+		{
+			name: 'credits',
+			description: 'Beliebige Anzahl an Credits',
+			type: 4,
+			required: true,
+		},
+	],
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;
 		const userId = interaction.member.user.id;

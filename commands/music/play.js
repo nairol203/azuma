@@ -7,6 +7,15 @@ const queue = new Map();
 
 module.exports = {
 	slash: true,
+	description: 'Spiele Musik in einem Sprachkanal ab!',
+	options: [
+		{
+			name: 'song',
+			description: 'Name oder Link des Songs',
+			type: 3,
+			required: true,
+		},
+	],
 	callback: async ({ client, args, interaction }) => {
 		const searchString = args.song;
 		const userId = interaction.member.user.id;

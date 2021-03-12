@@ -10,6 +10,28 @@ function format(number) {
 
 module.exports = {
     slash: true,
+	description: 'Verbessere dein Unternehmen!',
+	options: [
+		{
+			name: 'type',
+			description: 'Wähle das Upgrade das du kaufen willst!',
+			type: 3,
+			choices: [
+                {
+                    name: 'Personal',
+                    value: 'upgrade_1',
+                },
+                {
+                    name: 'Zuliefere',
+                    value: 'upgrade_2',
+                },
+                {
+                    name: 'Ausrüstung',
+                    value: 'upgrade_3',
+                },
+            ]
+		}
+	],
     callback: async ({ args, interaction }) => {
         const guildId = interaction.guild_id;
         const userId = interaction.member.user.id;

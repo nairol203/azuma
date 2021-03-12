@@ -3,6 +3,7 @@ const music = require('./play');
 
 module.exports = {
 	slash: true,
+	description: 'zeigt die aktuelle Song Queue an',
 	callback: ({ interaction }) => {
 		const serverQueue = music.serverQueue(interaction.guild_id);
 

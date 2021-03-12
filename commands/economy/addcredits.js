@@ -4,6 +4,21 @@ const economy = require('../../features/economy');
 module.exports = {
 	slash: true,
 	ownerOnly: true,
+	description: 'Fügt einer Person beliebig viele Credits zu',
+	options: [
+		{
+			name: 'user',
+			description: 'Beliebiges Servermitglied',
+			type: 6,
+			required: true,
+		},
+		{
+			name: 'credits',
+			description: 'Anzahl der Credits',
+			type: 4,
+			required: true,
+		}
+	],
 	requiredPermissions: ['ADMINISTRATOR'],
 	callback: async ({ client, args, prefix, interaction }) => {
 		const userId = args.user;

@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	slash: true,
+	description: 'How to: Social Interaction',
 	callback: ({}) => {
 			const embed = new MessageEmbed()
 			.setColor('#f77600')

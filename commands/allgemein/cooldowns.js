@@ -3,6 +3,28 @@ const cooldowns = require('../../cooldowns');
 
 module.exports = {
 	slash: true,
+	description: 'Zeigt alle Cooldowns an',
+	options: [
+		{
+			name: 'reset',
+			description: 'Setze deine Cooldowns bei einem Bug zurück. Missbrauch wird bestraft!',
+			type: 3,
+			choices: [
+				{
+					name: 'daily',
+					value: 'daily',
+				},
+				{
+					name: 'work',
+					value: 'work',
+				},
+				{
+					name: 'all',
+					value: 'all',
+				},
+			],
+		},
+	],
 	callback: async ({ client, interaction, args }) => {
 		// const user = interaction.member.user;
 		const userId = interaction.member.user.id;
