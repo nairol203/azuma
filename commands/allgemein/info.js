@@ -11,7 +11,7 @@ module.exports = {
 			.setAuthor(`Information über ${client.user.username}`, client.user.displayAvatarURL())
 			.addFields (
 				{ name: 'Allgemeine Info', value: 'Dieser Bot wurde von <@!255739211112513536> programmiert. Falls irgendetwas nicht funktioniert, schreibt ihm!' },
-				{ name: 'Bekannte Bugs', value: '/' },
+				{ name: 'Bekannte Bugs', value: '- `/play <playlist link>` gibt einen Error, funktioniert aber\n\nDu glaubst du hast einen Bug gefunden? Benutze `/report <bug>`' },
 				{ name: 'Roadmap', value: '- Großes Hotel Update mit Reactions, Jukebox, etc.' },
 				{ name: 'Version', value: version, inline: true },
 				{ name: 'Aktuelle Laufzeit', value: `${hours} h (${minutes} min)`, inline: true },

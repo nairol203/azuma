@@ -16,12 +16,12 @@ const price = {
 };
 
 module.exports = {
-	update: false,
+	update: true,
 	slash: true,
 	description: 'Angle in Discord ein paar Fische!',
 	options: [
 		{
-			name: 'arguments',
+			name: 'options',
 			description: 'Angle in Discord ein paar Fische!',
 			type: 3,
 			choices: [
