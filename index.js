@@ -65,11 +65,6 @@ client.on('ready', async () => {
 		cmd = command[1]
 		if (!cmd.slash) return
 		if (!cmd.description) console.warn('Azuma > No Description in ' + command[0] + '.js')
-
-		for (let i = 0; i < cmd.minArgs; i++) {
-			
-		}
-
 		const name = command[0];
 		const description = cmd.description;
 		const options = cmd.options || [];

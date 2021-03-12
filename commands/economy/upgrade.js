@@ -22,7 +22,7 @@ module.exports = {
                     value: 'upgrade_1',
                 },
                 {
-                    name: 'Zuliefere',
+                    name: 'Zulieferer',
                     value: 'upgrade_2',
                 },
                 {
