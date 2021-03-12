@@ -20,7 +20,7 @@ module.exports = {
 		}
 	],
 	requiredPermissions: ['ADMINISTRATOR'],
-	callback: async ({ client, args, prefix, interaction }) => {
+	callback: async ({ client, args, interaction }) => {
 		const userId = args.user;
 		const credits = args.credits;
 		const guild = client.guilds.cache.get(interaction.guild_id);
