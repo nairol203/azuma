@@ -19,7 +19,6 @@ module.exports = {
 			required: true,
 		}
 	],
-	requiredPermissions: ['ADMINISTRATOR'],
 	callback: async ({ client, args, interaction }) => {
 		const userId = args.user;
 		const credits = args.credits;
