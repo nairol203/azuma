@@ -70,7 +70,7 @@ client.once('ready', async () => {
 			await create(name, description, options, '255741114273759232');
 		}
 	}
-})
+});
 
 client.on('ready', async () => {
 	await mongo();
