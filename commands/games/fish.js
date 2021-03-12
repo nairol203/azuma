@@ -16,6 +16,7 @@ const price = {
 };
 
 module.exports = {
+	update: false,
 	slash: true,
 	description: 'Angle in Discord ein paar Fische!',
 	options: [
@@ -66,10 +67,7 @@ module.exports = {
 			const uncommon = await fish_inv.getUncommon(userId);
 			const garbage = await fish_inv.getGarbage(userId);
 
-			const embed = new MessageEmbed()
-				.setColor('#00b8ff')
-				.addField(`:fishing_pole_and_fish:  **|**  **${user.username}'s** Angel-Inventar:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🗑️ **Müll** | ${garbage}`);
-			return embed;
+			return `:fishing_pole_and_fish:  **|**  ${user.username}'s Angelinventar:\n🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🗑️ **Müll** | ${garbage}`;
 		}
 		else if (args.arguments === 'math') {
 			const common = await fish_stats.getCommon(userId); const uncommon = await fish_stats.getUncommon(userId);
@@ -212,7 +210,7 @@ module.exports = {
 			const rare = await fish_stats.getRare(userId);
 			const garbage = await fish_stats.getGarbage(userId);
 
-			return `:fishing_pole_and_fish:  **|**  **${user.username}'s** Angelstatistik:`, `🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🦑 **Seltene Fische** | ${rare}\n🗑️ **Müll** | ${garbage}`;
+			return `:fishing_pole_and_fish:  **|**  ${user.username}'s Angelstatistik:\n🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🦑 **Seltene Fische** | ${rare}\n🗑️ **Müll** | ${garbage}`;
 		}
 		const coinsOwned = await economy.getCoins(guildId, userId);
 		if (coinsOwned < price.perCast) return '<:no:767394810909949983> | Du hast nicht genügend Credits!';

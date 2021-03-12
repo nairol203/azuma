@@ -32,7 +32,7 @@ async function create(name, description, options, guildId) {
 			description: description,
 			options: options,
 		},
-	});
+	}).then(console.log('Azuma > Posted Command: ' + name));
 }
 
 const featuresFiles = fs.readdirSync('./features').filter(file => file.endsWith('.js'));
@@ -54,20 +54,23 @@ async function get(guildId) {
 	return app.commands.get();
 }
 
-client.once('ready', async () => {
+client.on('ready', async () => {
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get('255741114273759232'));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete() 
 
 	for (let command of client.commands) {
-		cmd = command[1]
-		if (!cmd.slash) return
-		if (!cmd.description) console.warn('Azuma > No Description in ' + command[0] + '.js')
-		const name = command[0];
-		const description = cmd.description;
-		const options = cmd.options || [];
-		if (name && description) {
-			await create(name, description, options, '255741114273759232');
+		cmd = command[1];
+		if ((cmd.slash) && (cmd.update)) {
+			if (cmd.update === false) return;
+			if (!cmd.description) console.warn('Azuma > No Description in ' + command[0] + '.js');
+			const name = command[0];
+			const description = cmd.description;
+			const options = cmd.options || [];
+			if (name && description) {
+				await create(name, description, options, '255741114273759232');
+	
+			}
 		}
 	}
 });
