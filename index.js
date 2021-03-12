@@ -54,9 +54,7 @@ async function get(guildId) {
 	return app.commands.get();
 }
 
-client.on('ready', async () => {
-	await mongo();
-	cooldown.updateCooldown();
+client.once('ready', async () => {
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get('255741114273759232'));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete() 
@@ -72,6 +70,11 @@ client.on('ready', async () => {
 			await create(name, description, options, '255741114273759232');
 		}
 	}
+})
+
+client.on('ready', async () => {
+	await mongo();
+	cooldown.updateCooldown();
 
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {
 		const { name, options } = interaction.data;
@@ -89,7 +92,7 @@ client.on('ready', async () => {
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 		if (!command) return;
 		if (!command.slash) return;
-		if (command.disabled) return;
+		if (command.disabled) return reply(interaction, 'Dieser Befehl ist aktuell deaktiviert!');
 		if (command.ownerOnly && userId != '255739211112513536') {
 			return reply(interaction, 'Nur der Bot-Owner kann diesen Befehl benutzen.');
 		}
@@ -97,7 +100,7 @@ client.on('ready', async () => {
 			const channel = client.channels.cache.get(interaction.channel_id);
 			const authorPerms = channel.permissionsFor(user);
 			if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-				return `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`;
+				return reply(interaction, `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
 			}
 		}
 		if (command.cooldown > 600) {
