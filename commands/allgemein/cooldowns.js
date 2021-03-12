@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const cooldowns = require('../../cooldowns');
 
 module.exports = {
-	update: true,
 	slash: true,
 	description: 'Zeigt alle Cooldowns an',
 	options: [
@@ -36,13 +35,13 @@ module.exports = {
 			const authorPerms = channel.permissionsFor(user);
 			const owner = client.users.cache.get('255739211112513536')
 			if (!authorPerms || !authorPerms.has('ADMINISTRATOR')) {
-				owner.send(`<@${userId}> hat eine Anfrage zum Cooldown Reset gemacht!`);
+				owner.send(`<@${userId}> hat eine Anfrage zum Cooldown Reset gemacht: ` + reset);
 				return 'Wir haben deine Anfrage erhalten! Missbrauch wird bestraft!';
 			}
 			else {
-				cooldowns.resetCooldown(userId);
-				owner.send(`<@${userId}> hat einen Cooldown Reset gemacht!`);
-				return 'Deine Cooldowns wurden erfolgreich zurückgesetzt! Missbrauch wird bestraft!';
+				cooldowns.resetCooldown(userId, reset);
+				owner.send(`<@${userId}> hat einen Cooldown Reset gemacht: ` + reset);
+				return 'Deine Cooldowns ('+ reset + ') wurden erfolgreich zurückgesetzt! Missbrauch wird bestraft!';
 			}
 		}
 		const embed = new MessageEmbed()

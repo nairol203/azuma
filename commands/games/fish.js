@@ -16,7 +16,6 @@ const price = {
 };
 
 module.exports = {
-	update: true,
 	slash: true,
 	description: 'Angle in Discord ein paar Fische!',
 	options: [

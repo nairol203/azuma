@@ -75,10 +75,20 @@ updateCooldown;
 
 module.exports.updateCooldown = updateCooldown;
 
-module.exports.resetCooldown = async (userId) => {
-	await cooldowns.deleteMany(
-		{
-			userId,
-		},
-	);
+module.exports.resetCooldown = async (userId, reset) => {
+	if (reset === 'all') {
+		await cooldowns.deleteMany(
+			{
+				userId,
+			},
+		);
+	}
+	else {
+		await cooldowns.deleteOne(
+			{
+				userId,
+				reset
+			}
+		)
+	}
 }
