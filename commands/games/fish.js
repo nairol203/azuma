@@ -20,7 +20,7 @@ module.exports = {
 	description: 'Angle in Discord ein paar Fische!',
 	options: [
 		{
-			name: 'argument',
+			name: 'arguments',
 			description: 'Angle in Discord ein paar Fische!',
 			type: 3,
 			choices: [
