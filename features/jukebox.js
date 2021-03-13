@@ -1,3 +1,4 @@
+const { no } = require('../emoji.json');
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 const music = require('../commands/music/play');
@@ -15,7 +16,7 @@ async function play(message, args, voiceChannel) {
 			var video = await youtube.getVideoByID(videos[0].id);
 		}
 		catch {
-			return message.channel.send('<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.');
+			return message.channel.send( no + ' | Ich konnte keine passenden Suchergebnisse finden.');
 		}
 	}
 	return music.handleVideo(video, message, voiceChannel);

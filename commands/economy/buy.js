@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { no } = require('../../emoji.json');
 
 const economy = require('../../features/economy');
 const business = require('../../features/business');
@@ -83,9 +84,9 @@ module.exports = {
         else if (args.type == 'cocaine') {
             company = cocaine;
         }
-        if (targetCoins < company.price) return '<:no:767394810909949983> | Du hast nicht genug Credits um dir dieses Unternehmen leisten zu können!';
+        if (targetCoins < company.price) return no + ' | Du hast nicht genug Credits um dir dieses Unternehmen leisten zu können!';
         if (getBusiness !== null) {
-            if (getBusiness.type === company.name) return '<:no:767394810909949983> | Du besitzt bereits dieses Unternehmen!';
+            if (getBusiness.type === company.name) return no + ' | Du besitzt bereits dieses Unternehmen!';
         }
 
         await business.buyBusiness(guildId, userId, company.name);

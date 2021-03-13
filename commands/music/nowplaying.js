@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { no } = require('../../emoji.json');
 const music = require('./play');
 
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
 	callback: ({ interaction }) => {
 		const userId = interaction.member.user.id;
 		const serverQueue = music.serverQueue(interaction.guild_id);
-		if(!serverQueue) return '<:no:767394810909949983> | Es wird gerade nichts gespielt';
+		if(!serverQueue) return  no + ' | Es wird gerade nichts gespielt';
 		const embed = new MessageEmbed()
 		.setTitle('Now Playing:')
 		.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)

@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { no } = require('../../emoji.json');
 
 const economy = require('../../features/economy');
 const business = require('../../features/business');
@@ -39,7 +40,7 @@ module.exports = {
         const targetCoins = await economy.getCoins(guildId, userId);
 		const getBusiness = await business.getBusiness(guildId, userId);
 
-    	if (getBusiness === null) return channel.send('<:no:767394810909949983> | Du brauchst ein Unternehmen um Upgrades zu kaufen!');
+    	if (getBusiness === null) return channel.send(no + ' | Du brauchst ein Unternehmen um Upgrades zu kaufen!');
 
     	const company = await business.setCompany(guildId, userId);
 

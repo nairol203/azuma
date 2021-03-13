@@ -1,4 +1,5 @@
 const { Collection, MessageEmbed } = require('discord.js');
+const { no } = require('../../emoji.json');
 
 const economy = require('../../features/economy');
 const fish_stats = require('../../features/fish_stats');
@@ -212,7 +213,7 @@ module.exports = {
 			return `:fishing_pole_and_fish:  **|**  ${user.username}'s Angelstatistik:\n🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🦑 **Seltene Fische** | ${rare}\n🗑️ **Müll** | ${garbage}`;
 		}
 		const coinsOwned = await economy.getCoins(guildId, userId);
-		if (coinsOwned < price.perCast) return '<:no:767394810909949983> | Du hast nicht genügend Credits!';
+		if (coinsOwned < price.perCast) return no + ' | Du hast nicht genügend Credits!';
 
 		if (!cooldowns.has('fish')) cooldowns.set('fish', new Collection());
 		const now = Date.now();

@@ -1,4 +1,5 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require("discord.js");
+const { no } = require('../emoji.json');
 const channel = new Discord.Collection();
 
 module.exports = {
@@ -32,9 +33,9 @@ module.exports = {
 					],
 				});
 
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setTitle(`Willkommen in deinem Ticket-Kanal, ${user.username}!`)
-					.setDescription('Hier kannst du den Mods dein Problem schildern. Sie werden dir schnellstmöglich antworten.\n\nDu kannst das Ticket schließen indem du auf <:no:767394810909949983> reagierst.')
+					.setDescription('Hier kannst du den Mods dein Problem schildern. Sie werden dir schnellstmöglich antworten.\n\nDu kannst das Ticket schließen indem du auf ' + no + ' reagierst.')
 					.setColor('f77600');
 				newChannel.send(`${user} <@&799397095337230387>`);
 				const msgEmbed = await newChannel.send(embed);

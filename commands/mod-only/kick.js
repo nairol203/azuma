@@ -1,3 +1,5 @@
+const { yes, no } = require('../../emoji.json');
+
 module.exports = {
 	minArgs: 1,
 	maxArgs: 1,
@@ -11,16 +13,16 @@ module.exports = {
 				member
 					.kick()
 					.then(() => {
-						message.channel.send(`<:ja:767394811140374568> ${user.tag} wurde gekickt.`);
+						message.channel.send(yes + ` ${user.tag} wurde gekickt.`);
 					})
 					.catch(error => {
-						message.channel.send('<:no:767394810909949983> Error occured while running kick command.');
+						message.channel.send(no + ' Error occured while running kick command.');
 						console.error(error);
 					});
 			}
 		}
 		else {
-			message.channel.send('<:no:767394810909949983> Dieser User ist nicht auf diesem Server!');
+			message.channel.send(no + ' Dieser User ist nicht auf diesem Server!');
 		}
 	},
 };

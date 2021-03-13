@@ -1,5 +1,4 @@
-const Discord = require('discord.js');
-
+const { MessageEmbed } = require('discord.js');
 const customs = require('../models/customs');
 
 const parentId = '810764515582672917';
@@ -83,7 +82,7 @@ module.exports = {
 					},
 				],
 			});
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
 				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein:')
 				.addFields(
@@ -110,7 +109,7 @@ module.exports = {
 			if (!args5) args5 = '/';
 
 			let jukeboxId = '';
-			const jukeboxEmbed = new Discord.MessageEmbed()
+			const jukeboxEmbed = new MessageEmbed()
 				.setTitle('Jukebox')
 				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
 				.addFields(

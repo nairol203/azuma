@@ -1,3 +1,4 @@
+const { no } = require('../../emoji.json');
 const ytdl = require('ytdl-core');
 const Util = require('discord.js');
 const YouTube = require('simple-youtube-api');
@@ -22,10 +23,10 @@ module.exports = {
 		const guild = client.guilds.cache.get(interaction.guild_id)
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
-		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
+		if(!voiceChannel) return  no + ' | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
 		const permissons = voiceChannel.permissionsFor(client.user);
-		if(!permissons.has('CONNECT')) return '<:no:767394810909949983> | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!';
-		if(!permissons.has('SPEAK')) return '<:no:767394810909949983> | Ich kann in deinem Sprachkanal nicht sprechen!';
+		if(!permissons.has('CONNECT')) return  no + ' | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!';
+		if(!permissons.has('SPEAK')) return  no + ' | Ich kann in deinem Sprachkanal nicht sprechen!';
 
 		if(searchString.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
 			const playList = await youtube.getPlaylist(searchString);
@@ -45,7 +46,7 @@ module.exports = {
 					var video = await youtube.getVideoByID(videos[0].id);
 				}
 				catch {
-					return '<:no:767394810909949983> | Ich konnte keine passenden Suchergebnisse finden.';
+					return  no + ' | Ich konnte keine passenden Suchergebnisse finden.';
 				}
 			}
 			return handleVideo(video, client, interaction, voiceChannel);
@@ -91,7 +92,7 @@ async function handleVideo(video, client, interaction, voiceChannel, playList = 
 		catch (error) {
 			console.log(`Error occured while connection to the voice channel: ${error}`);
 			queue.delete(interaction.guild_id);
-			return `<:no:767394810909949983> | ${error}`;
+			return  no + ` | ${error}`;
 		}
 	}
 	else {

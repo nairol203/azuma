@@ -1,6 +1,7 @@
 const economy = require('../../features/economy');
 const business = require('../../features/business');
 const { MessageEmbed } = require('discord.js');
+const { no } = require('../../emoji.json');
 
 module.exports = {
 	slash: true,
@@ -10,7 +11,7 @@ module.exports = {
 		const guildId = interaction.guild_id;
 		const userId = interaction.member.user.id;
 		const getBusiness = await business.getBusiness(guildId, userId);
-		if (getBusiness === null) return '<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!business buy`!';
+		if (getBusiness === null) return no + ' | Du hast kein Unternehmen, kaufe eins mit `!business buy`!';
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);

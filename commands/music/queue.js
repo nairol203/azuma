@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { no } = require('../../emoji.json');
 const music = require('./play');
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
 		)
 		.setColor('#f77600');
 
-		if(!serverQueue) return '<:no:767394810909949983> | Es wird gerade nichts gespielt.';
+		if(!serverQueue) return  no + ' | Es wird gerade nichts gespielt.';
 		if (serverQueue.songs.length > 10) {
 			embed.addField('Next song:', `**-** [${serverQueue.songs[1].title}](${serverQueue.songs[1].url}) - \`${serverQueue.songs[1].duration}\``)
 			embed.addField('Länge der Queue:', serverQueue.songs.length + ` song(s)`)

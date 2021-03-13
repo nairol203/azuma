@@ -1,3 +1,4 @@
+const { no } = require('../../emoji.json');
 const music = require('./play');
 
 module.exports = {
@@ -9,8 +10,8 @@ module.exports = {
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
 
-		if(!voiceChannel) return '<:no:767394810909949983> | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
-		if(!serverQueue) return '<:no:767394810909949983> | Es wird gerade nichts gespielt';
+		if(!voiceChannel) return  no + ' | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
+		if(!serverQueue) return  no + ' | Es wird gerade nichts gespielt';
 		if(serverQueue.playing) return 'Die Musik ist nicht pausiert.';
 		serverQueue.playing = true;
 		serverQueue.connection.dispatcher.resume();

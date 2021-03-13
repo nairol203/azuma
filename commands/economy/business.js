@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { yes, no } = require('../../emoji.json');
 
 const business = require('../../features/business');
 const cooldowns = require('../../cooldowns');
@@ -26,14 +27,14 @@ module.exports = {
 
 		const getBusiness = await business.getBusiness(guildId, userId);
 
-		if (getBusiness === null) return '<:no:767394810909949983> | Du hast kein Unternehmen, kaufe eins mit `!buy [business]`!';
+		if (getBusiness === null) return no + ' | Du hast kein Unternehmen, kaufe eins mit `!buy [business]`!';
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
 
-		const up1 = getBusiness.upgrade1 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
-		const up2 = getBusiness.upgrade2 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
-		const up3 = getBusiness.upgrade3 ? '<:ja:767394811140374568>' : '<:no:767394810909949983>';
+		const up1 = getBusiness.upgrade1 ? yes : no;
+		const up2 = getBusiness.upgrade2 ? yes : no;
+		const up3 = getBusiness.upgrade3 ? yes : no;
 
 		const getCooldown = await cooldowns.getCooldown(userId, 'work');
 
