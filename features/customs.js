@@ -97,16 +97,25 @@ module.exports = {
 				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
 			customsTextChannel.send(embed).then((msg) => msg.pin());
 
-			let args1 = searchChannel.args1;
-			if (!args1) args1 = '/';
-			let args2 = searchChannel.args2;
-			if (!args2) args2 = '/';
-			let args3 = searchChannel.args3;
-			if (!args3) args3 = '/';
-			let args4 = searchChannel.args4;
-			if (!args4) args4 = '/';
-			let args5 = searchChannel.args5;
-			if (!args5) args5 = '/';
+			if (searchChannel) {
+				let args1 = searchChannel.args1;
+				if (!args1) args1 = '/';
+				let args2 = searchChannel.args2;
+				if (!args2) args2 = '/';
+				let args3 = searchChannel.args3;
+				if (!args3) args3 = '/';
+				let args4 = searchChannel.args4;
+				if (!args4) args4 = '/';
+				let args5 = searchChannel.args5;
+				if (!args5) args5 = '/';
+			}
+			else {
+				args1 = '/';
+				args2 = '/';
+				args3 = '/';
+				args4 = '/';
+				args5 = '/';
+			}
 
 			let jukeboxId = '';
 			const jukeboxEmbed = new MessageEmbed()

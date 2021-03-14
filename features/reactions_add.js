@@ -1,4 +1,4 @@
-const { MessageEmbed, Collection } = require("discord.js");
+const { MessageEmbed, Collection } = require('discord.js');
 const { no } = require('../emoji.json');
 const channel = new Collection();
 
