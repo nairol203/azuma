@@ -16,6 +16,7 @@ module.exports = {
 		const userId = user.id
 		const textChannelId = interaction.channel_id;
 		const result = await customs.findOne({ userId });
+		const channelId = result.channelId;
 		if (!result) return 'Du besitzt aktuell kein Zimmer!';
 		if (result.textChannelId == textChannelId) {
 			const voiceChannel = client.channels.cache.get(result.channelId)
@@ -30,6 +31,7 @@ module.exports = {
 				},
 				{
 					userId,
+					channelId,
 					channelName,
 				},
 			);
