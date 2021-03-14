@@ -30,7 +30,6 @@ module.exports = {
 				},
 				{
 					userId,
-					channelId,
 					channelName,
 				},
 			);
