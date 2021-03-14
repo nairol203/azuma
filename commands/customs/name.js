@@ -22,6 +22,18 @@ module.exports = {
 			if(!voiceChannel) return 'Du besitzt aktuell kein Zimmer!';
 			const name = args.name;
 			voiceChannel.setName(name);
+			const channelName = name;
+			await customs.findOneAndUpdate(
+				{
+					userId,
+					channelId,
+				},
+				{
+					userId,
+					channelId,
+					channelName,
+				},
+			);
 			return `Ich habe dein Türschild geändert: \`${name}\`.`;
 		}
 		else {
