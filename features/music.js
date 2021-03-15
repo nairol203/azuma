@@ -54,7 +54,7 @@ module.exports.handleVideo = async (video, client, interaction, voiceChannel, pl
 	else {
 		serverQueue.songs.push(song);
 		if(playList) return undefined;
-		const l = serverQueue.songs.length
+		const l = serverQueue.songs.length - 1
 		const embed = new MessageEmbed()
 		.setTitle('Added To Queue')
 		.setDescription(`[${serverQueue.songs[l].title}](${serverQueue.songs[l].url})`)
@@ -139,8 +139,7 @@ module.exports.handleVideoOld = async (video, message, voiceChannel, playList = 
 	else {
 		serverQueue.songs.push(song);
 		if(playList) return undefined;
-		const l = serverQueue.songs.length
-		console.log(l)
+		const l = serverQueue.songs.length - 1;
 		const embed = new MessageEmbed()
 		.setTitle('Added To Queue')
 		.setDescription(`[${serverQueue.songs[l].title}](${serverQueue.songs[l].url})`)
