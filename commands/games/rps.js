@@ -175,6 +175,7 @@ module.exports = {
 									channel.send(embed);
 								}
 							}
+							break;
 						default: 
 							channel.send(`${target}, du hast den Coinflip abgelehnt!`);
 							break;
