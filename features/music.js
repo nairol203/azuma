@@ -54,12 +54,13 @@ module.exports.handleVideo = async (video, client, interaction, voiceChannel, pl
 	else {
 		serverQueue.songs.push(song);
 		if(playList) return undefined;
+		const l = serverQueue.length
 		const embed = new MessageEmbed()
 		.setTitle('Added To Queue')
-		.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
+		.setDescription(`[${serverQueue.songs[l].title}](${serverQueue.songs[l].url})`)
 		.addFields(
 			{ name: 'Requested by', value: `<@${userId}>`, inline: true },
-			{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
+			{ name: 'Länge', value: `\`${serverQueue.songs[l].duration}\``, inline: true },
 			{ name: 'Queue', value: `${serverQueue.songs.length} songs - \`00:00:00\``, inline: true },
 		)
 		.setColor('#f77600');
