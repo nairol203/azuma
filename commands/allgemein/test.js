@@ -1,5 +1,4 @@
 module.exports = {
-    update: true,
 	slash: true,
 	description: 'Test 1 - 2 -3!',
 	callback: ({ client }) => {
