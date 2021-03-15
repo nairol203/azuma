@@ -1,7 +1,7 @@
 const { no } = require('../emoji.json');
+const { handleVideoOld } = require('../features/music');
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
-const music = require('../commands/music/play');
 const customs = require('../models/customs');
 
 async function play(message, args, voiceChannel) {
@@ -19,7 +19,7 @@ async function play(message, args, voiceChannel) {
 			return message.channel.send( no + ' | Ich konnte keine passenden Suchergebnisse finden.');
 		}
 	}
-	return music.handleVideo(video, message, voiceChannel);
+	return handleVideoOld(video, message, voiceChannel);
 }
 
 module.exports = {

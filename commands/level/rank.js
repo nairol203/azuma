@@ -1,4 +1,4 @@
-const Levels = require('../../features/levels');
+const Levels = require('../../events/levels');
 const profileSchema = require('../../models/profile-schema');
 const Canvacord = require('canvacord');
 // const { MessageAttachment } = require('discord.js');

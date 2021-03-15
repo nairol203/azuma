@@ -35,11 +35,11 @@ async function create(name, description, options, guildId) {
 	}).then(console.log('Azuma > Posted Command: ' + name));
 }
 
-const featuresFiles = fs.readdirSync('./features').filter(file => file.endsWith('.js'));
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-for (const file of featuresFiles) {
-	const feature = require(`./features/${file}`);
-	client.on(feature.name, (...args) => feature.run(...args, client));
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	client.on(event.name, (...args) => event.run(...args, client));
 }
 
 const cooldowns = new Discord.Collection();
@@ -53,9 +53,9 @@ async function get(guildId) {
 }
 
 client.on('ready', async () => {
-	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + featuresFiles.length + ' feature' + (featuresFiles.length == 1 ? '' : 's') + '.');
+	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get('255741114273759232'));
-	// client.api.applications(client.user.id).guilds(guildId).commands('').delete() 
+	// client.api.applications(client.user.id).guilds('255741114273759232').commands('820294375770423316').delete() 
 
 	for (let command of client.commands) {
 		cmd = command[1];

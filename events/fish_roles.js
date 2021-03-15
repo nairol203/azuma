@@ -1,4 +1,4 @@
-const fish_stats = require('./fish_stats');
+const fish_stats = require('../features/fish_stats');
 
 module.exports = (client) => {
 	client.on('message', async message => {

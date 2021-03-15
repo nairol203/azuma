@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const Levels = require('../../features/levels');
+const Levels = require('../../events/levels');
 
 module.exports = {
 	slash: true,

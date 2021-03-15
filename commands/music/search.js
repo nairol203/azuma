@@ -1,8 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 const { no } = require('../../emoji.json');
+const { handleVideo } = require('../../features/music');
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
-const music = require('./play');
 
 module.exports = {
 	slash: true,
@@ -52,6 +52,6 @@ module.exports = {
 		catch {
 			return  no + ' | Ich konnte keine passenden Suchergebnisse finden.';
 		}
-		return music.handleVideo(video, client, interaction, voiceChannel);
+		return handleVideo(video, client, interaction, voiceChannel);
 	},
 };
