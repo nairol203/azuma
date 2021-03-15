@@ -139,6 +139,8 @@ module.exports.handleVideoOld = async (video, message, voiceChannel, playList = 
 	else {
 		serverQueue.songs.push(song);
 		if(playList) return undefined;
+		const l = serverQueue.length
+		console.log(l)
 		const embed = new MessageEmbed()
 		.setTitle('Added To Queue')
 		.setDescription(`[${serverQueue.songs[l].title}](${serverQueue.songs[l].url})`)
