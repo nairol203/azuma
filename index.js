@@ -132,7 +132,20 @@ client.on('ready', async () => {
 			setTimeout(() => timestamps.delete(userId), cooldownAmount);
 		}
 		try {
-			reply(interaction, command.callback({ client, args, interaction, prefix }));
+			const callback = await command.callback({ client, args, interaction, prefix })
+			if (!callback) {
+				try {
+					client.api.interactions(interaction.id, interaction.token).callback.post({
+						data: {
+							type: 5,
+						},
+					});
+				}
+				catch (error) {
+					console.error(error);
+				}
+			}
+			reply(interaction, callback);
 		}
 		catch (error) {
 			console.error(error);

@@ -67,6 +67,36 @@ module.exports.handleVideo = async (video, client, interaction, voiceChannel, pl
 	}
 }
 
+module.exports.play = (guild, song, userId) => {
+	const serverQueue = queue.get(guild.id);
+
+	if(!song) {
+		serverQueue.voiceChannel.leave();
+		queue.delete(guild.id);
+		return;
+	}
+	const dispatcher = serverQueue.connection.play(ytdl(song.url))
+		.on('finish', () => {
+			if (!serverQueue.loop) serverQueue.songs.shift();
+			this.play (guild, serverQueue.songs[0]);
+		})
+		.on('error', error => {
+			console.log(error);
+		});
+	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+	const embed = new MessageEmbed()
+	.setTitle('Playing...')
+	.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
+	.addFields(
+		{ name: 'Requested by', value: `<@${userId}>`, inline: true },
+		{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
+		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
+	)
+	.setColor('#f77600');
+	return embed;
+}
+
+
 module.exports.handleVideoOld = async (video, message, voiceChannel, playList = false) => {
 	const serverQueue = queue.get(message.guild.id);
 
@@ -131,35 +161,6 @@ module.exports.playOld = (guild, song) => {
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 	serverQueue.textChannel.send(`:notes: | \`${serverQueue.songs[0].title}\` - \`${serverQueue.songs[0].duration}\` wird gespielt...`);
-}
-
-module.exports.play = (guild, song, userId) => {
-	const serverQueue = queue.get(guild.id);
-
-	if(!song) {
-		serverQueue.voiceChannel.leave();
-		queue.delete(guild.id);
-		return;
-	}
-	const dispatcher = serverQueue.connection.play(ytdl(song.url))
-		.on('finish', () => {
-			if (!serverQueue.loop) serverQueue.songs.shift();
-			this.play (guild, serverQueue.songs[0]);
-		})
-		.on('error', error => {
-			console.log(error);
-		});
-	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-	const embed = new MessageEmbed()
-	.setTitle('Playing...')
-	.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
-	.addFields(
-		{ name: 'Requested by', value: `<@${userId}>`, inline: true },
-		{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
-		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
-	)
-	.setColor('#f77600');
-	return embed;
 }
 
 const formatInt = int => {

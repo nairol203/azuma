@@ -26,7 +26,6 @@ module.exports = {
 		if (number > 5) return 'Wenn du dir die Ohren wegschallern willst hör lieber Metal!';
 		sQ.volume = number
 		sQ.connection.dispatcher.setVolumeLogarithmic(number / 5);
-		sQ.volume
 		return `Die Lautstärke wurde zu **${number}** geändert.`;
 	},
 };
