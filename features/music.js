@@ -89,7 +89,7 @@ module.exports.play = (guild, song, userId) => {
 	.setTitle('Playing...')
 	.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
 	.addFields(
-		{ name: 'Requested by', value: `<@${userId}>`, inline: true },
+		{ name: 'Requested by', value: '<@772508572647030796>', inline: true },
 		{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
 		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
 	)
@@ -175,6 +175,7 @@ module.exports.playOld = (guild, song) => {
 	.setTitle('Playing...')
 	.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
 	.addFields(
+		{ name: 'Requested by', value: '<@772508572647030796>', inline: true },
 		{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
 		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
 	)
