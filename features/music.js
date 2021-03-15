@@ -93,7 +93,7 @@ module.exports.play = (guild, song, userId) => {
 		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
 	)
 	.setColor('#f77600');
-	return embed;
+	serverQueue.textChannel.send(embed);
 }
 
 
