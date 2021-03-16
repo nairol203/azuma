@@ -69,7 +69,7 @@ module.exports = {
 
 			return `:fishing_pole_and_fish:  **|**  ${user.username}'s Angelinventar:\n🐟 **Gewöhnliche Fische** | ${common}\n🐠 **Ungewöhnliche Fische** | ${uncommon}\n🗑️ **Müll** | ${garbage}`;
 		}
-		else if (args.arguments === 'math') {
+		else if (args.options === 'math') {
 			const common = await fish_stats.getCommon(userId); const uncommon = await fish_stats.getUncommon(userId);
 			const rare = await fish_stats.getRare(userId); const garbage = await fish_stats.getGarbage(userId);
 			const total = (common + uncommon + rare + garbage);
@@ -97,11 +97,11 @@ module.exports = {
 				);
 			return embed;
 		}
-		else if (args.arguments === 'rarefish') {
+		else if (args.options === 'rarefish') {
 			const result = await fish_rarefish.resultRarefish(userId);
 			return `:fishing_pole_and_fish:  |  ${user.username}'s Sammlung:\n${result}`;
 		}
-		else if (args.arguments === 'redeem') {
+		else if (args.options === 'redeem') {
 			if (!args.type) return 'Du musst einen Fisch definieren, den du einlösen möchtest!';
 			const result = await fish_rarefish.check(userId);
 			if (result === null) return 'Du besitzt keine seltenen Fische!';
@@ -172,7 +172,7 @@ module.exports = {
 				return 'Richtige Types wären: 🐧🐢🐙🦑🦐🦀🐡🐬🐳🐋🦈 oder 🐊';
 			}
 		}
-		else if (args.arguments === 'sell') {
+		else if (args.options === 'sell') {
 			if (!args.type) return 'Du musst einen Typ von Fischen definieren, den du verkaufen möchtest!';
 
 			const common = await fish_inv.getCommon(userId);
@@ -204,7 +204,7 @@ module.exports = {
 			}
 			return 'Gültige Types wären: `common` `uncommon` `garbage` `all`';
 		}
-		else if (args.arguments === 'stats') {
+		else if (args.options === 'stats') {
 			const common = await fish_stats.getCommon(userId);
 			const uncommon = await fish_stats.getUncommon(userId);
 			const rare = await fish_stats.getRare(userId);
