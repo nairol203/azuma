@@ -16,7 +16,6 @@ function format(number) {
 }
 
 module.exports = {
-	update: true,
 	slash: true,
 	description: 'Kaufe ein Unternehmen!',
 	callback: async ({ client, interaction }) => {
