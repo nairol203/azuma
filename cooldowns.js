@@ -44,6 +44,24 @@ module.exports.mathCooldown = async (userId, type) => {
 	return result;
 };
 
+module.exports.resetCooldown = async (userId, reset) => {
+	if (reset === 'all') {
+		await cooldowns.deleteMany(
+			{
+				userId,
+			},
+		);
+	}
+	else {
+		await cooldowns.deleteOne(
+			{
+				userId,
+				reset
+			}
+		)
+	}
+}
+
 async function updateCooldown() {
 	const results = await cooldowns.find();
 	if (results && results.length) {
@@ -74,21 +92,3 @@ async function updateCooldown() {
 updateCooldown;
 
 module.exports.updateCooldown = updateCooldown;
-
-module.exports.resetCooldown = async (userId, reset) => {
-	if (reset === 'all') {
-		await cooldowns.deleteMany(
-			{
-				userId,
-			},
-		);
-	}
-	else {
-		await cooldowns.deleteOne(
-			{
-				userId,
-				reset
-			}
-		)
-	}
-}

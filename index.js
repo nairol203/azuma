@@ -32,7 +32,7 @@ async function create(name, description, options, guildId) {
 			description: description,
 			options: options,
 		},
-	}).then(console.log('Azuma > Posted Command: ' + name));
+	}).then(console.log('Azuma > Posted Slash-Command: ' + name));
 }
 
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
