@@ -56,6 +56,7 @@ async function get(guildId) {
 // new newswire('gtav', 'https://discord.com/api/webhooks/819676913886298192/4S9csxzV8S6UhqWZ42t_sQr7MahQBeE4Yo-fwMu5H8R2IMn0GUgB12Q03Bhs6wTClrei');
 
 client.on('ready', async () => {
+	client.user.setActivity('FINAL FANTASY XIV', { type : 'PLAYING' });
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get('255741114273759232'));
 	// client.api.applications(client.user.id).guilds('255741114273759232').commands('820294375770423316').delete() 
