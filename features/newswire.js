@@ -167,7 +167,7 @@ async function getHashToken() {
                             hash = JSON.parse(pair[1])['persistedQuery']['sha256Hash'];
                             interceptedRequest.abort();
                             browser.close();
-                            console.log(hash);
+                            // console.log(hash);
                             res(hash);
                         }
                     }
