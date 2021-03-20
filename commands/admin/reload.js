@@ -1,17 +1,24 @@
 const fs = require('fs');
 module.exports = {
+	slash: true,
 	description: 'Reloads a command',
-	minArgs: 1,
-	maxArgs: 1,
-	expectedArgs: '<command>',
+	options: [
+		{
+			name: 'Command',
+			description: 'Gebe einen Command an den du reloaden willst',
+			type: 3,
+			required: true,
+		},
+	],
 	requiredPermissions: ['ADMINISTRATOR'],
-	callback: ({ message, args }) => {
-		const commandName = args[0].toLowerCase();
-		const command = message.client.commands.get(commandName)
-			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	callback: ({ client, interaction, args }) => {
+		const userId = interaction.member.user.id;
+		const commandName = args.command;
+		const command = client.commands.get(commandName)
+			|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 		if (!command) {
-			return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
+			return `There is no command with name or alias \`${commandName}\`, <@` + userId + '>!';
 		}
 
 		const commandFolders = fs.readdirSync('./commands');
@@ -21,12 +28,12 @@ module.exports = {
 
 		try {
 			const newCommand = require(`../${folderName}/${commandName}.js`);
-			message.client.commands.set(commandName, newCommand);
-			message.channel.send(`Command \`${commandName}\` was reloaded!`);
+			client.commands.set(commandName, newCommand);
+			return `Command \`${commandName}\` was reloaded!`;
 		}
 		catch (error) {
 			console.error(error);
-			message.channel.send(`There was an error while reloading a command \`${commandName}\`:\n\`${error.message}\``);
+			return `There was an error while reloading a command \`${commandName}\`:\n\`${error.message}\``;
 		}
 	},
 };
