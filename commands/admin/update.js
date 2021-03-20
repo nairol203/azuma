@@ -2,9 +2,29 @@ const { MessageEmbed } = require('discord.js');
 const { epic, rockstar } = require('../../emoji.json');
 
 module.exports = {
+	slash: true,
+	description: 'Update für  bestimmte Embeds',
+	options: [
+		{
+			name: 'Channel',
+			description: 'Setze einen Channel fest',
+			required: true,
+			type: 3,
+			choices: [
+				{
+					name: 'rollenverteilung',
+					value: 'rollenverteilung',
+				},
+				{
+					name: 'modmail',
+					value: 'modmail',
+				}
+			]
+		}
+	],
 	ownerOnly: true,
-	callback: async ({ args, client, Discord }) => {
-		if (args[0] == '<#782595813196038175>') {
+	callback: async ({ args, client }) => {
+		if (args.channel === 'rollenverteilung') {
 			const channel = await client.channels.fetch('782595813196038175');
 			channel.messages.fetch().then(async (messages) => {
 				const embed = new MessageEmbed()
@@ -37,7 +57,7 @@ ${rockstar} **Newswire** - Bekomme immer eine Benachrichtigung wenn ein neuer Ne
 				}
 			});
 		}
-		else if (args[0] == '<#365763570371133451>') {
+		else if (args.channel === 'modmail') {
 			const channel = await client.channels.fetch('365763570371133451');
 			channel.messages.fetch().then(async (messages) => {
 				const embed = new MessageEmbed()
@@ -60,5 +80,6 @@ ${rockstar} **Newswire** - Bekomme immer eine Benachrichtigung wenn ein neuer Ne
 				}
 			});
 		}
+		return '#' + args.channel + ' wurde aktualisiert!';
 	},
 };

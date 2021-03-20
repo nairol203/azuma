@@ -40,7 +40,7 @@ module.exports = {
 		setTimeout(() => {
 			channel.send(embed).then(async (msg) => {
 				msg.react('1️⃣').then(msg.react('2️⃣').then(msg.react('3️⃣').then(msg.react('4️⃣').then(msg.react('5️⃣')))));
-				msg.awaitReactions((reaction, user) => user.id == userId && (reaction.emoji.name == '1️⃣') || (reaction.emoji.name == '2️⃣') || (reaction.emoji.name == '3️⃣') || (reaction.emoji.name == '4️⃣') || (reaction.emoji.name == '5️⃣'), {
+				msg.awaitReactions((reaction, user) => user.id == userId && (reaction.emoji.name == '1️⃣') || user.id == userId && (reaction.emoji.name == '2️⃣') || user.id == userId && (reaction.emoji.name == '3️⃣') || user.id == userId && (reaction.emoji.name == '4️⃣') || user.id == userId && (reaction.emoji.name == '5️⃣'), {
 					max: 1,
 					time: 60 * 1000,
 				}).then(async collected => {
@@ -48,23 +48,29 @@ module.exports = {
 					switch (collected.first().emoji.name) {
 					case '1️⃣':
 						company = documents;
+						break;
 					case '2️⃣':
 						company = weed;
+						break;
 					case '3️⃣':
 						company = fakeMoney;
+						break;
 					case '4️⃣':
 						company = meth;
+						break;
 					case '5️⃣':
 						company = cocaine;
+						break;
 					}
-					if (targetCoins < company.price) return no + ' | Du hast nicht genug Credits um dir dieses Unternehmen leisten zu können!';
+					if (targetCoins < company.price) channel.send(no + ' | Du hast nicht genug Credits um dir dieses Unternehmen leisten zu können!');
 					if (getBusiness !== null) {
-						if (getBusiness.type === company.name) return no + ' | Du besitzt bereits dieses Unternehmen!';
+						if (getBusiness.type === company.name) channel.send(no + ' | Du besitzt bereits dieses Unternehmen!');
 					}
 					await business.buyBusiness(guildId, userId, company.name);
 					await economy.addCoins(guildId, userId, company.price * -1);
-					return `Du hast eine ${company.name} gekauft! Du hast \`${format(company.price)} \` 💵 bezahlt.`;
+					channel.send(`Du hast eine ${company.name} gekauft! Du hast \`${format(company.price)} \` 💵 bezahlt.`);
 				}).catch(() => {
+					console.log('Error while running buy command');
 					return;
 				});
 			});
