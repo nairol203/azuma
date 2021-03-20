@@ -30,7 +30,7 @@ module.exports = {
 		const target = client.users.cache.get(targetId);
 
 		if (target.bot) return 'Du kannst nicht mit einem Bot spielen!';
-		if (userId === targetId) return 'Du kannst doch nicht mit dir selbst spielen <:FeelsDankMan:780215649384398908>';
+		if (userId === targetId) return 'Du kannst doch nicht mit dir selbst spielen!';
 		if (credits < 1) return 'Netter Versuch, aber du kannst nicht mit negativen Einsatz spielen!';
 		const coinsOwned = await economy.getCoins(guildId, userId);
 		if (coinsOwned < credits) return `Du hast doch gar keine ${credits} 💵!`;
