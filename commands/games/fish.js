@@ -205,9 +205,6 @@ module.exports = {
         if (targetCoins < 5) {
             return no + ' Du hast nicht genügend Credits um zu Fischen!';
         }
-        if (!p_save.bag) {
-            await setBag(userId, 'bag_1');
-        }
 
         if (!cooldowns.has('fish')) cooldowns.set('fish', new Collection());
 		const now = Date.now();

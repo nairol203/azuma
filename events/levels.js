@@ -1,4 +1,4 @@
-const profileSchema = require('../models/profile-schema');
+const profileSchema = require('../models/profile');
 const cooldowns = new Set();
 
 module.exports = {

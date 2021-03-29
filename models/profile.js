@@ -11,7 +11,20 @@ const reqNumber = {
 };
 
 const profileSchema = mongoose.Schema({
+	guildId: reqString,
 	userId: reqString,
+	coins: {
+		type: Number,
+		default: 0,
+	},
+	xp: {
+		type: Number,
+		default: 0,
+	},
+	level: {
+		type: Number,
+		default: 1,
+	},
     rod: reqString,
     bag: reqString,
     bag_size: reqNumber,
@@ -22,4 +35,4 @@ const profileSchema = mongoose.Schema({
     active_bait: reqString,
 });
 
-module.exports = mongoose.model('fish-profiles', profileSchema);
+module.exports = mongoose.model('profiles', profileSchema);
