@@ -224,7 +224,8 @@
     "baits": {
         "bait_1": {
             "name": "Regenwurm",
-            "price": 5,
+            "description": "Höhere Chance auf Uncommons",
+            "price": 10,
             "chances": {
                 "common": 0.3485,
                 "uncommon": 0.5,
@@ -234,22 +235,24 @@
         },
         "bait_2": {
             "name": "Bienenmaden",
+            "description": "Kein Müll",
             "price": 10,
             "chances": {
                 "common": 0.5,
-                "uncommon": 0.4485,
+                "uncommon": 0.4985,
                 "rare": 0.0015,
-                "garbage": 0.05
+                "garbage": 0
             }
         },
         "bait_3": {
             "name": "Heuschrecke",
-            "price": 20,
+            "description": "Erhöhte Chance auf Rares aber auch auf Müll",
+            "price": 15,
             "chances": {
-                "common": 0.5,
-                "uncommon": 0.345,
+                "common": 0.25,
+                "uncommon": 0.25,
                 "rare": 0.005,
-                "garbage": 0.15
+                "garbage": 0.45
             }
         }
     },

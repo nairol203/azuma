@@ -29,9 +29,6 @@ const profileSchema = mongoose.Schema({
     bag: reqString,
     bag_size: reqNumber,
     bag_value: reqNumber,
-    bait_1: reqNumber,
-    bait_2: reqNumber,
-    bait_3: reqNumber,
     active_bait: reqString,
 });
 

@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { addCoins, getCoins } = require('../../features/economy');
-const { baits, rods } = require('../games/fish.json');
-const { setRod, addBait_1, addBait_2, addBait_3 } = require('../../features/fishing');
+const { rods } = require('../games/fish.json');
+const { setRod } = require('../../features/fishing');
 const { yes, no } = require('../../emoji.json');
 const  { getInfo, setCompany, buyBusiness, getBusiness, buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
 const profile = require('../../models/profile');
@@ -27,8 +27,6 @@ const shopEmbed = new MessageEmbed()
     :two: Unternehmen upgraden
 
     :three: Angeln
-
-    :four: Angelköder
     `)
     .setColor('#f77600');
 
@@ -40,16 +38,6 @@ const rodEmbed = new MessageEmbed()
         { name: '2️⃣ ' + rods.rod_2.name, value: `Chance kein Köder zu verbrauchen: 15%\nAngel-Cooldown: ${rods.rod_2.cooldown} Sekunden\nKosten: \`${rods.rod_2.price}\` 💵` },
         { name: '3️⃣ ' + rods.rod_3.name, value: `Chance kein Köder zu verbrauchen: 30%\nAngel-Cooldown: ${rods.rod_3.cooldown} Sekunden\nKosten: \`${rods.rod_3.price}\` 💵` },
         { name: '4️⃣ ' + rods.rod_4.name, value: `Chance kein Köder zu verbrauchen: 50%\\nAngel-Cooldown: ${rods.rod_4.cooldown} Sekunden\nKosten: \`${rods.rod_4.price}\` 💵` }
-    )
-    .setColor('#f77600');
-
-const baitEmbed = new MessageEmbed()
-    .setTitle('🎣 |  Angelköder kaufen')
-    .setDescription('Kaufe Köder, um deine Chance auf bessere Fische zu erhöhen. Manche Köder sind für bestimte Arten besser.')
-    .addFields(
-        { name: '1️⃣ ' + baits.bait_1.name , value: `Dieser Köder ist besonders gut für gewöhnliche Fische.\nPreis pro Stück: \`${baits.bait_1.price}\` 💵` },
-        { name: '2️⃣ ' + baits.bait_2.name, value: `Mit diesem Köder angelt man deutlich weniger Müll.\nPreis pro Stück: \`${baits.bait_2.price}\` 💵` },
-        { name: '3️⃣ ' + baits.bait_3.name, value: `Dieser Köder ist sehr gut für seltene Fische.\nPreis pro Stück: \`${baits.bait_3.price}\` 💵` },
     )
     .setColor('#f77600');
 
@@ -122,11 +110,6 @@ module.exports = {
                 else if (msg.content == '3') {
                     shop_msg.edit(rodEmbed).then(m => {
                         handleRod(shop_msg);
-                    })
-                }
-                else if (msg.content == '4') {
-                    shop_msg.edit(baitEmbed).then(m => {
-                        handleBaits(shop_msg);
                     })
                 } else {
                     shop_msg.delete();
@@ -350,124 +333,6 @@ module.exports = {
                         .addField('Rechung', `- ${rods.rod_4.name}\nKosten: \`${rods.rod_4.price}\` 💵`)
                         .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
-                } else {
-                    shop_msg.delete();
-                    channel.send(no + ' Keine gültige Eingabe erkannt.');
-                }
-            })
-            .catch(() => {
-                shop_msg.delete()
-                channel.send(no + ' Der Shop wurde aufgrund von Inaktivität geschlossen.')
-            })
-        }
-
-        function handleBaits(shop_msg) {
-            const filter = m => m.author.id === userId;
-            channel.awaitMessages(filter, {
-                max: 1,
-                time: 60000,
-                errors: ['time'],
-            })
-            .then(msg => {
-                msg = msg.first()
-                msg.delete();
-                if (msg.content == '1') {
-                    const bait1Embed = new MessageEmbed()
-                        .setTitle(baits.bait_1.name)
-                        .setDescription('Dieser Köder ist besonders gut für gewöhnliche Fische.')
-                        .addField('Preis pro Stück', `\`${baits.bait_1.price}\` 💵`)
-                        .setFooter('Schreibe, wieviele Köder du kaufen möchstest.')
-                        .setColor('#ff8f16')
-                    shop_msg.edit(bait1Embed)
-                    handleBaits_2(shop_msg, msg)
-                } else if (msg.content == '2') {
-                    const bait2Embed = new MessageEmbed()
-                        .setTitle(baits.bait_2.name)
-                        .setDescription('Mit diesem Köder angelt man deutlich weniger Müll.')
-                        .addField('Preis pro Stück', `\`${baits.bait_2.price}\` 💵`)
-                        .setFooter('Schreibe, wieviele Köder du kaufen möchstest.')
-                        .setColor('#ff8f16')
-                    shop_msg.edit(bait2Embed)
-                    handleBaits_2(shop_msg, msg)
-                } else if (msg.content == '3') {
-                    const bait3Embed = new MessageEmbed()
-                        .setTitle(baits.bait_3.name)
-                        .setDescription('Dieser Köder ist sehr gut für seltene Fische.')
-                        .addField('Preis pro Stück', `\`${baits.bait_3.price}\` 💵`)
-                        .setFooter('Schreibe, wieviele Köder du kaufen möchstest.')
-                        .setColor('#ff8f16')
-                    shop_msg.edit(bait3Embed)
-                    handleBaits_2(shop_msg, msg)
-                } else {
-                    shop_msg.delete();
-                    channel.send(no + ' Keine gültige Eingabe erkannt.');
-                }
-            })
-            .catch(() => {
-                shop_msg.delete()
-                channel.send(no + ' Der Shop wurde aufgrund von Inaktivität geschlossen.')
-            })
-        }
-
-        function handleBaits_2(shop_msg, msg1) {
-            const filter = m => m.author.id === userId;
-            channel.awaitMessages(filter, {
-                max: 1,
-                time: 60000,
-                errors: ['time'],
-            })
-            .then(async message => {
-                message = message.first();
-                message.delete()
-                if (isNaN(message.content)) {
-                    shop_msg.delete()
-                    channel.send(no + ' Du musst eine Zahl schreiben! Versuche es nochmal: `/buy`');
-                    return;
-                }
-                if (message.content < 1) {
-                    shop_msg.delete()
-                    channel.send(no + ' Das war keine gültige Eingabe! Versuche es nochmal: `/buy`');
-                    return;
-                }
-                if (msg1.content == '1') {
-                    if (targetCoins < baits.bait_1.price) {
-                        shop_msg.delete()
-                        channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
-                        return;
-                    }
-                    await addBait_1(userId, message.content);
-                    const invoiceEmbed = new MessageEmbed()
-                        .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${message.content}x ${baits.bait_1.name}\nKosten: \`${message.content * baits.bait_1.price}\` 💵`)
-                        .setColor('#f77600');
-                    shop_msg.edit(invoiceEmbed)
-                    return;
-                } else if (msg1.content == '2') {
-                    if (targetCoins < baits.bait_2.price) {
-                        shop_msg.delete()
-                        channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
-                        return;
-                    }
-                    await addBait_2(userId, message.content);
-                    const invoiceEmbed = new MessageEmbed()
-                        .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${message.content}x ${baits.bait_2.name}\nKosten: \`${message.content * baits.bait_2.price}\` 💵`)
-                        .setColor('#f77600');
-                    shop_msg.edit(invoiceEmbed)
-                    return;
-                } else if (msg1.content == '3') {
-                    if (targetCoins < baits.bait_3.price) {
-                        shop_msg.delete()
-                        channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
-                        return;
-                    }
-                    await addBait_3(userId, message.content);
-                    const invoiceEmbed = new MessageEmbed()
-                        .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${message.content}x ${baits.bait_3.name}\nKosten: \`${message.content * baits.bait_3.price}\` 💵`)
-                        .setColor('#f77600');
-                    shop_msg.edit(invoiceEmbed)
-                    return;
                 } else {
                     shop_msg.delete();
                     channel.send(no + ' Keine gültige Eingabe erkannt.');
