@@ -1,0 +1,282 @@
+{
+    "fish": {
+        "commons": {
+            "Sardelle": {
+                "minLength": 10,
+                "maxLength": 20,
+                "maxPrice": 15,
+                "minPrice": 5,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/7/79/Anchovy.png",
+                "emoji": "<:Sardelle:825085685756985354>"
+            },
+            "Thunfisch": {
+                "minLength": 100,
+                "maxLength": 450,
+                "maxPrice": 15,
+                "minPrice": 5,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/c/c5/Tuna.png",
+                "emoji": "<:Thunfisch:825086545937563688>"
+            },
+            "Sardine": {
+                "minLength": 15,
+                "maxLength": 25,
+                "maxPrice": 15,
+                "minPrice": 5,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/0/04/Sardine.png",
+                "emoji": "<:Sardine:825086481944936458>"
+            },
+            "Brasse": {
+                "minLength": 30,
+                "maxLength": 50,
+                "maxPrice": 15,
+                "minPrice": 5,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/8/82/Bream.png",
+                "emoji": "<:Brasse:825086481713987674>"
+            },
+            "Barsch": {
+                "minLength": 20,
+                "maxLength": 60,
+                "maxPrice": 15,
+                "minPrice": 5,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/4/43/Perch.png",
+                "emoji": "<:Barsch:825086481571643393>"
+            },
+            "Lachs": {
+                "minLength": 50,
+                "maxLength": 150,
+                "maxPrice": 15,
+                "minPrice": 5,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/e/e0/Salmon.png",
+                "emoji": "<:Lachs:825086481612931093>"
+            },
+            "Karpfen": {
+                "minLength": 40,
+                "maxLength": 80,
+                "maxPrice": 15,
+                "minPrice": 5,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/a/a8/Carp.png",
+                "emoji": "<:Karpfen:825086481680302100>"
+            }
+        },
+        "uncommons": {
+            "Forellenbarsch": {
+                "minLength": 20,
+                "maxLength": 60,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/1/11/Largemouth_Bass.png",
+                "emoji": "<:Forellenbarsch:825086481549754399>"
+            },
+            "Schwarzbarsch": {
+                "minLength": 20,
+                "maxLength": 60,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/a/a5/Smallmouth_Bass.png",
+                "emoji": "<:Schwarzbarsch:825086481663393842>"
+            },
+            "Regenbogenforelle": {
+                "minLength": 80,
+                "maxLength": 100,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/1/14/Rainbow_Trout.png",
+                "emoji": "<:Regenbogenforelle:825086481650810965>"
+            },
+            "Glasaugenbarsch": {
+                "minLength": 20,
+                "maxLength": 60,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/0/05/Walleye.png",
+                "emoji": "<:Glasaugenbarsch:825086481588420659>"
+            },
+            "Katzenfisch": {
+                "minLength": 30,
+                "maxLength": 185,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/9/99/Catfish.png",
+                "emoji": "<:Katzenfisch:825086481629708301>"
+            },
+            "Hecht": {
+                "minLength": 100,
+                "maxLength": 150,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/3/31/Pike.png",
+                "emoji": "<:Hecht:825086481612668928>"
+            },
+            "Gotteslachs": {
+                "minLength": 50,
+                "maxLength": 150,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/5/56/Sunfish.png",
+                "emoji": "<:Gotteslachs:825086481512267777>"
+            },
+            "Rotbarbe": {
+                "minLength": 25,
+                "maxLength": 30,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/f/f2/Red_Mullet.png",
+                "emoji": "<:Rotbarbe:825086481374380073>"
+            },
+            "Hering": {
+                "minLength": 20,
+                "maxLength": 53,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/f/f1/Herring.png",
+                "emoji": "<:Hering:825163659038294046>"
+            },
+            "Aal": {
+                "minLength": 30,
+                "maxLength": 206,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/9/91/Eel.png",
+                "emoji": "<:Aal:825163949803569205>"
+            },
+            "Oktopus": {
+                "minLength": 30,
+                "maxLength": 124,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/5/5a/Octopus.png",
+                "emoji": "<:Oktopus:825163659025317949>"
+            },
+            "Riffbarsch": {
+                "minLength": 20,
+                "maxLength": 66,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/d/d3/Red_Snapper.png",
+                "emoji": "<:Riffbarsch:825163658693705730>"
+            },
+            "Tintenfisch": {
+                "minLength": 30,
+                "maxLength": 124,
+                "maxPrice": 20,
+                "minPrice": 10,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/8/81/Squid.png",
+                "emoji": "<:Tintenfisch:825163658711007276>"
+            }
+        },
+        "rares": {
+            "Purpurfisch": {
+                "minLength": 200,
+                "maxLength": 250,
+                "maxPrice": 1500,
+                "minPrice": 850,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/d/dc/Crimsonfish.png",
+                "emoji": "<:Purpurfisch:825086481151426572>"
+            },
+            "Anglerfisch": {
+                "minLength": 6,
+                "maxLength": 120,
+                "maxPrice": 1500,
+                "minPrice": 850,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/b/bf/Angler.png",
+                "emoji": "<:Anglerfisch:825086481629708351>"
+            },
+            "Legende": {
+                "minLength": 100,
+                "maxLength": 130,
+                "maxPrice": 1500,
+                "minPrice": 850,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/1/10/Legend.png",
+                "emoji": "<:Gletscherfisch:825086481273716738>"
+            },
+            "Gletscherfisch": {
+                "minLength": 65,
+                "maxLength": 70,
+                "maxPrice": 1500,
+                "minPrice": 850,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/f/fd/Glacierfish.png",
+                "emoji": "<:Gletscherfisch:825086481273716738>"
+            },
+            "Mutantenkarpfen": {
+                "minLength": 80,
+                "maxLength": 95,
+                "maxPrice": 1500,
+                "minPrice": 850,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/c/cb/Mutant_Carp.png",
+                "emoji": "<:Mutantenkarpfen:825086481349476373>"
+            }
+        },
+        "garbage": {
+            "Seetang": {
+                "image": "https://stardewvalleywiki.com/mediawiki/images/1/13/Seaweed.png",
+                "emoji": "<:Seetang:825086481123115079>"
+            },
+            "Grünalge": {
+                "image": "https://stardewvalleywiki.com/mediawiki/images/6/6d/Green_Algae.png",
+                "emoji": "<:Gruenalge:825086481563123722>"
+            },
+            "Weißalge": {
+                "image": "https://stardewvalleywiki.com/mediawiki/images/f/f7/White_Algae.png",
+                "emoji": "<:Weissalge:825086481168728106>"
+            }
+        }
+    },
+    "baits": {
+        "bait_1": {
+            "name": "Regenwurm",
+            "price": 5,
+            "chances": {
+                "common": 0.3485,
+                "uncommon": 0.5,
+                "rare": 0.0015,
+                "garbage": 0.15
+            }
+        },
+        "bait_2": {
+            "name": "Bienenmaden",
+            "price": 10,
+            "chances": {
+                "common": 0.5,
+                "uncommon": 0.4485,
+                "rare": 0.0015,
+                "garbage": 0.05
+            }
+        },
+        "bait_3": {
+            "name": "Heuschrecke",
+            "price": 20,
+            "chances": {
+                "common": 0.5,
+                "uncommon": 0.345,
+                "rare": 0.005,
+                "garbage": 0.15
+            }
+        }
+    },
+    "rods": {
+        "rod_1": {
+            "name": "Holzangel",
+            "price": 1000,
+            "no_bait": 0,
+            "cooldown": 30
+        },
+        "rod_2": {
+            "name": "Bambusangel",
+            "price": 5000,
+            "no_bait": 0.15,
+            "cooldown": 25
+        },
+        "rod_3": {
+            "name": "Verstärkte Angel",
+            "price": 10000,
+            "no_bait": 0.30,
+            "cooldown": 20
+        },
+        "rod_4": {
+            "name": "Fiberglasangel",
+            "price": 25000,
+            "no_bait": 0.50,
+            "cooldown": 15
+        }
+    }
+}

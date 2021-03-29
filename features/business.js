@@ -1,65 +1,5 @@
 const businessSchema = require('../models/business');
-
-const upgrades = {
-	upgrade1: 0.1,
-	upgrade2: 0.2,
-	upgrade3: 0.4,
-};
-
-const documents = {
-	name: 'Dokumentenfälscherei',
-	price: 2500,
-	priceUpgrade1: 100,
-	priceUpgrade2: 200,
-	priceUpgrade3: 300,
-	nameUpgrade3: 'Bessere Pressen',
-	textUpgrade3: 'verbesserte Pressen',
-	profit: 100,
-};
-
-const weed = {
-	name: 'Hanfplantage',
-	price: 5000,
-	priceUpgrade1: 500,
-	priceUpgrade2: 1000,
-	priceUpgrade3: 1500,
-	nameUpgrade3: 'UV-Lampen',
-	textUpgrade3: 'UV-Lampen',
-	profit: 500,
-};
-
-const fakeMoney = {
-	name: 'Geldfälscherei',
-	price: 25000,
-	priceUpgrade1: 2000,
-	priceUpgrade2: 4000,
-	priceUpgrade3: 6000,
-	nameUpgrade3: 'Laserdrucker',
-	textUpgrade3: 'einen Laserdrucker',
-	profit: 2000,
-};
-
-const meth = {
-	name: 'Methproduktion',
-	price: 100000,
-	priceUpgrade1: 8000,
-	priceUpgrade2: 10000,
-	priceUpgrade3: 12000,
-	nameUpgrade3: 'Destillationsanlage',
-	textUpgrade3: 'eine Destillationsanlage',
-	profit: 5000,
-};
-
-const cocaine = {
-	name: 'Kokainproduktion',
-	price: 250000,
-	priceUpgrade1: 15000,
-	priceUpgrade2: 20000,
-	priceUpgrade3: 25000,
-	nameUpgrade3: 'Mehr Arbeitsfläche',
-	textUpgrade3: 'mehr Arbeitfäche',
-	profit: 10000,
-};
+const { upgrades, documents, weed, fakeMoney, meth, cocaine } = require('./business.json');
 
 module.exports.getInfo = (type) => {
 	if (type === 1) return documents;
@@ -163,8 +103,10 @@ module.exports.buyUpgrade3 = async (guildId, userId, type) => {
 
 module.exports.setCompany = async (guildId, userId) => {
 	const getBusiness = await this.getBusiness(guildId, userId);
-
-	let company = [];
+	if (!getBusiness) {
+		return undefined
+	}
+	let company;
 	if (getBusiness.type === 'Dokumentenfälscherei') company = documents;
 	if (getBusiness.type === 'Hanfplantage') company = weed;
 	if (getBusiness.type === 'Geldfälscherei') company = fakeMoney;
