@@ -51,21 +51,12 @@ class newswire {
         article.tags = '' + article.tags.map(tag => '`' + tag + '` ');
         const embed = {
             'embeds': [{
-                'author': {
-                    'name': 'Rockstar Newswire',
-                    'url': 'https://www.rockstargames.com/newswire',
-                    'icon_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/1200px-Rockstar_Games_Logo.svg.png'
-                },
                 'title': article.title,
                 'url': article.link,
                 'color': 15258703,
                 'fields': [],
                 'image': {
                     'url': article.img
-                },
-                'footer': {
-                    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/1200px-Rockstar_Games_Logo.svg.png",
-                    "text": article.date
                 }
             }]
         };
