@@ -5,8 +5,6 @@ const { getCoins } = require('../../features/economy');
 const profile = require('../../models/profile');
 
 module.exports = {
-    slash: true,
-    ownerOnly: true,
     description: 'Öffnet deinen Rucksack',
     callback: async ({ interaction }) => {
         const guildId = interaction.guild_id;

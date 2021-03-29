@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
-	slash: true,
 	cooldown: 24 * 60 * 60,
 	description: 'Claime alle 24 Stunden 500 Credits!',
 	callback: async ({ interaction }) => {

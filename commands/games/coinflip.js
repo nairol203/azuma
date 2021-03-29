@@ -2,7 +2,6 @@ const { coin } = require('../../emoji.json');
 const economy = require('../../features/economy');
 
 module.exports = {
-	slash: true,
 	description: 'Mache mit einem anderen User einen Coinflip!',
 	options: [
 		{

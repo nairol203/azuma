@@ -266,19 +266,19 @@
         "rod_2": {
             "name": "Bambusangel",
             "price": 5000,
-            "no_bait": 0.15,
+            "no_bait": 0.5,
             "cooldown": 25
         },
         "rod_3": {
             "name": "Verstärkte Angel",
             "price": 10000,
-            "no_bait": 0.30,
+            "no_bait": 0.10,
             "cooldown": 20
         },
         "rod_4": {
             "name": "Fiberglasangel",
             "price": 25000,
-            "no_bait": 0.50,
+            "no_bait": 0.15,
             "cooldown": 15
         }
     }

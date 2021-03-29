@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const customs = require('../../models/customs');
 
 module.exports = {
-	slash: true,
 	description: 'Löscht einen Song aus der Jukebox',
 	options: [
 		{

@@ -3,7 +3,6 @@ const { no } = require('../../emoji.json');
 const { serverQueue } = require('../../features/music');
 
 module.exports = {
-	slash: true,
 	description: 'Zeigt an was aktuell gespielt wird',
 	callback: ({ interaction }) => {
 		const userId = interaction.member.user.id;

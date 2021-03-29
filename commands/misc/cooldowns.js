@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const cooldowns = require('../../cooldowns');
 
 module.exports = {
-	slash: true,
 	description: 'Zeigt alle Cooldowns an',
 	options: [
 		{

@@ -1,7 +1,6 @@
 const economy = require('../../features/economy');
 
 module.exports = {
-	slash: true,
 	description: 'Fragt die Credits von dir oder einem anderen User ab!',
 	options: [
 		{

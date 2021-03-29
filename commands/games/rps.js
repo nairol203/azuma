@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
-	slash: true,
 	description: 'Spiele mit einem anderen Servermitglied eine Partie Schere, Stein, Papier!',
 	options: [
 		{

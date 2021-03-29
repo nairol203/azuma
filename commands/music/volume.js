@@ -2,7 +2,6 @@ const { no } = require('../../emoji.json');
 const { serverQueue } = require('../../features/music');
 
 module.exports = {
-	slash: true,
 	description: 'Stelle die Lautstärke des Bot \'s ein',
 	options: [
 		{

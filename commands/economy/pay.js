@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const economy = require('../../features/economy');
 
 module.exports = {
-	slash: true,
 	description: 'Bezahle einen anderes Servermitglied mit Credits!',
 	options: [
 		{

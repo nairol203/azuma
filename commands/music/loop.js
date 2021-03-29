@@ -2,7 +2,6 @@ const { no } = require('../../emoji.json');
 const { serverQueue } = require('../../features/music');
 
 module.exports = {
-	slash: true,
 	description: 'Wiederholt den aktuellen Song unendlich oft!',
 	callback: ({ client, interaction }) => {
 		const sQ = serverQueue(interaction.guild_id);

@@ -18,7 +18,6 @@ function showBar(cd) {
 }
 
 module.exports = {
-	slash: true,
 	description: 'Verwalte dein eigenes Unternehmen und werde ein angesehener CEO!',
 	callback: async ({ interaction }) => {
 		const guildId = interaction.guild_id

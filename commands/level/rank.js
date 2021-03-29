@@ -4,7 +4,6 @@ const Canvacord = require('canvacord');
 // const { MessageAttachment } = require('discord.js');
 
 module.exports = {
-	slash: true,
 	description: 'Zeigt dein aktuelles Level an',
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;

@@ -4,7 +4,6 @@ const YouTube = require('simple-youtube-api');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 
 module.exports = {
-	slash: true,
 	description: 'Spiele Musik in einem Sprachkanal ab!',
 	options: [
 		{

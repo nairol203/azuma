@@ -9,8 +9,6 @@ const { addCoins, getCoins } = require('../../features/economy');
 const cooldowns = new Collection();
 
 module.exports = {
-    slash: true,
-    ownerOnly: true,
     description: 'Fischen in Discord!',
     options: [
         {

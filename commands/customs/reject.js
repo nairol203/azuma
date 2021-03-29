@@ -1,7 +1,6 @@
 const customs = require('../../models/customs');
 
 module.exports = {
-	slash: true,
 	description: 'Verweigert einem bestimmten User den Zugriff auf dein Zimmer',
 	options: [
 		{

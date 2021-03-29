@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const Levels = require('../../events/levels');
 
 module.exports = {
-	slash: true,
 	description: 'Zeigt die Rangliste des Servers an',
 	callback: async ({ client, interaction }) => {
 		const guildId = interaction.guild_id;

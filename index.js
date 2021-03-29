@@ -58,8 +58,7 @@ async function get(guildId) {
 client.on('ready', async () => {
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
 	// console.log(await get('255741114273759232'));
-	// client.api.applications(client.user.id).guilds('255741114273759232').commands('820294375770423316').delete() 
-
+	// client.api.applications(client.user.id).guilds('255741114273759232').commands('').delete()
 	for (let command of client.commands) {
 		cmd = command[1];
 		if ((cmd.slash) && (cmd.update)) {
@@ -95,16 +94,15 @@ client.on('ready', async () => {
 		const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 		if (!command) return;
-		if (!command.slash) return;
-		if (command.disabled) return reply(interaction, 'Dieser Befehl ist aktuell deaktiviert!');
+		if (command.disabled) return reply(interaction, no + ' Dieser Befehl ist aktuell deaktiviert!', 64);
 		if (command.ownerOnly && userId != '255739211112513536') {
-			return reply(interaction, 'Nur der Bot-Owner kann diesen Befehl benutzen.');
+			return reply(interaction, no + ' Nur der Bot-Owner kann diesen Befehl benutzen.', 64);
 		}
 		if (command.requiredPermissions) {
 			const channel = client.channels.cache.get(interaction.channel_id);
 			const authorPerms = channel.permissionsFor(user);
 			if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-				return reply(interaction, `Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
+				return reply(interaction, no + ` Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`, 64);
 			}
 		}
 		if (command.cooldown > 600) {
@@ -114,7 +112,7 @@ client.on('ready', async () => {
 			}
 			else {
 				const result = await cooldown.mathCooldown(userId, commandName);
-				return reply(interaction, `Du hast noch **${result}**Cooldown!`);
+				return reply(interaction, no + ` Du hast noch **${result}**Cooldown!`, 64);
 			}
 		}
 		if (command.cooldown <= 600) {
@@ -128,27 +126,14 @@ client.on('ready', async () => {
 				const expirationTime = timestamps.get(userId) + cooldownAmount;
 				if (now < expirationTime) {
 					const timeLeft = (expirationTime - now) / 1000;
-					return reply(interaction, `Du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.');
+					return reply(interaction, no + ` Du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.', 64);
 				}
 			}
 			timestamps.set(userId, now);
 			setTimeout(() => timestamps.delete(userId), cooldownAmount);
 		}
 		try {
-			const callback = await command.callback({ client, args, interaction, prefix })
-			if (!callback) {
-				try {
-					client.api.interactions(interaction.id, interaction.token).callback.post({
-						data: {
-							type: 5,
-						},
-					});
-				}
-				catch (error) {
-					console.error(error);
-				}
-			}
-			reply(interaction, callback);
+			reply(interaction, command.callback({ client, args, interaction, prefix }));
 		}
 		catch (error) {
 			console.error(error);
@@ -156,10 +141,11 @@ client.on('ready', async () => {
 	});
 });
 
-async function reply(interaction, response) {
+async function reply(interaction, response, flags = 1) {
 	const content = await response
 	let data = {
-		content: content
+		content,
+		flags
 	};
 	if (typeof content === 'object') {
 		data = await createApiMessage(interaction, content);
@@ -183,74 +169,5 @@ async function createApiMessage(interaction, content) {
 
 	return { ...data, files };
 }
-
-client.on('message', async message => {
-	if (message.content.startsWith('!')) return message.channel.send('Azuma unterstützt jetzt Discord-Slash-Commands! Das heißt aber auch, das der Bot jetzt eine andere Prefix hat: **/**')
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const commandName = args.shift().toLowerCase();
-	const command = client.commands.get(commandName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-	if (!command) return;
-	if (command.slash == true) return;
-	if (command.disabled) return;
-	if (!command.guildOnly && message.channel.type === 'dm') {
-		return message.reply('du kannst diesen Befehl nicht in Direktnachrichten benutzen.');
-	}
-	if (command.ownerOnly && message.author.id != '255739211112513536') {
-		return message.reply('nur der Bot-Owner kann diesen Befehl benutzen.');
-	}
-	if (command.requiredPermissions) {
-		const authorPerms = message.channel.permissionsFor(message.author);
-		if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-			return message.reply(`du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
-		}
-	}
-	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
-		let reply = `versuche es so: \`${prefix}${commandName}\``;
-
-		if (command.expectedArgs) {
-			reply = `versuche es so: \`${prefix}${commandName} ${command.expectedArgs}\``;
-		}
-
-		return message.reply(reply);
-	}
-	if (command.cooldown > 600) {
-		const getCd = await cooldown.getCooldown(message.author.id, commandName);
-		if (!getCd) {
-			await cooldown.setCooldown(message.author.id, commandName, command.cooldown);
-		}
-		else {
-			const result = await cooldown.mathCooldown(message.author.id, commandName);
-			return message.reply(`du hast noch **${result}**Cooldown!`);
-		}
-	}
-	if (command.cooldown <= 600) {
-		if (!cooldowns.has(commandName)) {
-			cooldowns.set(commandName, new Discord.Collection());
-		}
-		const now = Date.now();
-		const timestamps = cooldowns.get(commandName);
-		const cooldownAmount = (command.cooldown || 0) * 1000;
-		if (timestamps.has(message.author.id)) {
-			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-			if (now < expirationTime) {
-				const timeLeft = (expirationTime - now) / 1000;
-				return message.reply(`du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.');
-			}
-		}
-		timestamps.set(message.author.id, now);
-		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-	}
-	try {
-		command.callback({ client, message, args, prefix, Discord });
-	}
-	catch (error) {
-		console.error(error);
-		message.channel.send(no + ` Error occured while running ${commandName} command`);
-	}
-});
 
 client.login(process.env.TOKEN);

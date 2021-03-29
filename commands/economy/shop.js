@@ -35,17 +35,14 @@ const rodEmbed = new MessageEmbed()
     .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.')
     .addFields(
         { name: '1️⃣ ' + rods.rod_1.name, value: `Chance kein Köder zu verbrauchen: 0%\nAngel-Cooldown: ${rods.rod_1.cooldown} Sekunden\nKosten: \`${rods.rod_1.price}\` 💵` },
-        { name: '2️⃣ ' + rods.rod_2.name, value: `Chance kein Köder zu verbrauchen: 15%\nAngel-Cooldown: ${rods.rod_2.cooldown} Sekunden\nKosten: \`${rods.rod_2.price}\` 💵` },
-        { name: '3️⃣ ' + rods.rod_3.name, value: `Chance kein Köder zu verbrauchen: 30%\nAngel-Cooldown: ${rods.rod_3.cooldown} Sekunden\nKosten: \`${rods.rod_3.price}\` 💵` },
-        { name: '4️⃣ ' + rods.rod_4.name, value: `Chance kein Köder zu verbrauchen: 50%\\nAngel-Cooldown: ${rods.rod_4.cooldown} Sekunden\nKosten: \`${rods.rod_4.price}\` 💵` }
+        { name: '2️⃣ ' + rods.rod_2.name, value: `Chance kein Köder zu verbrauchen: 5%\nAngel-Cooldown: ${rods.rod_2.cooldown} Sekunden\nKosten: \`${rods.rod_2.price}\` 💵` },
+        { name: '3️⃣ ' + rods.rod_3.name, value: `Chance kein Köder zu verbrauchen: 10%\nAngel-Cooldown: ${rods.rod_3.cooldown} Sekunden\nKosten: \`${rods.rod_3.price}\` 💵` },
+        { name: '4️⃣ ' + rods.rod_4.name, value: `Chance kein Köder zu verbrauchen: 15%\\nAngel-Cooldown: ${rods.rod_4.cooldown} Sekunden\nKosten: \`${rods.rod_4.price}\` 💵` }
     )
     .setColor('#f77600');
 
 module.exports = {
-    slash: true,
-    ownerOnly: true,
     description: 'Öffnet das Shop-Menü',
-    options: [],
     callback: async ({ client, interaction }) => {
         const guildId = interaction.guild_id;
         const userId = interaction.member.user.id;

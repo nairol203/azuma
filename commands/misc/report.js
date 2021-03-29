@@ -1,5 +1,4 @@
 module.exports = {
-    slash: true,
     description: 'Reporte einen Bug oder ein Servermitglied. Missbrauch wird bestraft!',
     options: [
         {

@@ -4,7 +4,6 @@ const { MessageEmbed } = require('discord.js');
 const { no } = require('../../emoji.json');
 
 module.exports = {
-	slash: true,
 	cooldown: 8 * 60 * 60,
 	description: 'Verkaufe die Ware von deinem Unternehmen!\nBenötigt ein Business (!business buy)',
 	callback: async ({ interaction }) => {
