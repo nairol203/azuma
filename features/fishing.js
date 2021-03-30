@@ -142,6 +142,22 @@ module.exports.setRod = async (userId, rod, rod_durability) => {
     );
 };
 
+module.exports.setBag = async (userId, bag) => {
+    await profile.findOneAndUpdate(
+        {
+            userId,
+        },
+        {
+            userId,
+            bag,
+        },
+        {
+            upsert: true,
+            new: true,
+        },
+    );
+};
+
 module.exports.addBagSize = async (userId, bag_size) => {
     await profile.findOneAndUpdate(
         {

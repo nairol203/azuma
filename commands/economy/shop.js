@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { addCoins, getCoins } = require('../../features/economy');
-const { rods } = require('../games/fish.json');
+const { bags, rods } = require('../games/fish.json');
 const { setRod } = require('../../features/fishing');
 const { yes, no } = require('../../emoji.json');
 const  { getInfo, setCompany, buyBusiness, getBusiness, buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
@@ -26,8 +26,21 @@ const shopEmbed = new MessageEmbed()
 
     :two: Unternehmen upgraden
 
-    :three: Angeln
+    :three: Rucksäcke
+
+    :four: Angeln
     `)
+    .setColor('#f77600');
+
+const bagEmbed = new MessageEmbed()
+    .setTitle('🎣 |  Rucksack kaufen')
+    .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.')
+    .addFields(
+        { name: '1️⃣ ' + bags.bag_1.name , value: `Größe: ${bags.bag_1.size}\nKosten: \`${bags.bag_1.price}\` 💵` },
+        { name: '2️⃣ ' + bags.bag_2.name, value: `Größe: ${bags.bag_2.size}\nKosten: \`${bags.bag_2.price}\` 💵` },
+        { name: '3️⃣ ' + bags.bag_3.name, value: `Größe: ${bags.bag_3.size}\nKosten: \`${bags.bag_3.price}\` 💵` },
+        { name: '4️⃣ ' + bags.bag_4.name, value: `Größe: ${bags.bag_4.size}\nKosten: \`${bags.bag_4.price}\` 💵` }
+    )
     .setColor('#f77600');
 
 const rodEmbed = new MessageEmbed()
@@ -84,8 +97,7 @@ module.exports = {
                     shop_msg.edit(buyEmbed).then(m => {
                         handleBuy(shop_msg)
                     })
-                }
-                else if (msg.content == '2') {
+                } else if (msg.content == '2') {
                     if (!setcompany) {
                         shop_msg.delete()
                         channel.send(no + ' Du brauchst ein Business um Upgrades zu kaufen!')
@@ -103,8 +115,11 @@ module.exports = {
                     shop_msg.edit(upgradeEmbed).then(m => {
                         handleUpgrade(shop_msg)
                     })
-                }
-                else if (msg.content == '3') {
+                } else if (msg.content == '3') {
+                    shop_msg.edit(bagEmbed).then(m => {
+                        handleBag(shop_msg);
+                    })
+                } else if (msg.content == '4') {
                     shop_msg.edit(rodEmbed).then(m => {
                         handleRod(shop_msg);
                     })
@@ -237,6 +252,99 @@ module.exports = {
                 } else {
                     shop_msg.delete()
                     channel.send(no + 'Keine gültige Eingabe erkannt.')
+                }
+            })
+            .catch(() => {
+                shop_msg.delete()
+                channel.send(no + ' Der Shop wurde aufgrund von Inaktivität geschlossen.')
+            })
+        }
+
+        function handleBag(shop_msg) {
+            const filter = m => m.author.id === userId;
+            channel.awaitMessages(filter, {
+                max: 1,
+                time: 60000,
+                errors: ['time'],
+            })
+            .then(async msg => {
+                msg = msg.first()
+                msg.delete();
+                if (msg.content == '1') {
+                    if (targetCoins < bags.bag_1.price) {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
+                        return;
+                    }
+                    if (p_save.bag == 'bag_1') {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast bereits diesen Rucksack.');
+                        return;
+                    }
+                    await setBag(userId, 'bag_1');
+                    await addCoins(guildId, userId, bags.bag_1.price * -1);
+                    const invoiceEmbed = new MessageEmbed()
+                        .setTitle(yes + ' |  Einkauf erfolgreich')
+                        .addField('Rechung', `- ${bags.bag_1.name}\nKosten: \`${bags.bag_1.price}\` 💵`)
+                        .setColor('#f77600');
+                    shop_msg.edit(invoiceEmbed)
+                } else if (msg.content == '2') {
+                    if (targetCoins < bags.bag_2.price) {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
+                        return;
+                    }
+                    if (p_save.bag == 'bag_2') {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast bereits diesen Rucksack.');
+                        return;
+                    }
+                    await setBag(userId, 'bag_2');
+                    await addCoins(guildId, userId, bags.bag_2.price * -1);
+                    const invoiceEmbed = new MessageEmbed()
+                        .setTitle(yes + ' |  Einkauf erfolgreich')
+                        .addField('Rechung', `- ${bags.bag_2.name}\nKosten: \`${bags.bag_2.price}\` 💵`)
+                        .setColor('#f77600');
+                    shop_msg.edit(invoiceEmbed)
+                } else if (msg.content == '3') {
+                    if (targetCoins < bags.bag_3.price) {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
+                        return;
+                    }
+                    if (p_save.bag == 'bag_3') {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast bereits diesen Rucksack.');
+                        return;
+                    }
+                    await setBag(userId, 'bag_3');
+                    await addCoins(guildId, userId, bags.bag_3.price * -1);
+                    const invoiceEmbed = new MessageEmbed()
+                        .setTitle(yes + ' |  Einkauf erfolgreich')
+                        .addField('Rechung', `- ${bags.bag_3.name}\nKosten: \`${bags.bag_3.price}\` 💵`)
+                        .setColor('#f77600');
+                    shop_msg.edit(invoiceEmbed)
+                } else if (msg.content == '4') {
+                    if (targetCoins < bags.bag_4.price) {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
+                        return;
+                    }
+                    if (p_save.bag == 'bag_4') {
+                        shop_msg.delete()
+                        channel.send(no + ' Du hast bereits diesen Rucksack.');
+                        return;
+                    }
+                    await setBag(userId, 'bag_4');
+                    await addCoins(guildId, userId, bags.bag_4.price * -1);
+                    const invoiceEmbed = new MessageEmbed()
+                        .setTitle(yes + ' |  Einkauf erfolgreich')
+                        .addField('Rechung', `- ${bags.bag_4.name}\nKosten: \`${bags.bag_4.price}\` 💵`)
+                        .setColor('#f77600');
+                    shop_msg.edit(invoiceEmbed)
+                } else {
+                    shop_msg.delete();
+                    channel.send(no + ' Keine gültige Eingabe erkannt.');
                 }
             })
             .catch(() => {

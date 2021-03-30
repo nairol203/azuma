@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { rods, baits } = require('../games/fish.json');
+const { bags, rods, baits } = require('../games/fish.json');
 const { setBag } = require('../../features/fishing');
 const { getCoins } = require('../../features/economy');
 const profile = require('../../models/profile');
@@ -18,8 +18,9 @@ module.exports = {
             .setColor('#945e1e');
 
         embed.addField('Credits', `${credits} 💵`);
-        if (p_save) {
-            embed.setTitle(user.username + '\'s Rucksack');
+        if (p_save && p_save.bag) {
+            embed.setTitle(user.username + '\'s ' + bags[p_save.bag].name);
+            embed.setDescription('Du hast aktuell einen Rucksack mit ' + bags[p_save.bag].size + ' Plätzen.');
             if (p_save.rod) {
                 const userRod = rods[p_save.rod];
                 let percent = 0;
@@ -36,7 +37,8 @@ module.exports = {
             }
         } else {
             await setBag(userId, 'bag_1');
-            embed.setTitle(user.username + '\'s Rucksack');
+            embed.setTitle(user.username + '\'s ' + bags.bag_1.name);
+            embed.setDescription('Du hast aktuell einen Rucksack mit ' + bags.bag_1.size + ' Plätzen.')
         }
         return embed;
     }

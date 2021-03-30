@@ -1,6 +1,6 @@
 const { Collection, MessageEmbed } = require('discord.js');
-const { fish, rods, baits } = require('./fish.json');
-const { yes, no, gold, silver, bronze } = require('../../emoji.json');
+const { bags, fish, rods, baits } = require('./fish.json');
+const { no, gold, silver, bronze } = require('../../emoji.json');
 const { commons, uncommons, rares, garbage } = fish;
 const { findCommon, findUncommon, findRare, findGarbage, addCommon, addUncommon, addRare, addGarbage, addBagSize, addBagValue, setBag, useBait_1, useBait_2, useBait_3, activeBait, getStats, getCommonStats, getUncommonStats, getRareStats, getGarbageStats } = require('../../features/fishing');
 const profile = require('../../models/profile');
@@ -233,6 +233,15 @@ module.exports = {
         }
         if (targetCoins < 5) {
             return no + ' Du hast nicht genügend Credits um zu Fischen!';
+        }
+        if (!p_save.bag) {
+            await setBag(userId, 'bag_1');
+        }
+        if (p_save.bag) {
+            const userBag = bags[p_save.bag]
+            if (userBag.size < p_save.bag_size) {
+                return no + ' Dein Rucksack ist voll! Verkaufe Fische mit `/fish <sell>` oder kaufe einen größeren Rucksack im Shop.';
+            }
         }
 
         if (!cooldowns.has('fish')) cooldowns.set('fish', new Collection());

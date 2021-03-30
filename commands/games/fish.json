@@ -281,5 +281,27 @@
             "no_bait": 0.15,
             "cooldown": 15
         }
+    },
+    "bags": {
+        "bag_1": {
+            "name": "Kleiner Rucksack",
+            "price": 0,
+            "size": 25
+        },
+        "bag_2": {
+            "name": "Mittlerer Rucksack",
+            "price": 5000,
+            "size": 50
+        },
+        "bag_3": {
+            "name": "Großer Rucksack",
+            "price": 10000,
+            "size": 100
+        },
+        "bag_4": {
+            "name": "Extragroßer Rucksack",
+            "price": 25000,
+            "size": 500
+        }
     }
 }
