@@ -261,25 +261,29 @@
             "name": "Holzangel",
             "price": 1000,
             "no_bait": 0,
-            "cooldown": 30
+            "cooldown": 30,
+            "image": "https://stardewvalleywiki.com/mediawiki/images/0/00/Training_Rod.png"
         },
         "rod_2": {
             "name": "Bambusangel",
             "price": 5000,
-            "no_bait": 0.5,
-            "cooldown": 25
+            "no_bait": 0.05,
+            "cooldown": 30,
+            "image": "https://stardewvalleywiki.com/mediawiki/images/d/da/Bamboo_Pole.png"
         },
         "rod_3": {
             "name": "Verstärkte Angel",
             "price": 10000,
             "no_bait": 0.10,
-            "cooldown": 20
+            "cooldown": 25,
+            "image": "https://stardewvalleywiki.com/mediawiki/images/5/5e/Fiberglass_Rod.png"
         },
         "rod_4": {
             "name": "Fiberglasangel",
             "price": 25000,
             "no_bait": 0.15,
-            "cooldown": 15
+            "cooldown": 20,
+            "image": "https://stardewvalleywiki.com/mediawiki/images/0/05/Iridium_Rod.png"
         }
     },
     "bags": {
@@ -301,7 +305,7 @@
         "bag_4": {
             "name": "Extragroßer Rucksack",
             "price": 25000,
-            "size": 500
+            "size": 250
         }
     }
 }
