@@ -240,3 +240,12 @@ module.exports.getGarbageStats = async (userId) => {
     const result = await garbage.find({userId});
     return result;
 }
+
+module.exports.getAllStats = async (userId) => {
+    const c = await commons.find({userId});
+    const u = await uncommons.find({userId});
+    const r = await rares.find({userId});
+    const g = await garbage.find({userId});
+    const a = c.concat(u); const a1 = a.concat(r); const a2 = a1.concat(g);
+    return a1
+}

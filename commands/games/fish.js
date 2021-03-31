@@ -2,7 +2,7 @@ const { Collection, MessageEmbed } = require('discord.js');
 const { bags, fish, rods, baits } = require('./fish.json');
 const { no, gold, silver, bronze } = require('../../emoji.json');
 const { commons, uncommons, rares, garbage } = fish;
-const { findCommon, findUncommon, findRare, findGarbage, addCommon, addUncommon, addRare, addGarbage, addBagSize, addBagValue, setBag, activeBait, getStats, getCommonStats, getUncommonStats, getRareStats, getGarbageStats } = require('../../features/fishing');
+const { findCommon, findUncommon, findRare, findGarbage, addCommon, addUncommon, addRare, addGarbage, addBagSize, addBagValue, setBag, activeBait, getStats, getCommonStats, getUncommonStats, getRareStats, getGarbageStats, getAllStats } = require('../../features/fishing');
 const profile = require('../../models/profile');
 const { addCoins, getCoins } = require('../../features/economy');
 
@@ -143,10 +143,21 @@ module.exports = {
             for (g of await getGarbageStats(userId)) {
                 gAmount = gAmount + g.amount;
             }
+            let length; let amount;
+            for (stats of await getAllStats(userId)) {
+                if (!length) length = stats;
+                if (length.length < stats.length) length = stats;
+                if (!amount) amount = stats;
+                if (amount.amount < stats.amount) amount = stats;
+            }
             const embed = new MessageEmbed()
                 .setTitle('Fishing stats')
                 .setDescription('Für genauere Stats zu den einzelnen Fischen\nbenutze `/fish collection`.')
-                .addField('Stats', `${commons.Sardelle.emoji} Commons: ${cAmount} Stück\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${uAmount} Stück\n${rares.Purpurfisch.emoji} Rares: ${rAmount} Stück\n${garbage.Grünalge.emoji} Garbage: ${gAmount} Stück`)
+                .addFields(
+                    { name: 'Längster Fisch', value: length.emoji + ' ' + length.name + '\n' + length.length + ' cm', inline: true },
+                    { name: 'Meist gefangner Fisch', value: amount.emoji + ' ' + amount.name + '\n' + amount.amount + ' Stück', inline: true },
+                    { name: 'Stats', value: `${commons.Sardelle.emoji} Commons: ${cAmount} Stück\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${uAmount} Stück\n${rares.Purpurfisch.emoji} Rares: ${rAmount} Stück\n${garbage.Grünalge.emoji} Garbage: ${gAmount} Stück`},
+                )
                 .setColor('#2773fc');
             return embed;
         } else if (args.options == 'bait') {
@@ -161,14 +172,14 @@ module.exports = {
                 .setColor('#2773fc');
             setTimeout(() => {
                 channel.send(embed).then(m => {
-                    const messageCollector = channel.createMessageCollector(m => m.author.id === userId, { time: 60000 })
-
-                    messageCollector.on('end', () => {
-                        m.delete()
-                        channel.send(no + ' Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.')
+                    const filter = m => m.author.id === userId;
+                    channel.awaitMessages(filter, {
+                        max: 1,
+                        time: 60000,
+                        errors: ['time'],
                     })
-
-                    messageCollector.on('collect', async (msg) => {
+                    .then(async msg => {
+                        msg = msg.first()
                         msg.delete();
                         if (msg.content == '1') {
                             await activeBait(userId, undefined);
@@ -181,7 +192,6 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
-                            messageCollector.stop()
                         } else if (msg.content == '2') {
                             await activeBait(userId, 'bait_1');
                             const embed = new MessageEmbed()
@@ -193,7 +203,6 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
-                            messageCollector.stop()
                         }
                         else if (msg.content == '3') {
                             await activeBait(userId, 'bait_2');
@@ -206,7 +215,6 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
-                            messageCollector.stop()
                         }
                         else if (msg.content == '4') {
                             await activeBait(userId, 'bait_3');
@@ -219,11 +227,14 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
-                            messageCollector.stop()
                         } else {
+                            m.delete()
                             channel.send(no + ' Keine gültige Eingabe erkannt!')
-                            messageCollector.stop()
                         }
+                    })
+                    .catch(() => {
+                        m.delete()
+                        channel.send(no + ' Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.')
                     })
                 })
             }, 500);
