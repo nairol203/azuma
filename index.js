@@ -4,6 +4,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const mongo = require('./mongo');
 const prefix = process.env.PREFIX;
+const maintenance = true;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
@@ -94,6 +95,7 @@ client.on('ready', async () => {
 		const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 		if (!command) return;
+		if (maintenance && userId != '255739211112513536') return reply(interaction, no + ` Aktuell finden Wartungsarbeiten an <@${client.user.id}> statt. Bitte versuche es später nochmal!`, 64)
 		if (command.disabled) return reply(interaction, no + ' Dieser Befehl ist aktuell deaktiviert!', 64);
 		if (command.ownerOnly && userId != '255739211112513536') {
 			return reply(interaction, no + ' Nur der Bot-Owner kann diesen Befehl benutzen.', 64);
