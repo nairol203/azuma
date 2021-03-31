@@ -95,13 +95,13 @@ module.exports = {
                 }
             }
             function awaitReactions () {
-                this.reactionCollector = this.msg.createReactionCollector((reaction, user) => user.id !== this.msg.client.user.id, { idle: 5000 })
+                this.reactionCollector = this.msg.createReactionCollector((reaction, user) => user.id !== this.msg.client.user.id, { idle: 60000 })
                 
                 this.reactionCollector.on('end', (reactions) => {
                     return reactions.array().length > 0 ? reactions.array()[0].users.remove(this.msg.client.users.cache.get(userId)) : clearReactions();
                 })
 
-                reactionCollector.on('collect', (reaction, user) => {
+                this.reactionCollector.on('collect', (reaction, user) => {
                     if (user.id !== userId) {
                         return reaction.users.remove(user)
                     }
@@ -161,14 +161,14 @@ module.exports = {
                 .setColor('#2773fc');
             setTimeout(() => {
                 channel.send(embed).then(m => {
-                    const filter = m => m.author.id === userId;
-                    channel.awaitMessages(filter, {
-                        max: 1,
-                        time: 60000,
-                        errors: ['time'],
+                    const messageCollector = channel.createMessageCollector(m => m.author.id === userId, { time: 60000 })
+
+                    messageCollector.on('end', () => {
+                        m.delete()
+                        channel.send(no + ' Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.')
                     })
-                    .then(async msg => {
-                        msg = msg.first();
+
+                    messageCollector.on('collect', async (msg) => {
                         msg.delete();
                         if (msg.content == '1') {
                             await activeBait(userId, undefined);
@@ -181,6 +181,7 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
+                            messageCollector.stop()
                         } else if (msg.content == '2') {
                             await activeBait(userId, 'bait_1');
                             const embed = new MessageEmbed()
@@ -192,6 +193,7 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
+                            messageCollector.stop()
                         }
                         else if (msg.content == '3') {
                             await activeBait(userId, 'bait_2');
@@ -204,6 +206,7 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
+                            messageCollector.stop()
                         }
                         else if (msg.content == '4') {
                             await activeBait(userId, 'bait_3');
@@ -216,13 +219,11 @@ module.exports = {
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
+                            messageCollector.stop()
                         } else {
                             channel.send(no + ' Keine gültige Eingabe erkannt!')
+                            messageCollector.stop()
                         }
-                    })
-                    .catch(() => {
-                        m.delete()
-                        channel.send(no + ' Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.')
                     })
                 })
             }, 500);
