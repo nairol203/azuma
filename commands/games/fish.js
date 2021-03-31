@@ -2,7 +2,7 @@ const { Collection, MessageEmbed } = require('discord.js');
 const { bags, fish, rods, baits } = require('./fish.json');
 const { no, gold, silver, bronze } = require('../../emoji.json');
 const { commons, uncommons, rares, garbage } = fish;
-const { findCommon, findUncommon, findRare, findGarbage, addCommon, addUncommon, addRare, addGarbage, addBagSize, addBagValue, setBag, useBait_1, useBait_2, useBait_3, activeBait, getStats, getCommonStats, getUncommonStats, getRareStats, getGarbageStats } = require('../../features/fishing');
+const { findCommon, findUncommon, findRare, findGarbage, addCommon, addUncommon, addRare, addGarbage, addBagSize, addBagValue, setBag, activeBait, getStats, getCommonStats, getUncommonStats, getRareStats, getGarbageStats } = require('../../features/fishing');
 const profile = require('../../models/profile');
 const { addCoins, getCoins } = require('../../features/economy');
 
@@ -96,7 +96,7 @@ module.exports = {
             }
             function awaitReactions () {
                 this.reactionCollector = this.msg.createReactionCollector((reaction, user) => user.id !== this.msg.client.user.id, { idle: 60000 })
-                
+
                 this.reactionCollector.on('end', (reactions) => {
                     return reactions.array().length > 0 ? reactions.array()[0].users.remove(this.msg.client.users.cache.get(userId)) : clearReactions();
                 })
