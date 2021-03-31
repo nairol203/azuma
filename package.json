@@ -18,13 +18,13 @@
   "homepage": "https://github.com/nairol203/azuma#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
-    "canvacord": "^5.0.8",
+    "canvacord": "^5.1.0",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.21.0",
-    "ffmpeg-static": "^4.2.7",
+    "ffmpeg-static": "^4.2.8",
     "got": "^11.8.2",
-    "mongoose": "^5.11.11",
+    "mongoose": "^5.12.2",
     "puppeteer": "^8.0.0",
     "simple-youtube-api": "^5.2.1",
     "ytdl-core": "^4.5.0"
