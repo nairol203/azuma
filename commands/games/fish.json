@@ -259,7 +259,7 @@
     "rods": {
         "rod_1": {
             "name": "Holzangel",
-            "price": 1000,
+            "price": 0,
             "no_bait": 0,
             "cooldown": 30,
             "image": "https://stardewvalleywiki.com/mediawiki/images/0/00/Training_Rod.png"
