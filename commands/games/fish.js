@@ -1,4 +1,5 @@
 const { Collection, MessageEmbed } = require('discord.js');
+const { Menu } = require('discord.js-menu');
 const { bags, fish, rods, baits } = require('./fish.json');
 const { no, gold, silver, bronze } = require('../../emoji.json');
 const { commons, uncommons, rares, garbage } = fish;
@@ -9,6 +10,7 @@ const { addCoins, getCoins } = require('../../features/economy');
 const cooldowns = new Collection();
 
 module.exports = {
+    update: true,
     description: 'Fischen in Discord!',
     options: [
         {
@@ -19,7 +21,8 @@ module.exports = {
                 { name: 'collection', value : 'collection' },
                 { name: 'sell', value : 'sell' },
                 { name: 'stats', value : 'stats' },
-                { name: 'bait', value: 'bait' }
+                { name: 'bait', value: 'bait' },
+                { name: 'wiki', value: 'wiki' }
             ],
         },
     ],
@@ -29,8 +32,87 @@ module.exports = {
         const user = interaction.member.user;
         const userId = user.id;
         const p_save = await profile.findOne({ userId });
-        const targetCoins = await getCoins(guildId, userId);
-        if (args.options == 'collection') {
+        const targetCoins = await getCoins(userId);
+        if (args.options == 'bait') {
+            const embed = new MessageEmbed()
+                .setTitle('Wähle einen Köder aus!')
+                .addFields(
+                    { name: '1️⃣ **Standardköder**', value: '**Kosten:** 10 💵' },
+                    { name: '2️⃣ ' + baits.bait_1.name, value: baits.bait_1.description + '\n**Kosten:** ' + baits.bait_1.price + ' 💵' },
+                    { name: '3️⃣ ' + baits.bait_2.name, value: baits.bait_2.description + '\n**Kosten:** ' + baits.bait_2.price + ' 💵'  },
+                    { name: '4️⃣ ' + baits.bait_3.name, value: baits.bait_3.description + '\n**Kosten:** ' + baits.bait_3.price + ' 💵'  },
+                )
+                .setColor('#2773fc');
+            setTimeout(() => {
+                channel.send(embed).then(m => {
+                    const filter = m => m.author.id === userId;
+                    channel.awaitMessages(filter, {
+                        max: 1,
+                        time: 60000,
+                        errors: ['time'],
+                    })
+                    .then(async msg => {
+                        msg = msg.first()
+                        msg.delete();
+                        if (msg.content == '1') {
+                            await activeBait(userId, undefined);
+                            const embed = new MessageEmbed()
+                                .setTitle('Köder ausgewählt')
+                                .setDescription('Du fischt jetzt mit dem Standardköder!')
+                                .addFields(
+                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.default.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.default.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.default.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.default.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                                    { name: 'Preis', value: '10 💵', inline: true },
+                                )
+                                .setColor('#2773fc')
+                            m.edit(embed)
+                        } else if (msg.content == '2') {
+                            await activeBait(userId, 'bait_1');
+                            const embed = new MessageEmbed()
+                                .setTitle('Köder ausgewählt')
+                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_1.name + '!')
+                                .addFields(
+                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.bait_1.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.bait_1.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.bait_1.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.bait_1.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                                    { name: 'Preis', value: baits.bait_1.price + ' 💵', inline: true },
+                                )
+                                .setColor('#2773fc')
+                            m.edit(embed)
+                        }
+                        else if (msg.content == '3') {
+                            await activeBait(userId, 'bait_2');
+                            const embed = new MessageEmbed()
+                                .setTitle('Köder ausgewählt')
+                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_2.name + '!')
+                                .addFields(
+                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.bait_2.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.bait_2.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.bait_2.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.bait_2.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                                    { name: 'Preis', value: baits.bait_2.price + ' 💵', inline: true },
+                                )
+                                .setColor('#2773fc')
+                            m.edit(embed)
+                        }
+                        else if (msg.content == '4') {
+                            await activeBait(userId, 'bait_3');
+                            const embed = new MessageEmbed()
+                                .setTitle('Köder ausgewählt')
+                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_3.name + '!')
+                                .addFields(
+                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.bait_3.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.bait_3.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.bait_3.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.bait_3.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                                    { name: 'Preis', value: baits.bait_3.price + ' 💵', inline: true },
+                                )
+                                .setColor('#2773fc')
+                            m.edit(embed)
+                        } else {
+                            m.delete()
+                            channel.send(no + ' Keine gültige Eingabe erkannt!')
+                        }
+                    })
+                    .catch(() => {
+                        m.delete()
+                        channel.send(no + ' Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.')
+                    })
+                })
+            }, 500);
+            return 'Wähle einen aktiven Köder...';
+        } else if (args.options == 'collection') {
             const stats = await getStats(userId);
             if (!stats || !stats.length) {
                 return no + ' Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`';
@@ -50,67 +132,39 @@ module.exports = {
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
                 .setColor('#2773fc');
-            stats.slice(16, 31).map(stat => {
+            stats.slice(15, 31).map(stat => {
                 let value = stat.amount + ' Stück';
                 if (stat.length) {
                     value = value + '\nLängster Fang: ' + stat.length + 'cm';
                 }
                 embed_2.addField(stat.emoji + ' ' + stat.name, value, true)
             })
+            let collectionMenu = new Menu(channel, userId, [
+                {
+                    name: 'first',
+                    content: embed_1,
+                    reactions: {
+                        '⬅': 'first',
+                        '➡': 'last',
+                    }
+                },
+                {
+                    name: 'last',
+                    content: embed_2,
+                    reactions: {
+                        '⬅': 'first',
+                        '➡': 'last',
+                    }
+                }
+            ])
             if (stats.length > 16) {
-                start()
+                collectionMenu.start()
             } else {
                 if (stats.length > 0) {
                     return embed_1;
                 } else {
                     return 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`';
                 }
-            }
-
-            function start () {
-                channel.send(embed_1).then(msg => {
-                    this.msg = msg;
-                    addReactions()
-                    awaitReactions()
-                })
-            }
-            function setPage (emojiName) {
-                if (emojiName === '➡') {
-                    this.msg.edit(embed_2)
-                } else if (emojiName === '⬅') {
-                    this.msg.edit(embed_1)
-                }
-
-                this.reactionCollector.stop()
-                addReactions()
-                awaitReactions()
-            }
-            function addReactions () {
-                this.msg.react('⬅')
-                this.msg.react('➡')
-            }
-            function clearReactions () {
-                if (this.msg) {
-                    this.msg.reactions.removeAll()
-                }
-            }
-            function awaitReactions () {
-                this.reactionCollector = this.msg.createReactionCollector((reaction, user) => user.id !== this.msg.client.user.id, { idle: 60000 })
-
-                this.reactionCollector.on('end', (reactions) => {
-                    return reactions.array().length > 0 ? reactions.array()[0].users.remove(this.msg.client.users.cache.get(userId)) : clearReactions();
-                })
-
-                this.reactionCollector.on('collect', (reaction, user) => {
-                    if (user.id !== userId) {
-                        return reaction.users.remove(user)
-                    }
-                    if (reaction.emoji.name == '➡') {
-                        setPage('➡')
-                    } else if (reaction.emoji.name == '⬅') {
-                        setPage('⬅')
-                    }
-                })
             }
             return 'Lade Fishing collection...';
         } else if (args.options == 'sell') {
@@ -160,85 +214,189 @@ module.exports = {
                 )
                 .setColor('#2773fc');
             return embed;
-        } else if (args.options == 'bait') {
+        } else if (args.options === 'wiki') {
             const embed = new MessageEmbed()
-                .setTitle('Wähle einen Köder aus!')
-                .addFields(
-                    { name: '1️⃣ **Standardköder**', value: '**Kosten:** 10 💵' },
-                    { name: '2️⃣ ' + baits.bait_1.name, value: baits.bait_1.description + '\n**Kosten:** ' + baits.bait_1.price + ' 💵' },
-                    { name: '3️⃣ ' + baits.bait_2.name, value: baits.bait_2.description + '\n**Kosten:** ' + baits.bait_2.price + ' 💵'  },
-                    { name: '4️⃣ ' + baits.bait_3.name, value: baits.bait_3.description + '\n**Kosten:** ' + baits.bait_3.price + ' 💵'  },
-                )
+                .setTitle('Fishing wiki')
+                .setDescription(`
+**:one: Suche**
+Suche nach einem bestimmten Item/ Fisch!
+
+Andere Kategorien:
+**:two: Commons**
+**:three: Uncommons**
+**:four: Rares**
+**:five: Garbage**
+**:six: Angeln**
+**:seven: Bags**
+**:eight: Baits**`)
                 .setColor('#2773fc');
             setTimeout(() => {
-                channel.send(embed).then(m => {
+                main()
+            }, 500);
+            return 'Lade das Wiki...';
+
+            function main() {
+                channel.send(embed).then(mainMsg => {
                     const filter = m => m.author.id === userId;
                     channel.awaitMessages(filter, {
                         max: 1,
-                        time: 60000,
+                        time: 120000,
                         errors: ['time'],
                     })
-                    .then(async msg => {
+                    .then(msg => {
                         msg = msg.first()
                         msg.delete();
-                        if (msg.content == '1') {
-                            await activeBait(userId, undefined);
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Standardköder!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: 50%\n${uncommons.Regenbogenforelle.emoji} Uncommons: 34,85%\n${rares.Purpurfisch.emoji} Rares: 0,15%\n${garbage.Grünalge.emoji} Garbage: 15%`, inline: true },
-                                    { name: 'Preis', value: '10 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        } else if (msg.content == '2') {
-                            await activeBait(userId, 'bait_1');
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_1.name + '!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: 34,85%\n${uncommons.Regenbogenforelle.emoji} Uncommons: 50%\n${rares.Purpurfisch.emoji} Rares: 0,15%\n${garbage.Grünalge.emoji} Garbage: 15%`, inline: true },
-                                    { name: 'Preis', value: baits.bait_1.price + ' 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        }
-                        else if (msg.content == '3') {
-                            await activeBait(userId, 'bait_2');
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_2.name + '!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: 50%\n${uncommons.Regenbogenforelle.emoji} Uncommons:49,85%\n${rares.Purpurfisch.emoji} Rares: 0,15%\n${garbage.Grünalge.emoji} Garbage: 0%`, inline: true },
-                                    { name: 'Preis', value: baits.bait_2.price + ' 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        }
-                        else if (msg.content == '4') {
-                            await activeBait(userId, 'bait_3');
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_3.name + '!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: 25%\n${uncommons.Regenbogenforelle.emoji} Uncommons: 25%\n${rares.Purpurfisch.emoji} Rares: 0,5%\n${garbage.Grünalge.emoji} Garbage: 45%`, inline: true },
-                                    { name: 'Preis', value: baits.bait_3.price + ' 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        } else {
-                            m.delete()
-                            channel.send(no + ' Keine gültige Eingabe erkannt!')
+                        switch(msg.content) {
+                            case '1':
+                                handleSearch(mainMsg)
+                                break;
+                            case '2':
+                                handleCommons(mainMsg)
+                                break;
+                            case '3':
+                                handleUncommons(mainMsg)
+                                break;
+                            case '4':
+                                handleRares(mainMsg)
+                                break;
+                            case '5':
+                                handleGarbage(mainMsg)
+                                break;
+                            case '6':
+                                handleRods(mainMsg)
+                                break;
+                            case '7':
+                                handleBags(mainMsg)
+                                break;
+                            case '8':
+                                handleBaits(mainMsg)
+                                break;
+                            default:
+                                mainMsg.delete()
+                                channel.send(no + ' Keine gültige Eingabe erkannt.')
+                                break;
                         }
                     })
                     .catch(() => {
-                        m.delete()
-                        channel.send(no + ' Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.')
+                        mainMsg.delete()
+                        channel.send(no + ' Das Wiki wurde aufgrund von Inaktivität geschlossen.')
                     })
                 })
-            }, 500);
-            return 'Wähle einen aktiven Köder...';
+            }
+            function handleReturn() {
+                const filter = m => m.author.id === userId
+                channel.awaitMessages(filter, {
+                    max: 1,
+                    time: 120000,
+                    errors: ['time']
+                })
+                .then(msg => {
+                    msg = msg.first()
+                    if (msg.content !== 'return') return
+                    main()
+                })
+                .catch(() => {
+                    return;
+                })
+            }
+            function handleSearch(mainMsg) {
+                mainMsg.delete()
+                channel.send(no + 'Coming soon').then(msg => {
+                    msg.delete({ timeout: 5000 })
+                })
+                main()
+            }
+            function handleCommons(mainMsg) {
+                const embed = new MessageEmbed()
+                    .setTitle('Fishing Wiki: Commons')
+                    .setDescription('Das sind alle gewöhnlichen Fische!')
+                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setColor('#2773fc')
+                Object.values(commons).map(fish => {
+                    embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
+                })
+                mainMsg.edit(embed).then(() => {
+                    handleReturn()
+                });
+            }
+            function handleUncommons(mainMsg) {
+                const embed = new MessageEmbed()
+                    .setTitle('Fishing Wiki: Uncommons')
+                    .setDescription('Das sind alle ungewöhnlichen Fische!')
+                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setColor('#2773fc')
+                Object.values(uncommons).map(fish => {
+                    embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
+                })
+                mainMsg.edit(embed).then(() => {
+                    handleReturn()
+                });
+            }
+            function handleRares(mainMsg) {
+                const embed = new MessageEmbed()
+                    .setTitle('Fishing Wiki: Rares')
+                    .setDescription('Das sind alle seltenen Fische!')
+                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setColor('#2773fc')
+                Object.values(rares).map(fish => {
+                    embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
+                })
+                mainMsg.edit(embed).then(() => {
+                    handleReturn()
+                });
+            }
+            function handleGarbage(mainMsg) {
+                const embed = new MessageEmbed()
+                    .setTitle('Fishing Wiki: Garbage')
+                    .setDescription('Das sind die verschiedenen Müllarten!')
+                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setColor('#2773fc')
+                Object.values(rares).map(fish => {
+                    embed.addField(fish.emoji + ' ' + fish.name, 'Wert: 0 💵', true)
+                })
+                mainMsg.edit(embed).then(() => {
+                    handleReturn()
+                });
+            }
+            function handleRods(mainMsg) {
+                const embed = new MessageEmbed()
+                    .setTitle('Fishing Wiki: Angeln')
+                    .setDescription('Das sind alle verschiedenen Angeln!')
+                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setColor('#2773fc')
+                Object.values(rods).map(rod => {
+                    embed.addField(rod.name, 'Chance keinen Köder zu verbrauchen: ' + rod.no_bait_name + '%\nAngel-Cooldown: ' + rod.cooldown + ' Sekunden\nPreis: ' + rod.price + ' 💵')
+                })
+                mainMsg.edit(embed).then(() => {
+                    handleReturn()
+                });
+            }
+            function handleBags(mainMsg) {
+                const embed = new MessageEmbed()
+                    .setTitle('Fishing Wiki: Rucksäcke')
+                    .setDescription('Das sind alle verschiedenen Rucksäcke!')
+                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setColor('#2773fc')
+                Object.values(bags).map(bag => {
+                    embed.addField(bag.name, 'Stauraum: ' + bag.size + ' Plätze\nPreis: ' + bag.price + ' 💵')
+                })
+                mainMsg.edit(embed).then(() => {
+                    handleReturn()
+                });
+            }
+            function handleBaits(mainMsg) {
+                const embed = new MessageEmbed()
+                    .setTitle('Fishing Wiki: Köder')
+                    .setDescription('Das sind alle verschiedenen Köder!')
+                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setColor('#2773fc')
+                Object.values(baits).map(bait => {
+                    embed.addField(bait.name, bait.description + `\n- Chances:\n${commons.Sardelle.emoji} Commons: ${(bait.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait.chances.garbage * 100).toFixed(2)}%\n- Preis: ` + bait.price + ' 💵')
+                })
+                mainMsg.edit(embed).then(() => {
+                    handleReturn()
+                });
+            }
         }
         if ((!p_save) || (!p_save.rod)) {
             return no + ' Du brauchst eine Angel um zu Fischen! Kaufe eine im Shop!';
@@ -272,7 +430,7 @@ module.exports = {
 
         const userRod = rods[p_save.rod];
         const randomNumber = Math.random();
-        let types; let emoji; let usedBait; let chances; let skipBait
+        let types; let emoji; let usedBait; let skipBait
         if (p_save.active_bait == 'bait_1') {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
@@ -298,14 +456,9 @@ module.exports = {
             chances = baits.bait_3.chances;
             usedBait = baits.bait_3.name;
         } else {
-            await addCoins(guildId, userId, -10)
-            chances = {
-                common: 0.5,
-                uncommon: 0.3485,
-                rare: 0.0015,
-                garbage: 0.15
-            }
-            usedBait = 'Standardköder'
+            await addCoins(guildId, userId, -baits.default.price)
+            usedBait = baits.default.name;
+            chances = baits.default.chances;
         }
 
         const d = Math.random();
@@ -343,7 +496,7 @@ module.exports = {
             } else if ((length >= midLength) && (length < t.maxLength)) {
                 emoji = silver; price = (t.maxPrice + t.minPrice) / 2;
             } else if (length == t.maxLength) {
-                emoji = gold;
+                emoji = gold; price = t.maxPrice;
             }
             description = 'Du hast gefangen: **' + emoji + ' ' + random + '**\n';
         } else {
@@ -357,13 +510,19 @@ module.exports = {
                 if ((save.length < length) && (length < t.maxLength)) {
                     description = description + `\n⭐ **Neue Länge: ${length}cm!**`;
                 } else if (length == t.maxLength) {
-                    description + `\n⭐ **Größtes Exemplar dieser Art!**\n⭐ **Neue Länge: ${length}cm!**`;
+                    description = description + `\n⭐ **Größtes Exemplar dieser Art!**`;
+                    if (save.length < length) {
+                        description = description + `\n⭐ **Neue Länge: ${length}cm!**`;
+                    }
                 }
             }
         } else {
             if (types == garbage) {
                 description = description + `\n⭐ **Erster Fang!**`;
             } else {
+                if (length === t.maxLength) {
+                    description = description + `\n⭐ **Größtes Exemplar dieser Art!**`
+                }
                 description = description + `\n⭐ **Erster Fang!**\n⭐ **Neue Länge: ${length}cm!**`;
             }
         }
