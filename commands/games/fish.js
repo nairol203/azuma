@@ -277,7 +277,7 @@ module.exports = {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
             } else {
-                await addCoins(guildId, userId, baits.bait_1.price);
+                await addCoins(guildId, userId, -baits.bait_1.price);
             }
             chances = baits.bait_1.chances;
             usedBait = baits.bait_1.name;
@@ -285,7 +285,7 @@ module.exports = {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
             } else {
-                await addCoins(guildId, userId, baits.bait_2.price);
+                await addCoins(guildId, userId, -baits.bait_2.price);
             }
             chances = baits.bait_2.chances;
             usedBait = baits.bait_2.name;
@@ -293,7 +293,7 @@ module.exports = {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
             } else {
-                await addCoins(guildId, userId, baits.bait_3.price);
+                await addCoins(guildId, userId, -baits.bait_3.price);
             }
             chances = baits.bait_3.chances;
             usedBait = baits.bait_3.name;
