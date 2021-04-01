@@ -58,6 +58,7 @@ async function get(guildId) {
 
 client.on('ready', async () => {
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
+	if (maintenance) console.log('Azuma > Wartungsarbeiten aktiv!')
 	// console.log(await get('255741114273759232'));
 	// client.api.applications(client.user.id).guilds('255741114273759232').commands('').delete()
 	for (let command of client.commands) {
