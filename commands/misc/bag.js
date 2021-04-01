@@ -24,9 +24,9 @@ module.exports = {
             if (p_save.rod) {
                 const userRod = rods[p_save.rod];
                 let percent = 0;
-                if (userRod.no_bait == 0.15) percent = 15;
-                if (userRod.no_bait == 0.3) percent = 30;
-                if (userRod.no_bait == 0.5) percent = 50;
+                if (userRod.no_bait == rods.rod_1.no_bait) percent = 15;
+                if (userRod.no_bait == rods.rod_2.no_bait) percent = 30;
+                if (userRod.no_bait == rods.rod_3.no_bait) percent = 50;
                 embed.addField(`🎣 Angel: ${userRod.name}`, `- Angel-Cooldown: ${userRod.cooldown} Sekunden\n- Chance keine Köder zu verbrauchen: ${percent}%`);
             }
             if (p_save.bag_size && p_save.bag_size != 0) {
