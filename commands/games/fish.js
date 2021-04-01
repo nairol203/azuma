@@ -365,7 +365,7 @@ Andere Kategorien:
                     .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
                     .setColor('#2773fc')
                 Object.values(rods).map(rod => {
-                    embed.addField(rod.name, 'Chance keinen Köder zu verbrauchen: ' + rod.no_bait_name + '%\nAngel-Cooldown: ' + rod.cooldown + ' Sekunden\nPreis: ' + rod.price + ' 💵')
+                    embed.addField(rod.name, 'Chance keinen Köder zu verbrauchen: ' + (rod.no_bait * 100) + '%\nAngel-Cooldown: ' + rod.cooldown + ' Sekunden\nPreis: ' + rod.price + ' 💵')
                 })
                 mainMsg.edit(embed).then(() => {
                     handleReturn()

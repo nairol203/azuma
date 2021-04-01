@@ -299,7 +299,6 @@
             "name": "Holzangel",
             "price": 1000,
             "no_bait": 0,
-            "no_bait_name": 0,
             "cooldown": 30,
             "image": "https://stardewvalleywiki.com/mediawiki/images/0/00/Training_Rod.png"
         },
