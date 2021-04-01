@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
 
-const string = {
-    type: String,
-};
-
-
 const reqString = {
     type: String,
     required: true,
 };
 
-const number = {
+const reqNumber = {
     type: Number,
+    required: true,
 };
 
 const profileSchema = mongoose.Schema({
@@ -29,11 +25,11 @@ const profileSchema = mongoose.Schema({
 		type: Number,
 		default: 1,
 	},
-    rod: string,
-    bag: string,
-    bag_size: number,
-    bag_value: number,
-    active_bait: string,
+    rod: reqString,
+    bag: reqString,
+    bag_size: reqNumber,
+    bag_value: reqNumber,
+    active_bait: reqString,
 });
 
 module.exports = mongoose.model('profiles', profileSchema);

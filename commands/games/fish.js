@@ -1,5 +1,5 @@
 const { Collection, MessageEmbed } = require('discord.js');
-const { Menu } = require('discord.js-menu');
+const { Menu } = require('discord.js-menu')
 const { bags, fish, rods, baits } = require('./fish.json');
 const { no, gold, silver, bronze } = require('../../emoji.json');
 const { commons, uncommons, rares, garbage } = fish;
@@ -32,7 +32,7 @@ module.exports = {
         const user = interaction.member.user;
         const userId = user.id;
         const p_save = await profile.findOne({ userId });
-        const targetCoins = await getCoins(userId);
+        const targetCoins = await getCoins(guildId, userId);
         if (args.options == 'bait') {
             const embed = new MessageEmbed()
                 .setTitle('Wähle einen Köder aus!')
@@ -409,7 +409,7 @@ Andere Kategorien:
         }
         if (p_save.bag) {
             const userBag = bags[p_save.bag]
-            if (userBag.size < p_save.bag_size) {
+            if (userBag.size <= p_save.bag_size) {
                 return no + ' Dein Rucksack ist voll! Verkaufe Fische mit `/fish <sell>` oder kaufe einen größeren Rucksack im Shop.';
             }
         }

@@ -63,7 +63,7 @@ client.on('ready', async () => {
 	// client.api.applications(client.user.id).guilds('255741114273759232').commands('').delete()
 	for (let command of client.commands) {
 		cmd = command[1];
-		if ((cmd.slash) && (cmd.update)) {
+		if (cmd.update) {
 			if (cmd.update === false) return;
 			if (!cmd.description) console.warn('Azuma > No Description in ' + command[0] + '.js');
 			const name = command[0];

@@ -2,6 +2,7 @@
     "fish": {
         "commons": {
             "Sardelle": {
+                "name": "Sardelle",
                 "minLength": 10,
                 "maxLength": 20,
                 "maxPrice": 15,
@@ -10,6 +11,7 @@
                 "emoji": "<:Sardelle:825085685756985354>"
             },
             "Thunfisch": {
+                "name": "Thunfisch",
                 "minLength": 100,
                 "maxLength": 450,
                 "maxPrice": 15,
@@ -18,6 +20,7 @@
                 "emoji": "<:Thunfisch:825086545937563688>"
             },
             "Sardine": {
+                "name": "Sardine",
                 "minLength": 15,
                 "maxLength": 25,
                 "maxPrice": 15,
@@ -26,6 +29,7 @@
                 "emoji": "<:Sardine:825086481944936458>"
             },
             "Brasse": {
+                "name": "Brasse",
                 "minLength": 30,
                 "maxLength": 50,
                 "maxPrice": 15,
@@ -34,6 +38,7 @@
                 "emoji": "<:Brasse:825086481713987674>"
             },
             "Barsch": {
+                "name": "Barsch",
                 "minLength": 20,
                 "maxLength": 60,
                 "maxPrice": 15,
@@ -42,6 +47,7 @@
                 "emoji": "<:Barsch:825086481571643393>"
             },
             "Lachs": {
+                "name": "Lachs",
                 "minLength": 50,
                 "maxLength": 150,
                 "maxPrice": 15,
@@ -50,6 +56,7 @@
                 "emoji": "<:Lachs:825086481612931093>"
             },
             "Karpfen": {
+                "name": "Karpfen",
                 "minLength": 40,
                 "maxLength": 80,
                 "maxPrice": 15,
@@ -60,6 +67,7 @@
         },
         "uncommons": {
             "Forellenbarsch": {
+                "name": "Forellenbarsch",
                 "minLength": 20,
                 "maxLength": 60,
                 "maxPrice": 20,
@@ -68,6 +76,7 @@
                 "emoji": "<:Forellenbarsch:825086481549754399>"
             },
             "Schwarzbarsch": {
+                "name": "Schwarzbarsch",
                 "minLength": 20,
                 "maxLength": 60,
                 "maxPrice": 20,
@@ -76,6 +85,7 @@
                 "emoji": "<:Schwarzbarsch:825086481663393842>"
             },
             "Regenbogenforelle": {
+                "name": "Regenbogenforelle",
                 "minLength": 80,
                 "maxLength": 100,
                 "maxPrice": 20,
@@ -84,6 +94,7 @@
                 "emoji": "<:Regenbogenforelle:825086481650810965>"
             },
             "Glasaugenbarsch": {
+                "name": "Glasaugenbarsch",
                 "minLength": 20,
                 "maxLength": 60,
                 "maxPrice": 20,
@@ -92,6 +103,7 @@
                 "emoji": "<:Glasaugenbarsch:825086481588420659>"
             },
             "Katzenfisch": {
+                "name": "Katzenfisch",
                 "minLength": 30,
                 "maxLength": 185,
                 "maxPrice": 20,
@@ -100,6 +112,7 @@
                 "emoji": "<:Katzenfisch:825086481629708301>"
             },
             "Hecht": {
+                "name": "Hecht",
                 "minLength": 100,
                 "maxLength": 150,
                 "maxPrice": 20,
@@ -108,6 +121,7 @@
                 "emoji": "<:Hecht:825086481612668928>"
             },
             "Gotteslachs": {
+                "name": "Gotteslachs",
                 "minLength": 50,
                 "maxLength": 150,
                 "maxPrice": 20,
@@ -116,6 +130,7 @@
                 "emoji": "<:Gotteslachs:825086481512267777>"
             },
             "Rotbarbe": {
+                "name": "Rotbarbe",
                 "minLength": 25,
                 "maxLength": 30,
                 "maxPrice": 20,
@@ -124,6 +139,7 @@
                 "emoji": "<:Rotbarbe:825086481374380073>"
             },
             "Hering": {
+                "name": "Hering",
                 "minLength": 20,
                 "maxLength": 53,
                 "maxPrice": 20,
@@ -132,6 +148,7 @@
                 "emoji": "<:Hering:825163659038294046>"
             },
             "Aal": {
+                "name": "Aal",
                 "minLength": 30,
                 "maxLength": 206,
                 "maxPrice": 20,
@@ -140,6 +157,7 @@
                 "emoji": "<:Aal:825163949803569205>"
             },
             "Oktopus": {
+                "name": "Oktopus",
                 "minLength": 30,
                 "maxLength": 124,
                 "maxPrice": 20,
@@ -148,6 +166,7 @@
                 "emoji": "<:Oktopus:825163659025317949>"
             },
             "Riffbarsch": {
+                "name": "Riffbarsch",
                 "minLength": 20,
                 "maxLength": 66,
                 "maxPrice": 20,
@@ -156,6 +175,7 @@
                 "emoji": "<:Riffbarsch:825163658693705730>"
             },
             "Tintenfisch": {
+                "name": "Tintenfisch",
                 "minLength": 30,
                 "maxLength": 124,
                 "maxPrice": 20,
@@ -166,6 +186,7 @@
         },
         "rares": {
             "Purpurfisch": {
+                "name": "Purpurfisch",
                 "minLength": 200,
                 "maxLength": 250,
                 "maxPrice": 1500,
@@ -174,6 +195,7 @@
                 "emoji": "<:Purpurfisch:825086481151426572>"
             },
             "Anglerfisch": {
+                "name": "Anglerfisch",
                 "minLength": 6,
                 "maxLength": 120,
                 "maxPrice": 1500,
@@ -182,14 +204,16 @@
                 "emoji": "<:Anglerfisch:825086481629708351>"
             },
             "Legende": {
+                "name": "Legende",
                 "minLength": 100,
                 "maxLength": 130,
                 "maxPrice": 1500,
                 "minPrice": 850,
                 "image": "https://stardewvalleywiki.com/mediawiki/images/1/10/Legend.png",
-                "emoji": "<:Gletscherfisch:825086481273716738>"
+                "emoji": "<:Legend:825086481311465503>"
             },
             "Gletscherfisch": {
+                "name": "Gletscherfisch",
                 "minLength": 65,
                 "maxLength": 70,
                 "maxPrice": 1500,
@@ -198,6 +222,7 @@
                 "emoji": "<:Gletscherfisch:825086481273716738>"
             },
             "Mutantenkarpfen": {
+                "name": "Mutantenkarpfen",
                 "minLength": 80,
                 "maxLength": 95,
                 "maxPrice": 1500,
@@ -208,20 +233,33 @@
         },
         "garbage": {
             "Seetang": {
+                "name": "Seetang",
                 "image": "https://stardewvalleywiki.com/mediawiki/images/1/13/Seaweed.png",
                 "emoji": "<:Seetang:825086481123115079>"
             },
             "Grünalge": {
+                "name": "Grünalge",
                 "image": "https://stardewvalleywiki.com/mediawiki/images/6/6d/Green_Algae.png",
                 "emoji": "<:Gruenalge:825086481563123722>"
             },
             "Weißalge": {
+                "name": "Weißalge",
                 "image": "https://stardewvalleywiki.com/mediawiki/images/f/f7/White_Algae.png",
                 "emoji": "<:Weissalge:825086481168728106>"
             }
         }
     },
     "baits": {
+        "default": {
+            "name": "Standardköder",
+            "price": 10,
+            "chances": {
+                "common": 0.5,
+                "uncommon": 0.3485,
+                "rare": 0.0015,
+                "garbage": 0.15
+            }
+        },
         "bait_1": {
             "name": "Regenwurm",
             "description": "Höhere Chance auf Uncommons",
@@ -235,12 +273,12 @@
         },
         "bait_2": {
             "name": "Bienenmaden",
-            "description": "Kein Müll",
+            "description": "Kein Müll, aber auch keine Rares!",
             "price": 10,
             "chances": {
-                "common": 0.5,
-                "uncommon": 0.4985,
-                "rare": 0.0015,
+                "common": 0.3,
+                "uncommon": 0.7,
+                "rare": 0,
                 "garbage": 0
             }
         },
@@ -259,8 +297,9 @@
     "rods": {
         "rod_1": {
             "name": "Holzangel",
-            "price": 0,
+            "price": 1000,
             "no_bait": 0,
+            "no_bait_name": 0,
             "cooldown": 30,
             "image": "https://stardewvalleywiki.com/mediawiki/images/0/00/Training_Rod.png"
         },
