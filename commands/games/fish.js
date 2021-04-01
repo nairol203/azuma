@@ -351,7 +351,7 @@ Andere Kategorien:
                     .setDescription('Das sind die verschiedenen Müllarten!')
                     .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
                     .setColor('#2773fc')
-                Object.values(rares).map(fish => {
+                Object.values(garbage).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Wert: 0 💵', true)
                 })
                 mainMsg.edit(embed).then(() => {
