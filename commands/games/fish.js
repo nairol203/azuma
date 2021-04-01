@@ -298,7 +298,7 @@ module.exports = {
             chances = baits.bait_3.chances;
             usedBait = baits.bait_3.name;
         } else {
-            await addCoins(guildId, userId, 10)
+            await addCoins(guildId, userId, -10)
             chances = {
                 common: 0.5,
                 uncommon: 0.3485,
