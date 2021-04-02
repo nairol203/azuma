@@ -252,7 +252,7 @@
     "baits": {
         "default": {
             "name": "Standardköder",
-            "price": 10,
+            "price": 5,
             "chances": {
                 "common": 0.5,
                 "uncommon": 0.3485,
@@ -263,7 +263,7 @@
         "bait_1": {
             "name": "Regenwurm",
             "description": "Höhere Chance auf Uncommons",
-            "price": 10,
+            "price": 5,
             "chances": {
                 "common": 0.2985,
                 "uncommon": 0.5,
@@ -274,7 +274,7 @@
         "bait_2": {
             "name": "Bienenmaden",
             "description": "Kein Müll, aber auch keine Rares!",
-            "price": 10,
+            "price": 5,
             "chances": {
                 "common": 0.3,
                 "uncommon": 0.7,
