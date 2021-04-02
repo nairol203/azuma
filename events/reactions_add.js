@@ -43,7 +43,7 @@ module.exports = {
 				newChannel.send(`${user} <@&799397095337230387>`);
 				const msgEmbed = await newChannel.send(embed);
 				channel.set(newChannel.name, newChannel);
-				msgEmbed.react('<:no:76739480909949983>');
+				msgEmbed.react(no);
 			}
 		}
 		const ticket = channel.get(user.username + 's-ticket');
@@ -52,7 +52,7 @@ module.exports = {
 				if (user.id == '772508572647030796') {
 					return;
 				}
-				if (_emoji.id == '767394810909949983') {
+				if (_emoji.id == '819621817064620044') {
 					ticket.delete();
 				}
 			}
