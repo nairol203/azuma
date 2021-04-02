@@ -1,6 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 const { addCoins, getCoins } = require('../../features/economy');
 const { bags, rods } = require('../games/fish.json');
+const { rod_1, rod_2, rod_3, rod_4 } = rods;
+const { bag_1, bag_2, bag_3, bag_4 } = bags;
 const { setRod } = require('../../features/fishing');
 const { yes, no } = require('../../emoji.json');
 const  { getInfo, setCompany, buyBusiness, getBusiness, buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
@@ -20,26 +22,25 @@ function format(number) {
 const shopEmbed = new MessageEmbed()
     .setTitle('Azuma Shop')
     .setDescription(`
-    Wähle eine Kategorie, in der du etwas kaufen möchtest!
+Wähle eine Kategorie, in der du etwas kaufen möchtest!
 
-    :one: Unternehmen kaufen
+:one: Unternehmen kaufen
 
-    :two: Unternehmen upgraden
+:two: Unternehmen upgraden
 
-    :three: Rucksäcke
+:three: Rucksäcke
 
-    :four: Angeln
-    `)
+:four: Angeln`)
     .setColor('#f77600');
 
 const bagEmbed = new MessageEmbed()
     .setTitle('🎣 |  Rucksack kaufen')
     .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.')
     .addFields(
-        { name: '1️⃣ ' + bags.bag_1.name , value: `Größe: ${bags.bag_1.size}\nKosten: \`${bags.bag_1.price}\` 💵` },
-        { name: '2️⃣ ' + bags.bag_2.name, value: `Größe: ${bags.bag_2.size}\nKosten: \`${bags.bag_2.price}\` 💵` },
-        { name: '3️⃣ ' + bags.bag_3.name, value: `Größe: ${bags.bag_3.size}\nKosten: \`${bags.bag_3.price}\` 💵` },
-        { name: '4️⃣ ' + bags.bag_4.name, value: `Größe: ${bags.bag_4.size}\nKosten: \`${bags.bag_4.price}\` 💵` }
+        { name: '1️⃣ ' + bag_1.name , value: `Größe: ${bag_1.size}\nKosten: \`${bag_1.price}\` 💵` },
+        { name: '2️⃣ ' + bag_2.name, value: `Größe: ${bag_2.size}\nKosten: \`${bag_2.price}\` 💵` },
+        { name: '3️⃣ ' + bag_3.name, value: `Größe: ${bag_3.size}\nKosten: \`${bag_3.price}\` 💵` },
+        { name: '4️⃣ ' + bag_4.name, value: `Größe: ${bag_4.size}\nKosten: \`${bag_4.price}\` 💵` }
     )
     .setColor('#f77600');
 
@@ -47,10 +48,10 @@ const rodEmbed = new MessageEmbed()
     .setTitle('🎣  |  Angeln kaufen')
     .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.')
     .addFields(
-        { name: '1️⃣ ' + rods.rod_1.name, value: `Chance kein Köder zu verbrauchen: 0%\nAngel-Cooldown: ${rods.rod_1.cooldown} Sekunden\nKosten: \`${rods.rod_1.price}\` 💵` },
-        { name: '2️⃣ ' + rods.rod_2.name, value: `Chance kein Köder zu verbrauchen: 5%\nAngel-Cooldown: ${rods.rod_2.cooldown} Sekunden\nKosten: \`${rods.rod_2.price}\` 💵` },
-        { name: '3️⃣ ' + rods.rod_3.name, value: `Chance kein Köder zu verbrauchen: 10%\nAngel-Cooldown: ${rods.rod_3.cooldown} Sekunden\nKosten: \`${rods.rod_3.price}\` 💵` },
-        { name: '4️⃣ ' + rods.rod_4.name, value: `Chance kein Köder zu verbrauchen: 15%\nAngel-Cooldown: ${rods.rod_4.cooldown} Sekunden\nKosten: \`${rods.rod_4.price}\` 💵` }
+        { name: '1️⃣ ' + rod_1.name, value: `Chance kein Köder zu verbrauchen: ${rod_1.no_bait * 100}%\nAngel-Cooldown: ${rod_1.cooldown} Sekunden\nKosten: \`${rod_1.price}\` 💵` },
+        { name: '2️⃣ ' + rod_2.name, value: `Chance kein Köder zu verbrauchen: ${rod_2.no_bait * 100}%\nAngel-Cooldown: ${rod_2.cooldown} Sekunden\nKosten: \`${rod_2.price}\` 💵` },
+        { name: '3️⃣ ' + rod_3.name, value: `Chance kein Köder zu verbrauchen: ${rod_3.no_bait * 100}%\nAngel-Cooldown: ${rod_3.cooldown} Sekunden\nKosten: \`${rod_3.price}\` 💵` },
+        { name: '4️⃣ ' + rod_4.name, value: `Chance kein Köder zu verbrauchen: ${rod_4.no_bait * 100}%\nAngel-Cooldown: ${rod_4.cooldown} Sekunden\nKosten: \`${rod_4.price}\` 💵` }
     )
     .setColor('#f77600');
 
@@ -84,16 +85,16 @@ module.exports = {
                 msg.delete();
                 if (msg.content == '1') {
                     const buyEmbed = new MessageEmbed()
-                    .setTitle('Verfügbare Immobilien')
-                    .addFields(
-                        { name: `:one: ${documents.name}`, value: `Kosten: \`${format(documents.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(documents.profit)}\` 💵` },
-                        { name: `:two: ${weed.name}`, value: `Kosten: \`${format(weed.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(weed.profit)}\` 💵` },
-                        { name: `:three: ${fakeMoney.name}`, value: `Kosten: \`${format(fakeMoney.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(fakeMoney.profit)}\` 💵` },
-                        { name: `:four: ${meth.name}`, value: `Kosten: \`${format(meth.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(meth.profit)}\` 💵` },
-                        { name: `:five: ${cocaine.name}`, value: `Kosten: \`${format(cocaine.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(cocaine.profit)}\` 💵` },
-                    )
-                    .setFooter('Reagiere innerhalb von 60 Sekunden um ein Unternehmen zu kaufen!')
-                    .setColor('#2f3136');
+                        .setTitle('Verfügbare Immobilien')
+                        .addFields(
+                            { name: `:one: ${documents.name}`, value: `Kosten: \`${format(documents.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(documents.profit)}\` 💵` },
+                            { name: `:two: ${weed.name}`, value: `Kosten: \`${format(weed.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(weed.profit)}\` 💵` },
+                            { name: `:three: ${fakeMoney.name}`, value: `Kosten: \`${format(fakeMoney.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(fakeMoney.profit)}\` 💵` },
+                            { name: `:four: ${meth.name}`, value: `Kosten: \`${format(meth.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(meth.profit)}\` 💵` },
+                            { name: `:five: ${cocaine.name}`, value: `Kosten: \`${format(cocaine.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(cocaine.profit)}\` 💵` },
+                        )
+                        .setFooter('Reagiere innerhalb von 60 Sekunden um ein Unternehmen zu kaufen!')
+                        .setColor('#2f3136');
                     shop_msg.edit(buyEmbed).then(m => {
                         handleBuy(shop_msg)
                     })
@@ -104,14 +105,14 @@ module.exports = {
                         return;
                     }
                     const upgradeEmbed = new MessageEmbed()
-                    .setTitle('Verfügbare Upgrades')
-                    .addFields(
-                        { name: ':one: Personalupgrade', value: `Stelle mehr Personal ein, um mehr zu produzieren!\nKosten:  \`${format(setcompany.priceUpgrade1)}\` 💵` },
-                        { name: ':two: Besserer Zulieferer', value: `Kaufe deine Rohware bei einem zuverlässigerem Zulieferer ein!\nKosten:  \`${format(setcompany.priceUpgrade2)}\` 💵` },
-                        { name: `:three: ${setcompany.nameUpgrade3}`, value: `Kaufe für eine bessere Produktion ${setcompany.textUpgrade3}!\nKosten:  \`${format(setcompany.priceUpgrade3)}\` 💵` },
-                    )
-                    .setFooter('Reagiere innerhalb von 60 Sekunden um ein Unternehmen zu verbessern.')
-                    .setColor('#2f3136');
+                        .setTitle('Verfügbare Upgrades')
+                        .addFields(
+                            { name: ':one: Personalupgrade', value: `Stelle mehr Personal ein, um mehr zu produzieren!\nKosten:  \`${format(setcompany.priceUpgrade1)}\` 💵` },
+                            { name: ':two: Besserer Zulieferer', value: `Kaufe deine Rohware bei einem zuverlässigerem Zulieferer ein!\nKosten:  \`${format(setcompany.priceUpgrade2)}\` 💵` },
+                            { name: `:three: ${setcompany.nameUpgrade3}`, value: `Kaufe für eine bessere Produktion ${setcompany.textUpgrade3}!\nKosten:  \`${format(setcompany.priceUpgrade3)}\` 💵` },
+                        )
+                        .setFooter('Reagiere innerhalb von 60 Sekunden um ein Unternehmen zu verbessern.')
+                        .setColor('#2f3136');
                     shop_msg.edit(upgradeEmbed).then(m => {
                         handleUpgrade(shop_msg)
                     })
@@ -271,7 +272,7 @@ module.exports = {
                 msg = msg.first()
                 msg.delete();
                 if (msg.content == '1') {
-                    if (targetCoins < bags.bag_1.price) {
+                    if (targetCoins < bag_1.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -282,14 +283,14 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_1');
-                    await addCoins(guildId, userId, bags.bag_1.price * -1);
+                    await addCoins(guildId, userId, bag_1.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${bags.bag_1.name}\nKosten: \`${bags.bag_1.price}\` 💵`)
+                        .addField('Rechung', `- ${bag_1.name}\nKosten: \`${bag_1.price}\` 💵`)
                         .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 } else if (msg.content == '2') {
-                    if (targetCoins < bags.bag_2.price) {
+                    if (targetCoins < bag_2.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -300,14 +301,14 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_2');
-                    await addCoins(guildId, userId, bags.bag_2.price * -1);
+                    await addCoins(guildId, userId, bag_2.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${bags.bag_2.name}\nKosten: \`${bags.bag_2.price}\` 💵`)
+                        .addField('Rechung', `- ${bag_2.name}\nKosten: \`${bag_2.price}\` 💵`)
                         .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 } else if (msg.content == '3') {
-                    if (targetCoins < bags.bag_3.price) {
+                    if (targetCoins < bag_3.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -318,14 +319,14 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_3');
-                    await addCoins(guildId, userId, bags.bag_3.price * -1);
+                    await addCoins(guildId, userId, bag_3.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${bags.bag_3.name}\nKosten: \`${bags.bag_3.price}\` 💵`)
+                        .addField('Rechung', `- ${bag_3.name}\nKosten: \`${bag_3.price}\` 💵`)
                         .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 } else if (msg.content == '4') {
-                    if (targetCoins < bags.bag_4.price) {
+                    if (targetCoins < bag_4.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -336,10 +337,10 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_4');
-                    await addCoins(guildId, userId, bags.bag_4.price * -1);
+                    await addCoins(guildId, userId, bag_4.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${bags.bag_4.name}\nKosten: \`${bags.bag_4.price}\` 💵`)
+                        .addField('Rechung', `- ${bag_4.name}\nKosten: \`${bag_4.price}\` 💵`)
                         .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 } else {
@@ -364,7 +365,7 @@ module.exports = {
                 msg = msg.first()
                 msg.delete();
                 if (msg.content == '1') {
-                    if (targetCoins < rods.rod_1.price) {
+                    if (targetCoins < rod_1.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -375,15 +376,15 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_1');
-                    await addCoins(guildId, userId, rods.rod_1.price * -1);
+                    await addCoins(guildId, userId, rod_1.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                     .setTitle(yes + ' |  Einkauf erfolgreich')
-                    .addField('Rechung', `- ${rods.rod_1.name}\nKosten: \`${rods.rod_1.price}\` 💵`)
+                    .addField('Rechung', `- ${rod_1.name}\nKosten: \`${rod_1.price}\` 💵`)
                     .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 }
                 else if (msg.content == '2') {
-                    if (targetCoins < rods.rod_2.price) {
+                    if (targetCoins < rod_2.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -394,15 +395,15 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_2');
-                    await addCoins(guildId, userId, rods.rod_2.price * -1);
+                    await addCoins(guildId, userId, rod_2.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                     .setTitle(yes + ' |  Einkauf erfolgreich')
-                    .addField('Rechung', `- ${rods.rod_2.name}\nKosten: \`${rods.rod_2.price}\` 💵`)
+                    .addField('Rechung', `- ${rod_2.name}\nKosten: \`${rod_2.price}\` 💵`)
                     .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 }
                 else if (msg.content == '3') {
-                    if (targetCoins < rods.rod_3.price) {
+                    if (targetCoins < rod_3.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -413,15 +414,15 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_3');
-                    await addCoins(guildId, userId, rods.rod_3.price * -1);
+                    await addCoins(guildId, userId, rod_3.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${rods.rod_3.name}\nKosten: \`${rods.rod_3.price}\` 💵`)
+                        .addField('Rechung', `- ${rod_3.name}\nKosten: \`${rod_3.price}\` 💵`)
                         .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 }
                 else if (msg.content == '4') {
-                    if (targetCoins < rods.rod_4.price) {
+                    if (targetCoins < rod_4.price) {
                         shop_msg.delete()
                         channel.send(no + ' Du hast nicht genug Credits um dir das leisten zu können!');
                         return;
@@ -432,10 +433,10 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_4');
-                    await addCoins(guildId, userId, rods.rod_3.price * -1);
+                    await addCoins(guildId, userId, rod_3.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setTitle(yes + ' |  Einkauf erfolgreich')
-                        .addField('Rechung', `- ${rods.rod_4.name}\nKosten: \`${rods.rod_4.price}\` 💵`)
+                        .addField('Rechung', `- ${rod_4.name}\nKosten: \`${rod_4.price}\` 💵`)
                         .setColor('#f77600');
                     shop_msg.edit(invoiceEmbed)
                 } else {

@@ -1,6 +1,7 @@
 const { Collection, MessageEmbed } = require('discord.js');
 const { Menu } = require('discord.js-menu')
 const { bags, fish, rods, baits } = require('./fish.json');
+const { bait_1, bait_2, bait_3 } = baits;
 const { no, gold, silver, bronze } = require('../../emoji.json');
 const { commons, uncommons, rares, garbage } = fish;
 const { findCommon, findUncommon, findRare, findGarbage, addCommon, addUncommon, addRare, addGarbage, addBagSize, addBagValue, setBag, activeBait, getStats, getCommonStats, getUncommonStats, getRareStats, getGarbageStats, getAllStats } = require('../../features/fishing');
@@ -10,7 +11,6 @@ const { addCoins, getCoins } = require('../../features/economy');
 const cooldowns = new Collection();
 
 module.exports = {
-    update: true,
     description: 'Fischen in Discord!',
     options: [
         {
@@ -38,9 +38,9 @@ module.exports = {
                 .setTitle('Wähle einen Köder aus!')
                 .addFields(
                     { name: '1️⃣ **Standardköder**', value: '**Kosten:** 10 💵' },
-                    { name: '2️⃣ ' + baits.bait_1.name, value: baits.bait_1.description + '\n**Kosten:** ' + baits.bait_1.price + ' 💵' },
-                    { name: '3️⃣ ' + baits.bait_2.name, value: baits.bait_2.description + '\n**Kosten:** ' + baits.bait_2.price + ' 💵'  },
-                    { name: '4️⃣ ' + baits.bait_3.name, value: baits.bait_3.description + '\n**Kosten:** ' + baits.bait_3.price + ' 💵'  },
+                    { name: '2️⃣ ' + bait_1.name, value: bait_1.description + '\n**Kosten:** ' + bait_1.price + ' 💵' },
+                    { name: '3️⃣ ' + bait_2.name, value: bait_2.description + '\n**Kosten:** ' + bait_2.price + ' 💵'  },
+                    { name: '4️⃣ ' + bait_3.name, value: bait_3.description + '\n**Kosten:** ' + bait_3.price + ' 💵'  },
                 )
                 .setColor('#2773fc');
             setTimeout(() => {
@@ -69,10 +69,10 @@ module.exports = {
                             await activeBait(userId, 'bait_1');
                             const embed = new MessageEmbed()
                                 .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_1.name + '!')
+                                .setDescription('Du fischt jetzt mit dem Köder ' + bait_1.name + '!')
                                 .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.bait_1.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.bait_1.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.bait_1.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.bait_1.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                                    { name: 'Preis', value: baits.bait_1.price + ' 💵', inline: true },
+                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_1.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_1.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_1.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_1.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                                    { name: 'Preis', value: bait_1.price + ' 💵', inline: true },
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
@@ -81,10 +81,10 @@ module.exports = {
                             await activeBait(userId, 'bait_2');
                             const embed = new MessageEmbed()
                                 .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_2.name + '!')
+                                .setDescription('Du fischt jetzt mit dem Köder ' + bait_2.name + '!')
                                 .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.bait_2.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.bait_2.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.bait_2.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.bait_2.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                                    { name: 'Preis', value: baits.bait_2.price + ' 💵', inline: true },
+                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_2.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_2.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_2.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_2.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                                    { name: 'Preis', value: bait_2.price + ' 💵', inline: true },
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
@@ -93,10 +93,10 @@ module.exports = {
                             await activeBait(userId, 'bait_3');
                             const embed = new MessageEmbed()
                                 .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + baits.bait_3.name + '!')
+                                .setDescription('Du fischt jetzt mit dem Köder ' + bait_3.name + '!')
                                 .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.bait_3.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.bait_3.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.bait_3.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.bait_3.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                                    { name: 'Preis', value: baits.bait_3.price + ' 💵', inline: true },
+                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_3.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_3.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_3.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_3.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                                    { name: 'Preis', value: bait_3.price + ' 💵', inline: true },
                                 )
                                 .setColor('#2773fc')
                             m.edit(embed)
@@ -293,6 +293,7 @@ Andere Kategorien:
                 .then(msg => {
                     msg = msg.first()
                     if (msg.content !== 'return') return
+                    msg.delete()
                     main()
                 })
                 .catch(() => {
@@ -435,28 +436,28 @@ Andere Kategorien:
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
             } else {
-                await addCoins(guildId, userId, -baits.bait_1.price);
+                await addCoins(guildId, userId, bait_1.price * -1);
             }
-            chances = baits.bait_1.chances;
-            usedBait = baits.bait_1.name;
+            chances = bait_1.chances;
+            usedBait = bait_1.name;
         } else if (p_save.active_bait == 'bait_2') {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
             } else {
-                await addCoins(guildId, userId, -baits.bait_2.price);
+                await addCoins(guildId, userId, bait_2.price * -1);
             }
-            chances = baits.bait_2.chances;
-            usedBait = baits.bait_2.name;
+            chances = bait_2.chances;
+            usedBait = bait_2.name;
         } else if (p_save.active_bait == 'bait_3') {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
             } else {
-                await addCoins(guildId, userId, -baits.bait_3.price);
+                await addCoins(guildId, userId, bait_3.price * -1);
             }
-            chances = baits.bait_3.chances;
-            usedBait = baits.bait_3.name;
+            chances = bait_3.chances;
+            usedBait = bait_3.name;
         } else {
-            await addCoins(guildId, userId, -baits.default.price)
+            await addCoins(guildId, userId, baits.default.price * -1)
             usedBait = baits.default.name;
             chances = baits.default.chances;
         }
