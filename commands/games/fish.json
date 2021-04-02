@@ -265,10 +265,10 @@
             "description": "Höhere Chance auf Uncommons",
             "price": 10,
             "chances": {
-                "common": 0.3485,
+                "common": 0.2985,
                 "uncommon": 0.5,
                 "rare": 0.0015,
-                "garbage": 0.15
+                "garbage": 0.20
             }
         },
         "bait_2": {
