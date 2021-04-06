@@ -120,6 +120,7 @@ module.exports = {
             const embed_1 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
+                .setFooter('Seite 1/3')
                 .setColor('#2773fc');
             stats.slice(0, 12).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -131,6 +132,7 @@ module.exports = {
             const embed_2 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
+                .setFooter('Seite 2/3')
                 .setColor('#2773fc');
             stats.slice(12, 24).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -142,6 +144,7 @@ module.exports = {
             const embed_3 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
+                .setFooter('Seite 3/3')
                 .setColor('#2773fc');
             stats.slice(24, 36).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -180,7 +183,18 @@ module.exports = {
                 collectionMenu.start()
             } else {
                 if (stats.length > 0) {
-                    return embed_1;
+                    const embed = new MessageEmbed()
+                    .setTitle('Fishing collection')
+                    .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
+                    .setColor('#2773fc');
+                stats.slice(0, 12).map(stat => {
+                    let value = stat.amount + ' Stück';
+                    if (stat.length) {
+                        value = value + '\nLängster Fang: ' + stat.length + 'cm';
+                    }
+                    embed.addField(stat.emoji + ' ' + stat.name, value, true)
+                })
+                    return embed;
                 } else {
                     return 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`';
                 }
