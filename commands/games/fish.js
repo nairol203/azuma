@@ -169,7 +169,7 @@ module.exports = {
                 },
                 {
                     name: 'last',
-                    content: embed_2,
+                    content: embed_3,
                     reactions: {
                         '⬅': 'second',
                         '➡': 'last',
