@@ -121,7 +121,7 @@ module.exports = {
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
                 .setColor('#2773fc');
-            stats.slice(0, 15).map(stat => {
+            stats.slice(0, 12).map(stat => {
                 let value = stat.amount + ' Stück';
                 if (stat.length) {
                     value = value + '\nLängster Fang: ' + stat.length + 'cm';
@@ -132,17 +132,36 @@ module.exports = {
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
                 .setColor('#2773fc');
-            stats.slice(15, 31).map(stat => {
+            stats.slice(12, 24).map(stat => {
                 let value = stat.amount + ' Stück';
                 if (stat.length) {
                     value = value + '\nLängster Fang: ' + stat.length + 'cm';
                 }
                 embed_2.addField(stat.emoji + ' ' + stat.name, value, true)
             })
+            const embed_3 = new MessageEmbed()
+                .setTitle('Fishing collection')
+                .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
+                .setColor('#2773fc');
+            stats.slice(24, 36).map(stat => {
+                let value = stat.amount + ' Stück';
+                if (stat.length) {
+                    value = value + '\nLängster Fang: ' + stat.length + 'cm';
+                }
+                embed_3.addField(stat.emoji + ' ' + stat.name, value, true)
+            })
             let collectionMenu = new Menu(channel, userId, [
                 {
                     name: 'first',
                     content: embed_1,
+                    reactions: {
+                        '⬅': 'first',
+                        '➡': 'second',
+                    }
+                },
+                {
+                    name: 'second',
+                    content: embed_2,
                     reactions: {
                         '⬅': 'first',
                         '➡': 'last',
@@ -152,12 +171,12 @@ module.exports = {
                     name: 'last',
                     content: embed_2,
                     reactions: {
-                        '⬅': 'first',
+                        '⬅': 'second',
                         '➡': 'last',
                     }
                 }
             ])
-            if (stats.length > 16) {
+            if (stats.length > 12) {
                 collectionMenu.start()
             } else {
                 if (stats.length > 0) {
