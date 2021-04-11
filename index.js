@@ -34,7 +34,7 @@ async function create(name, description, options, guildId) {
 			description: description,
 			options: options,
 		},
-	}).then(console.log('Azuma > Posted Slash-Command: ' + name));
+	}).then(console.log(client.user.username + ' > Posted Slash-Command: ' + name));
 }
 
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
@@ -58,15 +58,15 @@ async function get(guildId) {
 // new newswire('gtav', 'https://discord.com/api/webhooks/819676913886298192/4S9csxzV8S6UhqWZ42t_sQr7MahQBeE4Yo-fwMu5H8R2IMn0GUgB12Q03Bhs6wTClrei');
 
 client.on('ready', async () => {
-	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
-	if (maintenance) console.log('Azuma > Wartungsarbeiten aktiv!')
+	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
+	if (maintenance) console.log(client.user.username + ' > Wartungsarbeiten aktiv!')
 	// console.log(await get(guildId));
 	// client.api.applications(client.user.id).guilds(guildId).commands('').delete()
 	for (let command of client.commands) {
 		cmd = command[1];
 		if (cmd.update) {
 			if (cmd.update === false) return;
-			if (!cmd.description) console.warn('Azuma > No Description in ' + command[0] + '.js');
+			if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
 			const name = command[0];
 			const description = cmd.description;
 			const options = cmd.options || [];
