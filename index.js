@@ -4,6 +4,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const mongo = require('./mongo');
 const prefix = process.env.PREFIX;
+const guildId = process.env.GUILD_ID;
 const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
@@ -59,8 +60,8 @@ async function get(guildId) {
 client.on('ready', async () => {
 	console.log('Azuma > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
 	if (maintenance) console.log('Azuma > Wartungsarbeiten aktiv!')
-	// console.log(await get('255741114273759232'));
-	// client.api.applications(client.user.id).guilds('255741114273759232').commands('').delete()
+	// console.log(await get(guildId));
+	// client.api.applications(client.user.id).guilds(guildId).commands('').delete()
 	for (let command of client.commands) {
 		cmd = command[1];
 		if (cmd.update) {
@@ -70,7 +71,7 @@ client.on('ready', async () => {
 			const description = cmd.description;
 			const options = cmd.options || [];
 			if (name && description) {
-				await create(name, description, options, '255741114273759232');
+				await create(name, description, options, guildId);
 	
 			}
 		}
