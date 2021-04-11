@@ -3,7 +3,7 @@ require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
 const mongo = require('./mongo');
-const prefix = process.env.PREFIX;
+const prefix = '*';
 const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
@@ -172,5 +172,33 @@ async function createApiMessage(interaction, content) {
 
 	return { ...data, files };
 }
+
+client.on('message', async message => {
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	const args = message.content.slice(prefix.length).trim().split(/ +/);
+	const commandName = args.shift().toLowerCase();
+	const command = client.commands.get(commandName)
+		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	if (!command) return;
+	if (command.disabled) return;
+	if (command.ownerOnly && message.author.id != '255739211112513536') {
+		return;
+	}
+	const authorPerms = message.channel.permissionsFor(message.author);
+	if (!authorPerms || !authorPerms.has('ADMINISTRATOR')) {
+		return;
+	}
+	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
+		return;
+	}
+	try {
+        message.delete();
+		command.callback({ client, message, args, Discord });
+	}
+	catch (error) {
+		console.error(error);
+		message.channel.send(`<:no:767394810909949983> Error occured while running ${commandName} command`);
+	}
+});
 
 client.login(process.env.TOKEN);
