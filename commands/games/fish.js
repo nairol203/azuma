@@ -115,7 +115,7 @@ module.exports = {
         } else if (args.options == 'collection') {
             const stats = await getStats(userId);
             if (!stats || !stats.length) {
-                return no + ' Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`';
+                return [ no + ' Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`' ];
             }
             const embed_1 = new MessageEmbed()
                 .setTitle('Fishing collection')
@@ -196,13 +196,13 @@ module.exports = {
                 })
                     return embed;
                 } else {
-                    return 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`';
+                    return [ 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`' ];
                 }
             }
             return 'Lade Fishing collection...';
         } else if (args.options == 'sell') {
             if (!p_save || !p_save.bag_size || !p_save.bag_value) {
-                return no + ' Du hast aktuell keine Fische zum verkaufen!'
+                return [ no + ' Du hast aktuell keine Fische zum verkaufen!' ];
             }
             await profile.findOneAndUpdate(
                 { 
@@ -433,10 +433,10 @@ Andere Kategorien:
             }
         }
         if ((!p_save) || (!p_save.rod)) {
-            return no + ' Du brauchst eine Angel um zu Fischen! Kaufe eine im Shop!';
+            return  [ no + ' Du brauchst eine Angel um zu Fischen! Kaufe eine im Shop!' ];
         }
-        if (targetCoins < 5) {
-            return no + ' Du hast nicht genügend Credits um zu Fischen!';
+        if (targetCoins < baits[p_save.active_bait || 'default'].price) {
+            return [ no + ' Du hast nicht genügend Credits um zu Fischen!' ];
         }
         if (!p_save.bag) {
             await setBag(userId, 'bag_1');
@@ -444,7 +444,7 @@ Andere Kategorien:
         if (p_save.bag) {
             const userBag = bags[p_save.bag]
             if (userBag.size <= p_save.bag_size) {
-                return no + ' Dein Rucksack ist voll! Verkaufe Fische mit `/fish <sell>` oder kaufe einen größeren Rucksack im Shop.';
+                return [ no + ' Dein Rucksack ist voll! Verkaufe Fische mit `/fish <sell>` oder kaufe einen größeren Rucksack im Shop.' ];
             }
         }
 
@@ -456,7 +456,7 @@ Andere Kategorien:
 			const expirationTime = timestamps.get(userId) + cooldownAmount;
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
-				return no + ` Du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.`;
+				return [ no + ` Du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.` ];
 			}
 		}
 		timestamps.set(userId, now);
