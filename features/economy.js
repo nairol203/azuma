@@ -20,9 +20,6 @@ module.exports.addCoins = async (guildId, userId, coins) => {
 			new: true,
 		},
 	);
-
-	coinsCache[`${userId}`] = result.coins;
-
 	return result.coins;
 };
 
@@ -31,5 +28,5 @@ module.exports.getCoins = async (guildId, userId) => {
 		guildId,
 		userId,
 	});
-	return result;
+	return result.coins;
 };
