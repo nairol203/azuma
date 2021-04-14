@@ -27,29 +27,9 @@ module.exports.addCoins = async (guildId, userId, coins) => {
 };
 
 module.exports.getCoins = async (guildId, userId) => {
-	const cachedValue = coinsCache[`${guildId, userId}`];
-	if (cachedValue) {
-		return cachedValue;
-	}
-
 	const result = await profileSchema.findOne({
 		guildId,
 		userId,
 	});
-
-	let coins = 0;
-	if (result) {
-		coins = result.coins;
-	}
-	else {
-		await new profileSchema({
-			guildId,
-			userId,
-			coins,
-		}).save();
-	}
-
-	coinsCache[`${guildId, userId}`] = coins;
-
-	return coins;
+	return result;
 };
