@@ -1,7 +1,5 @@
 const profileSchema = require('../models/profile');
 
-const coinsCache = {};
-
 module.exports.addCoins = async (guildId, userId, coins) => {
 	const result = await profileSchema.findOneAndUpdate(
 		{
