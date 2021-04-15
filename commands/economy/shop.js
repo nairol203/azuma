@@ -35,28 +35,6 @@ Wähle eine Kategorie, in der du etwas kaufen möchtest!
 :four: Angeln`)
     .setColor('#f77600');
 
-const bagEmbed = new MessageEmbed()
-    .setTitle('🎣 |  Rucksack kaufen')
-    .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + ' 💵')
-    .addFields(
-        { name: '1️⃣ ' + bag_1.name , value: `Größe: ${bag_1.size}\nKosten: \`${bag_1.price}\` 💵` },
-        { name: '2️⃣ ' + bag_2.name, value: `Größe: ${bag_2.size}\nKosten: \`${bag_2.price}\` 💵` },
-        { name: '3️⃣ ' + bag_3.name, value: `Größe: ${bag_3.size}\nKosten: \`${bag_3.price}\` 💵` },
-        { name: '4️⃣ ' + bag_4.name, value: `Größe: ${bag_4.size}\nKosten: \`${bag_4.price}\` 💵` }
-    )
-    .setColor('#f77600');
-
-const rodEmbed = new MessageEmbed()
-    .setTitle('🎣  |  Angeln kaufen')
-    .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + ' 💵')
-    .addFields(
-        { name: '1️⃣ ' + rod_1.name, value: `Chance kein Köder zu verbrauchen: ${rod_1.no_bait * 100}%\nAngel-Cooldown: ${rod_1.cooldown} Sekunden\nKosten: \`${rod_1.price}\` 💵` },
-        { name: '2️⃣ ' + rod_2.name, value: `Chance kein Köder zu verbrauchen: ${rod_2.no_bait * 100}%\nAngel-Cooldown: ${rod_2.cooldown} Sekunden\nKosten: \`${rod_2.price}\` 💵` },
-        { name: '3️⃣ ' + rod_3.name, value: `Chance kein Köder zu verbrauchen: ${rod_3.no_bait * 100}%\nAngel-Cooldown: ${rod_3.cooldown} Sekunden\nKosten: \`${rod_3.price}\` 💵` },
-        { name: '4️⃣ ' + rod_4.name, value: `Chance kein Köder zu verbrauchen: ${rod_4.no_bait * 100}%\nAngel-Cooldown: ${rod_4.cooldown} Sekunden\nKosten: \`${rod_4.price}\` 💵` }
-    )
-    .setColor('#f77600');
-
 module.exports = {
     description: 'Öffnet das Shop-Menü',
     callback: async ({ client, interaction }) => {
@@ -122,10 +100,30 @@ module.exports = {
                         handleUpgrade(shop_msg)
                     })
                 } else if (msg.content == '3') {
+                    const bagEmbed = new MessageEmbed()
+                        .setTitle('🎣 |  Rucksack kaufen')
+                        .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + ' 💵')
+                        .addFields(
+                            { name: '1️⃣ ' + bag_1.name , value: `Größe: ${bag_1.size}\nKosten: \`${bag_1.price}\` 💵` },
+                            { name: '2️⃣ ' + bag_2.name, value: `Größe: ${bag_2.size}\nKosten: \`${bag_2.price}\` 💵` },
+                            { name: '3️⃣ ' + bag_3.name, value: `Größe: ${bag_3.size}\nKosten: \`${bag_3.price}\` 💵` },
+                            { name: '4️⃣ ' + bag_4.name, value: `Größe: ${bag_4.size}\nKosten: \`${bag_4.price}\` 💵` }
+                        )
+                        .setColor('#f77600');
                     shop_msg.edit(bagEmbed).then(m => {
                         handleBag(shop_msg, targetCoins);
                     })
                 } else if (msg.content == '4') {
+                    const rodEmbed = new MessageEmbed()
+                        .setTitle('🎣  |  Angeln kaufen')
+                        .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + ' 💵')
+                        .addFields(
+                            { name: '1️⃣ ' + rod_1.name, value: `Chance kein Köder zu verbrauchen: ${rod_1.no_bait * 100}%\nAngel-Cooldown: ${rod_1.cooldown} Sekunden\nKosten: \`${rod_1.price}\` 💵` },
+                            { name: '2️⃣ ' + rod_2.name, value: `Chance kein Köder zu verbrauchen: ${rod_2.no_bait * 100}%\nAngel-Cooldown: ${rod_2.cooldown} Sekunden\nKosten: \`${rod_2.price}\` 💵` },
+                            { name: '3️⃣ ' + rod_3.name, value: `Chance kein Köder zu verbrauchen: ${rod_3.no_bait * 100}%\nAngel-Cooldown: ${rod_3.cooldown} Sekunden\nKosten: \`${rod_3.price}\` 💵` },
+                            { name: '4️⃣ ' + rod_4.name, value: `Chance kein Köder zu verbrauchen: ${rod_4.no_bait * 100}%\nAngel-Cooldown: ${rod_4.cooldown} Sekunden\nKosten: \`${rod_4.price}\` 💵` }
+                        )
+                        .setColor('#f77600');
                     shop_msg.edit(rodEmbed).then(m => {
                         handleRod(shop_msg, targetCoins);
                     })
@@ -266,8 +264,7 @@ module.exports = {
             })
         }
 
-        function handleBag(shop_msg, targetCoins) {
-            credits = targetCoins
+        function handleBag(shop_msg) {
             const filter = m => m.author.id === userId;
             channel.awaitMessages(filter, {
                 max: 1,
@@ -360,8 +357,7 @@ module.exports = {
             })
         }
 
-        function handleRod(shop_msg, targetCoins) {
-            credits = targetCoins
+        function handleRod(shop_msg) {
             const filter = m => m.author.id === userId;
             channel.awaitMessages(filter, {
                 max: 1,
