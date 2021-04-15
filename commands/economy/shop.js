@@ -8,6 +8,8 @@ const { yes, no } = require('../../emoji.json');
 const  { getInfo, setCompany, buyBusiness, getBusiness, buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
 const profile = require('../../models/profile');
 
+let credits = 0;
+
 const documents = getInfo(1);
 const weed = getInfo(2);
 const fakeMoney = getInfo(3);
@@ -15,7 +17,7 @@ const meth = getInfo(4);
 const cocaine = getInfo(5);
 
 function format(number) {
-	const result = Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(number);
+	const result = Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(number);
 	return result;
 }
 
@@ -35,7 +37,7 @@ Wähle eine Kategorie, in der du etwas kaufen möchtest!
 
 const bagEmbed = new MessageEmbed()
     .setTitle('🎣 |  Rucksack kaufen')
-    .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.')
+    .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + '💵')
     .addFields(
         { name: '1️⃣ ' + bag_1.name , value: `Größe: ${bag_1.size}\nKosten: \`${bag_1.price}\` 💵` },
         { name: '2️⃣ ' + bag_2.name, value: `Größe: ${bag_2.size}\nKosten: \`${bag_2.price}\` 💵` },
@@ -46,7 +48,7 @@ const bagEmbed = new MessageEmbed()
 
 const rodEmbed = new MessageEmbed()
     .setTitle('🎣  |  Angeln kaufen')
-    .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.')
+    .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + '💵')
     .addFields(
         { name: '1️⃣ ' + rod_1.name, value: `Chance kein Köder zu verbrauchen: ${rod_1.no_bait * 100}%\nAngel-Cooldown: ${rod_1.cooldown} Sekunden\nKosten: \`${rod_1.price}\` 💵` },
         { name: '2️⃣ ' + rod_2.name, value: `Chance kein Köder zu verbrauchen: ${rod_2.no_bait * 100}%\nAngel-Cooldown: ${rod_2.cooldown} Sekunden\nKosten: \`${rod_2.price}\` 💵` },
@@ -65,6 +67,7 @@ module.exports = {
         const p_save = await profile.findOne({ userId });
 		const userBusiness = await getBusiness(guildId, userId);
         const setcompany = await setCompany(guildId, userId)
+        credits = targetCoins;
 
         setTimeout(() => {
             channel.send(shopEmbed).then(msg => {
@@ -86,6 +89,7 @@ module.exports = {
                 if (msg.content == '1') {
                     const buyEmbed = new MessageEmbed()
                         .setTitle('Verfügbare Immobilien')
+                        .setDescription('**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + '💵')
                         .addFields(
                             { name: `:one: ${documents.name}`, value: `Kosten: \`${format(documents.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(documents.profit)}\` 💵` },
                             { name: `:two: ${weed.name}`, value: `Kosten: \`${format(weed.price)}\` 💵\nUmsatz ohne Upgrades:  \`${format(weed.profit)}\` 💵` },
@@ -106,6 +110,7 @@ module.exports = {
                     }
                     const upgradeEmbed = new MessageEmbed()
                         .setTitle('Verfügbare Upgrades')
+                        .setDescription('**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + '💵')
                         .addFields(
                             { name: ':one: Personalupgrade', value: `Stelle mehr Personal ein, um mehr zu produzieren!\nKosten:  \`${format(setcompany.priceUpgrade1)}\` 💵` },
                             { name: ':two: Besserer Zulieferer', value: `Kaufe deine Rohware bei einem zuverlässigerem Zulieferer ein!\nKosten:  \`${format(setcompany.priceUpgrade2)}\` 💵` },
