@@ -67,6 +67,7 @@ module.exports = {
         const p_save = await profile.findOne({ userId });
 		const userBusiness = await getBusiness(guildId, userId);
         const setcompany = await setCompany(guildId, userId)
+        credits = targetCoins
 
         setTimeout(() => {
             channel.send(shopEmbed).then(msg => {
@@ -121,14 +122,12 @@ module.exports = {
                         handleUpgrade(shop_msg)
                     })
                 } else if (msg.content == '3') {
-                    credits = targetCoins;
                     shop_msg.edit(bagEmbed).then(m => {
-                        handleBag(shop_msg);
+                        handleBag(shop_msg, targetCoins);
                     })
                 } else if (msg.content == '4') {
-                    credits = targetCoins;
                     shop_msg.edit(rodEmbed).then(m => {
-                        handleRod(shop_msg);
+                        handleRod(shop_msg, targetCoins);
                     })
                 } else {
                     shop_msg.delete();
@@ -267,7 +266,8 @@ module.exports = {
             })
         }
 
-        function handleBag(shop_msg) {
+        function handleBag(shop_msg, targetCoins) {
+            credits = targetCoins
             const filter = m => m.author.id === userId;
             channel.awaitMessages(filter, {
                 max: 1,
@@ -360,7 +360,8 @@ module.exports = {
             })
         }
 
-        function handleRod(shop_msg) {
+        function handleRod(shop_msg, targetCoins) {
+            credits = targetCoins
             const filter = m => m.author.id === userId;
             channel.awaitMessages(filter, {
                 max: 1,
