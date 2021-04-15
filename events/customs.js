@@ -124,7 +124,7 @@ module.exports = {
 				.addFields(
 					{ name: 'Speichere Songs:', value: '`/save <number> <song>`', inline: true },
 					{ name: 'Lösche Songs:', value: '`/delete <number>`', inline: true },
-					{ name: 'Deine gespeichterten Songs:', value: `:one: ${args1}\n:two: ${args2}\n:three: ${args3}\n:four: ${args4}\n:five: ${args5}` },
+					{ name: 'Deine gespeicherten Songs:', value: `:one: ${args1}\n:two: ${args2}\n:three: ${args3}\n:four: ${args4}\n:five: ${args5}` },
 				)
 				.setFooter('Du kannst maximal fünf Songs abspeichern!')
 				.setColor('#f77600');
