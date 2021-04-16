@@ -1,6 +1,7 @@
 const { no } = require('../../emoji.json');
 const { handleVideo } = require('../../features/music');
 const YouTube = require('simple-youtube-api');
+const { MessageEmbed } = require('discord.js');
 const youtube = new YouTube('AIzaSyB6QDXYXVDM-I7bwktzn6LOEn_71SubjHQ');
 
 module.exports = {
@@ -14,14 +15,15 @@ module.exports = {
 		},
 	],
 	callback: async ({ client, args, interaction }) => {
+		const userId = interaction.member.user.id;
 		const searchString = args.song;
 		const guild = client.guilds.cache.get(interaction.guild_id)
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
-		if(!voiceChannel) return [ no + ' | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!' ];
+		if(!voiceChannel) return [ no + ' Du musst in einem Sprachkanal sein um diesen Command zu benutzen!' ];
 		const permissons = voiceChannel.permissionsFor(client.user);
-		if(!permissons.has('CONNECT')) return [ no + ' | Ich habe keine Berechtigung deinem Sprachkanal beizutreten!' ];
-		if(!permissons.has('SPEAK')) return [ no + ' | Ich kann in deinem Sprachkanal nicht sprechen!' ];
+		if(!permissons.has('CONNECT')) return [ no + ' Ich habe keine Berechtigung deinem Sprachkanal beizutreten!' ];
+		if(!permissons.has('SPEAK')) return [ no + ' Ich kann in deinem Sprachkanal nicht sprechen!' ];
 
 		if(searchString.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
 			const playList = await youtube.getPlaylist(searchString);
@@ -30,6 +32,15 @@ module.exports = {
 				const video2 = await youtube.getVideoByID(video.id);
 				await handleVideo(video2, client, interaction, voiceChannel, true);
 			}
+			const embed = new MessageEmbed()
+				.setTitle('Added To Queue')
+				.setDescription(`Playlist: [${playList.title}](${searchString})`)
+				.addFields(
+					{ name: 'Requested by', value: `<@${userId}>`, inline: true },
+					{ name: 'Länge', value: `${Object.values(videos).length} songs - \`00:00\``, inline: true },
+				)
+				.setColor('#f77600');
+			return embed;
 		}
 		else {
 			try {

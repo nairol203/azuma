@@ -2,6 +2,7 @@ const { no } = require('../../emoji.json');
 const { serverQueue } = require('../../features/music');
 
 module.exports = {
+	update: true,
 	description: 'Überspringt den aktuellen Song!',
 	callback: ({ client, interaction }) => {
 		const sQ = serverQueue(interaction.guild_id);
