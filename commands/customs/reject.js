@@ -1,6 +1,7 @@
 const customs = require('../../models/customs');
 
 module.exports = {
+	guildOnly: true,
 	description: 'Verweigert einem bestimmten User den Zugriff auf dein Zimmer',
 	options: [
 		{

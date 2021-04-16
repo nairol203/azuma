@@ -1,6 +1,7 @@
 const customs = require('../../models/customs');
 
 module.exports = {
+	guildOnly: true,
 	description: 'Ändert das Türschild von deinem Zimmer',
 	options: [
 		{

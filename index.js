@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 const mongo = require('./mongo');
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
-const maintenance = false;
+const maintenance = true;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 client.commands = new Discord.Collection();
@@ -54,14 +54,14 @@ async function get(guildId) {
 	return app.commands.get();
 }
 
-// const newswire = require('./features/newswire');
-// new newswire('gtav', 'https://discord.com/api/webhooks/819676913886298192/4S9csxzV8S6UhqWZ42t_sQr7MahQBeE4Yo-fwMu5H8R2IMn0GUgB12Q03Bhs6wTClrei');
-
 client.on('ready', async () => {
-	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' feature' + (eventFiles.length == 1 ? '' : 's') + '.');
-	if (maintenance) console.log(client.user.username + ' > Wartungsarbeiten aktiv!')
-	// console.log(await get(guildId));
-	// client.api.applications(client.user.id).guilds(guildId).commands('').delete()
+	if (maintenance) {
+		console.log(client.user.username + ' > Maintenance is active!')
+		client.user.setActivity('Wartungsarbeiten', { type : 'PLAYING' })
+	}
+	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
+	const globalCommands = await get(); const guildCommands = await get(guildId);
+	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
 	for (let command of client.commands) {
 		cmd = command[1];
 		if (cmd.update) {
@@ -71,8 +71,11 @@ client.on('ready', async () => {
 			const description = cmd.description;
 			const options = cmd.options || [];
 			if (name && description) {
-				await create(name, description, options, guildId);
-	
+				if (cmd.guildOnly === true) {
+					await create(name, description, options, guildId);
+				} else if (!cmd.guildOnly || cmd.guildOnly === false) {
+					await create(name, description, options);
+				}
 			}
 		}
 	}

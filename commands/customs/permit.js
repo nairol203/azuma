@@ -1,6 +1,7 @@
 const customs = require('../../models/customs');
 
 module.exports = {
+	guildOnly: true,
 	description: 'Gibt einem bestimmten User den Zugriff auf dein Zimmer',
 	options: [
 		{

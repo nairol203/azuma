@@ -48,6 +48,10 @@ module.exports = {
 						allow: 'CONNECT',
 					},
 					{
+						id: '811192131019604008',
+						allow: 'CONNECT',
+					},
+					{
 						id: '255741114273759232',
 						deny: 'CONNECT',
 					},
@@ -62,6 +66,10 @@ module.exports = {
 				permissionOverwrites: [
 					{
 						id: member.user.id,
+						allow: 'VIEW_CHANNEL',
+					},
+					{
+						id: '811192131019604008',
 						allow: 'VIEW_CHANNEL',
 					},
 					{
