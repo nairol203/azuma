@@ -29,6 +29,6 @@ module.exports = {
         const owner = client.users.cache.get('255739211112513536')
         const { options, comment } = args
         owner.send('<@' + user.id + '> hat einen '+ options +' reported: ' + comment)
-        return 'Wir haben deinen Report erhalten!'
+        return [ 'Wir haben deinen Report erhalten!' ]
     }
 }
