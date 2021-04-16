@@ -17,7 +17,7 @@ module.exports = {
             .setThumbnail('https://stardewvalleywiki.com/mediawiki/images/3/36/36_Backpack.png')
             .setColor('#945e1e');
 
-        embed.addField('Credits', `${creditsIntl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)} 💵`);
+        embed.addField('Credits', `${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)} 💵`);
         if (p_save && p_save.bag) {
             embed.setTitle(user.username + '\'s ' + bags[p_save.bag].name);
             embed.setDescription('Du hast aktuell einen Rucksack mit ' + bags[p_save.bag].size + ' Plätzen.');
