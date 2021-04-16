@@ -17,12 +17,11 @@ module.exports = {
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
 
-		if(!voiceChannel) return no + ' | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
-		if(!sQ) return no + ' | Es wird gerade nichts gespielt';
+		if(!voiceChannel) return [ no + ' Du musst in einem Sprachkanal sein um diesen Command zu benutzen!' ];
+		if(!sQ) return [ no + ' Es wird gerade nichts gespielt' ];
 		if(!number) return `Die Lautstärke des Bot's ist **${sQ.volume}**.`;
-
-		if (number < 0) return 'Du kannst keine negative Lautstärke einstellen!';
-		if (number > 5) return 'Wenn du dir die Ohren wegschallern willst hör lieber Metal!';
+		if (number < 0) return [ no + 'Du kannst keine negative Lautstärke einstellen!' ];
+		if (number > 5) return [ no + 'Wenn du dir die Ohren wegschallern willst hör lieber Metal!' ];
 		sQ.volume = number
 		sQ.connection.dispatcher.setVolumeLogarithmic(number / 5);
 		return `Die Lautstärke wurde zu **${number}** geändert.`;

@@ -9,7 +9,7 @@ module.exports = {
 		const member = guild.members.cache.get(interaction.member.user.id);
 		const voiceChannel = member.voice.channel;
 
-		if(!voiceChannel) return no + ' | Du musst in einem Sprachkanal sein um diesen Command zu benutzen!';
+		if(!voiceChannel) return [ no + ' Du musst in einem Sprachkanal sein um diesen Command zu benutzen!' ];
 		if (sQ) {
 			sQ.songs = [];
 			sQ.connection.dispatcher.end();

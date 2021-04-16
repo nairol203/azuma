@@ -7,7 +7,7 @@ module.exports = {
 	callback: ({ interaction }) => {
 		const userId = interaction.member.user.id;
 		const sQ = serverQueue(interaction.guild_id);
-		if(!sQ) return  no + ' | Es wird gerade nichts gespielt';
+		if(!sQ) return [ no + ' Es wird gerade nichts gespielt' ];
 		const embed = new MessageEmbed()
 		.setTitle('Now Playing:')
 		.setDescription(`[${sQ.songs[0].title}](${sQ.songs[0].url})`)
