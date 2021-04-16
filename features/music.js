@@ -86,14 +86,14 @@ module.exports.play = (guild, song, userId) => {
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 	const embed = new MessageEmbed()
-	.setTitle('Playing...')
-	.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
-	.addFields(
-		{ name: 'Requested by', value: '<@772508572647030796>', inline: true },
-		{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
-		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
-	)
-	.setColor('#f77600');
+		.setTitle('Playing...')
+		.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
+		.addFields(
+			{ name: 'Requested by', value: '<@772508572647030796>', inline: true },
+			{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
+			{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
+		)
+		.setColor('#f77600');
 	serverQueue.textChannel.send(embed);
 }
 
@@ -141,14 +141,14 @@ module.exports.handleVideoOld = async (video, message, voiceChannel, playList = 
 		if(playList) return undefined;
 		const l = serverQueue.songs.length - 1;
 		const embed = new MessageEmbed()
-		.setTitle('Added To Queue')
-		.setDescription(`[${serverQueue.songs[l].title}](${serverQueue.songs[l].url})`)
-		.addFields(
-			{ name: 'Requested by', value: `<@${message.author.id}>`, inline: true },
-			{ name: 'Länge', value: `\`${serverQueue.songs[l].duration}\``, inline: true },
-			{ name: 'Queue', value: `${serverQueue.songs.length} songs - \`00:00:00\``, inline: true },
-		)
-		.setColor('#f77600');
+			.setTitle('Added To Queue')
+			.setDescription(`[${serverQueue.songs[l].title}](${serverQueue.songs[l].url})`)
+			.addFields(
+				{ name: 'Requested by', value: `<@${message.author.id}>`, inline: true },
+				{ name: 'Länge', value: `\`${serverQueue.songs[l].duration}\``, inline: true },
+				{ name: 'Queue', value: `${serverQueue.songs.length} songs - \`00:00:00\``, inline: true },
+			)
+			.setColor('#f77600');
 		return message.channel.send(embed);
 	}
 	return undefined;
@@ -172,15 +172,16 @@ module.exports.playOld = (guild, song) => {
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 	const embed = new MessageEmbed()
-	.setTitle('Playing...')
-	.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
-	.addFields(
-		{ name: 'Requested by', value: '<@772508572647030796>', inline: true },
-		{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
-		{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
-	)
-	.setColor('#f77600');
-	serverQueue.textChannel.send(embed);}
+		.setTitle('Playing...')
+		.setDescription(`[${serverQueue.songs[0].title}](${serverQueue.songs[0].url})`)
+		.addFields(
+			{ name: 'Requested by', value: '<@772508572647030796>', inline: true },
+			{ name: 'Länge', value: `\`${serverQueue.songs[0].duration}\``, inline: true },
+			{ name: 'Queue', value: `1 song - \`${serverQueue.songs[0].duration}\``, inline: true },
+		)
+		.setColor('#f77600');
+	serverQueue.textChannel.send(embed);
+}
 
 const formatInt = int => {
 	if (int < 10) return `0${int}`;
