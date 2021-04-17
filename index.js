@@ -183,7 +183,7 @@ async function createApiMessage(interaction, content) {
 }
 
 client.on('message', async message => {
-	if (message.content.toLowerCase().startsWith('kek'.toLowerCase())) {
+	if (message.content.toLowerCase().includes('kek'.toLowerCase())) {
 		message.delete()
 	}
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
