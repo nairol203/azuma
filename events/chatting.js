@@ -91,15 +91,15 @@ module.exports = {
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
 		}
-		const args3 = ['gute nacht', 'gude nacht', 'guna'];
+		const args3 = ['gute nacht', 'gude nacht', 'guna', 'gunnar'];
 		if (args3.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'GuNa ' + peepoBye,
 				`${message.author} guna ` + peepoBye,
 				'Gute Nacht! ' + peepoBye,
 				'gude nacht ' + peepoBye,
-				'schlaf schön <:peepoBlanket:785509831548993566>',
-				'süße träume <a:peepoShy:791825935862071338>',
+				'schlaf schön! 😴',
+				'süße träume :smiling_face_with_3_hearts:',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 			message.channel.send(randomMessage);
