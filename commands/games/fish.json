@@ -63,6 +63,51 @@
                 "minPrice": 10,
                 "image": "https://stardewvalleywiki.com/mediawiki/images/a/a8/Carp.png",
                 "emoji": "<:Karpfen:825086481680302100>"
+            },
+            "Steinfisch": {
+                "name": "Steinfisch",
+                "minLength": 36,
+                "maxLength": 41,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/0/03/Stonefish.png",
+                "emoji": "<:Stonefish:829133074784714753>"
+            },
+            "Sandfisch": {
+                "name": "Sandfisch",
+                "minLength": 20,
+                "maxLength": 64,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/b/bb/Sandfish.png",
+                "emoji": "<:Sandfish:829133074771476531>"
+            },
+            "Flunder": {
+                "name": "Flunder",
+                "minLength": 10,
+                "maxLength": 43,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/8/85/Flounder.png",
+                "emoji": "<:Flounder:829133074705023016>"
+            },
+            "Zwergwels": {
+                "name": "Zwergwels",
+                "minLength": 30,
+                "maxLength": 79,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/d/db/Bullhead.png",
+                "emoji": "<:Bullhead:829133074691784754>"
+            },
+            "Buntbarsch": {
+                "name": "Buntbarsch",
+                "minLength": 28,
+                "maxLength": 79,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/7/73/Tilapia.png",
+                "emoji": "<:Tilapia:829133074716426261>"
             }
         },
         "uncommons": {
@@ -182,6 +227,168 @@
                 "minPrice": 15,
                 "image": "https://stardewvalleywiki.com/mediawiki/images/8/81/Squid.png",
                 "emoji": "<:Tintenfisch:825163658711007276>"
+            },
+            "Pufferfisch": {
+                "name": "Pufferfisch",
+                "minLength": 2.5,
+                "maxLength": 100,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/b/ba/Pufferfish.png",
+                "emoji": "<:Pufferfish:829135055359967282>"
+            },
+            "Seegurke": {
+                "name": "Seegurke",
+                "minLength": 80,
+                "maxLength": 200,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/a/a9/Sea_Cucumber.png",
+                "emoji": "<:Sea_Cucumber:829133074863358003>"
+            },
+            "Indischer Glaswels": {
+                "name": "Indischer Glaswels",
+                "minLength": 25,
+                "maxLength": 91,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/7/72/Ghostfish.png",
+                "emoji": "<:Ghostfish:829133074490064949>"
+            },
+            "Eispip": {
+                "name": "Eispip",
+                "minLength": 15,
+                "maxLength": 31,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/6/63/Ice_Pip.png",
+                "emoji": "<:Ice_Pip:829133074322161696>"
+            },
+            "Lava-Aal": {
+                "name": "Lava-Aal",
+                "minLength": 69,
+                "maxLength": 131,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/1/12/Lava_Eel.png",
+                "emoji": "<:Lava_Eel:829133077930049546>"
+            },
+            "Skorpionskarpfen": {
+                "name": "Skorpionskarpfen",
+                "minLength": 30,
+                "maxLength": 84,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/7/76/Scorpion_Carp.png",
+                "emoji": "<:Scorpion_Carp:829133074549571665>"
+            },
+            "Mitternachtskarpfen": {
+                "name": "Mitternachtskarpfen",
+                "minLength": 30,
+                "maxLength": 84,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/3/33/Midnight_Carp.png",
+                "emoji": "<:Midnight_Carp:829133074750505030>"
+            },
+            "Stör": {
+                "name": "Stör",
+                "minLength": 30,
+                "maxLength": 155,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/4/42/Sturgeon.png",
+                "emoji": "<:Sturgeon:829133074700435466>"
+            },
+            "Tigerforelle": {
+                "name": "Tigerforelle",
+                "minLength": 25,
+                "maxLength": 83,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/0/01/Tiger_Trout.png",
+                "emoji": "<:Tiger_Trout:829133074699911209>"
+            },
+            "Kaulbarsch": {
+                "name": "Kaulbarsch",
+                "minLength": 30,
+                "maxLength": 64,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/b/bd/Chub.png",
+                "emoji": "<:Chub:829133074712887336>"
+            },
+            "Goldmakrele": {
+                "name": "Goldmakrele",
+                "minLength": 61,
+                "maxLength": 84,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/1/18/Dorado.png",
+                "emoji": "<:Dorado:829133074284412949>"
+            },
+            "Weißer Thun": {
+                "name": "Weißer Thun",
+                "minLength": 51,
+                "maxLength": 104,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/e/e1/Albacore.png",
+                "emoji": "<:Albacore:829133074729402398>"
+            },
+            "Shad": {
+                "name": "Shad",
+                "minLength": 76,
+                "maxLength": 130,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/e/ef/Shad.png",
+                "emoji": "<:Shad:829133074813419531>"
+            },
+            "Lengdorsch": {
+                "name": "Lengdorsch",
+                "minLength": 76,
+                "maxLength": 130,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/8/87/Lingcod.png",
+                "emoji": "<:Lingcod:829133074772131840>"
+            },
+            "Heilbutt": {
+                "name": "Heilbutt",
+                "minLength": 25,
+                "maxLength": 86,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/0/02/Halibut.png",
+                "emoji": "<:Halibut:829133074662686770>"
+            },
+            "Waldspringer": {
+                "name": "Waldspringer",
+                "minLength": 28,
+                "maxLength": 79,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/9/97/Woodskip.png",
+                "emoji": "<:Woodskip:829133074351783957>"
+            },
+            "Schattenlachs": {
+                "name": "Schattenlachs",
+                "minLength": 61,
+                "maxLength": 168,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/a/ad/Void_Salmon.png",
+                "emoji": "<:Void_Salmon:829133074683789332>"
+            },
+            "Schleimmakrele": {
+                "name": "Schleimmakrele",
+                "minLength": 20,
+                "maxLength": 66,
+                "maxPrice": 15,
+                "minPrice": 25,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/3/34/Slimejack.png",
+                "emoji": "<:Slimejack:829133386358456391>"
             }
         },
         "rares": {
@@ -229,6 +436,15 @@
                 "minPrice": 1000,
                 "image": "https://stardewvalleywiki.com/mediawiki/images/c/cb/Mutant_Carp.png",
                 "emoji": "<:Mutantenkarpfen:825086481349476373>"
+            },
+            "Super-Seegurke": {
+                "name": "Super-Seegurke",
+                "minLength": 80,
+                "maxLength": 200,
+                "minPrice": 2000,
+                "maxPrice": 1000,
+                "image": "https://stardewvalleywiki.com/mediawiki/images/d/d5/Super_Cucumber.png",
+                "emoji": "<:Super_Cucumber:829133074738577438>"
             }
         },
         "garbage": {
