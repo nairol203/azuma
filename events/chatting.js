@@ -1,4 +1,5 @@
-const { PogChamp, PagChomp, PagShake, PagMan, Pause, PauseChamp, WeirdChamp, pepeLaugh, peepoHey, peepoBye, peepoHug, FeelsOkayNan, FeelsBadMan, dankHug } = require('../emoji.json');
+const { PogChamp, PagChomp, PagShake, PagMan, Pause, PauseChamp, WeirdChamp, pepeLaugh, peepoHey, peepoBye, peepoHug, FeelsOkayNan, FeelsBadMan, dankHug, WEEWOO } = require('../emoji.json');
+require('../ExtendedMessage');
 
 module.exports = {
 	name: 'message',
@@ -12,25 +13,34 @@ module.exports = {
 				'Hallo',
 				'Moin Moin!',
 				peepoHey,
-				'GuMo',
 				'Servus!',
 				'Wie geht\'s? ' + peepoHey,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		const args7 = ['guten morgen', 'guden morjen', 'gumo'];
 		if (args7.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
-				'GuMo ' + peepoHey,
-				`${message.author} gumo ` + peepoHey,
+				'GUMOOOO ' + peepoHey,
+				'GUMOOOO ' + peepoHey,
+				'GUMOOOO ' + peepoHey,
+				`Gumo ` + peepoHey,
+				`Gumo ` + peepoHey,
 				'Guten Morgen! ' + peepoHey,
-				'guten morgen! ' + peepoHey,
-				'*gäääähhhhnnn* guten morgen!',
-				'*gähhhn* moin!',
+				'Guten Morgen! ' + peepoHey,
+				'GUUUMOOOO! ' + peepoHey,
+				'GUUUMOOOO! ' + peepoHey,
+				'GUUUMOOOO! ' + peepoHey,
+				'GUUUMOOOO! ' + peepoHey,
+				'Guten Morgen 🥱🥱🥱',
+				'Guten Morgen 🥱',
+				'Guten Morgen',
+				'Moin! 🥱',
+				'Moin!',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		const args2 = ['alles gut', 'wie geht', 'alles fit'];
 		if (args2.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
@@ -38,42 +48,41 @@ module.exports = {
 				'Ganz okay',
 				'Muss ja^^',
 				'Gut, dir? ' + FeelsOkayNan,
-				'WH<:OMEGALUL:743222752839729225> ASKED?',
+				'Mir geht\'s schlecht, könntest du einen Witz erzählen um mich aufzuheitern?',
 				'Könn\'t nicht besser sein!',
 				'Gut, danke der Nachfrage',
 				'Nicht so gut, hab heute n schlechten Tag ' + FeelsBadMan,
-				'mir gehts schaise ' + FeelsBadMan,
+				'Bin grad mega down ' + FeelsBadMan,
 				'Willst du wirklich gerade Smalltalk mit einem Discord-Bot führen??? ' + WeirdChamp,
-				'nett das du fragst <a:peepoShy:791825935862071338> mir gehts supi',
+				'Nett dass du fragst, mir gehts supi',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		else if (message.content.toLowerCase().startsWith('was machst du'.toLowerCase())) {
 			const messages = [
-				'Mit 100 Leuten gleichzeitig schreiben <a:peepoChat:791826601888448533>',
+				'Mit 100 Leuten gleichzeitig schreiben',
 				'Nichts, mir ist ziemlich langweilig ' + FeelsBadMan,
-				'Darf ich nicht sagen :zipper_mouth:',
-				'<:MonkaLaugh:791062220653723661> Sportwetten',
-				'FORTNITE SPIELEN <:POGGERS:743222753066483883>',
-				'Ein paar 90\'s cranken <:POGGERS:743222753066483883>',
-				'Hör auf mit mir zu reden!!!! <:PepeRage:743222752714162226> <:PepeRage:743222752714162226> <:PepeRage:743222752714162226>',
-				'Mit dir schreiben <a:peepoChat:791826601888448533>',
-				'Mit dir schreiben <a:peepoShy:791825935862071338>',
+				'Darf ich nicht sagen 🤐',
+				'Sportwetten dies das',
+				'FÜR FORTNAIT',
+				'Ein paar 90\'s cranken',
+				'Hör auf mit mir zu reden 😡😡😡',
+				'Mit dir schreiben',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		else if (message.content.toLowerCase().startsWith('wie ist das wetter'.toLowerCase())) {
-			message.channel.send('Schau doch aus dem Fenster <:FeelsDankMan:780215649384398908>');
+			message.inlineReply('Schau doch aus dem Fenster');
 		}
 		else if (message.content.toLowerCase().startsWith('und sonst so'.toLowerCase())) {
 			const messages = [
-				'joa muss ja^^',
-				'das übliche, muss noch ein paar Dinge erledigen',
+				'Joa muss ja^^',
+				'Das übliche, muss noch ein paar Dinge erledigen',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		else if (message.content.toLowerCase().startsWith('was geht'.toLowerCase())) {
 			const messages = [
@@ -89,33 +98,38 @@ module.exports = {
 				'Alles was Bäume hat ' + pepeLaugh,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		const args3 = ['gute nacht', 'gude nacht', 'guna', 'gunnar'];
 		if (args3.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'GuNa ' + peepoBye,
-				`${message.author} guna ` + peepoBye,
+				'GuNa ' + peepoBye,
+				'GuNa ' + peepoBye,
+				`GUNAAAA ` + peepoBye,
+				`GUNAAAA ` + peepoBye,
 				'Gute Nacht! ' + peepoBye,
-				'gude nacht ' + peepoBye,
-				'schlaf schön! 😴',
-				'süße träume :smiling_face_with_3_hearts:',
+				'Gute Nacht! ' + peepoBye,
+				'Schlaf schön! 😴',
+				'Süße Träume 🥰',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		const args4 = ['tschüss', 'bye', 'bis später', 'see ya'];
 		if (args4.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
-				'tschüss ' + peepoBye,
-				'byeee ' + peepoBye,
-				peepoBye,
-				'bis später!',
-				'see ya later',
-				'see ya later...               ...*alligator* :sunglasses:',
+				'Bis später Peter!',
+				'Bis Baldrian!',
+				'Ciao Kakao!',
+				'Auf Wiederzehn!',
+				'Tschüsli-Müsli!',
+				'Tschüssikowski!',
+				'Tschö mit ö!',
+				'see ya later...            ...*alligator* :sunglasses:',
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.inlineReply(randomMessage);
 		}
 		const args5 = ['pog', 'pag'];
 		if (args5.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
@@ -136,14 +150,14 @@ module.exports = {
 				dankHug,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(`${message.author} ${randomMessage}`);
+			message.inlineReply(`${message.author} ${randomMessage}`);
 		}
 
 		if (message.author.id === '172002275412279296') {
 			const args6 = [
 				'you caught: 🐧', 'you caught: 🐢', 'you caught: 🐙', 'you caught: 🦑', 'you caught: 🦐', 'you caught: 🦀', 'you caught: 🐡', 'you caught: 🐬', 'you caught: 🐳', 'you caught: 🐋', 'you caught: 🦈', 'you caught: 🐊'];
 			if (args6.some(ye => message.content.includes(ye))) {
-				message.channel.send('Glückwunsch zu deinem Rare!');
+				message.inlineReply(WEEWOO + ' Es wurde ein Rare gefangen!' + WEEWOO);
 			}
 		}
 	},
