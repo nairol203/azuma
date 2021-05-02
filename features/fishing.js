@@ -15,7 +15,11 @@ module.exports.findUncommon = async (userId, name) => {
 }
 
 module.exports.findRare = async (userId, name) => {
-    const result = await rares.findOne({ userId, name });
+    if (name) {
+        result = await rares.findOne({ userId, name });
+    } else {
+        result = await rares.find({ userId });
+    }
     return result;
 }
 
