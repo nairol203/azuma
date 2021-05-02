@@ -1,4 +1,4 @@
-const { Collection, MessageEmbed } = require('discord.js');
+const { Collection, MessageEmbed, Message } = require('discord.js');
 const { Menu } = require('discord.js-menu')
 const { bags, fish, rods, baits } = require('./fish.json');
 const { bait_1, bait_2, bait_3 } = baits;
@@ -11,6 +11,7 @@ const { addCoins, getCoins } = require('../../features/economy');
 const cooldowns = new Collection();
 
 module.exports = {
+    update: true,
     description: 'Fischen in Discord!',
     options: [
         {
@@ -22,6 +23,7 @@ module.exports = {
                 { name: 'sell', value : 'sell' },
                 { name: 'stats', value : 'stats' },
                 { name: 'bait', value: 'bait' },
+                { name: 'rares', value: 'rares' },
                 { name: 'wiki', value: 'wiki' }
             ],
         },
@@ -246,6 +248,16 @@ module.exports = {
                     { name: 'Stats', value: `${commons.Sardelle.emoji} Commons: ${cAmount} Stück\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${uAmount} Stück\n${rares.Purpurfisch.emoji} Rares: ${rAmount} Stück\n${garbage.Grünalge.emoji} Garbage: ${gAmount} Stück`},
                 )
                 .setColor('#2773fc');
+            return embed;
+        } else if (args.options == 'rares') {
+            const rares = findRare(userId);
+            const embed = new MessageEmbed()
+                .setTitle('Fishing stats')
+                .setDescription('Das sind alle Rares, die du bereits gefangen hast!')
+                .setColor('#2773fc');
+            rares.map(rare => {
+                embed.addField(rare.emoji + ' ' + rare.name, rare.amount + ' Stück\nLängster Fang: ' + rare.length + 'cm')
+            })
             return embed;
         } else if (args.options === 'wiki') {
             const embed = new MessageEmbed()
