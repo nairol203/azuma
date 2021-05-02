@@ -104,11 +104,7 @@ module.exports = {
 		if (args3.some(word => message.content.toLowerCase().startsWith(word.toLowerCase()))) {
 			const messages = [
 				'GuNa ' + peepoBye,
-				'GuNa ' + peepoBye,
-				'GuNa ' + peepoBye,
 				`GUNAAAA ` + peepoBye,
-				`GUNAAAA ` + peepoBye,
-				'Gute Nacht! ' + peepoBye,
 				'Gute Nacht! ' + peepoBye,
 				'Schlaf schön! 😴',
 				'Süße Träume 🥰',
