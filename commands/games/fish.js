@@ -250,7 +250,7 @@ module.exports = {
                 .setColor('#2773fc');
             return embed;
         } else if (args.options == 'rares') {
-            const rares = findRare(userId);
+            const rares = await findRare(userId);
             const embed = new MessageEmbed()
                 .setTitle('Fishing stats')
                 .setDescription('Das sind alle Rares, die du bereits gefangen hast!')
