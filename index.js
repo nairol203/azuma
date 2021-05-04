@@ -59,9 +59,13 @@ client.on('ready', async () => {
 		console.log(client.user.username + ' > Maintenance is active!')
 		client.user.setActivity('Wartungsarbeiten', { type : 'PLAYING' })
 	}
+	const logChannel = client.channels.cache.get('781501076725563413')
+	logChannel.send('Bot restarted successfully.')
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
+	logChannel.send(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
+	logChannel.send(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
 	for (let command of client.commands) {
 		cmd = command[1];
 		if (cmd.update) {
@@ -149,6 +153,8 @@ client.on('ready', async () => {
 		}
 		catch (error) {
 			console.error(error);
+			const errChannel = client.channels.cache.get('781501076725563413')
+			errChannel.send('Error occured: ' + error)
 		}
 	});
 });
