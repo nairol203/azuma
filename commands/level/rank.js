@@ -7,6 +7,7 @@ module.exports = {
 	description: 'Zeigt dein aktuelles Level an',
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;
+		const channel = client.channels.cache.get(interaction.channel_id);
 		const targetId = args.user;
 		const target = client.users.cache.get(targetId) || client.users.cache.get(interaction.member.user.id);
 		if (target.bot) return 'Bot\'s haben kein Level!';
@@ -36,7 +37,7 @@ module.exports = {
 			.then(data => {
 				const attatchment = new MessageAttachment(data, 'levelcard.png');
 				setTimeout(() => {
-					message.channel.send(attatchment);
+					channel.send(attatchment);
 				}, 250);
 			});
 		
