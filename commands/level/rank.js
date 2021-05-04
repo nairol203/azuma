@@ -1,7 +1,7 @@
 const Levels = require('../../events/levels');
 const profileSchema = require('../../models/profile');
 const Canvacord = require('canvacord');
-// const { MessageAttachment } = require('discord.js');
+const { MessageAttachment } = require('discord.js');
 
 module.exports = {
 	description: 'Zeigt dein aktuelles Level an',
@@ -17,27 +17,29 @@ module.exports = {
 			userId,
 		});
 
-		// const needed = Math.round(Levels.getNeededXP(user.level - 1));
-		// const neededCurrent = Math.round(Levels.getNeededXP(user.level));
-		// const currendXp = user.xp - needed;
-		// const requiredXp = neededCurrent - needed;
+		const needed = Math.round(Levels.getNeededXP(user.level - 1));
+		const neededCurrent = Math.round(Levels.getNeededXP(user.level));
+		const currendXp = user.xp - needed;
+		const requiredXp = neededCurrent - needed;
 
-		// const rank = new Canvacord.Rank()
-		// 	.setAvatar(target.displayAvatarURL({ dynamic: false, format: 'png' }))
-		// 	.setCurrentXP(currendXp)
-		// 	.setDiscriminator(target.discriminator)
-		// 	.setLevel(user.level)
-		// 	.setProgressBar('#f77600')
-		// 	.setRank(1, 'test', false)
-		// 	.setRequiredXP(requiredXp)
-		// 	.setStatus(target.presence.status, false, false)
-		// 	.setUsername(target.username);
-		// await rank.build()
-		// 	.then(data => {
-		// 		const attatchment = new MessageAttachment(data, 'levelcard.png');
-		// 		return attatchment
-		// 	});
+		const rank = new Canvacord.Rank()
+			.setAvatar(target.displayAvatarURL({ dynamic: false, format: 'png' }))
+			.setCurrentXP(currendXp)
+			.setDiscriminator(target.discriminator)
+			.setLevel(user.level)
+			.setProgressBar('#f77600')
+			.setRank(1, 'test', false)
+			.setRequiredXP(requiredXp)
+			.setStatus(target.presence.status, false, false)
+			.setUsername(target.username);
+		await rank.build()
+			.then(data => {
+				const attatchment = new MessageAttachment(data, 'levelcard.png');
+				setTimeout(() => {
+					message.channel.send(attatchment);
+				}, 250);
+			});
 		
-		return `${target} ist aktuell Level ${user.level}!`
+		return [ `Loading Rank Card...` ]
 	},
 };

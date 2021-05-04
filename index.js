@@ -32,7 +32,7 @@ async function create(name, description, options, guildId) {
 		data: {
 			name: name,
 			description: description,
-			options: options,
+			options: options
 		},
 	}).then(console.log(client.user.username + ' > Posted Slash-Command: ' + name));
 }
