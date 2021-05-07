@@ -207,7 +207,7 @@ module.exports = {
                     name: 'fourth',
                     content: embed_4,
                     reactions: {
-                        '⬅': 'fourth',
+                        '⬅': 'third',
                         '➡': 'last',
                     }
                 },
