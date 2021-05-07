@@ -183,7 +183,7 @@ module.exports = {
                     name: 'first',
                     content: embed_1,
                     reactions: {
-                        '⬅': 'first',
+                        '⬅': 'last',
                         '➡': 'second',
                     }
                 },
@@ -215,8 +215,8 @@ module.exports = {
                     name: 'last',
                     content: embed_5,
                     reactions: {
-                        '⬅': 'second',
-                        '➡': 'last',
+                        '⬅': 'fourth',
+                        '➡': 'first',
                     }
                 }
             ])
