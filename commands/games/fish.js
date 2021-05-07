@@ -121,7 +121,7 @@ module.exports = {
             const embed_1 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 1/3')
+                .setFooter('Seite 1/5')
                 .setColor('#2773fc');
             stats.slice(0, 12).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -133,7 +133,7 @@ module.exports = {
             const embed_2 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 2/3')
+                .setFooter('Seite 2/5')
                 .setColor('#2773fc');
             stats.slice(12, 24).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -145,7 +145,7 @@ module.exports = {
             const embed_3 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 3/3')
+                .setFooter('Seite 3/5')
                 .setColor('#2773fc');
             stats.slice(24, 36).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -153,6 +153,30 @@ module.exports = {
                     value = value + '\nLängster Fang: ' + stat.length + 'cm';
                 }
                 embed_3.addField(stat.emoji + ' ' + stat.name, value, true)
+            })
+            const embed_4 = new MessageEmbed()
+                .setTitle('Fishing collection')
+                .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
+                .setFooter('Seite 4/5')
+                .setColor('#2773fc');
+            stats.slice(36, 48).map(stat => {
+                let value = stat.amount + ' Stück';
+                if (stat.length) {
+                    value = value + '\nLängster Fang: ' + stat.length + 'cm';
+                }
+                embed_4.addField(stat.emoji + ' ' + stat.name, value, true)
+            })
+            const embed_5 = new MessageEmbed()
+                .setTitle('Fishing collection')
+                .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
+                .setFooter('Seite 5/5')
+                .setColor('#2773fc');
+            stats.slice(48, 60).map(stat => {
+                let value = stat.amount + ' Stück';
+                if (stat.length) {
+                    value = value + '\nLängster Fang: ' + stat.length + 'cm';
+                }
+                embed_5.addField(stat.emoji + ' ' + stat.name, value, true)
             })
             let collectionMenu = new Menu(channel, userId, [
                 {
@@ -168,12 +192,28 @@ module.exports = {
                     content: embed_2,
                     reactions: {
                         '⬅': 'first',
+                        '➡': 'third',
+                    }
+                },
+                {
+                    name: 'third',
+                    content: embed_3,
+                    reactions: {
+                        '⬅': 'second',
+                        '➡': 'fourth',
+                    }
+                },
+                {
+                    name: 'fourth',
+                    content: embed_4,
+                    reactions: {
+                        '⬅': 'fourth',
                         '➡': 'last',
                     }
                 },
                 {
                     name: 'last',
-                    content: embed_3,
+                    content: embed_5,
                     reactions: {
                         '⬅': 'second',
                         '➡': 'last',
