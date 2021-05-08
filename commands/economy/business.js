@@ -3,6 +3,7 @@ const { yes, no } = require('../../emoji.json');
 
 const business = require('../../features/business');
 const cooldowns = require('../../cooldowns');
+const economy = require('../../features/economy');
 
 function format(number) {
 	const result = Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(number);
@@ -18,15 +19,42 @@ function showBar(cd) {
 }
 
 module.exports = {
+	update: true,
 	description: 'Verwalte dein eigenes Unternehmen und werde ein angesehener CEO!',
-	callback: async ({ interaction }) => {
+	options: [
+		{
+			name: 'options',
+			description: 'Verwalte dein eigenes Unternehmen und werde ein angesehener CEO!',
+			type: 3,
+			choices: [
+				{
+					name: 'sell',
+					value: 'sell'
+				}
+			]
+		}
+	],
+	callback: async ({ interaction, args }) => {
 		const guildId = interaction.guild_id
 		const member = interaction.member;
 		const userId = member.user.id
-
 		const getBusiness = await business.getBusiness(guildId, userId);
+		if (getBusiness === null) return no + ' | Du hast kein Unternehmen, kaufe eines im Shop!';
 
-		if (getBusiness === null) return no + ' | Du hast kein Unternehmen, kaufe eins mit `!buy [business]`!';
+		if (args.options === 'sell') {	
+			const company = await business.setCompany(guildId, userId);
+			const profit = await business.checkProfit(guildId, userId);
+			
+			await economy.addCoins(guildId, userId, profit);
+			const embed = new MessageEmbed()
+				.setTitle('Verkauf erfolgreich')
+				.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
+				.addField('Umsatz', `\`${profit}\` 💵`)
+				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
+				.setColor('#2f3136');
+			return embed;
+		}
+
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
