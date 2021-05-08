@@ -5,7 +5,8 @@ module.exports = {
   maxArgs: 2,
   expectedArgs: "<The target's @> <coin amount>",
   callback: async (message, arguments) => {
-    const mention = message.mentions.users.first()
+		const mention = message.mentions.users.first();
+		if (mention.bot) return;
 
     if (!mention) {
       message.reply('Please tag a user to add coins to.')
