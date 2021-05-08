@@ -187,30 +187,38 @@ async function createApiMessage(interaction, content) {
 }
 
 client.on('message', async message => {
-	if (message.content.toLowerCase().includes('kek'.toLowerCase())) {
-		message.delete()
-	}
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
+
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 	const command = client.commands.get(commandName)
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
 	if (!command) return;
 	if (command.disabled) return;
-	if (command.ownerOnly && message.author.id != '255739211112513536') {
-		return;
+	if (!command.guildOnly && message.channel.type === 'dm') {
+		return message.reply('du kannst diesen Befehl nicht in Direktnachrichten benutzen.');
 	}
-	const authorPerms = message.channel.permissionsFor(message.author);
-	if (!authorPerms || !authorPerms.has('ADMINISTRATOR')) {
-		return;
+	if (command.ownerOnly && message.author.id != '255739211112513536') {
+		return message.reply('nur der Bot-Owner kann diesen Befehl benutzen.');
+	}
+	if (command.requiredPermissions) {
+		const authorPerms = message.channel.permissionsFor(message.author);
+		if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
+			return message.reply(`du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
+		}
 	}
 	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
-		return;
+		let reply = `versuche es so: \`${prefix}${commandName}\``;
+
+		if (command.expectedArgs) {
+			reply = `versuche es so: \`${prefix}${commandName} ${command.expectedArgs}\``;
+		}
+
+		return message.reply(reply);
 	}
 	try {
-		console.log(message, args)
-		command.callback({ client, message, args });
-        message.delete();
+		command.callback({ client, message, args, Discord });
 	}
 	catch (error) {
 		console.error(error);
