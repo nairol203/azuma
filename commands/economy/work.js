@@ -10,7 +10,7 @@ module.exports = {
 		const guildId = interaction.guild_id;
 		const userId = interaction.member.user.id;
 		const getBusiness = await business.getBusiness(guildId, userId);
-		if (getBusiness === null) return no + ' | Du hast kein Unternehmen, kaufe eins mit `!business buy`!';
+		if (getBusiness === null) return [ '**DEPRECATED: Bitte benutzte in Zukunft \`/business options: sell\`**\n' + no + ' Du hast kein Unternehmen, kaufe eins mit `!business buy`!' ];
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
@@ -18,7 +18,7 @@ module.exports = {
 		await economy.addCoins(guildId, userId, profit);
 		const embed = new MessageEmbed()
 			.setTitle('Verkauf erfolgreich')
-			.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
+			.setDescription(`**DEPRECATED: Bitte benutzte in Zukunft \`/business options: sell\`**\nDu hast die hergestellte Ware von deiner ${company.name} verkauft.`)
 			.addField('Umsatz', `\`${profit}\` 💵`)
 			.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
 			.setColor('#2f3136');
