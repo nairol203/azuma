@@ -19,7 +19,6 @@ function showBar(cd) {
 }
 
 module.exports = {
-	update: true,
 	description: 'Verwalte dein eigenes Unternehmen und werde ein angesehener CEO!',
 	options: [
 		{
