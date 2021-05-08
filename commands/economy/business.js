@@ -39,13 +39,18 @@ module.exports = {
 		const member = interaction.member;
 		const userId = member.user.id
 		const getBusiness = await business.getBusiness(guildId, userId);
-		if (getBusiness === null) return no + ' | Du hast kein Unternehmen, kaufe eines im Shop!';
+		const getCooldown = await cooldowns.getCooldown(userId, 'work');
 
-		if (args.options === 'sell') {	
+		if (getBusiness === null) return [ no + ' Du hast kein Unternehmen, kaufe eines im Shop!' ];
+
+		if (args.options === 'sell') {
+			const mathCd = cooldowns.mathCooldown(userId, 'work');
+			if (getCooldown) return [ no + `Du hast noch ${mathCd} Cooldown!` ];
 			const company = await business.setCompany(guildId, userId);
 			const profit = await business.checkProfit(guildId, userId);
 			
 			await economy.addCoins(guildId, userId, profit);
+			await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60)
 			const embed = new MessageEmbed()
 				.setTitle('Verkauf erfolgreich')
 				.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
@@ -63,7 +68,6 @@ module.exports = {
 		const up2 = getBusiness.upgrade2 ? yes : no;
 		const up3 = getBusiness.upgrade3 ? yes : no;
 
-		const getCooldown = await cooldowns.getCooldown(userId, 'work');
 
 		let cd = '';
 		let cooldown = '';
