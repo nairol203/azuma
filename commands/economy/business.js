@@ -45,7 +45,7 @@ module.exports = {
 
 		if (args.options === 'sell') {
 			const mathCd = await cooldowns.mathCooldown(userId, 'work');
-			if (getCooldown) return [ no + `Du hast noch ${mathCd} Cooldown!` ];
+			if (getCooldown) return [ no + ` Du hast noch **${mathCd}** Cooldown!` ];
 			const company = await business.setCompany(guildId, userId);
 			const profit = await business.checkProfit(guildId, userId);
 			
