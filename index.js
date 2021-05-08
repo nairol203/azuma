@@ -42,35 +42,21 @@ client.on('ready', async () => {
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-
-	for (slashCmd of globalCommands) {
-		let update = false;
-		const cmd = client.commands.get(slashCmd.name)
-		if (cmd.description !== slashCmd.description) {
-			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
-			update = true;
-		}
-		if (cmd.options !== slashCmd.options) {
-			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
-			update = true;
-		}
-		if (update) {
-			await create(slashCmd.name, cmd.description, cmd.options)
-		}
-	}
-	for (slashCmd of guildCommands) {
-		let update = false;
-		const cmd = client.commands.get(slashCmd.name)
-		if (cmd.description !== slashCmd.description) {
-			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
-			update = true;
-		}
-		if (cmd.options !== slashCmd.options) {
-			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
-			update = true;
-		}
-		if (update) {
-			await create(slashCmd.name, cmd.description, cmd.options, guildId)
+	for (let command of client.commands) {
+		cmd = command[1];
+		if (cmd.update) {
+			if (cmd.update === false) return;
+			if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
+			const name = command[0];
+			const description = cmd.description;
+			const options = cmd.options || [];
+			if (name && description) {
+				if (cmd.guildOnly === true) {
+					await create(name, description, options, guildId);
+				} else if (!cmd.guildOnly || cmd.guildOnly === false) {
+					await create(name, description, options);
+				}
+			}
 		}
 	}
 });
