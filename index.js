@@ -208,7 +208,8 @@ client.on('message', async message => {
 		return;
 	}
 	try {
-		command.callback({ client, message, args, Discord });
+		console.log(message, args)
+		command.callback({ client, message, args });
         message.delete();
 	}
 	catch (error) {
