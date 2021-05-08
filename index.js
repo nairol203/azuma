@@ -3,14 +3,16 @@ require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
 const mongo = require('./mongo');
+const cooldown = require('./cooldowns');
+const { no } = require('./emoji.json');
+
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
 const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
-const cooldown = require('./cooldowns');
-const { no } = require('./emoji.json');
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -23,35 +25,11 @@ for (const folder of commandFolders) {
 	}
 }
 
-async function create(name, description, options, guildId) {
-	const app = client.api.applications(client.user.id);
-	if (guildId) {
-		app.guilds(guildId);
-	}
-	app.commands.post({
-		data: {
-			name: name,
-			description: description,
-			options: options
-		},
-	}).then(console.log(client.user.username + ' > Posted Slash-Command: ' + name));
-}
-
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	client.on(event.name, (...args) => event.run(...args, client));
-}
-
-const cooldowns = new Discord.Collection();
-
-async function get(guildId) {
-	const app = client.api.applications(client.user.id);
-	if (guildId) {
-		app.guilds(guildId);
-	}
-	return app.commands.get();
 }
 
 client.on('ready', async () => {
@@ -64,21 +42,35 @@ client.on('ready', async () => {
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-	for (let command of client.commands) {
-		cmd = command[1];
-		if (cmd.update) {
-			if (cmd.update === false) return;
-			if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
-			const name = command[0];
-			const description = cmd.description;
-			const options = cmd.options || [];
-			if (name && description) {
-				if (cmd.guildOnly === true) {
-					await create(name, description, options, guildId);
-				} else if (!cmd.guildOnly || cmd.guildOnly === false) {
-					await create(name, description, options);
-				}
-			}
+
+	for (slashCmd of globalCommands) {
+		let update = false;
+		const cmd = client.commands.get(slashCmd.name)
+		if (cmd.description !== slashCmd.description) {
+			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
+			update = true;
+		}
+		if (cmd.options !== slashCmd.options) {
+			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
+			update = true;
+		}
+		if (update) {
+			await create(slashCmd.name, cmd.description, cmd.options)
+		}
+	}
+	for (slashCmd of guildCommands) {
+		let update = false;
+		const cmd = client.commands.get(slashCmd.name)
+		if (cmd.description !== slashCmd.description) {
+			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
+			update = true;
+		}
+		if (cmd.options !== slashCmd.options) {
+			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
+			update = true;
+		}
+		if (update) {
+			await create(slashCmd.name, cmd.description, cmd.options, guildId)
 		}
 	}
 });
@@ -156,6 +148,28 @@ client.on('ready', async () => {
 		}
 	});
 });
+
+async function create(name, description, options, guildId) {
+	const app = client.api.applications(client.user.id);
+	if (guildId) {
+		app.guilds(guildId);
+	}
+	app.commands.post({
+		data: {
+			name: name,
+			description: description,
+			options: options
+		},
+	}).then(console.log(client.user.username + ' > Posted Slash-Command: ' + name));
+}
+
+async function get(guildId) {
+	const app = client.api.applications(client.user.id);
+	if (guildId) {
+		app.guilds(guildId);
+	}
+	return app.commands.get();
+}
 
 async function reply(interaction, response, flags = 1) {
 	const content = await response
