@@ -4,7 +4,7 @@ module.exports = {
   minArgs: 2,
   maxArgs: 2,
   expectedArgs: "<The target's @> <coin amount>",
-  callback: async (message, args) => {
+  callback: async (client, message, args) => {
     const coins = args[1]
     const guildId = message.guild.id
     const userId = args[0]
