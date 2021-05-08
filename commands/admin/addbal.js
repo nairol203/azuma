@@ -4,23 +4,10 @@ module.exports = {
   minArgs: 2,
   maxArgs: 2,
   expectedArgs: "<The target's @> <coin amount>",
-  callback: async (message, arguments) => {
-		const mention = message.mentions.users.first();
-		if (mention.bot) return;
-
-    if (!mention) {
-      message.reply('Please tag a user to add coins to.')
-      return
-    }
-
-    const coins = arguments[1]
-    if (isNaN(coins)) {
-      message.reply('Please provide a valid numnber of coins.')
-      return
-    }
-
+  callback: async (message, args) => {
+    const coins = args[1]
     const guildId = message.guild.id
-    const userId = mention.id
+    const userId = args[0]
 
     const newCoins = await economy.addCoins(guildId, userId, coins)
 
