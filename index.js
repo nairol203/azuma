@@ -54,7 +54,7 @@ client.on('ready', async () => {
 			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
 			update = true;
 		}
-		if (!update) return;
+		if (!update) return console.log(slashCmd.name + ' looks fine!');
 		console.log('update ' + slashCmd.name)
 	}
 	for (slashCmd of guildCommands) {
@@ -69,7 +69,7 @@ client.on('ready', async () => {
 			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
 			update = true;
 		}
-		if (update) return;
+		if (update) return console.log(slashCmd.name + ' looks fine!');
 		console.log('update ' + slashCmd.name)
 	}
 });
