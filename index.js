@@ -8,7 +8,7 @@ const { no } = require('./emoji.json');
 
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
-const maintenance = false;
+const maintenance = true;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const cooldowns = new Discord.Collection();
@@ -42,37 +42,22 @@ client.on('ready', async () => {
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-	globalCommands = Object.values(globalCommands); guildCommands = Object.values(guildCommands);
-	console.log(globalCommands, guildCommands)
-	for (globalCmd of globalCommands) {
-		let update = false;
-		const cmd = client.commands.get(globalCmd.name)
-		if (!cmd) return console.log('delete ' + globalCmd.name)
-		if (cmd.description !== globalCmd.description) {
-			console.log(globalCmd.name + ': description doesn\'t match! updating cmd...')
-			update = true;
+	for (let command of client.commands) {
+		cmd = command[1];
+		if (cmd.update) {
+			if (cmd.update === false) return;
+			if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
+			const name = command[0];
+			const description = cmd.description;
+			const options = cmd.options || [];
+			if (name && description) {
+				if (cmd.guildOnly === true) {
+					await create(name, description, options, guildId);
+				} else if (!cmd.guildOnly || cmd.guildOnly === false) {
+					await create(name, description, options);
+				}
+			}
 		}
-		if (cmd.options !== globalCmd.options) {
-			console.log(globalCmd.name + ': options doesn\'t match! updating cmd...')
-			update = true;
-		}
-		if (!update) return console.log(globalCmd.name + ' looks fine!');
-		console.log('update ' + globalCmd.name)
-	}
-	for (guildCmd of guildCommands) {
-		let update = false;
-		const cmd = client.commands.get(guildCmd.name)
-		if (!cmd) return console.log('delete ' + guildCmd.name)
-		if (cmd.description !== guildCmd.description) {
-			console.log(guildCmd.name + ': description doesn\'t match! updating cmd...')
-			update = true;
-		}
-		if (cmd.options !== guildCmd.options) {
-			console.log(guildCmd.name + ': options doesn\'t match! updating cmd...')
-			update = true;
-		}
-		if (update) return console.log(guildCmd.name + ' looks fine!');
-		console.log('update ' + guildCmd.name)
 	}
 });
 
