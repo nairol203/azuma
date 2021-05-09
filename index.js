@@ -5,7 +5,6 @@ const Discord = require('discord.js');
 const mongo = require('./mongo');
 const cooldown = require('./cooldowns');
 const { no } = require('./emoji.json');
-const { create, get, reply } = require('./SlashComands');
 
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
@@ -133,6 +132,57 @@ client.on('ready', async () => {
 		}
 	});
 });
+
+async function create(name, description, options, guildId) {
+	const app = client.api.applications(client.user.id);
+	if (guildId) {
+		app.guilds(guildId);
+	}
+	app.commands.post({
+		data: {
+			name: name,
+			description: description,
+			options: options
+		},
+	}).then(console.log(client.user.username + ' > Posted Slash-Command: ' + name));
+}
+
+async function get(guildId) {
+	const app = client.api.applications(client.user.id);
+	if (guildId) {
+		app.guilds(guildId);
+	}
+	return app.commands.get();
+}
+
+async function reply(interaction, response, flags = 1) {
+	const content = await response
+	let data = {
+		content,
+		flags
+	};
+	if (typeof content === 'object') {
+		data = await createApiMessage(interaction, content);
+	}
+
+	client.api.interactions(interaction.id, interaction.token).callback.post({
+		data: {
+			type: 4,
+			data,
+		},
+	});
+}
+
+async function createApiMessage(interaction, content) {
+	const { data, files } = await Discord.APIMessage.create(
+		client.channels.resolve(interaction.channel_id),
+		content,
+	)
+		.resolveData()
+		.resolveFiles();
+
+	return { ...data, files };
+}
 
 client.on('message', async message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
