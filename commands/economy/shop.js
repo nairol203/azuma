@@ -184,9 +184,10 @@ module.exports = {
                 .setColor('#f77600');
                 shop_msg.edit(invoiceEmbed)
             })
-            .catch(() => {
+            .catch((e) => {
                 shop_msg.delete()
-                channel.send(no + ' Der Shop wurde aufgrund von Inaktivität geschlossen.')
+                channel.send(no + ' Der Shop wurde aufgrund eines Errors geschlossen.')
+                console.error(e);
             })
         }
 
@@ -259,7 +260,7 @@ module.exports = {
                     channel.send(no + 'Keine gültige Eingabe erkannt.')
                 }
             })
-            .catch(() => {
+            .catch((e) => {
                 shop_msg.delete()
                 channel.send(no + ' Der Shop wurde aufgrund eines Errors geschlossen.')
                 console.error(e);
@@ -353,7 +354,7 @@ module.exports = {
                     channel.send(no + ' Keine gültige Eingabe erkannt.');
                 }
             })
-            .catch(() => {
+            .catch((e) => {
                 shop_msg.delete()
                 channel.send(no + ' Der Shop wurde aufgrund eines Errors geschlossen.')
                 console.error(e);
@@ -450,7 +451,7 @@ module.exports = {
                     channel.send(no + ' Keine gültige Eingabe erkannt.');
                 }
             })
-            .catch(() => {
+            .catch((e) => {
                 shop_msg.delete()
                 channel.send(no + ' Der Shop wurde aufgrund eines Errors geschlossen.')
                 console.error(e);
