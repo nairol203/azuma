@@ -196,17 +196,8 @@ client.on('message', async message => {
 
 	if (!command) return;
 	if (command.disabled) return;
-	if (!command.guildOnly && message.channel.type === 'dm') {
-		return message.reply('du kannst diesen Befehl nicht in Direktnachrichten benutzen.');
-	}
-	if (command.ownerOnly && message.author.id != '255739211112513536') {
-		return message.reply('nur der Bot-Owner kann diesen Befehl benutzen.');
-	}
-	if (command.requiredPermissions) {
-		const authorPerms = message.channel.permissionsFor(message.author);
-		if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-			return message.reply(`du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`);
-		}
+	if (message.author.id != '255739211112513536') {
+		return;
 	}
 	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
 		let reply = `versuche es so: \`${prefix}${commandName}\``;
