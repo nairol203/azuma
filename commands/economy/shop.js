@@ -261,7 +261,8 @@ module.exports = {
             })
             .catch(() => {
                 shop_msg.delete()
-                channel.send(no + ' Der Shop wurde aufgrund von Inaktivität geschlossen.')
+                channel.send(no + ' Der Shop wurde aufgrund eines Errors geschlossen.')
+                console.error(e);
             })
         }
 
