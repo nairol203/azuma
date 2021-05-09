@@ -1,19 +1,16 @@
 const economy = require('../../features/economy');
+const { no } = require('../../emoji.json');
 
 module.exports = {
   minArgs: 2,
   maxArgs: 2,
   expectedArgs: "<The target's @> <coin amount>",
-  callback: async (client, message, args) => {
-    console.log(args)
-    const coins = args[1]
+  callback: async ({ message, args }) => {
+    const mention = message.mentions.users.first();
+    if (mention.bot) return;
+    const userId = mention.id
+    const coins = args[1];
     const guildId = message.guild.id
-    const userId = args[0]
-
-    const newCoins = await economy.addCoins(guildId, userId, coins)
-
-    message.reply(
-      `You have given <@${userId}> ${coins} coin(s). They now have ${newCoins} coin(s)!`
-    )
+    await economy.addCoins(guildId, userId, coins).catch(e => console.error(e))
   },
 }
