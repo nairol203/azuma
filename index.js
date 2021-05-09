@@ -43,6 +43,7 @@ client.on('ready', async () => {
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
 	globalCommands = Object.values(globalCommands); guildCommands = Object.values(guildCommands);
+	console.log(globalCommands, guildCommands)
 	for (globalCmd of globalCommands) {
 		let update = false;
 		const cmd = client.commands.get(globalCmd.name)
