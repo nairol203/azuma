@@ -218,11 +218,13 @@ client.on('message', async message => {
 		return message.reply(reply);
 	}
 	try {
-		command.callback({ client, message, args, Discord });
+		message.delete()
+		command.callback({ client, message, args });
 	}
 	catch (error) {
+		message.delete()
 		console.error(error);
-		message.channel.send(`<:no:767394810909949983> Error occured while running ${commandName} command`);
+		message.channel.send(no + ` Error occured while running ${commandName} command`);
 	}
 });
 
