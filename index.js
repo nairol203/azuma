@@ -8,7 +8,7 @@ const { no } = require('./emoji.json');
 
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
-const maintenance = true;
+const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const cooldowns = new Discord.Collection();
