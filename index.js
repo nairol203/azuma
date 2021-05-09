@@ -42,35 +42,35 @@ client.on('ready', async () => {
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-	for (slashCmd of globalCommands) {
+	for (globalCmd of globalCommands) {
 		let update = false;
-		const cmd = client.commands.get(slashCmd.name)
-		if (!cmd) return console.log('delete ' + slashCmd.name)
-		if (cmd.description !== slashCmd.description) {
-			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
+		const cmd = client.commands.get(globalCmd.name)
+		if (!cmd) return console.log('delete ' + globalCmd.name)
+		if (cmd.description !== globalCmd.description) {
+			console.log(globalCmd.name + ': description doesn\'t match! updating cmd...')
 			update = true;
 		}
-		if (cmd.options !== slashCmd.options) {
-			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
+		if (cmd.options !== globalCmd.options) {
+			console.log(globalCmd.name + ': options doesn\'t match! updating cmd...')
 			update = true;
 		}
-		if (!update) return console.log(slashCmd.name + ' looks fine!');
-		console.log('update ' + slashCmd.name)
+		if (!update) return console.log(globalCmd.name + ' looks fine!');
+		console.log('update ' + globalCmd.name)
 	}
-	for (slashCmd of guildCommands) {
+	for (guildCmd of guildCommands) {
 		let update = false;
-		const cmd = client.commands.get(slashCmd.name)
-		if (!cmd) return console.log('delete ' + slashCmd.name)
-		if (cmd.description !== slashCmd.description) {
-			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
+		const cmd = client.commands.get(guildCmd.name)
+		if (!cmd) return console.log('delete ' + guildCmd.name)
+		if (cmd.description !== guildCmd.description) {
+			console.log(guildCmd.name + ': description doesn\'t match! updating cmd...')
 			update = true;
 		}
-		if (cmd.options !== slashCmd.options) {
-			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
+		if (cmd.options !== guildCmd.options) {
+			console.log(guildCmd.name + ': options doesn\'t match! updating cmd...')
 			update = true;
 		}
-		if (update) return console.log(slashCmd.name + ' looks fine!');
-		console.log('update ' + slashCmd.name)
+		if (update) return console.log(guildCmd.name + ' looks fine!');
+		console.log('update ' + guildCmd.name)
 	}
 });
 
