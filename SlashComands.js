@@ -20,7 +20,7 @@ module.exports.get = (guildId) => {
 	return app.commands.get();
 }
 
-module.exports.createApiMessage = (interaction, content) => {
+module.exports.createApiMessage = async (interaction, content) => {
 	const { data, files } = await Discord.APIMessage.create(
 		client.channels.resolve(interaction.channel_id),
 		content,
@@ -31,7 +31,7 @@ module.exports.createApiMessage = (interaction, content) => {
 	return { ...data, files };
 }
 
-module.exports.reply = (interaction, response, flags = 1) => {
+module.exports.reply = async (interaction, response, flags = 1) => {
 	const content = await response
 	let data = {
 		content,
