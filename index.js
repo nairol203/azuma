@@ -42,23 +42,54 @@ client.on('ready', async () => {
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-	for (let command of client.commands) {
-		cmd = command[1];
-		if (cmd.update) {
-			if (cmd.update === false) return;
-			if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
-			const name = command[0];
-			const description = cmd.description;
-			const options = cmd.options || [];
-			if (name && description) {
-				if (cmd.guildOnly === true) {
-					await create(name, description, options, guildId);
-				} else if (!cmd.guildOnly || cmd.guildOnly === false) {
-					await create(name, description, options);
-				}
-			}
+	for (slashCmd of globalCommands) {
+		let update = false;
+		const cmd = client.commands.get(slashCmd.name)
+		if (!cmd) return console.log('delete ' + slashCmd.name)
+		if (cmd.description !== slashCmd.description) {
+			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
+			update = true;
 		}
+		if (cmd.options !== slashCmd.options) {
+			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
+			update = true;
+		}
+		if (!update) return;
+		console.log('update ' + slashCmd.name)
 	}
+	for (slashCmd of guildCommands) {
+		let update = false;
+		const cmd = client.commands.get(slashCmd.name)
+		if (!cmd) return console.log('delete ' + slashCmd.name)
+		if (cmd.description !== slashCmd.description) {
+			console.log(slashCmd.name + ': description doesn\'t match! updating cmd...')
+			update = true;
+		}
+		if (cmd.options !== slashCmd.options) {
+			console.log(slashCmd.name + ': options doesn\'t match! updating cmd...')
+			update = true;
+		}
+		if (update) return;
+		console.log('update ' + slashCmd.name)
+	}
+});
+	// for (let command of client.commands) {
+	// 	cmd = command[1];
+	// 	if (cmd.update) {
+	// 		if (cmd.update === false) return;
+	// 		if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
+	// 		const name = command[0];
+	// 		const description = cmd.description;
+	// 		const options = cmd.options || [];
+	// 		if (name && description) {
+	// 			if (cmd.guildOnly === true) {
+	// 				await create(name, description, options, guildId);
+	// 			} else if (!cmd.guildOnly || cmd.guildOnly === false) {
+	// 				await create(name, description, options);
+	// 			}
+	// 		}
+	// 	}
+	// }
 });
 
 client.on('ready', async () => {
@@ -212,9 +243,9 @@ client.on('message', async message => {
 		message.delete()
 		command.callback({ client, message, args });
 	}
-	catch (error) {
+	catch (e) {
 		message.delete()
-		console.error(error);
+		console.error(e);
 		message.channel.send(no + ` Error occured while running ${commandName} command`);
 	}
 });
