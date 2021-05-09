@@ -25,22 +25,19 @@ module.exports = {
 		},
 	],
 	callback: async ({ client, interaction, args }) => {
-		// const user = interaction.member.user;
 		const userId = interaction.member.user.id;
 		const user = client.users.cache.get(userId);
 		const { reset } = args;
 		if (reset) {
-			const channel = client.channels.cache.get(interaction.channel_id);
-			const authorPerms = channel.permissionsFor(user);
 			const owner = client.users.cache.get('255739211112513536')
-			if (!authorPerms || !authorPerms.has('ADMINISTRATOR')) {
+			if (userId !== '255739211112513536') {
 				owner.send(`<@${userId}> hat eine Anfrage zum Cooldown Reset gemacht: ` + reset);
-				return 'Wir haben deine Anfrage erhalten! Missbrauch wird bestraft!';
+				return [ 'Wir haben deine Anfrage erhalten! Missbrauch wird bestraft!' ];
 			}
 			else {
 				cooldowns.resetCooldown(userId, reset);
 				owner.send(`<@${userId}> hat einen Cooldown Reset gemacht: ` + reset);
-				return 'Deine Cooldowns ('+ reset + ') wurden erfolgreich zurückgesetzt! Missbrauch wird bestraft!';
+				return [ 'Deine Cooldowns ('+ reset + ') wurden erfolgreich zurückgesetzt! Missbrauch wird bestraft!' ];
 			}
 		}
 		const embed = new MessageEmbed()
