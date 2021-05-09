@@ -73,24 +73,6 @@ client.on('ready', async () => {
 		console.log('update ' + slashCmd.name)
 	}
 });
-	// for (let command of client.commands) {
-	// 	cmd = command[1];
-	// 	if (cmd.update) {
-	// 		if (cmd.update === false) return;
-	// 		if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
-	// 		const name = command[0];
-	// 		const description = cmd.description;
-	// 		const options = cmd.options || [];
-	// 		if (name && description) {
-	// 			if (cmd.guildOnly === true) {
-	// 				await create(name, description, options, guildId);
-	// 			} else if (!cmd.guildOnly || cmd.guildOnly === false) {
-	// 				await create(name, description, options);
-	// 			}
-	// 		}
-	// 	}
-	// }
-});
 
 client.on('ready', async () => {
 	await mongo();
