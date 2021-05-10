@@ -40,12 +40,6 @@ client.on('ready', async () => {
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
 	const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-	for (cmd of globalCommands) {
-		if (cmd.name === 'work') {
-			console.log(cmd.id)
-			client.api.applications(client.user.id).commands(cmd.id).delete()
-		}
-	}
 	for (let command of client.commands) {
 		cmd = command[1];
 		if (cmd.update) {
