@@ -185,6 +185,8 @@ async function createApiMessage(interaction, content) {
 }
 
 client.on('message', async message => {
+	if (message.content.toLowerCase().includes('kek'.toLowerCase())) message.delete();
+	if (message.content.startsWith('/work')) message.channel.send('DEPRECATED: Bitte benutzte in Zukunft /business options: sell!')
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
