@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('../ExtendedMessage');
+require('./ExtendedMessage');
 const fs = require('fs');
 const Discord = require('discord.js');
 const mongo = require('./mongo');
