@@ -1,4 +1,3 @@
-const { MessageEmbed } = require('discord.js');
 const { rps } = require('../../features/rps')
 const economy = require('../../features/economy');
 
@@ -21,12 +20,10 @@ module.exports = {
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;
 		const userId = interaction.member.user.id;
-		const channel = client.channels.cache.get(interaction.channel_id);
 
 		const targetId = args.user;
 		const credits = args.credits;
 
-		const user = client.users.cache.get(userId);
 		const target = client.users.cache.get(targetId);
 
 		if (target.bot) return 'Du kannst nicht mit einem Bot spielen!';
