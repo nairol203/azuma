@@ -78,7 +78,7 @@ module.exports.rps = async (client, args, interaction) => {
     channel.send({ button: button, embed: embed }).then(msg => message = msg)
 
     let userChoice; let targetChoice;
-
+    let buttonClicked;
     client.on('clickButton', async (button) => {
         if (button.id === 'rpsAccept') {
             if (button.clicker.user.id != targetId) return;
