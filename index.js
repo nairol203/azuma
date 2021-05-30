@@ -11,6 +11,7 @@ const guildId = process.env.GUILD_ID;
 const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+require('discord-buttons')(client)
 const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
 
@@ -65,6 +66,7 @@ client.on('ready', async () => {
 
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {
 		const { name, options } = interaction.data;
+		if (!name) return;
 		const userId = interaction.member.user.id;
 		const user = client.users.cache.get(userId)
 		const commandName = name.toLowerCase();
