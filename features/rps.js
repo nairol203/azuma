@@ -129,6 +129,14 @@ module.exports.rps = async (client, args, interaction) => {
             }
         }
     });
+    setTimeout(() => {
+        if (!buttonClicked) {
+            message.edit({
+                button: buttonTimeout,
+                embed: embed,
+            })
+        }
+    }, 60 * 1000);
     async function checkUsers () {
         if (userChoice && targetChoice) {
             const result = checkWinner()
@@ -167,12 +175,4 @@ module.exports.rps = async (client, args, interaction) => {
         if (userChoice === 'Stein' & targetChoice === 'Schere') return 'userWin';
         if (userChoice === 'Papier' & targetChoice === 'Stein') return 'userWin';
     }
-    setTimeout(() => {
-        if (!buttonClicked) {
-            message.edit({
-                button: buttonTimeout,
-                embed: embed,
-            })
-        }
-    }, 60 * 1000);
 }
