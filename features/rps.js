@@ -79,6 +79,7 @@ module.exports.rps = async (client, args, interaction) => {
 
     let userChoice; let targetChoice;
     let buttonClicked;
+
     client.on('clickButton', async (button) => {
         if (button.id === 'rpsAccept') {
             if (button.clicker.user.id != targetId) return;

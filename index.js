@@ -8,7 +8,7 @@ const { no } = require('./emoji.json');
 
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
-const maintenance = false;
+const maintenance = true;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 require('discord-buttons')(client)
@@ -62,7 +62,7 @@ client.on('ready', async () => {
 
 client.on('ready', async () => {
 	await mongo();
-	cooldown.updateCooldown();
+	// cooldown.updateCooldown();
 
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {
 		const { name, options } = interaction.data;

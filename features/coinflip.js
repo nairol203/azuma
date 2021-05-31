@@ -41,10 +41,7 @@ module.exports.coinflip = (client, args, interaction) => {
         .setFooter('Du hast 60 Sekunden die Herausforderung anzunehmen!')
 
     let message;
-	channel.send({
-		button: button,
-        embed: embed,
-	}).then(msg => message = msg)
+	channel.send({ button: button, embed: embed }).then(msg => message = msg)
     let buttonClicked;
     client.on('clickButton', async (button) => {
         if (button.id === 'accept') {
