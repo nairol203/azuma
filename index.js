@@ -8,7 +8,7 @@ const { no } = require('./emoji.json');
 
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
-const maintenance = true;
+const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 require('discord-buttons')(client)
@@ -198,9 +198,9 @@ client.on('message', async message => {
 
 	if (!command) return;
 	if (command.disabled) return;
-	if (message.author.id != '255739211112513536') {
-		return;
-	}
+	// if (message.author.id != '255739211112513536') {
+	// 	return;
+	// }
 	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
 		let reply = `versuche es so: \`${prefix}${commandName}\``;
 
