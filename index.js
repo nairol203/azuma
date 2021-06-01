@@ -11,6 +11,7 @@ const guildId = process.env.GUILD_ID;
 const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+require("discord-buttons")(client);
 require('discord-slider')(client)
 const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
