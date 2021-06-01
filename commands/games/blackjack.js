@@ -22,6 +22,7 @@ module.exports = {
         if (userCredits < credits) {
             return [ 'Du hast nicht genug Credits um mit diesem Einsatz spielen zu können!' ];
         }
+        await economy.addCoins(guildId, userId, credits * -1);
 
         const cards = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 ]
     
@@ -103,7 +104,7 @@ module.exports = {
     
             collector.on('collect', async button => {
                 button.defer()
-                let profit;
+
                 if (button.clicker.user.id == userId) {
                     
                     if (button.id === 'bjStand') {
@@ -122,6 +123,7 @@ module.exports = {
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                             )
                             newEmbed.setColor('57F287')
+                            await economy.addCoins(guildId, userId, credits * 2);
                         } else if (winner == 'dealer') {
                             newEmbed.setDescription('Du hast verloren und verlierst alles!')
                             newEmbed.addFields(
@@ -135,6 +137,7 @@ module.exports = {
                                 { name: 'Profit', value: '0 Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                             )
+                            await economy.addCoins(guildId, userId, credits);
                         }
                         msg.edit({ button: button_finished, embed: newEmbed })
                     } else if (button.id === 'bjHit') {
@@ -190,6 +193,7 @@ module.exports = {
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                             )
                             newEmbed.setColor('57F287')
+                            await economy.addCoins(guildId, userId, credits * 2);
                         } else if (winner == 'dealer') {
                             newEmbed.setDescription('Du hast verloren und verlierst alles!')
                             newEmbed.addFields(
@@ -203,6 +207,7 @@ module.exports = {
                                 { name: 'Profit', value: '0 Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                             )
+                            await economy.addCoins(guildId, userId, credits);
                         }
                         msg.edit({ button: button_finished, embed: newEmbed })
                     } else if (button.id === 'bjFold') {
