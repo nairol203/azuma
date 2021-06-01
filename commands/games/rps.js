@@ -1,4 +1,5 @@
-const { rps } = require('../../features/rps')
+const { MessageEmbed } = require("discord.js");
+const { MessageButton } = require('discord-buttons');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -20,10 +21,12 @@ module.exports = {
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;
 		const userId = interaction.member.user.id;
+		const channel = client.channels.cache.get(interaction.channel_id);
 
 		const targetId = args.user;
 		const credits = args.credits;
 
+		const user = client.users.cache.get(userId);
 		const target = client.users.cache.get(targetId);
 
 		if (target.bot) return 'Du kannst nicht mit einem Bot spielen!';
@@ -34,8 +37,171 @@ module.exports = {
 
 		const targetCoins = await economy.getCoins(guildId, targetId);
 		if (targetCoins < credits) return `Du kannst ${target.username} nicht herausfordern, da er/sie nicht genug Credits hat!`;
+		
+		const button = new MessageButton()
+			.setStyle('blurple')
+			.setLabel('Annehmen')
+			.setID('rpsAccept');
 	
-		rps(client, args, interaction)
-		return [ 'Schere, Stein, Papier wird geladen...' ];
+		const buttonTimeout = new MessageButton()
+			.setStyle('red')
+			.setLabel('Zeit abgelaufen')
+			.setID('rps0')
+			.setDisabled(true);
+		
+		const buttonScissor = new MessageButton()
+			.setStyle('blurple')
+			.setLabel('Schere')
+			.setID('rpsScissor')
+		
+		const buttonStone = new MessageButton()
+			.setStyle('blurple')
+			.setLabel('Stein')
+			.setID('rpsStone')
+		
+		const buttonPaper = new MessageButton()
+			.setStyle('blurple')
+			.setLabel('Papier')
+			.setID('rpsPaper')
+		
+		const buttonScissorD = new MessageButton()
+			.setStyle('gray')
+			.setLabel('Schere')
+			.setID('rpsScissor')
+			.setDisabled(true);
+		
+		const buttonStoneD = new MessageButton()
+			.setStyle('gray')
+			.setLabel('Stein')
+			.setID('rpsStone')
+			.setDisabled(true);
+		
+		const buttonPaperD = new MessageButton()
+			.setStyle('gray')
+			.setLabel('Papier')
+			.setID('rpsPaper')
+			.setDisabled(true);
+		
+		const embed = new MessageEmbed()
+			.setTitle('Schere, Stein, Papier')
+			.setDescription(`${target} du wurdest zu einem Spiel herausgefordert!\n Klicke den Button "Annehmen" um teilzunehmen!`)
+			.addFields(
+				{ name: 'Einsatz', value: `\`${credits}\` 💵`, inline: true },
+				{ name: 'Herausforderer', value: user, inline: true },
+			)
+            .setColor('5865F2')
+			.setFooter('Du hast 60 Sekunden die Herausforderung anzunehmen!');
+	
+		const embed2 = new MessageEmbed()
+			.setTitle('Schere, Stein, Papier')
+			.setDescription('Das Spiel wurde gestartet!\nKlickt beide jeweils ein Button an!')
+			.addFields(
+				{ name: 'Spieler 1', value: user, inline: true },
+				{ name: 'Spieler 2', value: target, inline: true }
+			)
+            .setColor('5865F2')
+		
+		channel.send({ button: button, embed: embed }).then(msg => {
+			const collector = msg.createButtonCollector((button) => userId == userId, { timeout: 60000 });
+	
+			collector.on('collect', async button => {
+				button.defer();
+	
+				if (button.id === 'rpsAccept') {
+					if (button.clicker.user.id != targetId) return;
+					buttonClicked = true;
+					msg.edit({
+						buttons: [  buttonScissor, buttonStone, buttonPaper ],
+						embed: embed2,
+					})
+				} else if (button.id === 'rpsScissor') {
+					if (button.clicker.user.id === userId) {
+						if (!userChoice) {
+							userChoice = 'Schere'
+							checkUsers(msg)
+						}
+					} else if (button.clicker.user.id === targetId) {
+						if (!targetChoice) {
+							targetChoice = 'Schere'
+							checkUsers(msg)
+						}
+					}
+				} else if (button.id === 'rpsStone') {
+					if (button.clicker.user.id === userId) {
+						if (!userChoice) {
+							userChoice = 'Stein'
+							checkUsers(msg)
+						}
+					} else if (button.clicker.user.id === targetId) {
+						if (!targetChoice) {
+							targetChoice = 'Stein'
+							checkUsers(msg)
+						}
+					}
+				} else if (button.id === 'rpsPaper') {
+					if (button.clicker.user.id === userId) {
+						if (!userChoice) {
+							userChoice = 'Papier'
+							checkUsers(msg)
+						}
+					} else if (button.clicker.user.id === targetId) {
+						if (!targetChoice) {
+							targetChoice = 'Papier'
+							checkUsers(msg)
+						}
+					}
+				}
+			})
+			collector.on('end', collected => {
+				if (!buttonClicked) {
+					msg.edit({ button: buttonTimeout })
+				}
+			})
+			collector.on('error', (e) => console.log(e))
+		})
+	
+		let userChoice; let targetChoice;
+	
+		async function checkUsers (msg) {
+			if (userChoice && targetChoice) {
+				const result = checkWinner()
+				if (result === 'draw') description = `Das Spiel ist beendet!\nEs gibt keinen Gewinner! Unenschieden.`
+				if (result === 'userWin') {
+					description = `Das Spiel ist beendet!\n Der Gewinner ist: ${user}. Glückwunsch!`;
+					await economy.addCoins(guildId, userId, credits);
+					await economy.addCoins(guildId, targetId, credits * -1);
+				}
+				if (result === 'targetWin') {
+					description = `Das Spiel ist beendet!\nDer Gewinner ist: ${target}. Glückwunsch!`;
+					await economy.addCoins(guildId, userId, credits * -1);
+					await economy.addCoins(guildId, targetId, credits);
+				}
+				const embed3 = new MessageEmbed()
+					.setTitle('Schere, Stein, Papier')
+					.setDescription(description)
+					.addFields(
+						{ name: 'Preis', value: credits * 2 + ' 💵', inline: true },
+						{ name: user.username, value: userChoice, inline: true },
+						{ name: target.username, value: targetChoice, inline: true },
+					)
+					.setColor('5865F2');
+				msg.edit({ buttons: [ buttonScissorD, buttonStoneD, buttonPaperD ], embed: embed3})
+			}
+		}
+		function checkWinner () {
+			if (userChoice === 'Schere' & targetChoice === 'Schere') return 'draw';
+			if (userChoice === 'Stein' & targetChoice === 'Stein') return 'draw';
+			if (userChoice === 'Papier' & targetChoice === 'Papier') return 'draw';
+	
+			if (userChoice === 'Schere' & targetChoice === 'Stein') return 'targetWin';
+			if (userChoice === 'Stein' & targetChoice === 'Papier') return 'targetWin';
+			if (userChoice === 'Papier' & targetChoice === 'Schere') return 'targetWin';
+	
+			if (userChoice === 'Schere' & targetChoice === 'Papier') return 'userWin';
+			if (userChoice === 'Stein' & targetChoice === 'Schere') return 'userWin';
+			if (userChoice === 'Papier' & targetChoice === 'Stein') return 'userWin';
+		}		
+
+		return 'Es wird Schere, Stein, Papier gespielt...';
 	},
 };
