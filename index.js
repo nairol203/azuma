@@ -12,7 +12,7 @@ const maintenance = false;
 
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 require("discord-buttons")(client);
-require('discord-slider')(client)
+require('discord-slider')(client);
 const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
 
@@ -63,7 +63,7 @@ client.on('ready', async () => {
 
 client.on('ready', async () => {
 	await mongo();
-	// cooldown.updateCooldown();
+	cooldown.updateCooldown();
 
 	client.ws.on('INTERACTION_CREATE', async (interaction) => {
 		const { name, options } = interaction.data;
