@@ -220,17 +220,7 @@ module.exports = {
                     }
                 }
                 collector.on('end', collected => {
-                    const embed_3 = new MessageEmbed()
-                        .setTitle(`Blackjack - ${user.username}`)
-                        .setDescription('Die Zeit ist abgelaufen und du hast alles verloren!')
-                        .addFields(
-                            { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
-                            { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
-                            { name: 'Profit', value: '-' + credits + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
-                        )
-                        .setColor('ED4245')
-                    msg.edit({ embed: embed, button: button_finished})
+                    msg.edit({ button: button_finished})
                 })
                 collector.on('error', (e) => console.log(e))
             })
