@@ -178,50 +178,9 @@ module.exports = {
                 }
                 embed_5.addField(stat.emoji + ' ' + stat.name, value, true)
             })
-            let collectionMenu = new Menu(channel, userId, [
-                {
-                    name: 'first',
-                    content: embed_1,
-                    reactions: {
-                        '⬅': 'last',
-                        '➡': 'second',
-                    }
-                },
-                {
-                    name: 'second',
-                    content: embed_2,
-                    reactions: {
-                        '⬅': 'first',
-                        '➡': 'third',
-                    }
-                },
-                {
-                    name: 'third',
-                    content: embed_3,
-                    reactions: {
-                        '⬅': 'second',
-                        '➡': 'fourth',
-                    }
-                },
-                {
-                    name: 'fourth',
-                    content: embed_4,
-                    reactions: {
-                        '⬅': 'third',
-                        '➡': 'last',
-                    }
-                },
-                {
-                    name: 'last',
-                    content: embed_5,
-                    reactions: {
-                        '⬅': 'fourth',
-                        '➡': 'first',
-                    }
-                }
-            ])
             if (stats.length > 12) {
-                collectionMenu.start()
+                channel.createSlider(userId, [ embed_1, embed_2, embed_3, embed_4, embed_5 ])
+
             } else {
                 if (stats.length > 0) {
                     const embed = new MessageEmbed()
