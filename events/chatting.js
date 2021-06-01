@@ -1,5 +1,4 @@
 const { PogChamp, PagChomp, PagShake, PagMan, Pause, PauseChamp, WeirdChamp, pepeLaugh, peepoHey, peepoBye, peepoHug, FeelsOkayNan, FeelsBadMan, dankHug, WEEWOO } = require('../emoji.json');
-// require('../ExtendedMessage');
 
 module.exports = {
 	name: 'message',
