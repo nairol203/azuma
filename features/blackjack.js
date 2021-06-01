@@ -83,8 +83,11 @@ module.exports.handleBj = (client, interaction) => {
                     { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true }
                 )
             newEmbed.setDescription('Du hast verloren!')
+            if (playerSum === dealerSum) {
+                newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!')
+            }
             if ((playerSum < 22) & ((playerSum !== dealerSum))) {
-                if (playerSum > dealerSum) {
+                if ((playerSum > dealerSum) || (dealerSum > 21)) {
                     newEmbed.setDescription('Du hast gewonnen!')
                 }
             }
@@ -123,6 +126,15 @@ module.exports.handleBj = (client, interaction) => {
                     { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                     { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true }
                 )
+            newEmbed.setDescription('Du hast verloren!')
+            if (playerSum === dealerSum) {
+                newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!')
+            }
+            if ((playerSum < 22) & ((playerSum !== dealerSum))) {
+                if ((playerSum > dealerSum) || (dealerSum > 21)) {
+                    newEmbed.setDescription('Du hast gewonnen!')
+                }
+            }
             sendMessage.edit({ buttons: [ bStandD ], embed: newEmbed })
         } else if (button.id === 'bjFold') {
             button.defer()
