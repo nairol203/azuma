@@ -19,7 +19,6 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "canvacord": "^5.1.0",
-    "discord-buttons": "^3.0.1",
     "discord-slider": "^1.1.6",
     "discord.js": "^12.5.2",
     "discord.js-menu": "^2.3.1",
