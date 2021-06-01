@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { MessageButton } = require('discord-buttons');
+const { MessageButton, MessageActionRow } = require('discord-buttons');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -81,6 +81,12 @@ module.exports = {
 			.setLabel('Papier')
 			.setID('rpsPaper')
 			.setDisabled(true);
+
+		const row = new MessageActionRow()
+			.addComponents([ buttonScissor, buttonStone, buttonPaper ])
+
+		const row_2 = new MessageActionRow()
+			.addComponents([ buttonScissorD, buttonStoneD, buttonPaperD ])
 		
 		const embed = new MessageEmbed()
 			.setTitle('Schere, Stein, Papier')
@@ -101,7 +107,7 @@ module.exports = {
 			)
             .setColor('5865F2')
 		
-		channel.send({ button: button, embed: embed }).then(msg => {
+		channel.send({ component: button, embed: embed }).then(msg => {
 			const collector = msg.createButtonCollector((button) => userId == userId, { timeout: 60000 });
 	
 			collector.on('collect', async button => {
@@ -111,7 +117,7 @@ module.exports = {
 					if (button.clicker.user.id != targetId) return;
 					buttonClicked = true;
 					msg.edit({
-						buttons: [  buttonScissor, buttonStone, buttonPaper ],
+						component: row,
 						embed: embed2,
 					})
 				} else if (button.id === 'rpsScissor') {
@@ -154,7 +160,7 @@ module.exports = {
 			})
 			collector.on('end', collected => {
 				if (!buttonClicked) {
-					msg.edit({ button: buttonTimeout })
+					msg.edit({ component: buttonTimeout })
 				}
 			})
 			collector.on('error', (e) => console.log(e))
@@ -185,7 +191,7 @@ module.exports = {
 						{ name: target.username, value: targetChoice, inline: true },
 					)
 					.setColor('5865F2');
-				msg.edit({ buttons: [ buttonScissorD, buttonStoneD, buttonPaperD ], embed: embed3})
+				msg.edit({ component: row_2, embed: embed3})
 			}
 		}
 		function checkWinner () {

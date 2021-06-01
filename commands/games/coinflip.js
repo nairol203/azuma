@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { MessageButton } = require('discord-buttons');
+const { MessageButton, MessageActionRow } = require('discord-buttons');
 const { coin } = require('../../emoji.json');
 const economy = require('../../features/economy');
 
@@ -53,7 +53,7 @@ module.exports = {
 			.setLabel('Zeit abgelaufen')
 			.setID('0')
 			.setDisabled(true);
-	
+
 		const embed = new MessageEmbed()
 			.setTitle('Coinflip')
 			.setDescription(`<@${targetId}>, du wurdest zu einem Coinflip herausgefordert!\nKlicke den Button "Annehmen" um teilzunehmen!`)
@@ -64,7 +64,7 @@ module.exports = {
 			.setColor('#fdb701')
 			.setFooter('Du hast 60 Sekunden die Herausforderung anzunehmen!')
 	
-		channel.send({ button: button, embed: embed }).then(msg => {
+		channel.send({ component: button, embed: embed }).then(msg => {
 			const collector = msg.createButtonCollector((button) => targetId == targetId, { tine: 60000});
 	
 			collector.on('collect', async button => {
@@ -74,7 +74,7 @@ module.exports = {
 					if (button.id === 'accept') {
 						buttonClicked = true;
 						msg.edit({
-							button: buttonDisabled,
+							component: buttonDisabled,
 							embed: embed,
 						})
 						const targetCoins = await economy.getCoins(guildId, targetId);
@@ -99,7 +99,7 @@ module.exports = {
 			})
 			collector.on('end', collected => {
 				if (!buttonClicked) {
-					msg.edit({ button: buttonTimeout })
+					msg.edit({ component: buttonTimeout })
 				}
 			})
 			collector.on('error', (e) => console.log(e))

@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { MessageButton } = require('discord-buttons');
+const { MessageButton, MessageActionRow } = require('discord-buttons');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -87,9 +87,10 @@ module.exports = {
             .setID('hurensohn')
             .setDisabled(true);
     
-        const buttonsActive = [ button_stand, button_hit, button_double, button_fold ];
+        const row = new MessageActionRow()
+            .addComponents([ button_stand, button_hit, button_double, button_fold ])
 
-        channel.send({ buttons: buttonsActive, embed: embed }).then(async msg => {
+        channel.send({ component: row, embed: embed }).then(async msg => {
 
             while (dealerSum < 18) {
                 let newCard = randomCard();
@@ -125,7 +126,7 @@ module.exports = {
                             newEmbed.setColor('57F287')
                             await economy.addCoins(guildId, userId, credits * 2);
                         } else if (winner == 'dealer') {
-                            newEmbed.setDescription('Du hast verloren und verlierst alles!')
+                            newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: '-' + credits + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
@@ -139,7 +140,7 @@ module.exports = {
                             )
                             await economy.addCoins(guildId, userId, credits);
                         }
-                        msg.edit({ button: button_finished, embed: newEmbed })
+                        msg.edit({ component: button_finished, embed: newEmbed })
                     } else if (button.id === 'bjHit') {
                         let newCard = randomCard();
                         if ((newCard === 11) & (playerSum > 10)) {
@@ -159,7 +160,7 @@ module.exports = {
                         if (playerSum > 21) {
                             const embed_3 = new MessageEmbed()
                                 .setTitle(`Blackjack - ${user.username}`)
-                                .setDescription('Du hast verloren und verlierst alles!')
+                                .setDescription('Du hast die schlechtere Hand und verlierst alles!')
                                 .addFields(
                                     { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                     { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
@@ -167,9 +168,9 @@ module.exports = {
                                     { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                                 )
                                 .setColor('ED4245')
-                            msg.edit({ button: button_finished, embed: embed_3 })
+                            msg.edit({ component: button_finished, embed: embed_3 })
                         } else {
-                            msg.edit(newEmbed)
+                            msg.edit({ component: row, embed: newEmbed })
                         }
                     } else if (button.id === 'bjDouble') {
                         let newCard = randomCard();
@@ -195,7 +196,7 @@ module.exports = {
                             newEmbed.setColor('57F287')
                             await economy.addCoins(guildId, userId, credits * 2);
                         } else if (winner == 'dealer') {
-                            newEmbed.setDescription('Du hast verloren und verlierst alles!')
+                            newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: '-' + credits + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
@@ -209,7 +210,7 @@ module.exports = {
                             )
                             await economy.addCoins(guildId, userId, credits);
                         }
-                        msg.edit({ button: button_finished, embed: newEmbed })
+                        msg.edit({ component: button_finished, embed: newEmbed })
                     } else if (button.id === 'bjFold') {
                         const newEmbed = new MessageEmbed()
                             .setTitle(`Blackjack - ${user.username}`)
@@ -221,11 +222,11 @@ module.exports = {
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits'}
                             )
                             .setColor('ED4245')
-                        msg.edit({ button: button_finished, embed: newEmbed })
+                        msg.edit({ component: button_finished, embed: newEmbed })
                     }
                 }
                 collector.on('end', collected => {
-                    msg.edit({ button: button_finished})
+                    msg.edit({ component: button_finished})
                 })
                 collector.on('error', (e) => console.log(e))
             })
