@@ -59,13 +59,13 @@ module.exports.coinflip = (client, args, interaction) => {
                 switch (randomNumber) {
                     case 1:
                         channel.send(`<@${targetId}> hat ${credits} 💵 gewonnen!`);
-                        await economy.addCoins(guildId, targetId, credits);
-                        await economy.addCoins(guildId, userId, credits * -1);
+                        // await economy.addCoins(guildId, targetId, credits);
+                        // await economy.addCoins(guildId, userId, credits * -1);
                         break;
                     case 2:
                         channel.send(`<@${userId}> hat ${credits} 💵 gewonnen!`);
-                        await economy.addCoins(guildId, targetId, credits * -1);
-                        await economy.addCoins(guildId, userId, credits);
+                        // await economy.addCoins(guildId, targetId, credits * -1);
+                        // await economy.addCoins(guildId, userId, credits);
                         break;
                 };
             }, 1500);

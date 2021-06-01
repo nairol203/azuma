@@ -144,13 +144,13 @@ module.exports.rps = async (client, args, interaction) => {
             if (result === 'draw') description = `Das Spiel ist beendet!\nEs gibt keinen Gewinner! Unenschieden.`
             if (result === 'userWin') {
                 description = `Das Spiel ist beendet!\n Der Gewinner ist: ${user}. Glückwunsch!`;
-                await economy.addCoins(guildId, userId, credits);
-                await economy.addCoins(guildId, targetId, credits * -1);
+                // await economy.addCoins(guildId, userId, credits);
+                // await economy.addCoins(guildId, targetId, credits * -1);
             }
             if (result === 'targetWin') {
                 description = `Das Spiel ist beendet!\nDer Gewinner ist: ${target}. Glückwunsch!`;
-                await economy.addCoins(guildId, userId, credits * -1);
-                await economy.addCoins(guildId, targetId, credits);
+                // await economy.addCoins(guildId, userId, credits * -1);
+                // await economy.addCoins(guildId, targetId, credits);
             }
             const embed3 = new MessageEmbed()
                 .setTitle('Schere, Stein, Papier')

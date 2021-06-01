@@ -2,9 +2,12 @@ const { MessageEmbed } = require("discord.js");
 const { MessageButton } = require('discord-buttons');
 
 module.exports = {
-    callback: ({ client, message }) => {
-        const jack = 10; const queen = 10; const king = 10; let ace = 11;
-        const cards = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace]
+    description: '[BETA] Sahne große Gewinne bei Blackjack ab!',
+    callback: ({ client, interaction }) => {
+        const userId = interaction.member.user.id;
+        const channel = client.channels.cache.get(interaction.channel_id)
+
+        const cards = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 ]
 
         function randomCard() {
             const card = cards[Math.floor(Math.random()*cards.length)];
@@ -20,7 +23,7 @@ module.exports = {
         playerCards.push(playerCard1)
         playerCards.push(playerCard2)
         let playerSum = playerCard1 + playerCard2;
-        
+
         const dealerCards = [];
         const dealerCard1 = randomCard()
         dealerCards.push(dealerCard1)
@@ -54,42 +57,25 @@ module.exports = {
             .setID('bjFold')
 
         const bStandD = new MessageButton()
-            .setStyle('blurple')
-            .setLabel('Stand')
-            .setID('bjStandD')
+            .setStyle('gray')
+            .setLabel('Spiel beendet')
+            .setID('hurensohn')
             .setDisabled(true);
 
-        const bHitD = new MessageButton()
-            .setStyle('blurple')
-            .setLabel('Hit')
-            .setID('bjHitD')
-            .setDisabled(true);
-
-        const bDoubleD = new MessageButton()
-            .setStyle('blurple')
-            .setLabel('Double')
-            .setID('bjDoubleD')
-            .setDisabled(true);
-
-        const bFoldD = new MessageButton()
-            .setStyle('blurple')
-            .setLabel('Fold')
-            .setID('bjFoldD')
-            .setDisabled(true);
-
-        message.channel.send({ buttons: [ bStand, bHit, bDouble, bFold ], embed: embed }).then(msg => sendMessage = msg);
-        
-        while (dealerSum < 18) {
-            let newCard = randomCard();
-            if ((newCard === 11) & (dealerSum > 10)) {
-                newCard = 1;
+        channel.send({ buttons: [ bStand, bHit, bDouble, bFold ], embed: embed }).then(async msg => {
+            sendMessage = msg;
+            while (dealerSum < 18) {
+                let newCard = randomCard();
+                if ((newCard === 11) & (dealerSum > 10)) {
+                    newCard = 1;
+                }
+                dealerCards.push(newCard)
+                dealerSum = dealerSum + newCard;
             }
-            dealerCards.push(newCard)
-            dealerSum = dealerSum + newCard;
-        }
+        });
 
         client.on('clickButton', async (button) => {
-            if (button.clicker.user.id ==! message.author.id) return
+            if (button.clicker.user.id ==! userId) return
             if (button.id === 'bjStand') {
                 button.defer()
                 const newEmbed = new MessageEmbed()
@@ -104,7 +90,7 @@ module.exports = {
                         newEmbed.setDescription('Du hast gewonnen!')
                     }
                 }
-                sendMessage.edit({ buttons: [ bStandD, bHitD, bDoubleD, bFoldD ], embed: newEmbed })
+                sendMessage.edit({ buttons: [ bStandD ], embed: newEmbed })
             } else if (button.id === 'bjHit') {
                 button.defer()
                 let newCard = randomCard();
@@ -121,7 +107,7 @@ module.exports = {
                     )
                 if (playerSum > 21) {
                     newEmbed.setDescription('Du hast verloren!')
-                    sendMessage.edit({ buttons: [ bStandD, bHitD, bDoubleD, bFoldD ], embed: newEmbed })
+                    sendMessage.edit({ buttons: [ bStandD ], embed: newEmbed })
                 } else {
                     sendMessage.edit(newEmbed)
                 }
@@ -139,7 +125,7 @@ module.exports = {
                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                         { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true }
                     )
-                sendMessage.edit({ buttons: [ bStandD, bHitD, bDoubleD, bFoldD ], embed: newEmbed })
+                sendMessage.edit({ buttons: [ bStandD ], embed: newEmbed })
             } else if (button.id === 'bjFold') {
                 button.defer()
                 const newEmbed = new MessageEmbed()
@@ -149,7 +135,7 @@ module.exports = {
                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                         { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true }
                     )
-                sendMessage.edit({ buttons: [ bStandD, bHitD, bDoubleD, bFoldD ], embed: newEmbed })
+                sendMessage.edit({ buttons: [ bStandD ], embed: newEmbed })
             }
         })
     }
