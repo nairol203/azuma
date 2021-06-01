@@ -1,4 +1,3 @@
-const { coin } = require('../../emoji.json');
 const economy = require('../../features/economy');
 const { coinflip } = require('../../features/coinflip')
 
