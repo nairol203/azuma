@@ -58,22 +58,28 @@ module.exports = {
         const button_stand = new MessageButton()
             .setStyle('green')
             .setLabel('Stand')
-            .setID('bjStand')
+            .setID('bjStand');
     
         const button_hit = new MessageButton()
             .setStyle('blurple')
             .setLabel('Hit')
-            .setID('bjHit')
+            .setID('bjHit');
     
         const button_double = new MessageButton()
             .setStyle('gray')
             .setLabel('Double')
+            .setID('bjDouble');
+    
+        const button_double_disabled = new MessageButton()
+            .setStyle('gray')
+            .setLabel('Double')
             .setID('bjDouble')
+            .setDisabled(true);
     
         const button_fold = new MessageButton()
             .setStyle('gray')
             .setLabel('Fold')
-            .setID('bjFold')
+            .setID('bjFold');
     
         const button_finished = new MessageButton()
             .setStyle('gray')
@@ -83,6 +89,9 @@ module.exports = {
     
         const row = new MessageActionRow()
             .addComponents([ button_stand, button_hit, button_double, button_fold ])
+
+        const row_2 = new MessageActionRow()
+            .addComponents([ button_stand, button_hit, button_double_disabled, button_fold ])
 
         channel.send({ component: row, embed: embed }).then(async msg => {
 
@@ -165,7 +174,7 @@ module.exports = {
                             await economy.addCoins(guildId, userId, credits * -1);
                             msg.edit({ component: button_finished, embed: embed_3 })
                         } else {
-                            msg.edit({ component: row, embed: newEmbed })
+                            msg.edit({ component: row_2, embed: newEmbed })
                         }
                     } else if (button.id === 'bjDouble') {
                         credits = credits * 2;
