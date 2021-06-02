@@ -223,7 +223,7 @@ module.exports = {
                                 .setDescription('Du hast aufgegeben und verlierst nur die Hälfte deines Einsatzes!')
                                 .addFields(
                                     { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
-                                    { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
+                                    { name: 'Dealer\'s Hand', value: dealerCard1 + '\nTotal: ' + dealerCard1, inline: true },
                                     { name: 'Profit', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
                                     { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - (credits / 2)) + ' Credits'}
                                 )
@@ -232,7 +232,7 @@ module.exports = {
                             msg.edit({ component: button_finished, embed: newEmbed })
                         }
                     }
-                    collector.on('end', collected => {
+                    collector.on('end', async collected => {
                         msg.edit({ component: button_finished})
                         await economy.addCoins(guildId, userId, credits * -1);
                     })
