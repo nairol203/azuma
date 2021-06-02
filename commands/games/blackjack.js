@@ -17,7 +17,7 @@ module.exports = {
         const user = interaction.member.user;
         const userId = user.id;
         const channel = client.channels.cache.get(interaction.channel_id)
-        const credits = args.credits;
+        let credits = args.credits;
         const userCredits = await economy.getCoins(guildId, userId)
         if (userCredits < credits) {
             return [ 'Du hast nicht genug Credits um mit diesem Einsatz spielen zu können!' ];
@@ -173,6 +173,7 @@ module.exports = {
                             msg.edit({ component: row, embed: newEmbed })
                         }
                     } else if (button.id === 'bjDouble') {
+                        let credits = credits * 2;
                         let newCard = randomCard();
                         if ((newCard === 11) & (playerSum > 10)) {
                             newCard = 1;
