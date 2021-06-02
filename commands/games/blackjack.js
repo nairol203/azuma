@@ -115,10 +115,10 @@ module.exports = {
                             newEmbed.setDescription('Du hast gewonnen!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits * 2)) + ' Credits' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
                             )
                             newEmbed.setColor('57F287')
-                            await economy.addCoins(guildId, userId, credits * 2);
+                            await economy.addCoins(guildId, userId, credits);
                         } else if (winner == 'dealer') {
                             newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                             newEmbed.addFields(
@@ -133,7 +133,6 @@ module.exports = {
                                 { name: 'Profit', value: '0 Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                             )
-                            await economy.addCoins(guildId, userId, credits);
                         }
                         msg.edit({ component: button_finished, embed: newEmbed })
                     } else if (button.id === 'bjHit') {
@@ -188,10 +187,10 @@ module.exports = {
                             newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits * 2)) + ' Credits' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
                             )
                             newEmbed.setColor('57F287')
-                            await economy.addCoins(guildId, userId, credits * 2);
+                            await economy.addCoins(guildId, userId, credits);
                         } else if (winner == 'dealer') {
                             newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                             newEmbed.addFields(
@@ -206,7 +205,6 @@ module.exports = {
                                 { name: 'Profit', value: '0 Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                             )
-                            await economy.addCoins(guildId, userId, credits);
                         }
                         msg.edit({ component: button_finished, embed: newEmbed })
                     } else if (button.id === 'bjFold') {
@@ -217,7 +215,7 @@ module.exports = {
                                 { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                 { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                                 { name: 'Profit', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits / 2)) + ' Credits'}
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - (credits / 2)) + ' Credits'}
                             )
                             .setColor('ED4245')
                         await economy.addCoins(guildId, userId, (credits / 2) * -1);
