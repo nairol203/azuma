@@ -18,11 +18,10 @@ module.exports = {
         const userId = user.id;
         const channel = client.channels.cache.get(interaction.channel_id)
         let credits = args.credits;
-        const userCredits = await economy.getCoins(guildId, userId)
+        let userCredits = await economy.getCoins(guildId, userId)
         if (userCredits < credits) {
             return [ 'Du hast nicht genug Credits um mit diesem Einsatz spielen zu können!' ];
         }
-        await economy.addCoins(guildId, userId, credits * -1);
 
         const cards = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 ]
 
@@ -113,7 +112,7 @@ module.exports = {
                             )
                             .setColor('5865F2')
                         if (winner == 'player') {
-                            newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!')
+                            newEmbed.setDescription('Du hast gewonnen!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits * 2)) + ' Credits' }
@@ -127,6 +126,7 @@ module.exports = {
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                             )
                             newEmbed.setColor('ED4245')
+                            await economy.addCoins(guildId, userId, credits * -1);
                         } else if (winner == 'draw') {
                             newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
                             newEmbed.addFields(
@@ -163,6 +163,7 @@ module.exports = {
                                     { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                 )
                                 .setColor('ED4245')
+                            await economy.addCoins(guildId, userId, credits * -1);
                             msg.edit({ component: button_finished, embed: embed_3 })
                         } else {
                             msg.edit({ component: row, embed: newEmbed })
@@ -198,6 +199,7 @@ module.exports = {
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                             )
                             newEmbed.setColor('ED4245')
+                            await economy.addCoins(guildId, userId, credits * -1);
                         } else if (winner == 'draw') {
                             newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
                             newEmbed.addFields(
@@ -218,6 +220,7 @@ module.exports = {
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits / 2)) + ' Credits'}
                             )
                             .setColor('ED4245')
+                        await economy.addCoins(guildId, userId, (credits / 2) * -1);
                         msg.edit({ component: button_finished, embed: newEmbed })
                     }
                 }
