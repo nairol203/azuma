@@ -160,7 +160,7 @@ module.exports = {
                         if (playerSum > 21) {
                             const embed_3 = new MessageEmbed()
                                 .setTitle(`Blackjack - ${user.username}`)
-                                .setDescription('Du hast die schlechtere Hand und verlierst alles!')
+                                .setDescription('Du hast über 21 Augen und verlierst alles!')
                                 .addFields(
                                     { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                     { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
