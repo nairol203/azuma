@@ -121,7 +121,7 @@ module.exports = {
                             newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte deines Einsatzes!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits * 2)) + ' Credits' }
                             )
                             newEmbed.setColor('57F287')
                             await economy.addCoins(guildId, userId, credits * 2);
@@ -129,7 +129,7 @@ module.exports = {
                             newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: '-' + credits + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                             )
                             newEmbed.setColor('ED4245')
                         } else if (winner == 'draw') {
@@ -165,7 +165,7 @@ module.exports = {
                                     { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                     { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                                     { name: 'Profit', value: '-' + credits + ' Credits' },
-                                    { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
+                                    { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                 )
                                 .setColor('ED4245')
                             msg.edit({ component: button_finished, embed: embed_3 })
@@ -192,7 +192,7 @@ module.exports = {
                             newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte deines Einsatzes!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits * 2)) + ' Credits' }
                             )
                             newEmbed.setColor('57F287')
                             await economy.addCoins(guildId, userId, credits * 2);
@@ -200,7 +200,7 @@ module.exports = {
                             newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: '-' + credits + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                             )
                             newEmbed.setColor('ED4245')
                         } else if (winner == 'draw') {
@@ -220,7 +220,7 @@ module.exports = {
                                 { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                 { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                                 { name: 'Profit', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits'}
+                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits / 2)) + ' Credits'}
                             )
                             .setColor('ED4245')
                         msg.edit({ component: button_finished, embed: newEmbed })
