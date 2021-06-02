@@ -118,7 +118,7 @@ module.exports = {
                             )
                             .setColor('5865F2')
                         if (winner == 'player') {
-                            newEmbed.setDescription('Du hast gewonnen!')
+                            newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte deines Einsatzes!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
@@ -188,7 +188,7 @@ module.exports = {
                             )
                             .setColor('5865F2')
                         if (winner == 'player') {
-                            newEmbed.setDescription('Du hast gewonnen!')
+                            newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte deines Einsatzes!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
