@@ -25,11 +25,6 @@ module.exports = {
         await economy.addCoins(guildId, userId, credits * -1);
 
         const cards = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 ]
-    
-        async function getCredits() {
-            const result = await economy.getCoins(guildId, userId);
-            return result;
-        }
 
         function randomCard() {
             const card = cards[Math.floor(Math.random()*cards.length)];
@@ -118,7 +113,7 @@ module.exports = {
                             )
                             .setColor('5865F2')
                         if (winner == 'player') {
-                            newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte deines Einsatzes!')
+                            newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits * 2)) + ' Credits' }
@@ -173,7 +168,7 @@ module.exports = {
                             msg.edit({ component: row, embed: newEmbed })
                         }
                     } else if (button.id === 'bjDouble') {
-                        let credits = credits * 2;
+                        credits = credits * 2;
                         let newCard = randomCard();
                         if ((newCard === 11) & (playerSum > 10)) {
                             newCard = 1;
@@ -189,7 +184,7 @@ module.exports = {
                             )
                             .setColor('5865F2')
                         if (winner == 'player') {
-                            newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte deines Einsatzes!')
+                            newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!')
                             newEmbed.addFields(
                                 { name: 'Profit', value: (credits * 2) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + (credits * 2)) + ' Credits' }
