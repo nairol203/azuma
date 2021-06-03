@@ -216,6 +216,11 @@ module.exports = {
                             }
                         } else if (button.id === 'bjHit') {
                             if (split) {
+                                const newEmbed = new MessageEmbed()
+                                .setTitle(`Blackjack - ${user.username}`)
+                                .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
+                                .setColor('5865F2');
+
                                 if (!card_1_finished) {
                                     let newCard_1 = randomCard();
                                     if ((newCard_1 === 11) & (playerSum_1 > 10)) {
@@ -227,6 +232,7 @@ module.exports = {
                                         card_1_disabled = true;
                                         card_1_finished = true;
                                     }
+                                    newEmbed.setDescription('Die erste Hand ist aktiv.')
                                 } else if (!card_2_finished) {
                                     let newCard_2 = randomCard();
                                     if ((newCard_2 === 11) & (playerSum_2 > 10)) {
@@ -238,17 +244,14 @@ module.exports = {
                                         card_2_disabled = true;
                                         card_2_finished = true;
                                     }
+                                    newEmbed.setDescription('Die zweite Hand ist aktiv.')
                                 }
-                                const newEmbed = new MessageEmbed()
-                                    .setTitle(`Blackjack - ${user.username}`)
-                                    .addFields(
-                                        { name: 'Deine 1. Hand', value: playerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                        { name: 'Deine 2. Hand', value: playerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
-                                        { name: 'Dealer\'s Hand', value: dealerCard1 + '\nTotal: ' + dealerCard1, inline: true },
-                                        { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
-                                    )
-                                    .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
-                                    .setColor('5865F2');
+                                newEmbed.addFields(
+                                    { name: 'Deine 1. Hand', value: playerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
+                                    { name: 'Deine 2. Hand', value: playerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
+                                    { name: 'Dealer\'s Hand', value: dealerCard1 + '\nTotal: ' + dealerCard1, inline: true },
+                                    { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
+                                )
 
                                 if (card_1_disabled & card_2_disabled) {
                                     const embed_3 = new MessageEmbed()
