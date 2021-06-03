@@ -32,8 +32,8 @@ module.exports = {
     
         // Player Cards
         const playerCards = [];
-        const playerCard1 = 8 //randomCard()
-        let playerCard2 =  8 //randomCard()
+        const playerCard1 = randomCard()
+        let playerCard2 =  randomCard()
         if ((playerCard1 & playerCard2) === 11) {
             playerCard2 = 1;
         }
