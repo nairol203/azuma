@@ -156,7 +156,7 @@ module.exports = {
                 .addFields(
                     { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
                     { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
-                    { name: 'Profit', value: '-' + credits + ' Credits' },
+                    { name: 'Gewinn', value: '-' + credits + ' Credits' },
                     { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                 )
                 .setColor('ED4245')
@@ -256,7 +256,7 @@ module.exports = {
                                         newEmbed.setDescription('Alle drei Hände sind gleich! Was ein Zufall.')
                                     }
                                     newEmbed.addFields(
-                                        { name: 'Profit', value: credits + ' Credits' },
+                                        { name: 'Gewinn', value: credits + ' Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
                                     )
                                     await economy.addCoins(guildId, userId, credits);
@@ -274,7 +274,7 @@ module.exports = {
                                 if (winner == 'player') {
                                     newEmbed.setDescription('Du hast gewonnen!')
                                     newEmbed.addFields(
-                                        { name: 'Profit', value: (credits * 2) + ' Credits' },
+                                        { name: 'Gewinn', value: (credits * 2) + ' Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
                                     )
                                     newEmbed.setColor('57F287')
@@ -282,7 +282,7 @@ module.exports = {
                                 } else if (winner == 'dealer') {
                                     newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                                     newEmbed.addFields(
-                                        { name: 'Profit', value: '-' + credits + ' Credits' },
+                                        { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                     )
                                     newEmbed.setColor('ED4245')
@@ -290,7 +290,7 @@ module.exports = {
                                 } else if (winner == 'draw') {
                                     newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
                                     newEmbed.addFields(
-                                        { name: 'Profit', value: '0 Credits' },
+                                        { name: 'Gewinn', value: '0 Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                                     )
                                 }
@@ -348,7 +348,7 @@ module.exports = {
                                             { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
                                             { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
                                             { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
-                                            { name: 'Profit', value: '-' + credits + ' Credits' },
+                                            { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                             { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                         )
                                         .setColor('ED4245')
@@ -382,7 +382,7 @@ module.exports = {
                                         .addFields(
                                             { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
                                             { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
-                                            { name: 'Profit', value: '-' + credits + ' Credits' },
+                                            { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                             { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                         )
                                         .setColor('ED4245')
@@ -468,7 +468,7 @@ module.exports = {
                                         newEmbed2.setDescription('Alle drei Hände sind gleich! Was ein Zufall.')
                                     }
                                     newEmbed2.addFields(
-                                        { name: 'Profit', value: credits + ' Credits' },
+                                        { name: 'Gewinn', value: credits + ' Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
                                     )
                                     await economy.addCoins(guildId, userId, credits);
@@ -495,7 +495,7 @@ module.exports = {
                                 if (winner == 'player') {
                                     newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!')
                                     newEmbed.addFields(
-                                        { name: 'Profit', value: (credits * 2) + ' Credits' },
+                                        { name: 'Gewinn', value: (credits * 2) + ' Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
                                     )
                                     newEmbed.setColor('57F287')
@@ -503,7 +503,7 @@ module.exports = {
                                 } else if (winner == 'dealer') {
                                     newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                                     newEmbed.addFields(
-                                        { name: 'Profit', value: '-' + credits + ' Credits' },
+                                        { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                     )
                                     newEmbed.setColor('ED4245')
@@ -511,7 +511,7 @@ module.exports = {
                                 } else if (winner == 'draw') {
                                     newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
                                     newEmbed.addFields(
-                                        { name: 'Profit', value: '0 Credits' },
+                                        { name: 'Gewinn', value: '0 Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits' }
                                     )
                                 }
@@ -549,7 +549,7 @@ module.exports = {
                             }
                             newEmbed.addFields(
                                 { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dealerCard1, inline: true },
-                                { name: 'Profit', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
+                                { name: 'Gewinn', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - (credits / 2)) + ' Credits'}
                             )
                             await economy.addCoins(guildId, userId, (credits / 2) * -1);
