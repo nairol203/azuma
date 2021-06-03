@@ -39,24 +39,6 @@ module.exports = {
             { name: 'A', value: 11 }, { name: 'A', value: 11 }, { name: 'A', value: 11 }, { name: 'A', value: 11 }, 
         ]
 
-        /*
-        const cards = [
-            { name: '2♦️', value: 2 }, { name: '2♥️', value: 2 }, { name: '2♠️', value: 2 }, { name: '2♣️', value: 2 }, 
-            { name: '3♦️', value: 3 }, { name: '3♥️', value: 3 }, { name: '3♠️', value: 3 }, { name: '3♣️', value: 3 }, 
-            { name: '4♦️', value: 4 }, { name: '4♥️', value: 4 }, { name: '4♠️', value: 4 }, { name: '4♣️', value: 4 }, 
-            { name: '5♦️', value: 5 }, { name: '5♥️', value: 5 }, { name: '5♠️', value: 5 }, { name: '5♣️', value: 5 }, 
-            { name: '6♦️', value: 6 }, { name: '6♥️', value: 6 }, { name: '6♠️', value: 6 }, { name: '6♣️', value: 6 }, 
-            { name: '7♦️', value: 7 }, { name: '7♥️', value: 7 }, { name: '7♠️', value: 7 }, { name: '7♣️', value: 7 }, 
-            { name: '8♦️', value: 8 }, { name: '8♥️', value: 8 }, { name: '8♠️', value: 8 }, { name: '8♣️', value: 8 }, 
-            { name: '9♦️', value: 9 }, { name: '9♥️', value: 9 }, { name: '9♠️', value: 9 }, { name: '9♣️', value: 9 }, 
-            { name: '10♦️', value: 10 }, { name: '10♥️', value: 10 }, { name: '10♠️', value: 10 }, { name: '10♣️', value: 10 }, 
-            { name: 'J♦️', value: 10 }, { name: 'J♥️', value: 10 }, { name: 'J♠️', value: 10 }, { name: 'J♣️', value: 10 }, 
-            { name: 'Q♦️', value: 10 }, { name: 'Q♥️', value: 10 }, { name: 'Q♠️', value: 10 }, { name: 'Q♣️', value: 10 }, 
-            { name: 'K♦️', value: 10 }, { name: 'K♥️', value: 10 }, { name: 'K♠️', value: 10 }, { name: 'K♣️', value: 10 }, 
-            { name: 'A♦️', value: 11 }, { name: 'A♥️', value: 11 }, { name: 'A♠️', value: 11 }, { name: 'A♣️', value: 11 }, 
-        ]
-        */
-
         function randomCard() {
             const card = cards[Math.floor(Math.random()*cards.length)];
             for (i = 0; i < cards.length; i++) {
@@ -98,16 +80,23 @@ module.exports = {
         const dealerCards = [];
         const displayDealerCards = [];
         const dCard1 = randomCard()
+        const dCard2 = randomCard()
         const dealerCard1 = dCard1.value
+        let dealerCard2 = dCard2.value;
+        if ((dealerCard1 & dealerCard2) === 11) {
+            dealerCard2 = 1;
+        }
         dealerCards.push(dealerCard1)
+        dealerCards.push(dealerCard2)
         displayDealerCards.push(dCard1.name)
-        let dealerSum = dealerCard1;
+        displayDealerCards.push(' ' + dCard2.name)
+        let dealerSum = dealerCard1 + dealerCard2;
     
         const embed = new MessageEmbed()
             .setTitle(`Blackjack - ${user.username}`)
             .addFields(
                 { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
-                { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                 { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Split:** Teile deinen Pot bei einem Paar\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
             )
             .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
@@ -160,6 +149,24 @@ module.exports = {
             button_split.setDisabled(true);
         }
         
+        if (dealerSum == 21) {
+            const newEmbed = new MessageEmbed()
+                .setTitle(`Blackjack - ${user.username}`)
+                .setDescription('Der Dealer hat einen Blackjack mit den ersten beiden Karten!')
+                .addFields(
+                    { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
+                    { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                    { name: 'Profit', value: '-' + credits + ' Credits' },
+                    { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
+                )
+                .setColor('ED4245')
+            await economy.addCoins(guildId, userId, credits * -1);
+            setTimeout(() => {
+                channel.send({ component: button_finished, embed: newEmbed }); 
+            }, 500);
+            return 'Es wird Blackjack gespielt...';
+        }
+
         const row = new MessageActionRow()
             .addComponents([ button_stand, button_hit, button_double, button_split, button_fold ])
 
@@ -169,7 +176,7 @@ module.exports = {
         setTimeout(() => {
             channel.send({ component: row, embed: embed }).then(async msg => {
 
-                while (dealerSum < 18) {
+                while (dealerSum < 17) {
                     let nCard = randomCard()
                     let newCard = nCard.value;
                     if ((newCard === 11) & (dealerSum > 10)) {
