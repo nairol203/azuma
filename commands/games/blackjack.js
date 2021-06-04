@@ -42,11 +42,11 @@ module.exports = {
 
         // Player Cards
         let pSoft;
-        const pCard1 = { name: 'A', value: 11 }
+        const pCard1 = randomCard()
         if (pCard1.value == 11) {
             pSoft = true;
         } 
-        const pCard2 = { name: 'A', value: 11 }
+        const pCard2 = randomCard()
         if ((pCard1.value & pCard1.value) == 11) {
             pCard2.value = 1
         }
