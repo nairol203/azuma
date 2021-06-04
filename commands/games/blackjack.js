@@ -42,31 +42,31 @@ module.exports = {
 
         // Player Cards
         let pSoft;
-        const pCard1 = randomCard()
+        const pCard1 = randomCard();
         if (pCard1.value == 11) {
             pSoft = true;
         } 
-        const pCard2 = randomCard()
+        const pCard2 = randomCard();
         if ((pCard1.value & pCard1.value) == 11) {
             pCard2.value = 1
         }
         const playerCards = [];
-        playerCards.push(pCard1.name)
-        playerCards.push(' ' + pCard2.name)
-        let playerSum = pCard1.value + pCard2.value
+        playerCards.push(pCard1.name);
+        playerCards.push(' ' + pCard2.name);
+        let playerSum = pCard1.value + pCard2.value;
 
         // Split Pot
         let split;
         let pSoft1; let pSoft2;
         let card1_finished; let card2_finished;
         const playerCards1 = []; const playerCards2 = [];
-        if ((pCard1.name == 'A') & (pCard2.name == 'A')) {
+        if (pCard1.value == 11) {
             pSoft1 = true; pSoft2 = true;
         }
-        playerCards1.push(pCard1.name)
-        playerCards2.push(' ' + pCard2.name)
-        let playerSum1 = pCard1.value
-        let playerSum2 = pCard2.value
+        playerCards1.push(pCard1.name);
+        playerCards2.push(' ' + pCard2.name);
+        let playerSum1 = pCard1.value;
+        let playerSum2 = pCard2.value;
 
         // Dealer Cards
         let dSoft;
@@ -79,9 +79,9 @@ module.exports = {
             pCard2.value = 1;
         }
         const dealerCards = [];
-        dealerCards.push(dCard1.name)
-        dealerCards.push(' ' + dCard2.name)
-        let dealerSum = dCard1.value + dCard2.value
+        dealerCards.push(dCard1.name);
+        dealerCards.push(' ' + dCard2.name);
+        let dealerSum = dCard1.value + dCard2.value;
 
         const embed = new MessageEmbed()
             .setTitle(`Blackjack - ${user.username}`)
@@ -538,7 +538,7 @@ module.exports = {
                         else if (button.id == 'bjSplit') {
                             credits = credits * 2
                             split = true;
-                            if ((pCard1.name == 'A') & (pCard2.name == 'A')) {
+                            if (pCard1.value == 11) {
                                 playerSum2 = 11;
                             }
                             const newEmbed = new MessageEmbed()
