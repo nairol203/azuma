@@ -3,16 +3,7 @@ const { MessageButton, MessageActionRow } = require('discord-buttons');
 const economy = require('../../features/economy');
 
 module.exports = {
-    description: 'Sahne große Gewinne bei Blackjack ab!',
-    options: [
-        {
-            name: 'credits',
-            description: 'Wieviel Geld möchtest du setzen?',
-            type: 4,
-            required: true
-        }
-    ],
-    callback: async ({ args, client, interaction }) => {
+    callback: async ({ client, interaction, args }) => {
         const guildId = interaction.guild_id;
         const user = interaction.member.user;
         const userId = user.id;
@@ -42,7 +33,7 @@ module.exports = {
         function randomCard() {
             const card = cards[Math.floor(Math.random()*cards.length)];
             for (i = 0; i < cards.length; i++) {
-                if (cards[i] === card) {
+                if (cards[i] == card) {
                     cards.splice(i, 1);
                 }
             }
@@ -50,79 +41,79 @@ module.exports = {
         }
 
         // Player Cards
-        const playerCards = [];
-        const displayPlayerCards = [];
-        const pCard1 = randomCard()
-        const playerCard1 = pCard1.value
-        const pCard2 = randomCard()
-        let playerCard2 = pCard2.value
-        if ((playerCard1 & playerCard2) === 11) {
-            playerCard2 = 1;
+        let pSoft;
+        const pCard1 = { name: 'A', value: 11 }
+        if (pCard1.value == 11) {
+            pSoft = true;
+        } 
+        const pCard2 = { name: 'A', value: 11 }
+        if ((pCard1.value & pCard1.value) == 11) {
+            pCard2.value = 1
         }
-        playerCards.push(playerCard1)
-        playerCards.push(playerCard2)
-        displayPlayerCards.push(pCard1.name)
-        displayPlayerCards.push(' ' + pCard2.name)
-        let playerSum = playerCard1 + playerCard2;
+        const playerCards = [];
+        playerCards.push(pCard1.name)
+        playerCards.push(' ' + pCard2.name)
+        let playerSum = pCard1.value + pCard2.value
 
         // Split Pot
-        let split = false; 
-        let card_1_finished; let card_2_finished;
-        let card_1_disabled; let card_2_disabled;
-        const playerCards_1 = [ playerCard1 ]
-        const playerCards_2 = [ playerCard2 ]
-        const displayPlayerCards_1 = [ pCard1.name ]
-        const displayPlayerCards_2 = [ pCard2.name ]
-        let playerSum_1 = playerCard1;
-        let playerSum_2 = playerCard2;
+        let split;
+        let pSoft1; let pSoft2;
+        let card1_finished; let card2_finished;
+        const playerCards1 = []; const playerCards2 = [];
+        if ((pCard1.name == 'A') & (pCard2.name == 'A')) {
+            pSoft1 = true; pSoft2 = true;
+        }
+        playerCards1.push(pCard1.name)
+        playerCards2.push(' ' + pCard2.name)
+        let playerSum1 = pCard1.value
+        let playerSum2 = pCard2.value
 
         // Dealer Cards
-        const dealerCards = [];
-        const displayDealerCards = [];
+        let dSoft;
         const dCard1 = randomCard()
-        const dCard2 = randomCard()
-        const dealerCard1 = dCard1.value
-        let dealerCard2 = dCard2.value;
-        if ((dealerCard1 & dealerCard2) === 11) {
-            dealerCard2 = 1;
+        if (dCard1.value == 11) {
+            dSoft = true;
         }
-        dealerCards.push(dealerCard1)
-        dealerCards.push(dealerCard2)
-        displayDealerCards.push(dCard1.name)
-        displayDealerCards.push(' ' + dCard2.name)
-        let dealerSum = dealerCard1 + dealerCard2;
-    
+        const dCard2 = randomCard()
+        if ((dCard1.value & dCard2.value == 11)) {
+            pCard2.value = 1;
+        }
+        const dealerCards = [];
+        dealerCards.push(dCard1.name)
+        dealerCards.push(' ' + dCard2.name)
+        let dealerSum = dCard1.value + dCard2.value
+
         const embed = new MessageEmbed()
             .setTitle(`Blackjack - ${user.username}`)
             .addFields(
-                { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
+                { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                 { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                 { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Split:** Teile deinen Pot bei einem Paar\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
             )
             .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
             .setColor('5865F2');
-    
+
         const button_stand = new MessageButton()
             .setStyle('green')
             .setLabel('Stand')
             .setID('bjStand');
-    
+
         const button_hit = new MessageButton()
             .setStyle('blurple')
             .setLabel('Hit')
             .setID('bjHit');
-    
+
         const button_double = new MessageButton()
             .setStyle('gray')
             .setLabel('Double')
             .setID('bjDouble');
-    
+
         const button_double_disabled = new MessageButton()
             .setStyle('gray')
             .setLabel('Double')
             .setID('bjDouble')
             .setDisabled(true);
-    
+
         const button_split = new MessageButton()
             .setStyle('gray')
             .setLabel('Split')
@@ -138,7 +129,7 @@ module.exports = {
             .setStyle('gray')
             .setLabel('Fold')
             .setID('bjFold');
-    
+
         const button_finished = new MessageButton()
             .setStyle('gray')
             .setLabel('Spiel beendet')
@@ -154,8 +145,8 @@ module.exports = {
                 .setTitle(`Blackjack - ${user.username}`)
                 .setDescription('Der Dealer hat einen Blackjack mit den ersten beiden Karten!')
                 .addFields(
-                    { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
-                    { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                    { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
+                    { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                     { name: 'Gewinn', value: '-' + credits + ' Credits' },
                     { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                 )
@@ -178,35 +169,35 @@ module.exports = {
 
         setTimeout(() => {
             channel.send({ component: row, embed: embed }).then(async msg => {
-
                 while (dealerSum < 17) {
-                    let nCard = randomCard()
-                    let newCard = nCard.value;
-                    if ((newCard === 11) & (dealerSum > 10)) {
-                        newCard = 1;
+                    let newCard = randomCard()
+                    if ((newCard.value == 11) & (dealerSum > 10)) {
+                        newCard.value = 1;
                     }
-                    dealerCards.push(newCard)
-                    displayDealerCards.push(' ' + nCard.name)
-                    dealerSum = dealerSum + newCard;
+                    if ((dealerSum > 21) & dSoft == true) {
+                        dSoft = false;
+                        dealerSum = dealerSum - 10;
+                    }
+                    dealerCards.push(' ' + newCard.name)
+                    dealerSum = dealerSum + newCard.value;
                 }
-        
+
                 const collector = msg.createButtonCollector((button) => userId == userId, { time: 300000 });
-        
+
                 collector.on('collect', async button => {
-                    button.defer()
+                    button.defer();
 
                     if (button.clicker.user.id == userId) {
-
-                        if (button.id === 'bjStand') {
+                        if (button.id == 'bjStand') {
                             if (split) {
-                                if (!card_1_finished) {
-                                    card_1_finished = true;
+                                if (!card1_finished) {
+                                    card1_finished = true;
                                     const newEmbed = new MessageEmbed()
                                         .setTitle(`Blackjack - ${user.username}`)
                                         .setDescription('Die zweite Hand ist aktiv.')
                                         .addFields(
-                                            { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                            { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
+                                            { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                            { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
                                             { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                             { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                         )
@@ -214,16 +205,17 @@ module.exports = {
                                         .setColor('5865F2')
                                     
                                     msg.edit({ components: row_3, embed: newEmbed })
-                                } else if (card_1_finished) {
-                                    card_2_finished == true;
-                                    const winner1 = await checkWinner(playerSum_1, dealerSum)
-                                    const winner2 = await checkWinner(playerSum_2, dealerSum)
+                                }
+                                else if (card1_finished) {
+                                    card2_finished == true;
+                                    const winner1 = await checkWinner(playerSum1, dealerSum)
+                                    const winner2 = await checkWinner(playerSum2, dealerSum)
                                     const newEmbed = new MessageEmbed()
                                         .setTitle(`Blackjack - ${user.username}`)
                                         .addFields(
-                                            { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                            { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
-                                            { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                                            { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                            { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
+                                            { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                                         )
                                         .setColor('5865F2')
                                     if ((winner1 == 'player') & (winner2 == 'player')) {
@@ -231,26 +223,31 @@ module.exports = {
                                         credits = credits * 2;
                                         newEmbed.setDescription('Beide Hände sind besser als die vom Dealer! Glückwunsch!')
                                         newEmbed.setColor('57F287')
-                                    } else if (((winner1 == 'player') & (winner2 == 'dealer')) || ((winner2 == 'player') & (winner1 == 'dealer'))) {
+                                    }
+                                    else if (((winner1 == 'player') & (winner2 == 'dealer')) || ((winner2 == 'player') & (winner1 == 'dealer'))) {
                                         // 1 Win, 1 Loose
                                         credits = 0;
                                         newEmbed.setDescription('Nur eine Hand ist besser als die vom Dealer!')
-                                    } else if ((winner1 == 'dealer') & (winner2 == 'dealer')) {
+                                    }
+                                    else if ((winner1 == 'dealer') & (winner2 == 'dealer')) {
                                         // 2 Loses
                                         credits = credits * -1;
                                         newEmbed.setDescription('Beide Hände sind schlechter als die vom Dealer!')
                                         newEmbed.setColor('ED4245')
-                                    } else if (((winner1 == 'player') & (winner2 == 'draw')) || ((winner2 == 'player') & (winner1 == 'draw'))) {
+                                    }
+                                    else if (((winner1 == 'player') & (winner2 == 'draw')) || ((winner2 == 'player') & (winner1 == 'draw'))) {
                                         // 1 Win, 1 Draw
                                         credits = (credits / 2);
                                         newEmbed.setDescription('Nur eine Hand ist besser als die vom Dealer!')
                                         newEmbed.setColor('57F287')
-                                    } else if (((winner1 == 'dealer') & (winner2 == 'draw')) || ((winner2 == 'dealer') & (winner1 == 'draw'))) {
+                                    }
+                                    else if (((winner1 == 'dealer') & (winner2 == 'draw')) || ((winner2 == 'dealer') & (winner1 == 'draw'))) {
                                         // 1 Loose, 1 Draw
                                         credits = (credits / 2) * -1;
                                         newEmbed.setDescription('Eine Hand ist schlechter und eine ist gleich! Das geht besser!')
                                         newEmbed.setColor('ED4245')
-                                    } else if ((winner1 == 'draw') & (winner2 == 'draw')) {
+                                    }
+                                    else if ((winner1 == 'draw') & (winner2 == 'draw')) {
                                         // 2 Draws
                                         credits = 0;
                                         newEmbed.setDescription('Alle drei Hände sind gleich! Was ein Zufall.')
@@ -262,24 +259,26 @@ module.exports = {
                                     await economy.addCoins(guildId, userId, credits);
                                     msg.edit({ component: button_finished, embed: newEmbed })
                                 }
-                            } else {
+                            }
+                            else {
                                 const winner = await checkWinner(playerSum, dealerSum)
                                 const newEmbed = new MessageEmbed()
                                     .setTitle(`Blackjack - ${user.username}`)
                                     .addFields(
-                                        { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
-                                        { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                                        { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
+                                        { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                                     )
                                     .setColor('5865F2')
                                 if (winner == 'player') {
-                                    newEmbed.setDescription('Du hast gewonnen!')
+                                    newEmbed.setDescription('Du hast die bessere Hand! Glückwunsch!')
                                     newEmbed.addFields(
                                         { name: 'Gewinn', value: (credits * 2) + ' Credits' },
                                         { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
                                     )
                                     newEmbed.setColor('57F287')
                                     await economy.addCoins(guildId, userId, credits);
-                                } else if (winner == 'dealer') {
+                                }
+                                else if (winner == 'dealer') {
                                     newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                                     newEmbed.addFields(
                                         { name: 'Gewinn', value: '-' + credits + ' Credits' },
@@ -287,7 +286,8 @@ module.exports = {
                                     )
                                     newEmbed.setColor('ED4245')
                                     await economy.addCoins(guildId, userId, credits * -1);
-                                } else if (winner == 'draw') {
+                                }
+                                else if (winner == 'draw') {
                                     newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
                                     newEmbed.addFields(
                                         { name: 'Gewinn', value: '0 Credits' },
@@ -296,58 +296,66 @@ module.exports = {
                                 }
                                 msg.edit({ component: button_finished, embed: newEmbed })
                             }
-                        } else if (button.id === 'bjHit') {
+                        }
+                        else if (button.id == 'bjHit') {
                             if (split) {
                                 const newEmbed = new MessageEmbed()
-                                .setTitle(`Blackjack - ${user.username}`)
-                                .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
-                                .setColor('5865F2');
+                                    .setTitle(`Blackjack - ${user.username}`)
+                                    .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
+                                    .setColor('5865F2');
 
-                                if (!card_1_finished) {
-                                    let nCard_1 = randomCard();
-                                    let newCard_1 = nCard_1.value;
-                                    if ((newCard_1 === 11) & (playerSum_1 > 10)) {
-                                        newCard_1 = 1;
+                                if (!card1_finished) {
+                                    let newCard1 = randomCard();
+                                    if ((newCard1.value == 11) & (playerSum1 > 10)) {
+                                        newCard1.value = 1;
                                     }
-                                    playerSum_1 = playerSum_1 + newCard_1
-                                    playerCards_1.push(newCard_1)
-                                    displayPlayerCards_1.push(' ' + nCard_1.name)
-                                    if (playerSum_1 > 21) {
-                                        card_1_disabled = true;
-                                        card_1_finished = true;
+                                    playerSum1 = playerSum1 + newCard1.value
+                                    if (playerSum1 > 21) {
+                                        if (pSoft1) {
+                                            playerSum1 = playerSum1 - 10;
+                                            pSoft1 = false;
+                                        }
+                                    }
+                                    playerCards1.push(' ' + newCard1.name)
+                                    if (playerSum1 > 21) {
+                                        card1_finished = true;
                                         newEmbed.setDescription('Die zweite Hand ist aktiv.')
                                     }
                                     newEmbed.setDescription('Die erste Hand ist aktiv.')
-                                } else if (!card_2_finished) {
-                                    let nCard_2 = randomCard()
-                                    let newCard_2 = nCard_2.value;
-                                    if ((newCard_2 === 11) & (playerSum_2 > 10)) {
-                                        newCard_2 = 1;
+                                }
+                                else if (!card2_finished) {
+                                    let newCard2 = randomCard()
+                                    if ((newCard2.value == 11) & (playerSum2 > 10)) {
+                                        newCard2.value = 1;
                                     }
-                                    playerSum_2 = playerSum_2 + newCard_2
-                                    playerCards_2.push(newCard_2)
-                                    displayPlayerCards_2.push(' ' + nCard_2.name)
-                                    if (playerSum_2 > 21) {
-                                        card_2_disabled = true;
-                                        card_2_finished = true;
+                                    playerSum2 = playerSum2 + newCard2.value
+                                    if (playerSum2 > 21) {
+                                        if (pSoft2) {
+                                            playerSum2 = playerSum2 - 10;
+                                            pSoft2 = false;
+                                        }
+                                    }
+                                    playerCards2.push(' ' + newCard2.name)
+                                    if (playerSum2 > 21) {
+                                        card2_finished = true;
                                     }
                                     newEmbed.setDescription('Die zweite Hand ist aktiv.')
                                 }
                                 newEmbed.addFields(
-                                    { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                    { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
-                                    { name: 'Dealer\'s Hand', value: dealerCard1 + '\nTotal: ' + dealerCard1, inline: true },
+                                    { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                    { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
+                                    { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                     { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                 )
 
-                                if (card_1_disabled & card_2_disabled) {
+                                if ((playerSum1 & playerSum2) > 21) {
                                     const embed_3 = new MessageEmbed()
                                         .setTitle(`Blackjack - ${user.username}`)
                                         .setDescription('Beide Hände haben über 21 Augen und du verlierst alles!')
                                         .addFields(
-                                            { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                            { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
-                                            { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                                            { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                            { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
+                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                             { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                         )
@@ -357,20 +365,25 @@ module.exports = {
                                 } else {
                                     msg.edit({ component: row_2, embed: newEmbed })
                                 }
-                            } else {
-                                let nCard = randomCard();
-                                let newCard = randomCard().value;
-                                if ((newCard === 11) & (playerSum > 10)) {
-                                    newCard = 1;
+                            }
+                            else {
+                                let newCard = randomCard();
+                                if ((newCard.value == 11) & (playerSum > 10)) {
+                                    newCard.value = 1;
                                 }
-                                playerSum = playerSum + newCard
-                                playerCards.push(newCard)
-                                displayPlayerCards.push(' ' + nCard.name)
+                                playerSum = playerSum + newCard.value;
+                                if (playerSum > 21) {
+                                    if (pSoft) {
+                                        playerSum = playerSum - 10;
+                                        pSoft = false;
+                                    }
+                                }
+                                playerCards.push(' ' + newCard.name);
                                 const newEmbed = new MessageEmbed()
                                     .setTitle(`Blackjack - ${user.username}`)
                                     .addFields(
-                                        { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
-                                        { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dealerCard1, inline: true },
+                                        { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
+                                        { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                         { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                     )
                                     .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
@@ -380,8 +393,8 @@ module.exports = {
                                         .setTitle(`Blackjack - ${user.username}`)
                                         .setDescription('Du hast über 21 Augen und verlierst alles!')
                                         .addFields(
-                                            { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
-                                            { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                                            { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
+                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                             { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits' }
                                         )
@@ -392,7 +405,8 @@ module.exports = {
                                     msg.edit({ component: row_2, embed: newEmbed })
                                 }
                             }
-                        } else if (button.id === 'bjDouble') {
+                        }
+                        else if (button.id == 'bjDouble') {
                             if (split) {
                                 credits = credits + args.credits;
                                 const newEmbed = new MessageEmbed()
@@ -400,42 +414,38 @@ module.exports = {
                                     .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
                                     .setColor('5865F2');
 
-                                if (!card_1_finished) {
-                                    let nCard_1 = randomCard();
-                                    let newCard_1 = nCard_1.value;
-                                    if ((newCard_1 === 11) & (playerSum_1 > 10)) {
-                                        newCard_1 = 1;
+                                if (!card1_finished) {
+                                    let newCard1 = randomCard();
+                                    if ((newCard1.value == 11) & (playerSum1 > 10)) {
+                                        newCard1.value = 1;
                                     }
-                                    playerSum_1 = playerSum_1 + newCard_1
-                                    playerCards_1.push(newCard_1)
-                                    displayPlayerCards_1.push(' ' + nCard_1.name)
+                                    playerCards1.push(' ' + newCard1.name)
                                     newEmbed.setDescription('Die zweite Hand ist aktiv.')
-                                    card_1_finished = true;
+                                    card1_finished = true;
                                     newEmbed.addFields(
-                                        { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                        { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
-                                        { name: 'Dealer\'s Hand', value: dealerCard1 + '\nTotal: ' + dealerCard1, inline: true },
+                                        { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                        { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
+                                        { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                         { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                     )
                                     msg.edit({component: row_3, embed: newEmbed })
-                                } else if (!card_2_finished) {
-                                    let nCard_2 = randomCard()
-                                    let newCard_2 = nCard_2.value;
-                                    if ((newCard_2 === 11) & (playerSum_2 > 10)) {
-                                        newCard_2 = 1;
+                                }
+                                else if (!card2_finished) {
+                                    let newCard2 = randomCard()
+                                    if ((newCard2.value == 11) & (playerSum2 > 10)) {
+                                        newCard2.value = 1;
                                     }
-                                    playerSum_2 = playerSum_2 + newCard_2
-                                    playerCards_2.push(newCard_2)
-                                    displayPlayerCards_2.push(' ' + nCard_2.name)
-                                    card_2_finished = true;
-                                    const winner1 = await checkWinner(playerSum_1, dealerSum)
-                                    const winner2 = await checkWinner(playerSum_2, dealerSum)
+                                    playerSum2 = playerSum2 + newCard2.value
+                                    playerCards2.push(' ' + newCard2.name)
+                                    card2_finished = true;
+                                    const winner1 = await checkWinner(playerSum1, dealerSum)
+                                    const winner2 = await checkWinner(playerSum2, dealerSum)
                                     const newEmbed2 = new MessageEmbed()
                                         .setTitle(`Blackjack - ${user.username}`)
                                         .addFields(
-                                            { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                            { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
-                                            { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                                            { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                            { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
+                                            { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                                         )
                                         .setColor('5865F2')
                                     if ((winner1 == 'player') & (winner2 == 'player')) {
@@ -474,22 +484,27 @@ module.exports = {
                                     await economy.addCoins(guildId, userId, credits);
                                     msg.edit({ component: button_finished, embed: newEmbed2 })
                                 }
-                            } else {
+                            }
+                            else {
                                 credits = credits * 2;
-                                let nCard = randomCard();
-                                let newCard = nCard.value;
-                                if ((newCard === 11) & (playerSum > 10)) {
-                                    newCard = 1;
+                                let newCard = randomCard();
+                                if ((newCard.value == 11) & (playerSum > 10)) {
+                                    newCard.value = 1;
                                 }
-                                playerSum = playerSum + newCard
-                                playerCards.push(newCard)
-                                displayPlayerCards.push(' ' + nCard.name)
+                                playerSum = playerSum + newCard.value;
+                                if (playerSum > 21) {
+                                    if (pSoft) {
+                                        pSoft = false;
+                                        playerSum = playerSum - 10;
+                                    }
+                                }
+                                playerCards.push(' ' + newCard.name);
                                 const winner = await checkWinner(playerSum, dealerSum)
                                 const newEmbed = new MessageEmbed()
                                     .setTitle(`Blackjack - ${user.username}`)
                                     .addFields(
-                                        { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
-                                        { name: 'Dealer\'s Hand', value: displayDealerCards + '\nTotal: ' + dealerSum, inline: true },
+                                        { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
+                                        { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                                     )
                                     .setColor('5865F2')
                                 if (winner == 'player') {
@@ -500,7 +515,8 @@ module.exports = {
                                     )
                                     newEmbed.setColor('57F287')
                                     await economy.addCoins(guildId, userId, credits);
-                                } else if (winner == 'dealer') {
+                                }
+                                else if (winner == 'dealer') {
                                     newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                                     newEmbed.addFields(
                                         { name: 'Gewinn', value: '-' + credits + ' Credits' },
@@ -508,7 +524,8 @@ module.exports = {
                                     )
                                     newEmbed.setColor('ED4245')
                                     await economy.addCoins(guildId, userId, credits * -1);
-                                } else if (winner == 'draw') {
+                                }
+                                else if (winner == 'draw') {
                                     newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
                                     newEmbed.addFields(
                                         { name: 'Gewinn', value: '0 Credits' },
@@ -517,38 +534,43 @@ module.exports = {
                                 }
                                 msg.edit({ component: button_finished, embed: newEmbed })
                             }
-                        } else if (button.id === 'bjSplit') {
+                        }
+                        else if (button.id == 'bjSplit') {
                             credits = credits * 2
                             split = true;
+                            if ((pCard1.name == 'A') & (pCard2.name == 'A')) {
+                                playerSum2 = 11;
+                            }
                             const newEmbed = new MessageEmbed()
                                 .setTitle(`Blackjack - ${user.username}`)
                                 .setDescription('Die erste Hand ist aktiv.')
                                 .addFields(
-                                    { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                    { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
-                                    { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dealerCard1, inline: true },
+                                    { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                    { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
+                                    { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                     { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Split:** Teile deinen Pot bei einem Paar\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                 )                                
                                 .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
                                 .setColor('5865F2');
                             msg.edit({ component: row_3, embed: newEmbed })
-                        } else if (button.id === 'bjFold') {
+                        }
+                        else if (button.id == 'bjFold') {
                             const newEmbed = new MessageEmbed()
                                 .setTitle(`Blackjack - ${user.username}`)
                                 .setDescription('Du hast aufgegeben und verlierst nur die Hälfte deines Einsatzes!')
                                 .setColor('ED4245')
                             if (split) {
                                 newEmbed.addFields(
-                                    { name: 'Deine 1. Hand', value: displayPlayerCards_1 + '\nTotal: ' + playerSum_1, inline: true },
-                                    { name: 'Deine 2. Hand', value: displayPlayerCards_2 + '\nTotal: ' + playerSum_2, inline: true },
+                                    { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
+                                    { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
                                 )
                             } else {
                                 newEmbed.addFields(
-                                    { name: 'Deine Hand', value: displayPlayerCards + '\nTotal: ' + playerSum, inline: true },
+                                    { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                 )
                             }
                             newEmbed.addFields(
-                                { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dealerCard1, inline: true },
+                                { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
                                 { name: 'Gewinn', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - (credits / 2)) + ' Credits'}
                             )
@@ -556,13 +578,15 @@ module.exports = {
                             msg.edit({ component: button_finished, embed: newEmbed })
                         }
                     }
-                    collector.on('end', async collected => {
-                        msg.edit({ component: button_finished})
-                        await economy.addCoins(guildId, userId, credits * -1);
-                    })
-                    collector.on('error', (e) => console.log(e))
                 })
-            });
+
+                collector.on('end', async collected => {
+                    msg.edit({ component: button_finished})
+                    await economy.addCoins(guildId, userId, credits * -1)
+                })
+
+                collector.on('error', (e) => console.error(e))
+            })
         }, 500);
 
         function checkWinner(pSum, dSum) {
