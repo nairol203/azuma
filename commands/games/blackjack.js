@@ -88,7 +88,7 @@ module.exports = {
         console.log(user)
         const embed = new MessageEmbed()
             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-            .setTitle(`Blackjack - ${user.username}`)
+            .setTitle('Blackjack')
             .addFields(
                 { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                 { name: 'Dealer\'s Hand', value: dCard1.name + ', ?\nTotal: ?', inline: true },
@@ -147,7 +147,7 @@ module.exports = {
         if (dealerSum == 21) {
             const newEmbed = new MessageEmbed()
                 .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                .setTitle(`Blackjack - ${user.username}`)
+                .setTitle('Blackjack')
                 .setDescription('Der Dealer hat einen Blackjack mit den ersten beiden Karten!')
                 .addFields(
                     { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
@@ -199,7 +199,7 @@ module.exports = {
                                     card1_finished = true;
                                     const newEmbed = new MessageEmbed()
                                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                        .setTitle(`Blackjack - ${user.username}`)
+                                        .setTitle('Blackjack')
                                         .setDescription('Die zweite Hand ist aktiv.')
                                         .addFields(
                                             { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
@@ -218,7 +218,7 @@ module.exports = {
                                     const winner2 = await checkWinner(playerSum2, dealerSum)
                                     const newEmbed = new MessageEmbed()
                                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                        .setTitle(`Blackjack - ${user.username}`)
+                                        .setTitle('Blackjack')
                                         .addFields(
                                             { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                                             { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
@@ -271,7 +271,7 @@ module.exports = {
                                 const winner = await checkWinner(playerSum, dealerSum)
                                 const newEmbed = new MessageEmbed()
                                     .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                    .setTitle(`Blackjack - ${user.username}`)
+                                    .setTitle('Blackjack')
                                     .addFields(
                                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                         { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
@@ -309,7 +309,7 @@ module.exports = {
                             if (split) {
                                 const newEmbed = new MessageEmbed()
                                     .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                    .setTitle(`Blackjack - ${user.username}`)
+                                    .setTitle('Blackjack')
                                     .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
                                     .setColor('5865F2');
 
@@ -360,7 +360,7 @@ module.exports = {
                                 if ((playerSum1 & playerSum2) > 21) {
                                     const embed_3 = new MessageEmbed()
                                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                        .setTitle(`Blackjack - ${user.username}`)
+                                        .setTitle('Blackjack')
                                         .setDescription('Beide Hände haben über 21 Augen und du verlierst alles!')
                                         .addFields(
                                             { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
@@ -391,7 +391,7 @@ module.exports = {
                                 playerCards.push(' ' + newCard.name);
                                 const newEmbed = new MessageEmbed()
                                     .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                    .setTitle(`Blackjack - ${user.username}`)
+                                    .setTitle('Blackjack')
                                     .addFields(
                                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                         { name: 'Dealer\'s Hand', value: dCard1.name + ', ?\nTotal: ?', inline: true },
@@ -402,7 +402,7 @@ module.exports = {
                                 if (playerSum > 21) {
                                     const embed_3 = new MessageEmbed()
                                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                        .setTitle(`Blackjack - ${user.username}`)
+                                        .setTitle('Blackjack')
                                         .setDescription('Du hast über 21 Augen und verlierst alles!')
                                         .addFields(
                                             { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
@@ -423,7 +423,7 @@ module.exports = {
                                 credits = credits + args.credits;
                                 const newEmbed = new MessageEmbed()
                                     .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                    .setTitle(`Blackjack - ${user.username}`)
+                                    .setTitle('Blackjack')
                                     .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
                                     .setColor('5865F2');
 
@@ -455,7 +455,7 @@ module.exports = {
                                     const winner2 = await checkWinner(playerSum2, dealerSum)
                                     const newEmbed2 = new MessageEmbed()
                                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                        .setTitle(`Blackjack - ${user.username}`)
+                                        .setTitle('Blackjack')
                                         .addFields(
                                             { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                                             { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
@@ -516,7 +516,7 @@ module.exports = {
                                 const winner = await checkWinner(playerSum, dealerSum)
                                 const newEmbed = new MessageEmbed()
                                     .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                    .setTitle(`Blackjack - ${user.username}`)
+                                    .setTitle('Blackjack')
                                     .addFields(
                                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                         { name: 'Dealer\'s Hand', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
@@ -558,7 +558,7 @@ module.exports = {
                             }
                             const newEmbed = new MessageEmbed()
                                 .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                .setTitle(`Blackjack - ${user.username}`)
+                                .setTitle('Blackjack')
                                 .setDescription('Die erste Hand ist aktiv.')
                                 .addFields(
                                     { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
@@ -573,7 +573,7 @@ module.exports = {
                         else if (button.id == 'bjFold') {
                             const newEmbed = new MessageEmbed()
                                 .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                                .setTitle(`Blackjack - ${user.username}`)
+                                .setTitle('Blackjack')
                                 .setDescription('Du hast aufgegeben und verlierst nur die Hälfte deines Einsatzes!')
                                 .setColor('ED4245')
                             if (split) {
