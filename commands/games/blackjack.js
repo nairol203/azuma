@@ -85,7 +85,6 @@ module.exports = {
         dealerCards.push(dCard1.name);
         dealerCards.push(' ' + dCard2.name);
         let dealerSum = dCard1.value + dCard2.value;
-        console.log(user)
         const embed = new MessageEmbed()
             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
             .setTitle('Blackjack')
