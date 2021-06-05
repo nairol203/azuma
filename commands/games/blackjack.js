@@ -35,21 +35,21 @@ module.exports = {
             for (i = 0; i < cards.length; i++) {
                 if (cards[i] == card) {
                     cards.splice(i, 1);
-                }
-            }
+                };
+            };
             return card;
-        }
+        };
 
         // Player Cards
         let pSoft;
         const pCard1 = randomCard();
         if (pCard1.value == 11) {
             pSoft = true;
-        } 
+        };
         const pCard2 = randomCard();
-        if ((pCard1.value & pCard1.value) == 11) {
+        if ((pCard1.value & pCard2.value) == 11) {
             pCard2.value = 1
-        }
+        };
         const playerCards = [];
         playerCards.push(pCard1.name);
         playerCards.push(' ' + pCard2.name);
@@ -62,7 +62,7 @@ module.exports = {
         const playerCards1 = []; const playerCards2 = [];
         if (pCard1.value == 11) {
             pSoft1 = true; pSoft2 = true;
-        }
+        };
         playerCards1.push(pCard1.name);
         playerCards2.push(' ' + pCard2.name);
         let playerSum1 = pCard1.value;
@@ -73,11 +73,11 @@ module.exports = {
         const dCard1 = randomCard()
         if (dCard1.value == 11) {
             dSoft = true;
-        }
+        };
         const dCard2 = randomCard()
         if ((dCard1.value & dCard2.value == 11)) {
             pCard2.value = 1;
-        }
+        };
         const dealerCards = [];
         dealerCards.push(dCard1.name);
         dealerCards.push(' ' + dCard2.name);
