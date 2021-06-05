@@ -87,7 +87,7 @@ module.exports = {
             .setTitle(`Blackjack - ${user.username}`)
             .addFields(
                 { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
-                { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                 { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Split:** Teile deinen Pot bei einem Paar\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
             )
             .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
@@ -198,7 +198,7 @@ module.exports = {
                                         .addFields(
                                             { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                                             { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
-                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                             { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                         )
                                         .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
@@ -344,7 +344,7 @@ module.exports = {
                                 newEmbed.addFields(
                                     { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                                     { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
-                                    { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                    { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                     { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                 )
 
@@ -355,7 +355,7 @@ module.exports = {
                                         .addFields(
                                             { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                                             { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
-                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                             { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits.' }
                                         )
@@ -383,7 +383,7 @@ module.exports = {
                                     .setTitle(`Blackjack - ${user.username}`)
                                     .addFields(
                                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
-                                        { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                        { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                         { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                     )
                                     .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
@@ -394,7 +394,7 @@ module.exports = {
                                         .setDescription('Du hast über 21 Augen und verlierst alles!')
                                         .addFields(
                                             { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
-                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                            { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
                                             { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits.' }
                                         )
@@ -425,7 +425,7 @@ module.exports = {
                                     newEmbed.addFields(
                                         { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                                         { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
-                                        { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                        { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                         { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                     )
                                     msg.edit({component: row_3, embed: newEmbed })
@@ -547,7 +547,7 @@ module.exports = {
                                 .addFields(
                                     { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                                     { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
-                                    { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                    { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                     { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Split:** Teile deinen Pot bei einem Paar\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                                 )                                
                                 .setFooter('Das Spiel läuft nach 5 Minuten Inaktivität ab.')
@@ -570,7 +570,7 @@ module.exports = {
                                 )
                             }
                             newEmbed.addFields(
-                                { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ' + dCard1.value, inline: true },
+                                { name: 'Dealer\'s Hand', value: dCard1.name + '\nTotal: ?', inline: true },
                                 { name: 'Gewinn', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
                                 { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - (credits / 2)) + ' Credits.'}
                             )
