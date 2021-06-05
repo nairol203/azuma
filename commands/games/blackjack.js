@@ -13,6 +13,9 @@ module.exports = {
         if (userCredits < credits) {
             return [ 'Du hast nicht genug Credits um mit diesem Einsatz spielen zu können!' ];
         }
+        else if (credits < 50) {
+            return [ 'Es werden nur Einsätze in der Höhe von 50 Credits oder höher akzeptiert!' ];
+        };
 
         const cards = [
             { name: '2', value: 2 }, { name: '2', value: 2 }, { name: '2', value: 2 }, { name: '2', value: 2 }, 
