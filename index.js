@@ -120,11 +120,13 @@ client.on('ready', async () => {
 			setTimeout(() => timestamps.delete(userId), cooldownAmount);
 		}
 		try {
-			const callback = await command.callback({ client, args, interaction, prefix })
-			if (Array.isArray(callback)) {
-				reply(interaction, callback[0], 64);
-			} else {
-				reply(interaction, callback);
+			const callback = await command.callback({ client, args, interaction })
+			if (callback) {
+				if (Array.isArray(callback)) {
+					reply(interaction, callback[0], 64);
+				} else {
+					reply(interaction, callback);
+				}
 			}
 		}
 		catch (error) {
