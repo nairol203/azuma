@@ -169,6 +169,7 @@ module.exports = {
             label: 'Spiel beendet',
             style: 2,
             custom_id: 'bjFinished',
+            disabled: true,
         };
 
         if (pCard1.name !== pCard2.name) {
