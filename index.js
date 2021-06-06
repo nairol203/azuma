@@ -200,9 +200,9 @@ client.on('message', async message => {
 
 	if (!command) return;
 	if (command.disabled) return;
-	// if (message.author.id != '255739211112513536') {
-	// 	return;
-	// }
+	if (message.author.id != '255739211112513536') {
+		return;
+	}
 	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
 		let reply = `versuche es so: \`${prefix}${commandName}\``;
 
