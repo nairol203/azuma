@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { send, edit }  = require('../../features/slash');
+const { send, edit, error }  = require('../../features/slash');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -10,27 +10,11 @@ module.exports = {
         let credits = args.credits;
         let userCredits = await economy.getCoins(guildId, userId);
         if (userCredits < credits) {
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
-                    data: {
-                        content: 'Du hast für diesen Einsatz nicht genug Credits!',
-                        flags: 64,
-                    },
-                },
-            });
+            error(client, interaction, 'Du hast für diesen Einsatz nicht genug Credits!')
             return;
         }
         else if (credits < 50) {
-            client.api.interactions(interaction.id, interaction.token).callback.post({
-                data: {
-                    type: 4,
-                    data: {
-                        content: 'Es werden nur Einsätze in der Höhe von 50 Credits oder höher akzeptiert!',
-                        flags: 64,
-                    }
-                }
-            });
+            error(client, interaction, 'Es werden nur Einsätze in der Höhe von 50 Credits oder höher akzeptiert!')
             return;
         };
 

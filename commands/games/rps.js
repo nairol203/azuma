@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { MessageButton, MessageActionRow } = require('discord-buttons');
+const { send, edit, error } = require('../../features/slash');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -21,7 +21,6 @@ module.exports = {
 	callback: async ({ client, args, interaction }) => {
 		const guildId = interaction.guild_id;
 		const userId = interaction.member.user.id;
-		const channel = client.channels.cache.get(interaction.channel_id);
 
 		const targetId = args.user;
 		const credits = args.credits;
@@ -29,65 +28,95 @@ module.exports = {
 		const user = client.users.cache.get(userId);
 		const target = client.users.cache.get(targetId);
 
-		if (target.bot) return 'Du kannst nicht mit einem Bot spielen!';
-		if (userId === targetId) return 'Du kannst doch nicht mit dir selbst spielen!';
-		if (credits < 1) return 'Netter Versuch, aber du kannst nicht mit negativen Einsatz spielen!';
+		if (target.bot) return error(client, interaction, 'Du kannst nicht mit einem Bot spielen!');
+		if (userId === targetId) return error(client, interaction, 'Du kannst doch nicht mit dir selbst spielen!');
+		if (credits < 1) return error(client, interaction, 'Netter Versuch, aber du kannst nicht mit negativen Einsatz spielen!');
 		const coinsOwned = await economy.getCoins(guildId, userId);
-		if (coinsOwned < credits) return `Du hat nicht genug Credits!`;
+		if (coinsOwned < credits) return error(client, interaction, `Du hat nicht genug Credits!`);
 
 		const targetCoins = await economy.getCoins(guildId, targetId);
-		if (targetCoins < credits) return `Du kannst ${target.username} nicht herausfordern, da er/sie nicht genug Credits hat!`;
+		if (targetCoins < credits) return error(client, interaction, `Du kannst ${target.username} nicht herausfordern, da er/sie nicht genug Credits hat!`);
 		
-		const button = new MessageButton()
-			.setStyle('blurple')
-			.setLabel('Annehmen')
-			.setID('rpsAccept');
+		const button = {
+			type: 2,
+			label: 'Annehmen',
+			style: 1,
+			custom_id: 'rpsAccept',
+		};
 	
-		const buttonTimeout = new MessageButton()
-			.setStyle('red')
-			.setLabel('Zeit abgelaufen')
-			.setID('rps0')
-			.setDisabled(true);
+		const buttonTimeout = {
+			type: 2,
+			label: 'Zeit abgelaufen',
+			style: 4,
+			custom_id: 'rps0',
+			disabled: true,
+		};
 		
-		const buttonScissor = new MessageButton()
-			.setStyle('blurple')
-			.setLabel('Schere')
-			.setID('rpsScissor')
+		const buttonScissor = {
+			type: 2,
+			label: 'Schere',
+			style: 1,
+			custom_id: 'rpsScissor',
+		};
 		
-		const buttonStone = new MessageButton()
-			.setStyle('blurple')
-			.setLabel('Stein')
-			.setID('rpsStone')
+		const buttonStone = {
+			type: 2,
+			label: 'Stein',
+			style: 1,
+			custom_id: 'rpsStone',
+		};
 		
-		const buttonPaper = new MessageButton()
-			.setStyle('blurple')
-			.setLabel('Papier')
-			.setID('rpsPaper')
+		const buttonPaper = {
+			type: 2,
+			label: 'Papier',
+			style: 1,
+			custom_id: 'rpsPaper',
+		};
 		
-		const buttonScissorD = new MessageButton()
-			.setStyle('gray')
-			.setLabel('Schere')
-			.setID('rpsScissor')
-			.setDisabled(true);
+		const buttonScissorD = {
+			type: 2,
+			label: 'Schere',
+			style: 1,
+			custom_id: 'rpsScissor',
+			disabled: true,
+		};
 		
-		const buttonStoneD = new MessageButton()
-			.setStyle('gray')
-			.setLabel('Stein')
-			.setID('rpsStone')
-			.setDisabled(true);
+		const buttonStoneD = {
+			type: 2,
+			label: 'Stein',
+			style: 1,
+			custom_id: 'rpsStone',
+			disabled: true,
+		};
 		
-		const buttonPaperD = new MessageButton()
-			.setStyle('gray')
-			.setLabel('Papier')
-			.setID('rpsPaper')
-			.setDisabled(true);
+		const buttonPaperD = {
+			type: 2,
+			label: 'Papier',
+			style: 1,
+			custom_id: 'rpsPaper',
+			disabled: true,
+		};
 
-		const row = new MessageActionRow()
-			.addComponents([ buttonScissor, buttonStone, buttonPaper ])
+		const row = {
+			type: 1,
+			components: [ buttonScissor, buttonStone, buttonPaper ],
+		};
 
-		const row_2 = new MessageActionRow()
-			.addComponents([ buttonScissorD, buttonStoneD, buttonPaperD ])
-		
+		const row_2 = {
+			type: 1,
+			components: [ buttonScissorD, buttonStoneD, buttonPaperD ],
+		};
+
+		const row_3 = {
+			type: 1,
+			components: [ button ],
+		};
+
+		const row_4 = {
+			type: 1,
+			components: [ buttonTimeout ],
+		};
+
 		const embed = new MessageEmbed()
 			.setTitle('Schere, Stein, Papier')
 			.setDescription(`${target} du wurdest zu einem Spiel herausgefordert!\n Klicke den Button "Annehmen" um teilzunehmen!`)
@@ -95,8 +124,8 @@ module.exports = {
 				{ name: 'Einsatz', value: `\`${credits}\` 💵`, inline: true },
 				{ name: 'Herausforderer', value: user, inline: true },
 			)
-            .setColor('5865F2')
-			.setFooter('Du hast 60 Sekunden die Herausforderung anzunehmen!');
+			.setFooter('Azuma | Du hast 60 Sekunden die Herausforderung anzunehmen!', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+            .setColor('5865F2');
 	
 		const embed2 = new MessageEmbed()
 			.setTitle('Schere, Stein, Papier')
@@ -105,83 +134,92 @@ module.exports = {
 				{ name: 'Spieler 1', value: user, inline: true },
 				{ name: 'Spieler 2', value: target, inline: true }
 			)
+			.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
             .setColor('5865F2')
 		
-		channel.send({ component: button, embed: embed }).then(msg => {
-			const collector = msg.createButtonCollector((button) => userId == userId, { timeout: 60000 });
-	
-			collector.on('collect', async button => {
-				button.defer();
-	
-				if (button.id === 'rpsAccept') {
-					if (button.clicker.user.id != targetId) return;
-					buttonClicked = true;
-					msg.edit({
-						component: row,
-						embed: embed2,
-					})
-				} else if (button.id === 'rpsScissor') {
-					if (button.clicker.user.id === userId) {
-						if (!userChoice) {
-							userChoice = 'Schere'
-							checkUsers(msg)
-						}
-					} else if (button.clicker.user.id === targetId) {
-						if (!targetChoice) {
-							targetChoice = 'Schere'
-							checkUsers(msg)
-						}
-					}
-				} else if (button.id === 'rpsStone') {
-					if (button.clicker.user.id === userId) {
-						if (!userChoice) {
-							userChoice = 'Stein'
-							checkUsers(msg)
-						}
-					} else if (button.clicker.user.id === targetId) {
-						if (!targetChoice) {
-							targetChoice = 'Stein'
-							checkUsers(msg)
-						}
-					}
-				} else if (button.id === 'rpsPaper') {
-					if (button.clicker.user.id === userId) {
-						if (!userChoice) {
-							userChoice = 'Papier'
-							checkUsers(msg)
-						}
-					} else if (button.clicker.user.id === targetId) {
-						if (!targetChoice) {
-							targetChoice = 'Papier'
-							checkUsers(msg)
-						}
+		send(client, interaction, embed, row_3);
+
+		const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
+
+		let buttonClicked;
+
+		client.on('clickButton', async button => {
+			button.defer();
+
+			if (response.id !== button.message.id) return;
+
+			if (button.id === 'rpsAccept') {
+				if (button.clicker.user.id != targetId) return;
+				buttonClicked = true;
+				edit(client, interaction, embed2, row);
+			}
+			else if (button.id === 'rpsScissor') {
+				if (button.clicker.user.id === userId) {
+					if (!userChoice) {
+						userChoice = 'Schere';
+						checkUsers();
 					}
 				}
-			})
-			collector.on('end', collected => {
-				if (!buttonClicked) {
-					msg.edit({ component: buttonTimeout })
+				else if (button.clicker.user.id === targetId) {
+					if (!targetChoice) {
+						targetChoice = 'Schere';
+						checkUsers();
+					}
+				};
+			}
+			else if (button.id === 'rpsStone') {
+				if (button.clicker.user.id === userId) {
+					if (!userChoice) {
+						userChoice = 'Stein';
+						checkUsers();
+					}
 				}
-			})
-			collector.on('error', (e) => console.log(e))
-		})
-	
+				else if (button.clicker.user.id === targetId) {
+					if (!targetChoice) {
+						targetChoice = 'Stein';
+						checkUsers();
+					}
+				};
+			} 
+			else if (button.id === 'rpsPaper') {
+				if (button.clicker.user.id === userId) {
+					if (!userChoice) {
+						userChoice = 'Papier';
+						checkUsers();
+					}
+				}
+				else if (button.clicker.user.id === targetId) {
+					if (!targetChoice) {
+						targetChoice = 'Papier';
+						checkUsers();
+					}
+				};
+			};
+		});
+
+		setTimeout(() => {
+			if (!buttonClicked) {
+				edit(client, interaction, embed, row_4)
+				return;
+			}
+		}, 60000);
+
 		let userChoice; let targetChoice;
 	
-		async function checkUsers (msg) {
+		async function checkUsers () {
 			if (userChoice && targetChoice) {
 				const result = checkWinner()
 				if (result === 'draw') description = `Das Spiel ist beendet!\nEs gibt keinen Gewinner! Unenschieden.`
-				if (result === 'userWin') {
+				else if (result === 'userWin') {
 					description = `Das Spiel ist beendet!\n Der Gewinner ist: ${user}. Glückwunsch!`;
 					await economy.addCoins(guildId, userId, credits);
 					await economy.addCoins(guildId, targetId, credits * -1);
 				}
-				if (result === 'targetWin') {
+				else if (result === 'targetWin') {
 					description = `Das Spiel ist beendet!\nDer Gewinner ist: ${target}. Glückwunsch!`;
 					await economy.addCoins(guildId, userId, credits * -1);
 					await economy.addCoins(guildId, targetId, credits);
-				}
+				};
 				const embed3 = new MessageEmbed()
 					.setTitle('Schere, Stein, Papier')
 					.setDescription(description)
@@ -190,10 +228,12 @@ module.exports = {
 						{ name: user.username, value: userChoice, inline: true },
 						{ name: target.username, value: targetChoice, inline: true },
 					)
+					.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('5865F2');
-				msg.edit({ component: row_2, embed: embed3})
-			}
-		}
+				edit(client, interaction, embed3, row_2);
+			};
+		};
+
 		function checkWinner () {
 			if (userChoice === 'Schere' & targetChoice === 'Schere') return 'draw';
 			if (userChoice === 'Stein' & targetChoice === 'Stein') return 'draw';
@@ -206,8 +246,6 @@ module.exports = {
 			if (userChoice === 'Schere' & targetChoice === 'Papier') return 'userWin';
 			if (userChoice === 'Stein' & targetChoice === 'Schere') return 'userWin';
 			if (userChoice === 'Papier' & targetChoice === 'Stein') return 'userWin';
-		}		
-
-		return 'Es wird Schere, Stein, Papier gespielt...';
+		};
 	},
 };

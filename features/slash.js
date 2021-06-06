@@ -27,3 +27,15 @@ module.exports.edit = async (client, interaction, embed, components) => {
         },
     });
 };
+
+module.exports.error = async (client, interaction, content) => {
+    client.api.interactions(interaction.id, interaction.token).callback.post({
+        data: {
+            type: 4,
+            data: {
+                content,
+                flags: 64,
+            }
+        }
+    });
+};
