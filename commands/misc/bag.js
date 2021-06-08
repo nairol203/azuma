@@ -17,7 +17,7 @@ module.exports = {
             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
             .setThumbnail('https://stardewvalleywiki.com/mediawiki/images/3/36/36_Backpack.png')
             .setColor('#945e1e')
-            .setFooter('Azuma | Das Spiel läuft nach 5 Minuten Inaktivität ab.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
+            .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
 
         embed.addField('Credits', `${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)} 💵`);
         if (p_save && p_save.bag) {
