@@ -6,7 +6,7 @@ const profile = require('../../models/profile');
 
 module.exports = {
     description: 'Öffnet deinen Rucksack',
-    callback: async ({ interaction }) => {
+    callback: async ({ client, interaction }) => {
         const guildId = interaction.guild_id;
         const user = interaction.member.user;
         const userId = user.id; 
@@ -14,8 +14,10 @@ module.exports = {
         const credits = await getCoins(guildId, userId);
 
         const embed = new MessageEmbed()
+            .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
             .setThumbnail('https://stardewvalleywiki.com/mediawiki/images/3/36/36_Backpack.png')
-            .setColor('#945e1e');
+            .setColor('#945e1e')
+            .setFooter('Azuma | Das Spiel läuft nach 5 Minuten Inaktivität ab.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
 
         embed.addField('Credits', `${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)} 💵`);
         if (p_save && p_save.bag) {
