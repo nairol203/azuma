@@ -94,15 +94,10 @@ module.exports = {
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
 				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein:')
 				.addFields(
-					{ name: 'Abschließen:', value: '`/lock`', inline: true },
-					{ name: 'Aufschließen:', value: '`/unlock`', inline: true },
-					{ name: 'Das Türschild ändern:', value: '`/name <name>`', inline: true },
-					{ name: 'Personen einen Zweitschlüssel geben:', value: '`/permit <user>`', inline: false },
-					{ name: 'Personen den Zweitschlüssel nehmen:', value: '`/reject <user>`', inline: false },
-					{ name: 'Ein Personenlimit einstellen:', value: '`/limit <number>`', inline: false },
+					{ name: 'Commands', value: 'Privat/ Öffentlich: `/lock` / `/unlock`\nKanalnamen ändern: `/name`\nUser Zugriff auf den Kanal geben/ nehmen: `/permit` / `/reject`\nKanallimit einstellen: `/limit`' },
 				)
-				.setColor('#b8ff00')
-				.setFooter('Falls Sie nicht zufrieden sind, können Sie sich bei dem Besitzer des Hotels (@florian#0069) beschweren.');
+				.setColor('5865F2')
+				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
 			customsTextChannel.send(embed).then((msg) => msg.pin());
 
 
@@ -134,16 +129,9 @@ module.exports = {
 					{ name: 'Lösche Songs:', value: '`/delete <number>`', inline: true },
 					{ name: 'Deine gespeicherten Songs:', value: `:one: ${args1}\n:two: ${args2}\n:three: ${args3}\n:four: ${args4}\n:five: ${args5}` },
 				)
-				.setFooter('Du kannst maximal fünf Songs abspeichern!')
+				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 				.setColor('#f77600');
-			await customsTextChannel.send(jukeboxEmbed).then(async (msg) => {
-				jukeboxId = msg.id;
-				await msg.react('1️⃣');
-				await msg.react('2️⃣');
-				await msg.react('3️⃣');
-				await msg.react('4️⃣');
-				await msg.react('5️⃣');
-			});
+			customsTextChannel.send(jukeboxEmbed);
 			const userId = newState.id;
 			const channelId = customsVoiceChannel.id;
 			const textChannelId = customsTextChannel.id;
