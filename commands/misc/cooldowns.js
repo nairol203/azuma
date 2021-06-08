@@ -41,12 +41,14 @@ module.exports = {
 			}
 		}
 		const embed = new MessageEmbed()
+			.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 			.addFields(
 				{ name: `Cooldowns von ${user.username}`, value: `
 Daily: **${await cooldowns.mathCooldown(userId, 'daily')}**
 Work: **${await cooldowns.mathCooldown(userId, 'work')}**` },
 				{ name: 'Reset cooldowns', value: 'Du glaubst deine Cooldowns sind verbuggt?\nBenutze `/cooldowns <reset>` um deine\nCooldowns zurückzusetzen!' },
 			)
+            .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 			.setColor('#f77600');
 		return embed;
 	},

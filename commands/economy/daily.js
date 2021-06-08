@@ -12,7 +12,8 @@ module.exports = {
 		const newBalance = await economy.addCoins(guildId, userId, reward);
 		const embed = new MessageEmbed()
 			.setColor('#f77600')
-			.addField(`💵  |  **${user.username}**,`, `du hast deinen Daily geclaimed!\n\`+${reward} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(newBalance)} Credits\`.`);
+			.addField(`💵  |  **${user.username}**,`, `du hast deinen Daily geclaimed!\n\`+${reward} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(newBalance)} Credits\`.`)
+            .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);;
 		return embed;
 	},
 };

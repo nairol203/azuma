@@ -54,7 +54,7 @@ module.exports = {
 				.setTitle('Verkauf erfolgreich')
 				.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
 				.addField('Umsatz', `\`${profit}\` 💵`)
-				.setFooter('Du kannst alle 8 Stunden deine Ware verkaufen.')
+				.setFooter('Azuma | Du kannst alle 8 Stunden deine Ware verkaufen.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 				.setColor('#2f3136');
 			return embed;
 		}

@@ -19,7 +19,8 @@ module.exports = {
 			.setTitle(`Leaderboard von ${guild.name}`)
 			.setDescription(`${lb.join('\n\n')}`)
 			.setColor('f77600')
-			.setThumbnail(`${guild.iconURL()}`);
+			.setThumbnail(`${guild.iconURL()}`)
+            .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);;
 		return embed;
 	},
 };
