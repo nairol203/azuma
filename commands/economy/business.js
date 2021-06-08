@@ -36,7 +36,8 @@ module.exports = {
 	callback: async ({ client, interaction, args }) => {
 		const guildId = interaction.guild_id
 		const member = interaction.member;
-		const userId = member.user.id
+		const user = member.user;
+		const userId = user.id
 		const getBusiness = await business.getBusiness(guildId, userId);
 		const getCooldown = await cooldowns.getCooldown(userId, 'work');
 
@@ -51,6 +52,7 @@ module.exports = {
 			await economy.addCoins(guildId, userId, profit);
 			await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60)
 			const embed = new MessageEmbed()
+				.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 				.setTitle('Verkauf erfolgreich')
 				.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
 				.addField('Umsatz', `\`${profit}\` 💵`)
