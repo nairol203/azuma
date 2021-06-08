@@ -100,9 +100,9 @@ module.exports = {
 
 			const embed = new MessageEmbed()
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
-				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein:')
+				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein!')
 				.addFields(
-					{ name: 'Commands', value: 'Kanalnamen ändern: `/name`\nUser Zugriff auf den Kanal geben/ nehmen: `/permit` `/reject`\nKanallimit einstellen: `/limit`' },
+					{ name: 'Commands', value: '- Kanalnamen ändern: `/name`\n- User Zugriff auf den Kanal geben / nehmen: `/permit` `/reject`\n- Kanallimit einstellen: `/limit`' },
 				)
 				.setColor('5865F2')
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
