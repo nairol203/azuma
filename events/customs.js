@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { MessageButton, MessageActionRow} = require('discord-buttons');
 const customs = require('../models/customs');
 
 const parentId = '810764515582672917';
@@ -7,7 +8,7 @@ const mainChannelId = '810768943736160276';
 module.exports = {
 	name: 'voiceStateUpdate',
 	async run(oldState, newState) {
-		const { guild, member } = newState;
+		const { client, guild, member } = newState;
 
 		const joined = !!newState.channelID;
 		const channelId = joined ? newState.channelID : oldState.channelID;
@@ -90,15 +91,22 @@ module.exports = {
 					},
 				],
 			});
+
+			const button = new MessageButton()
+				.setLabel('Kanal öffentlich machen')
+				.setStyle('blurple')
+				.setEmoji('🌎')
+				.setID('unlock')
+
 			const embed = new MessageEmbed()
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
 				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein:')
 				.addFields(
-					{ name: 'Commands', value: 'Privat/ Öffentlich: `/lock` / `/unlock`\nKanalnamen ändern: `/name`\nUser Zugriff auf den Kanal geben/ nehmen: `/permit` / `/reject`\nKanallimit einstellen: `/limit`' },
+					{ name: 'Commands', value: 'Kanalnamen ändern: `/name`\nUser Zugriff auf den Kanal geben/ nehmen: `/permit` `/reject`\nKanallimit einstellen: `/limit`' },
 				)
 				.setColor('5865F2')
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
-			customsTextChannel.send(embed).then((msg) => msg.pin());
+			customsTextChannel.send({ embed: embed, buttons: [ button ] }).then((msg) => msg.pin());
 
 
 			let args1 = '/';
@@ -131,7 +139,7 @@ module.exports = {
 				)
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 				.setColor('#f77600');
-			customsTextChannel.send(jukeboxEmbed);
+			// customsTextChannel.send(jukeboxEmbed);
 			const userId = newState.id;
 			const channelId = customsVoiceChannel.id;
 			const textChannelId = customsTextChannel.id;
