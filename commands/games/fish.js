@@ -113,7 +113,8 @@ module.exports = {
                 })
             }, 500);
             return 'Wähle einen aktiven Köder...';
-        } else if (args.options == 'collection') {
+        }
+        else if (args.options == 'collection') {
             const stats = await getStats(userId);
             if (!stats || !stats.length) {
                 return [ no + ' Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`' ];
@@ -200,7 +201,8 @@ module.exports = {
                 }
             }
             return 'Lade Fishing collection...';
-        } else if (args.options == 'sell') {
+        }
+        else if (args.options == 'sell') {
             if (!p_save || !p_save.bag_size || !p_save.bag_value) {
                 return [ no + ' Du hast aktuell keine Fische zum verkaufen!' ];
             }
@@ -216,7 +218,8 @@ module.exports = {
             );
             await addCoins(guildId, userId, p_save.bag_value);
             return `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`;
-        } else if (args.options == 'stats') {
+        }
+        else if (args.options == 'stats') {
             let cAmount = 0; let uAmount = 0; let rAmount = 0; let gAmount = 0;
             for (c of await getCommonStats(userId)) {
                 cAmount = cAmount + c.amount;
@@ -247,7 +250,8 @@ module.exports = {
                 )
                 .setColor('#2773fc');
             return embed;
-        } else if (args.options == 'rares') {
+        }
+        else if (args.options == 'rares') {
             const rares = await findRare(userId);
             const embed = new MessageEmbed()
                 .setTitle('Fishing stats')
@@ -257,7 +261,8 @@ module.exports = {
                 embed.addField(rare.emoji + ' ' + rare.name, rare.amount + ' Stück\nLängster Fang: ' + rare.length + 'cm')
             })
             return embed;
-        } else if (args.options === 'wiki') {
+        }
+        else if (args.options === 'wiki') {
             const embed = new MessageEmbed()
                 .setTitle('Fishing wiki')
                 .setDescription(`
@@ -478,28 +483,34 @@ Andere Kategorien:
         if (p_save.active_bait == 'bait_1') {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
-            } else {
+            }
+            else {
                 await addCoins(guildId, userId, bait_1.price * -1);
             }
             chances = bait_1.chances;
             usedBait = bait_1.name;
-        } else if (p_save.active_bait == 'bait_2') {
+        }
+        else if (p_save.active_bait == 'bait_2') {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
-            } else {
+            }
+            else {
                 await addCoins(guildId, userId, bait_2.price * -1);
             }
             chances = bait_2.chances;
             usedBait = bait_2.name;
-        } else if (p_save.active_bait == 'bait_3') {
+        }
+        else if (p_save.active_bait == 'bait_3') {
             if (randomNumber < userRod.no_bait) {
                 skipBait = true;
-            } else {
+            }
+            else {
                 await addCoins(guildId, userId, bait_3.price * -1);
             }
             chances = bait_3.chances;
             usedBait = bait_3.name;
-        } else {
+        }
+        else {
             await addCoins(guildId, userId, baits.default.price * -1)
             usedBait = baits.default.name;
             chances = baits.default.chances;
@@ -572,12 +583,13 @@ Andere Kategorien:
         }
         await addBagValue(userId, price);
         const embed = new MessageEmbed()
-            .setTitle('Fishing result')
+            .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
             .setDescription(description)
             .addFields(
                 { name: 'Wert', value: price + ' 💵', inline: true }
             )
             .setColor('#2773fc')
+            .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
             .setThumbnail(t.image);
         if((types === commons) || (types === uncommons) || (types === rares))  {
             embed.addField('Länge', length + 'cm', true);
