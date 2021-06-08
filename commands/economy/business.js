@@ -33,7 +33,7 @@ module.exports = {
 			]
 		}
 	],
-	callback: async ({ interaction, args }) => {
+	callback: async ({ client, interaction, args }) => {
 		const guildId = interaction.guild_id
 		const member = interaction.member;
 		const userId = member.user.id
