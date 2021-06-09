@@ -85,6 +85,7 @@ module.exports = {
                 await addCoins(guildId, userId, p_save.bag_value);
                 buttonSell.disabled = true;
                 buttonSell.style = 2;
+                embed.addField('Erfolg!', `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`)
                 edit(client, interaction, embed, row);
             };
         });
