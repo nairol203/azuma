@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const { send, edit } = require('../../features/slash');
 const { bags, rods, baits } = require('../games/fish.json');
 const { setBag } = require('../../features/fishing');
-const { getCoins } = require('../../features/economy');
+const { getCoins, addCoins } = require('../../features/economy');
 const profile = require('../../models/profile');
 
 module.exports = {
