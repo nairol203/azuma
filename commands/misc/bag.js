@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { send, edit } = require('../../features/slash');
 const { bags, rods, baits } = require('../games/fish.json');
 const { setBag } = require('../../features/fishing');
 const { getCoins } = require('../../features/economy');
@@ -13,11 +14,23 @@ module.exports = {
         const p_save = await profile.findOne({ userId });
         const credits = await getCoins(guildId, userId);
 
+        const buttonSell = {
+            type: 2,
+            label: 'Fische verkaufen',
+            style: 1,
+            custom_id: 'sell',
+        };
+
+        const row = {
+            type: 1,
+            components: [ buttonSell ],
+        };
+
         const embed = new MessageEmbed()
             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
             .setThumbnail('https://stardewvalleywiki.com/mediawiki/images/3/36/36_Backpack.png')
             .setColor('#945e1e')
-            .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
+            .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
 
         embed.addField('Credits', `${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)} 💵`);
         if (p_save && p_save.bag) {
@@ -42,6 +55,32 @@ module.exports = {
             embed.setTitle(user.username + '\'s ' + bags.bag_1.name);
             embed.setDescription('Du hast aktuell einen Rucksack mit ' + bags.bag_1.size + ' Plätzen.')
         }
-        return embed;
-    }
-}
+        send(client, interaction, embed, row);
+
+        const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
+
+        client.on('clickButton', button => {
+            button.defer();
+
+            if (response.id !== button.message.id) return;
+            if (button.clicker.user.id !== userId) return;
+
+            if (button.id == 'sell') {
+                await profile.findOneAndUpdate(
+                    { 
+                        userId 
+                    },
+                    { 
+                        userId,
+                        bag_size: 0,
+                        bag_value: 0,
+                    }
+                );
+                await addCoins(guildId, userId, p_save.bag_value);
+                buttonSell.disabled = true;
+                buttonSell.style = 2;
+                edit(client, interaction, embed, row);
+            };
+        });
+    },
+};
