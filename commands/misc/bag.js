@@ -34,7 +34,7 @@ module.exports = {
 
         embed.addField('Credits', `${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)} 💵`);
         if (p_save && p_save.bag) {
-            embed.setTitle(user.username + '\'s ' + bags[p_save.bag].name);
+            embed.setTitle(bags[p_save.bag].name);
             embed.setDescription('Du hast aktuell einen Rucksack mit ' + bags[p_save.bag].size + ' Plätzen.');
             if (p_save.rod) {
                 const userRod = rods[p_save.rod];
@@ -52,10 +52,16 @@ module.exports = {
             }
         } else {
             await setBag(userId, 'bag_1');
-            embed.setTitle(user.username + '\'s ' + bags.bag_1.name);
+            embed.setTitle(bags.bag_1.name);
             embed.setDescription('Du hast aktuell einen Rucksack mit ' + bags.bag_1.size + ' Plätzen.')
         }
-        send(client, interaction, embed, row);
+        
+        if (p_save.bag_size && p_save.bag_size != 0) {
+            send(client, interaction, embed, row);
+        }
+        else {
+            return embed;
+        }
 
         const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
 

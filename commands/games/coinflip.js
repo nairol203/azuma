@@ -95,29 +95,28 @@ module.exports = {
 			button.defer();
 
 			if (response.id !== button.message.id) return;
+            if (button.clicker.user.id !== userId) return;
 
-			if (button.clicker.user.id == targetId) {
-				if (button.id === 'accept') {
-					buttonClicked = true;
-					edit(client, interaction, embed, row_2);
-					const targetCoins = await economy.getCoins(guildId, targetId);
-					if (targetCoins < args[1]) return channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} 💵 hast.`);
-					channel.send(coin + ' *flipping...*');
-					setTimeout(async function() {
-						switch (randomNumber) {
-							case 1:
-								channel.send(`<@${targetId}> hat ${credits} 💵 gewonnen!`);
-								await economy.addCoins(guildId, targetId, credits);
-								await economy.addCoins(guildId, userId, credits * -1);
-								break;
-							case 2:
-								channel.send(`<@${userId}> hat ${credits} 💵 gewonnen!`);
-								await economy.addCoins(guildId, targetId, credits * -1);
-								await economy.addCoins(guildId, userId, credits);
-								break;
-						};
-					}, 1500);
-				}
+			if (button.id === 'accept') {
+				buttonClicked = true;
+				edit(client, interaction, embed, row_2);
+				const targetCoins = await economy.getCoins(guildId, targetId);
+				if (targetCoins < args[1]) return channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} 💵 hast.`);
+				channel.send(coin + ' *flipping...*');
+				setTimeout(async function() {
+					switch (randomNumber) {
+						case 1:
+							channel.send(`<@${targetId}> hat ${credits} 💵 gewonnen!`);
+							await economy.addCoins(guildId, targetId, credits);
+							await economy.addCoins(guildId, userId, credits * -1);
+							break;
+						case 2:
+							channel.send(`<@${userId}> hat ${credits} 💵 gewonnen!`);
+							await economy.addCoins(guildId, targetId, credits * -1);
+							await economy.addCoins(guildId, userId, credits);
+							break;
+					};
+				}, 1500);
 			}
 		})
 

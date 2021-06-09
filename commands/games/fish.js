@@ -589,7 +589,7 @@ Andere Kategorien:
                 { name: 'Wert', value: price + ' 💵', inline: true }
             )
             .setColor('#2773fc')
-            .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+            .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
             .setThumbnail(t.image);
         if((types === commons) || (types === uncommons) || (types === rares))  {
             embed.addField('Länge', length + 'cm', true);

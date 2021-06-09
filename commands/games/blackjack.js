@@ -225,6 +225,7 @@ module.exports = {
             button.defer();
 
             if (response.id !== button.message.id) return;
+            if (button.clicker.user.id !== userId) return;
 
             if (button.id == 'bjStand') {
                 if (split) {

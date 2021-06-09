@@ -1,4 +1,4 @@
-const { MessageEmbed, APIMessage } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { send, edit } = require('../../features/slash');
 
 module.exports = {
