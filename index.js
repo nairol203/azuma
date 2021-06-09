@@ -59,7 +59,7 @@ client.on('ready', async () => {
 		}
 	}
 	for (c of globalCommands) {
-		if (c.name == 'report') {
+		if ((c.name == 'cooldowns') || (c.name == 'report') || (c.name == 'howto')) {
 			client.api.applications(client.user.id).commands(c.id).delete()
 		}
 	}

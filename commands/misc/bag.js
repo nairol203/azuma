@@ -59,7 +59,7 @@ module.exports = {
 
         const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
 
-        client.on('clickButton', button => {
+        client.on('clickButton', async button => {
             button.defer();
 
             if (response.id !== button.message.id) return;
