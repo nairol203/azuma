@@ -137,10 +137,11 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 			.setTitle(getBusiness.type)
+			.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 			.addFields(
-				{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+				{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 				{ name: 'Lagerbestand', value: cd },
-				{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+				{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 			)
             .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 			.setColor('#2f3136');
@@ -164,10 +165,11 @@ module.exports = {
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 					.setTitle(getBusiness.type)
+					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 						{ name: 'Lagerbestand', value: '░░░░░░░░░░░░░░░░░░\nVerkauf erfolgreich!' },
-						{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -181,10 +183,12 @@ module.exports = {
 				buttonUpgrade1.disabled = true;
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-					.setTitle(getBusiness.type)					.addFields(
-						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+					.setTitle(getBusiness.type)
+					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
+					.addFields(
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades:', value: `${yes} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+						{ name: 'Upgrades', value: `${yes} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -198,10 +202,11 @@ module.exports = {
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 					.setTitle(getBusiness.type)
+					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${yes} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${yes} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -215,10 +220,11 @@ module.exports = {
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 					.setTitle(getBusiness.type)
+					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${yes} ${company.nameUpgrade3}` },
+						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${yes} ${company.nameUpgrade3}` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
