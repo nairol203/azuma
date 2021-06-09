@@ -58,6 +58,11 @@ client.on('ready', async () => {
 			}
 		}
 	}
+	for (c of globalCommands) {
+		if (c.name == 'report') {
+			client.api.applications(client.user.id).commands(c.id).delete()
+		}
+	}
 });
 
 client.on('ready', async () => {

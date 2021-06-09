@@ -1,9 +1,12 @@
 const { MessageEmbed } = require('discord.js');
+const { send, edit } = require('../../features/slash');
 const { yes, no } = require('../../emoji.json');
 
+const { buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
 const business = require('../../features/business');
 const cooldowns = require('../../cooldowns');
 const economy = require('../../features/economy');
+const { addCoins } = require('../../features/economy');
 
 function format(number) {
 	const result = Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(number);
@@ -61,6 +64,43 @@ module.exports = {
 			return embed;
 		}
 
+		const buttonSell = {
+			type: 2,
+			label: 'Ware verkaufen',
+			style: 2,
+			custom_id: 'sell',
+			disabled: true,
+		};
+		const buttonUpgrade1 = {
+			type: 2,
+			label: 'Upgrade 1 kaufen',
+			style: 2,
+			custom_id: 'buyUpgrade1',
+			disabled: true,
+		};
+		const buttonUpgrade2 = {
+			type: 2,
+			label: 'Upgrade 2 kaufen',
+			style: 2,
+			custom_id: 'buyUpgrade2',
+			disabled: true,
+		};
+		const buttonUpgrade3 = {
+			type: 2,
+			label: 'Upgrade 3 kaufen',
+			style: 2,
+			custom_id: 'buyUpgrade3',
+			disabled: true,
+		};
+
+		const row = {
+			type: 1,
+			components: [ buttonSell, buttonUpgrade1, buttonUpgrade2, buttonUpgrade3 ],
+		};
+
+		if (getBusiness.upgrade1 & getBusiness.upgrade2 & getBusiness.upgrade3) {
+			row.components = [ buttonSell ];
+		};
 
 		const company = await business.setCompany(guildId, userId);
 		const profit = await business.checkProfit(guildId, userId);
@@ -69,24 +109,121 @@ module.exports = {
 		const up2 = getBusiness.upgrade2 ? yes : no;
 		const up3 = getBusiness.upgrade3 ? yes : no;
 
+		let cd = '██████████████████\nDein Lager ist voll! Verkaufe die Ware mit `/business: sell`';
+		let cooldown;
 
-		let cd = '';
-		let cooldown = '';
-		if (getCooldown === null) {
-			cd = '██████████████████\nDein Lager ist voll! Verkaufe die Ware mit `!work`';
-		}
-		else {
+		if (getCooldown) {
 			cooldown = getCooldown;
 			cd = showBar(cooldown);
+		} 
+		else {
+			buttonSell.disabled = false;
+			buttonSell.style = 3;
+		};
+
+		if (!getBusiness.upgrade1) {
+			buttonUpgrade1.disabled = false;
+			buttonUpgrade1.style = 1;
+		};
+		if (!getBusiness.upgrade2) {
+			buttonUpgrade2.disabled = false;
+			;buttonUpgrade2.style = 1;
 		}
+		if (!getBusiness.upgrade3) {
+			buttonUpgrade3.disabled = false;
+			buttonUpgrade3.style = 1;
+		};
+
 		const embed = new MessageEmbed()
-			.setTitle(`${member.user.username}'s ${getBusiness.type}`)
+			.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+			.setTitle(getBusiness.type)
 			.addFields(
-				{ name: 'Akuteller Umsatz', value: `\`${format(profit)}\` 💵` },
+				{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
 				{ name: 'Lagerbestand', value: cd },
 				{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
 			)
+            .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 			.setColor('#2f3136');
-		return embed;
+
+		send(client, interaction, embed, row);
+
+        const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
+
+		client.on('clickButton', async button => {
+			button.defer()
+
+			if (response.id !== button.message.id) return;
+			if (button.clicker.user.id !== userId) return;
+
+			if (button.id == 'sell') {
+				await economy.addCoins(guildId, userId, profit);
+				await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
+				buttonSell.disabled = true;
+				buttonSell.style = 2;
+				
+				const embed = new MessageEmbed()
+					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+					.setTitle(getBusiness.type)
+					.addFields(
+						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+						{ name: 'Lagerbestand', value: '░░░░░░░░░░░░░░░░░░\nVerkauf erfolgreich!' },
+						{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+					)
+					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+					.setColor('#2f3136');
+
+				edit(client, interaction, embed, row);
+			}
+			else if (button.id == 'buyUpgrade1') {
+				await buyUpgrade1(guildId, userId, getBusiness.type);
+				await addCoins(guildId, userId, company.priceUpgrade1 * -1);
+				buttonUpgrade1.style = 2;
+				buttonUpgrade1.disabled = true;
+				const embed = new MessageEmbed()
+					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+					.setTitle(getBusiness.type)					.addFields(
+						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+						{ name: 'Lagerbestand', value: cd },
+						{ name: 'Upgrades:', value: `${yes} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+					)
+					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+					.setColor('#2f3136');
+				edit(client, interaction, embed, row);
+			}
+			else if (button.id == 'buyUpgrade2') {
+				await buyUpgrade2(guildId, userId, getBusiness.type);
+				await addCoins(guildId, userId, company.priceUpgrade2 * -1);
+				buttonUpgrade2.style = 2;
+				buttonUpgrade2.disabled = true;
+				const embed = new MessageEmbed()
+					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+					.setTitle(getBusiness.type)
+					.addFields(
+						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+						{ name: 'Lagerbestand', value: cd },
+						{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${yes} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+					)
+					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+					.setColor('#2f3136');
+				edit(client, interaction, embed, row);
+			}
+			else if (button.id == 'buyUpgrade3') {
+				await buyUpgrade3(guildId, userId, getBusiness.type);
+				await addCoins(guildId, userId, company.priceUpgrade3 * -1);
+				buttonUpgrade3.style = 2;
+				buttonUpgrade3.disabled = true;
+				const embed = new MessageEmbed()
+					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+					.setTitle(getBusiness.type)
+					.addFields(
+						{ name: 'Akuteller Umsatz', value: `${format(profit)} 💵` },
+						{ name: 'Lagerbestand', value: cd },
+						{ name: 'Upgrades:', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${yes} ${company.nameUpgrade3}` },
+					)
+					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+					.setColor('#2f3136');
+				edit(client, interaction, embed, row);
+			};
+		})
 	},
 };
