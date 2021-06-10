@@ -86,6 +86,7 @@ module.exports = {
         dealerCards.push(dCard1.name);
         dealerCards.push(' ' + dCard2.name);
         let dealerSum = dCard1.value + dCard2.value;
+
         const embed = new MessageEmbed()
             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
             .setTitle('Blackjack')
@@ -126,7 +127,7 @@ module.exports = {
             disabled: true,
         };
 
-        let button_split = {
+        const button_split = {
             type: 2,
             label: 'Split',
             style: 2,
@@ -189,7 +190,7 @@ module.exports = {
                     { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                     { name: 'Hand vom Dealer', value: dealerCards + '\nTotal: ' + dealerSum, inline: true },
                     { name: 'Gewinn', value: '-' + credits + ' Credits' },
-                    { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits.' }
+                    { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                 )
                 .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('ED4245');
@@ -288,11 +289,11 @@ module.exports = {
                             credits = 0;
                             newEmbed.setDescription('Alle drei Hände sind gleich! Was ein Zufall.')
                         }
+                        const newBalance = await economy.addCoins(guildId, userId, credits);
                         newEmbed.addFields(
                             { name: 'Gewinn', value: credits + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits' }
+                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits' }
                         )
-                        await economy.addCoins(guildId, userId, credits);
                         edit(client, interaction, newEmbed, row_4);
                     }
                 }
@@ -308,22 +309,22 @@ module.exports = {
                         .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('5865F2')
                     if (winner == 'player') {
+                        const newBalance = await economy.addCoins(guildId, userId, credits);
                         newEmbed.setDescription('Du hast die bessere Hand! Glückwunsch!')
                         newEmbed.addFields(
                             { name: 'Gewinn', value: (credits * 2) + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits.' }
+                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                         )
                         newEmbed.setColor('57F287')
-                        await economy.addCoins(guildId, userId, credits);
                     }
                     else if (winner == 'dealer') {
+                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
                         newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                         newEmbed.addFields(
                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits.' }
+                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                         )
                         newEmbed.setColor('ED4245')
-                        await economy.addCoins(guildId, userId, credits * -1);
                     }
                     else if (winner == 'draw') {
                         newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
@@ -388,6 +389,7 @@ module.exports = {
                     )
 
                     if ((playerSum1 & playerSum2) > 21) {
+                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
                         const embed_3 = new MessageEmbed()
                             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                             .setTitle('Blackjack')
@@ -397,11 +399,10 @@ module.exports = {
                                 { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
                                 { name: 'Hand vom Dealer', value: dCard1.name + ', ?\nTotal: ?', inline: true },
                                 { name: 'Gewinn', value: '-' + credits + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits.' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                             )
                             .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                             .setColor('ED4245')
-                        await economy.addCoins(guildId, userId, credits * -1);
                         edit(client, interaction, embed_3, row_4);
                     } else {
                         edit(client, interaction, newEmbed, row_2);
@@ -431,6 +432,7 @@ module.exports = {
                         .setFooter('Azuma | Das Spiel läuft nach 5 Minuten Inaktivität ab.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('5865F2');
                     if (playerSum > 21) {
+                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
                         const embed_3 = new MessageEmbed()
                             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                             .setTitle('Blackjack')
@@ -439,11 +441,10 @@ module.exports = {
                                 { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                                 { name: 'Hand vom Dealer', value: dCard1.name + ', ?\nTotal: ?', inline: true },
                                 { name: 'Gewinn', value: '-' + credits + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits.' }
+                                { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                             )
                             .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                             .setColor('ED4245')
-                        await economy.addCoins(guildId, userId, credits * -1);
                         edit(client, interaction, embed_3, row_4);
                     } else {
                         edit(client, interaction, newEmbed, row_2);
@@ -524,11 +525,11 @@ module.exports = {
                             credits = 0;
                             newEmbed2.setDescription('Alle drei Hände sind gleich! Was ein Zufall.')
                         }
+                        const newBalance = await economy.addCoins(guildId, userId, credits);
                         newEmbed2.addFields(
                             { name: 'Gewinn', value: credits + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits.' }
+                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                         )
-                        await economy.addCoins(guildId, userId, credits);
                         edit(client, interaction, newEmbed2, row_4);
                     }
                 }
@@ -557,22 +558,22 @@ module.exports = {
                         .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('5865F2')
                     if (winner == 'player') {
-                        newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!')
+                        const newBalance = await economy.addCoins(guildId, userId, credits);
+                        newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!');
                         newEmbed.addFields(
                             { name: 'Gewinn', value: (credits * 2) + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + (userCredits + credits) + ' Credits.' }
-                        )
-                        newEmbed.setColor('57F287')
-                        await economy.addCoins(guildId, userId, credits);
+                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
+                        );
+                        newEmbed.setColor('57F287');
                     }
                     else if (winner == 'dealer') {
-                        newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
+                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
+                        newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!');
                         newEmbed.addFields(
                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - credits) + ' Credits.' }
-                        )
-                        newEmbed.setColor('ED4245')
-                        await economy.addCoins(guildId, userId, credits * -1);
+                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
+                        );
+                        newEmbed.setColor('ED4245');
                     }
                     else if (winner == 'draw') {
                         newEmbed.setDescription('Du hast gleichviel wie der Dealer! Unentschieden!');
@@ -610,23 +611,24 @@ module.exports = {
                     .setTitle('Blackjack')
                     .setDescription('Du hast aufgegeben und verlierst nur die Hälfte deines Einsatzes!')
                     .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-                    .setColor('ED4245')
+                    .setColor('ED4245');
                 if (split) {
                     newEmbed.addFields(
                         { name: 'Deine 1. Hand', value: playerCards1 + '\nTotal: ' + playerSum1, inline: true },
                         { name: 'Deine 2. Hand', value: playerCards2 + '\nTotal: ' + playerSum2, inline: true },
                     )
-                } else {
+                }
+                else {
                     newEmbed.addFields(
                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                     )
-                }
+                };
+                const newBalance = await economy.addCoins(guildId, userId, (credits / 2) * -1);
                 newEmbed.addFields(
                     { name: 'Hand vom Dealer', value: dCard1.name + ', ?\nTotal: ?', inline: true },
                     { name: 'Gewinn', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
-                    { name: 'Credits', value: 'Du hast jetzt ' + (userCredits - (credits / 2)) + ' Credits.'}
-                )
-                await economy.addCoins(guildId, userId, (credits / 2) * -1);
+                    { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.'}
+                );
                 edit(client, interaction, newEmbed, row_4);
             };
         });
