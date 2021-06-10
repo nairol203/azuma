@@ -11,6 +11,7 @@ module.exports = {
 		const newBalance = await economy.addCoins(guildId, user.id, reward);
 		const embed = new MessageEmbed()
 			.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`)
+			.setDescription('Du hast deine täglichen Credits erhalten!')
 			.addFields(
 				{ name: 'Reward', value: reward + ' Credits', inline: true },
 				{ name: 'Deine Credits', value: newBalance + ' Credits', inline: true },
