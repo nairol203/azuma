@@ -7,14 +7,16 @@ module.exports = {
 	callback: async ({ client, interaction }) => {
 		const guildId = interaction.guild_id;
 		const user = interaction.member.user;
-		const userId = user.id;
 		const reward = 500;
-		const newBalance = await economy.addCoins(guildId, userId, reward);
+		const newBalance = await economy.addCoins(guildId, user.id, reward);
 		const embed = new MessageEmbed()
-			.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-			.setColor('#f77600')
-			.addField(`💵  |  **${user.username}**,`, `du hast deinen Daily geclaimed!\n\`+${reward} Credits\`\ndu hast insgesamt \`${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(newBalance)} Credits\`.`)
-            .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);;
+			.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`)
+			.addFields(
+				{ name: 'Reward', value: reward + ' Credits', inline: true },
+				{ name: 'Deine Credits', value: newBalance + ' Credits', inline: true },
+			)
+            .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+			.setColor('#f77600');
 		return embed;
 	},
 };

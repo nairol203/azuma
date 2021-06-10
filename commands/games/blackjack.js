@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { send, edit, error }  = require('../../features/slash');
+const { send, edit, error, get }  = require('../../features/slash');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -157,13 +157,7 @@ module.exports = {
         };
 
         if (pCard1.name !== pCard2.name) {
-            button_split = {
-                type: 2,
-                label: 'Split',
-                style: 2,
-                custom_id: 'bjSplit',
-                disabled: true,
-            };
+            button_split.disabled = true;
         };
 
         const row = {
@@ -206,7 +200,7 @@ module.exports = {
 
         send(client, interaction, embed, row);
 
-        const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
+        const response = await get(client, interaction);
 
         while (dealerSum < 17) {
             let newCard = randomCard();
