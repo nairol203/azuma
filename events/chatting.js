@@ -137,7 +137,7 @@ module.exports = {
 				PauseChamp,
 			];
 			const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-			message.channel.send(randomMessage);
+			message.react(randomMessage);
 		}
 		else if (message.content.toLowerCase().includes('hug'.toLowerCase())) {
 			const messages = [
