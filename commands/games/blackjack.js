@@ -182,6 +182,7 @@ module.exports = {
         };
 
         if (dealerSum == 21) {
+            const newBalance = await economy.addCoins(guildId, userId, credits * -1);
             const newEmbed = new MessageEmbed()
                 .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                 .setTitle('Blackjack')
@@ -194,7 +195,6 @@ module.exports = {
                 )
                 .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('ED4245');
-            await economy.addCoins(guildId, userId, credits * -1);
             send(client, interaction, newEmbed, row_4);
             return;
         };
@@ -634,10 +634,13 @@ module.exports = {
         });
 
         function checkWinner(pSum, dSum) {
-            if (pSum == dSum) {
+            if (pSum > 21) {
+                return 'dealer';
+            }
+            else if (pSum == dSum) {
                 return 'draw';
-            };
-            if (pSum <= 21) {
+            }
+            else if (pSum <= 21) {
                 if ((pSum > dSum) & (dSum <= 21)) {
                     return 'player';
                 }
