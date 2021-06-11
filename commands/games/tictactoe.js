@@ -16,10 +16,10 @@ module.exports = {
         const user = client.users.cache.get(interaction.member.user.id);
         const target = client.users.cache.get(args.user);
 
-        if (target.bot) return error(client, interaction, 'Du kannst nicht mit einem Bot spielen!');
-        else if (user.id == target.id) return error(client, interaction, 'Du kannst nicht mit dir selbst spielen!');
-        else if (midDuel.has(user.id)) return error(client, interaction, 'Du bist aktuell schon in einem Spiel!');
-        else if (midDuel.has(target.id)) return error(client, interaction, `${target.username} ist aktuell schon in einem Spiel!`);
+        if (target.bot) return error(client, interaction, 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!');
+        else if (user.id == target.id) return error(client, interaction, 'Wie willst du denn mit dir selbst spielen??');
+        else if (midDuel.has(user.id)) return error(client, interaction, 'Du spielst doch gerade schon eine Runde!?');
+        else if (midDuel.has(target.id)) return error(client, interaction, `${target.username} spielt schon eine Runde. Das sollen Freunde sein...`);
 
         const gameData = [
             { member: user, style: 3, em: '🟢' },

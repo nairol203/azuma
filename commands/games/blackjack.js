@@ -222,6 +222,17 @@ module.exports = {
             if (response.id !== button.message.id) return;
             if (button.clicker.user.id !== userId) return;
 
+            setTimeout(() => {
+				client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
+					data: {
+						content: 'Die Zeit ist abgelaufen! (5 Minuten)',
+						components: [
+							row_4,
+						],
+					},
+				});
+            }, 300000);
+
             if (button.id == 'bjStand') {
                 if (split) {
                     if (!card1_finished) {

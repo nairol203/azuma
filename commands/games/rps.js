@@ -28,14 +28,14 @@ module.exports = {
 		const user = client.users.cache.get(userId);
 		const target = client.users.cache.get(targetId);
 
-		if (target.bot) return error(client, interaction, 'Du kannst nicht mit einem Bot spielen!');
-		if (userId === targetId) return error(client, interaction, 'Du kannst doch nicht mit dir selbst spielen!');
+		if (target.bot) return error(client, interaction, 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!');
+		if (userId === targetId) return error(client, interaction, 'Wie willst du denn mit dir selbst spielen??');
 		if (credits < 1) return error(client, interaction, 'Netter Versuch, aber du kannst nicht mit negativen Einsatz spielen!');
 		const coinsOwned = await economy.getCoins(guildId, userId);
-		if (coinsOwned < credits) return error(client, interaction, `Du hat nicht genug Credits!`);
+		if (coinsOwned < credits) return error(client, interaction, `Du bist ärmer als du denkst! Versuche es mit weniger Geld.`);
 
 		const targetCoins = await economy.getCoins(guildId, targetId);
-		if (targetCoins < credits) return error(client, interaction, `Du kannst ${target.username} nicht herausfordern, da er/sie nicht genug Credits hat!`);
+		if (targetCoins < credits) return error(client, interaction, `Soviel Geld hat ${target.username} nicht! Pah! Was ein Geringverdiener...`);
 		
 		const button = {
 			type: 2,
@@ -141,12 +141,21 @@ module.exports = {
 
 		const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
 
-		let buttonClicked;
-
 		client.on('clickButton', async button => {
 			button.defer();
 
 			if (response.id !== button.message.id) return;
+			
+            setTimeout(() => {
+				client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
+					data: {
+						content: 'Die Zeit ist abgelaufen! (5 Minuten)',
+						components: [
+							row_4,
+						],
+					},
+				});
+            }, 300000);
 
 			if (button.id === 'rpsAccept') {
 				if (button.clicker.user.id != targetId) return;
@@ -196,13 +205,6 @@ module.exports = {
 				};
 			};
 		});
-
-		setTimeout(() => {
-			if (!buttonClicked) {
-				edit(client, interaction, embed, row_4)
-				return;
-			}
-		}, 60000);
 
 		let userChoice; let targetChoice;
 	

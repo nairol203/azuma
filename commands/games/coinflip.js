@@ -29,12 +29,15 @@ module.exports = {
 
 		const target = client.users.cache.get(targetId);
 
-		if (target.bot) return error(client, interaction, 'Du kannst nicht mit einem Bot spielen!');
-		if (userId === targetId) return error(client, interaction, 'Du kannst doch nicht mit dir selbst spielen!');
+		if (target.bot) return error(client, interaction, 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!');
+		if (userId === targetId) return error(client, interaction, 'Wie willst du denn mit dir selbst spielen??');
 		if (credits < 1) return error(client, interaction, 'Netter Versuch, aber du kannst nicht mit negativen Einsatz spielen!');
 		const coinsOwned = await economy.getCoins(guildId, userId);
-		if (coinsOwned < credits) return error(client, interaction, `Du hast doch gar keine ${credits} 💵!`);
+		if (coinsOwned < credits) return error(client, interaction, `Du bist ärmer als du denkst! Versuche es mit weniger Geld.`);
 	
+		const targetCoins = await economy.getCoins(guildId, targetId);
+		if (targetCoins < credits) return error(client, interaction, `Soviel Geld hat ${target.username} nicht! Pah! Was ein Geringverdiener...`);
+
 		const randomNumber = [1, 2][Math.floor(Math.random() * 2)];
 	
 		const button = {
@@ -89,41 +92,39 @@ module.exports = {
 
 		const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
 
-		let buttonClicked;
-
 		client.on('clickButton', async button => {
 			button.defer();
 
 			if (response.id !== button.message.id) return;
             if (button.clicker.user.id !== userId) return;
 
+            setTimeout(() => {
+				client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
+					data: {
+						content: 'Die Zeit ist abgelaufen! (5 Minuten)',
+						components: [
+							row_3,
+						],
+					},
+				});
+            }, 300000);
+
 			if (button.id === 'accept') {
 				buttonClicked = true;
 				edit(client, interaction, embed, row_2);
-				const targetCoins = await economy.getCoins(guildId, targetId);
-				if (targetCoins < args[1]) return channel.send(`Du kannst nicht teilnehmen da du keine ${args[1]} 💵 hast.`);
-				channel.send(coin + ' *flipping...*');
-				setTimeout(async function() {
-					switch (randomNumber) {
-						case 1:
-							channel.send(`<@${targetId}> hat ${credits} 💵 gewonnen!`);
-							await economy.addCoins(guildId, targetId, credits);
-							await economy.addCoins(guildId, userId, credits * -1);
-							break;
-						case 2:
-							channel.send(`<@${userId}> hat ${credits} 💵 gewonnen!`);
-							await economy.addCoins(guildId, targetId, credits * -1);
-							await economy.addCoins(guildId, userId, credits);
-							break;
-					};
-				}, 1500);
+				switch (randomNumber) {
+					case 1:
+						channel.send(`<@${targetId}> hat ${credits} 💵 gewonnen!`);
+						await economy.addCoins(guildId, targetId, credits);
+						await economy.addCoins(guildId, userId, credits * -1);
+						break;
+					case 2:
+						channel.send(`<@${userId}> hat ${credits} 💵 gewonnen!`);
+						await economy.addCoins(guildId, targetId, credits * -1);
+						await economy.addCoins(guildId, userId, credits);
+						break;
+				};
 			}
 		})
-
-		setTimeout(() => {
-			if (!buttonClicked) {
-				edit(client, interaction, embed, row_3);
-			}
-		}, 60000);
 	},
 };
