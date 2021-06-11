@@ -178,7 +178,7 @@ module.exports = {
 
 		send(client, interaction, embed, row);
 
-        const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
+        const response = await get(client, interaction)
 
 		client.on('clickButton', async button => {
 			if (response.id !== button.message.id) return;
