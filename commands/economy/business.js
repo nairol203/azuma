@@ -3,6 +3,7 @@ const { send, edit } = require('../../features/slash');
 const { yes, no } = require('../../emoji.json');
 
 const { buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
+const { documents, weed, fakeMoney, meth, cocaine } = require('../../features/business.json');
 const business = require('../../features/business');
 const cooldowns = require('../../cooldowns');
 const economy = require('../../features/economy');
@@ -92,6 +93,13 @@ module.exports = {
 			custom_id: 'buyUpgrade3',
 			disabled: true,
 		};
+		const buttonNewBusiness = {
+			type: 2,
+			label: 'Nächstes Business kaufen',
+			style: 2,
+			custom_id: 'buyNext',
+			disabled: true,
+		};
 
 		const row = {
 			type: 1,
@@ -99,7 +107,11 @@ module.exports = {
 		};
 
 		if (getBusiness.upgrade1 & getBusiness.upgrade2 & getBusiness.upgrade3) {
-			row.components = [ buttonSell ];
+			if (getBusiness.type !== cocaine.name) {
+				buttonNewBusiness.style = 3;
+				buttonNewBusiness.disabled = false;
+			};
+			row.components = [ buttonSell, buttonNewBusiness ];
 		};
 
 		const company = await business.setCompany(guildId, userId);
@@ -229,6 +241,9 @@ module.exports = {
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
 				edit(client, interaction, embed, row);
+			}
+			else if (button.id == 'buyNew') {
+				return;
 			};
 		})
 	},
