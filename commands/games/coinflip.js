@@ -71,7 +71,7 @@ module.exports = {
 				{ name: 'Herausforderer', value: `<@${userId}>`, inline: true },
 			)
 			.setColor('#fdb701')
-			.setFooter('Azuma | Du hast 60 Sekunden die Herausforderung anzunehmen!', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+			.setFooter('Azuma | Du hast 5 Minuten die Herausforderung anzunehmen!', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 	
 		const row = {
 			type: 1,
