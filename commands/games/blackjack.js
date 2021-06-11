@@ -223,6 +223,8 @@ module.exports = {
             if (button.clicker.user.id !== userId) return;
 
             setTimeout(() => {
+                button_finished.label = 'Zeit abgelaufen';
+                button_finished.style = 4;
 				client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
 					data: {
 						content: 'Die Zeit ist abgelaufen! (5 Minuten)',
@@ -231,6 +233,7 @@ module.exports = {
 						],
 					},
 				});
+                await economy.addCoins(guildId, userId, credits * -1);
             }, 300000);
 
             if (button.id == 'bjStand') {
