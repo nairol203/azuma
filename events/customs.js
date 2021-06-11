@@ -160,7 +160,7 @@ module.exports = {
 					userId,
 					channelId,
 					textChannelId,
-					jukeboxId,
+					// jukeboxId,
 				},
 				{
 					upsert: true,
