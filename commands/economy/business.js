@@ -66,6 +66,8 @@ module.exports = {
 			return embed;
 		}
 
+		let company = await business.setCompany(guildId, userId);
+
 		const buttonSell = {
 			type: 2,
 			label: 'Ware verkaufen',
@@ -75,21 +77,21 @@ module.exports = {
 		};
 		const buttonUpgrade1 = {
 			type: 2,
-			label: 'Upgrade 1 kaufen',
+			label: 'Personalupgrade',
 			style: 2,
 			custom_id: 'buyUpgrade1',
 			disabled: true,
 		};
 		const buttonUpgrade2 = {
 			type: 2,
-			label: 'Upgrade 2 kaufen',
+			label: 'Besserer Zulieferer',
 			style: 2,
 			custom_id: 'buyUpgrade2',
 			disabled: true,
 		};
 		const buttonUpgrade3 = {
 			type: 2,
-			label: 'Upgrade 3 kaufen',
+			label: company.nameUpgrade3,
 			style: 2,
 			custom_id: 'buyUpgrade3',
 			disabled: true,
@@ -129,7 +131,6 @@ module.exports = {
 			row.components = [ buttonSell, buttonNewBusiness ];
 		};
 
-		let company = await business.setCompany(guildId, userId);
 		let profit = await business.checkProfit(guildId, userId);
 
 		let up1 = getBusiness.upgrade1 ? yes : no;
@@ -166,10 +167,11 @@ module.exports = {
 			.setTitle(getBusiness.type)
 			.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 			.addFields(
-				{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
+				{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵`, inline: true },
+				{ name: 'Deine Credits', value: format(userBal) + ' 💵', inline: true },
 				{ name: 'Lagerbestand', value: cd },
-				{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
-				{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
+				{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
+				{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || format(1000000)} Credits`, inline: true },
 			)
             .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 			.setColor('#2f3136');
@@ -203,10 +205,11 @@ module.exports = {
 					.setTitle(getBusiness.type)
 					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
-						{ name: 'Lagerbestand', value: '░░░░░░░░░░░░░░░░░░\nVerkauf erfolgreich! `+' + profit + ' Credits`' },
-						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵`, inline: true },
+						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
+						{ name: 'Lagerbestand', value: '░░░░░░░░░░░░░░░░░░\nVerkauf erfolgreich! `+' + format(profit) + ' Credits`' },
+						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || format(1000000)} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -215,7 +218,7 @@ module.exports = {
 			}
 			else if (button.id == 'buyUpgrade1') {
 				await buyUpgrade1(guildId, userId, getBusiness.type);
-				await addCoins(guildId, userId, company.priceUpgrade1 * -1);
+				const newBal = await addCoins(guildId, userId, company.priceUpgrade1 * -1);
 				buttonUpgrade1.style = 2;
 				buttonUpgrade1.disabled = true;
 				const embed = new MessageEmbed()
@@ -223,15 +226,24 @@ module.exports = {
 					.setTitle(getBusiness.type)
 					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵`, inline: true },
+						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades', value: `${yes} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
+						{ name: 'Upgrades', value: `${yes} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || format(1000000)} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
+				if (nextBusiness.priceUpgrade2 > newBal) {
+					buttonUpgrade2.style = 2;
+					buttonUpgrade2.disabled = true;
+				};
+				if (nextBusiness.priceUpgrade3 > newBal) {
+					buttonUpgrade3.style = 2;
+					buttonUpgrade3.disabled = true;
+				};
 				if (getBusiness.upgrade2 & getBusiness.upgrade3) {
-					if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
+					if (getBusiness.type !== cocaine.name && nextBusiness.price < newBal) {
 						buttonNewBusiness.style = 3;
 						buttonNewBusiness.disabled = false;
 					} else {
@@ -244,7 +256,7 @@ module.exports = {
 			}
 			else if (button.id == 'buyUpgrade2') {
 				await buyUpgrade2(guildId, userId, getBusiness.type);
-				await addCoins(guildId, userId, company.priceUpgrade2 * -1);
+				const newBal = await addCoins(guildId, userId, company.priceUpgrade2 * -1);
 				buttonUpgrade2.style = 2;
 				buttonUpgrade2.disabled = true;
 				const embed = new MessageEmbed()
@@ -252,15 +264,24 @@ module.exports = {
 					.setTitle(getBusiness.type)
 					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵`, inline: true },
+						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${yes} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
+						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${yes} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || format(1000000)} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
+				if (nextBusiness.priceUpgrade1 > newBal) {
+					buttonUpgrade1.style = 2;
+					buttonUpgrade1.disabled = true;
+				};
+				if (nextBusiness.priceUpgrade3 > newBal) {
+					buttonUpgrade3.style = 2;
+					buttonUpgrade3.disabled = true;
+				};
 				if (getBusiness.upgrade1 & getBusiness.upgrade3) {
-					if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
+					if (getBusiness.type !== cocaine.name && nextBusiness.price < newBal) {
 						buttonNewBusiness.style = 3;
 						buttonNewBusiness.disabled = false;
 					} else {
@@ -273,7 +294,7 @@ module.exports = {
 			}
 			else if (button.id == 'buyUpgrade3') {
 				await buyUpgrade3(guildId, userId, getBusiness.type);
-				await addCoins(guildId, userId, company.priceUpgrade3 * -1);
+				const newBal = await addCoins(guildId, userId, company.priceUpgrade3 * -1);
 				buttonUpgrade3.style = 2;
 				buttonUpgrade3.disabled = true;
 				const embed = new MessageEmbed()
@@ -281,15 +302,24 @@ module.exports = {
 					.setTitle(getBusiness.type)
 					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵`, inline: true },
+						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${yes} ${company.nameUpgrade3}` },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
+						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${yes} ${company.nameUpgrade3}`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || format(1000000)} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
+				if (nextBusiness.priceUpgrade1 > newBal) {
+					buttonUpgrade1.style = 2;
+					buttonUpgrade1.disabled = true;
+				};
+				if (nextBusiness.priceUpgrade2 > newBal) {
+					buttonUpgrade2.style = 2;
+					buttonUpgrade2.disabled = true;
+				};
 				if (getBusiness.upgrade1 & getBusiness.upgrade2) {
-					if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
+					if (getBusiness.type !== cocaine.name && nextBusiness.price < newBal) {
 						buttonNewBusiness.style = 3;
 						buttonNewBusiness.disabled = false;
 					} else {
@@ -301,18 +331,32 @@ module.exports = {
 				edit(client, interaction, embed, row);
 			}
 			else if (button.id == 'buyNext') {
+				const newBusiness = nextBusiness;
 				await buyBusiness(guildId, userId, nextBusiness.name);
 				const newBal = await addCoins(guildId, userId, nextBusiness.price * -1);
 				const newProfit = await business.checkProfit(guildId, userId);
+				if (nextBusiness.name == documents.name) {
+					nextBusiness = weed;
+				}
+				else if (nextBusiness.name == weed.name) {
+					nextBusiness = fakeMoney;
+				}
+				else if (nextBusiness.name == fakeMoney.name) {
+					nextBusiness = meth;
+				}
+				else if (nextBusiness.name == meth.name) {
+					nextBusiness = cocaine;
+				};
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-					.setTitle(nextBusiness.name)
+					.setTitle(newBusiness.name)
 					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
-						{ name: 'Umsatz pro Verkauf', value: `${format(newProfit)} 💵` },
+						{ name: 'Umsatz pro Verkauf', value: `${format(newProfit)} 💵`, inline: true },
+						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades', value: `${no} Personalupgrade\n${no} Besserer Zulieferer\n${no} ${nextBusiness.nameUpgrade3}` },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
+						{ name: 'Upgrades', value: `${no} Personalupgrade\n${no} Besserer Zulieferer\n${no} ${newBusiness.nameUpgrade3}`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || format(1000000)} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
