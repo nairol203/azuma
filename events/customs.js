@@ -42,7 +42,7 @@ module.exports = {
 				type: 'voice',
 				parent: parentId,
 				userLimit: userLimit,
-				bitrate: 96000,
+				bitrate: 128000,
 				permissionOverwrites: [
 					{
 						id: member.user.id,
