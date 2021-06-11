@@ -124,7 +124,7 @@ module.exports = {
 				{ name: 'Einsatz', value: `\`${credits}\` 💵`, inline: true },
 				{ name: 'Herausforderer', value: user, inline: true },
 			)
-			.setFooter('Azuma | Du hast 60 Sekunden die Herausforderung anzunehmen!', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+			.setFooter('Azuma | Du hast 5 Minuten die Herausforderung anzunehmen!', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
             .setColor('5865F2');
 	
 		const embed2 = new MessageEmbed()
