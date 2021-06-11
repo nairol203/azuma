@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { send, edit, get } = require('../../features/slash');
 const { yes, no } = require('../../emoji.json');
 
-const { buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
+const { buyUpgrade1, buyUpgrade2, buyUpgrade3, buyBusiness } = require('../../features/business');
 const { documents, weed, fakeMoney, meth, cocaine } = require('../../features/business.json');
 const business = require('../../features/business');
 const cooldowns = require('../../cooldowns');
@@ -243,30 +243,30 @@ module.exports = {
 				edit(client, interaction, embed, row);
 			}
 			else if (button.id == 'buyNext') {
-				let comp;
+				let nextBusiness;
 				if (getBusiness.type == documents.name) {
-					comp = documents;
+					nextBusiness = documents;
 				}
 				else if (getBusiness.type == weed.name) {
-					comp = meth;
+					nextBusiness = meth;
 				}
 				else if (getBusiness.type == fakeMoney.name) {
-					comp = fakeMoney;
+					nextBusiness = fakeMoney;
 				}
 				else if (getBusiness.type == meth.name) {
-					comp = meth;
+					nextBusiness = meth;
 				};
-				await buyBusiness(guildId, userId, comp.name);
-				await addCoins(guildId, userId, comp.price * -1);
+				await buyBusiness(guildId, userId, nextBusiness.name);
+				await addCoins(guildId, userId, nextBusiness.price * -1);
 				const newProfit = await business.checkProfit(guildId, userId);
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-					.setTitle(comp.name)
+					.setTitle(nextBusiness.name)
 					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
 						{ name: 'Umsatz pro Verkauf', value: `${format(newProfit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
-						{ name: 'Upgrades', value: `${no} Personalupgrade\n${no} Besserer Zulieferer\n${no} ${comp.nameUpgrade3}` },
+						{ name: 'Upgrades', value: `${no} Personalupgrade\n${no} Besserer Zulieferer\n${no} ${nextBusiness.nameUpgrade3}` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
