@@ -242,7 +242,7 @@ module.exports = {
 					.setColor('#2f3136');
 				edit(client, interaction, embed, row);
 			}
-			else if (button.id == 'buyNew') {
+			else if (button.id == 'buyNext') {
 				if (getBusiness.type == documents.name) {
 					company = documents;
 				}
