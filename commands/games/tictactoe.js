@@ -23,25 +23,6 @@ module.exports = {
         else if (midDuel.has(userId)) return error(client, interaction, 'Du bist aktuell schon in einem Spiel!');
         else if (midDuel.has(targetId)) return error(client, interaction, `${target.username} ist aktuell schon in einem Spiel!`);
 
-        function getRandomString(length) {
-            let randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result;
-            for ( let i = 0; i < length; i++ ) {
-                result += randomChars.charAt(Math.floor(Math.random() * randomChars.length))
-            }
-            return result;
-        };
-
-        let a11 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let a22 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let a33 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let b11 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let b22 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let b33 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let c11 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let c22 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-        let c33 = (getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4)+'-'+getRandomString(4))
-
         const gameData = [
             { member: user, style: 3, em: '🟢' },
             { member: target, style: 4, em: '🔴' },
@@ -55,55 +36,55 @@ module.exports = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: a11,
+            custom_id: 'a1',
         };
         const A2 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: a22,
+            custom_id: 'a2',
         };
         const A3 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: a33,
+            custom_id: 'a3',
         };
         const B1 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: b11,
+            custom_id: 'b1',
         };
         const B2 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: b22,
+            custom_id: 'b2',
         };
         const B3 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: b33,
+            custom_id: 'b3',
         };
         const C1 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: c11,
+            custom_id: 'c1',
         };
         const C2 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: c22,
+            custom_id: 'c2',
         };
         const C3 = {
             type: 2,
             label: ' ',
             style: 2,
-            custom_id: c33,
+            custom_id: 'c3',
         };
 
         const components = [
@@ -144,7 +125,7 @@ module.exports = {
 
             button.defer();
 
-            if (button.id == a11 && gameData[player].member.id == button.clicker.user.id) {
+            if (button.id == 'a1' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 a1 = gameData[player].style;
                 A1.style = gameData[player].style;
@@ -153,7 +134,7 @@ module.exports = {
                 await checkWinner();
                 player = (player + 1) % 2;
             }
-            else if (button.id == a22 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'a2' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 a2 = gameData[player].style;
                 A2.style = gameData[player].style;
@@ -162,7 +143,7 @@ module.exports = {
                 await checkWinner();
                 player = (player + 1) % 2;
             }
-            else if (button.id == a33 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'a3' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 a3 = gameData[player].style;
                 A3.style = gameData[player].style;
@@ -171,7 +152,7 @@ module.exports = {
                 await checkWinner();
                 player = (player + 1) % 2;
             }
-            else if (button.id == b11 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'b1' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 b1 = gameData[player].style;
                 B1.style = gameData[player].style;
@@ -180,7 +161,7 @@ module.exports = {
                 await checkWinner();
                 player = (player + 1) % 2;
             }
-            else if (button.id == b22 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'b2' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 b2 = gameData[player].style;
                 B2.style = gameData[player].style;
@@ -189,7 +170,7 @@ module.exports = {
                 await checkWinner();
                 player = (player + 1) % 2;
             }
-            else if (button.id == b33 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'b3' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 b3 = gameData[player].style;
                 B3.style = gameData[player].style;
@@ -199,7 +180,7 @@ module.exports = {
                 player = (player + 1) % 2;  
 
             }
-            else if (button.id == c11 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'c1' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 c1 = gameData[player].style;
                 C1.style = gameData[player].style;
@@ -208,7 +189,7 @@ module.exports = {
                 await checkWinner();
                 player = (player + 1) % 2;
             }
-            else if (button.id == c22 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'c2' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 c2 = gameData[player].style;
                 C2.style = gameData[player].style;
@@ -217,7 +198,7 @@ module.exports = {
                 await checkWinner();
                 player = (player + 1) % 2;
             }
-            else if (button.id == c33 && gameData[player].member.id == button.clicker.user.id) {
+            else if (button.id == 'c3' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 c3 = gameData[player].style;
                 C3.style = gameData[player].style;
