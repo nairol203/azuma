@@ -92,11 +92,17 @@ module.exports = {
 				],
 			});
 
-			const button = new MessageButton()
+			const button_unlock = new MessageButton()
 				.setLabel('Kanal öffentlich machen')
 				.setStyle('blurple')
 				.setEmoji('🌎')
 				.setID('unlock')
+
+			const button_lock = new MessageButton()
+				.setLabel('Kanal privat stellen')
+				.setStyle('blurple')
+				.setEmoji('🔒')
+				.setID('lock')
 
 			const embed = new MessageEmbed()
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
@@ -107,13 +113,21 @@ module.exports = {
 				.setColor('5865F2')
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
 
-			customsTextChannel.send({ embed: embed, buttons: [ button ] }).then((msg) => {
+			customsTextChannel.send({ embed: embed, buttons: [ button_unlock ] }).then((msg) => {
 				msg.pin();
-				const filter = (button) => button.clicker.user.id === message.author.id;
+				const filter = (button) => button.clicker.user.id === userId;
 				const collector = msg.createButtonCollector(filter);
-
-				collector.on('collect', b => console.log(`Collected button with the id ${b.id}`));
-				collector.on('end', collected => console.log(`Collected ${collected.size} items`));
+				collector.on('collect', button => {
+					button.defer();
+					if (button.id == 'unlock') {
+						customsVoiceChannel.updateOverwrite('255741114273759232', { CONNECT: true});
+						msg.edit({ embed: embed, buttons: [ button_lock ] });
+					} else if (button.id == 'lock') {
+						customsVoiceChannel.updateOverwrite(userId, { CONNECT: true });
+						customsVoiceChannel.updateOverwrite('255741114273759232', { CONNECT: false});
+						msg.edit({ embed: embed, buttons: [ button_unlock ] });
+					};
+				});
 			});
 
 
