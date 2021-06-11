@@ -125,7 +125,7 @@ module.exports = {
 
 		if (getBusiness.upgrade1 & getBusiness.upgrade2 & getBusiness.upgrade3) {
 			if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
-				buttonNewBusiness.style = 3;
+				buttonNewBusiness.style = 1;
 				buttonNewBusiness.disabled = false;
 			};
 			row.components = [ buttonSell, buttonNewBusiness ];
@@ -244,7 +244,7 @@ module.exports = {
 				};
 				if (getBusiness.upgrade2 & getBusiness.upgrade3) {
 					if (getBusiness.type !== cocaine.name && nextBusiness.price < newBal) {
-						buttonNewBusiness.style = 3;
+						buttonNewBusiness.style = 1;
 						buttonNewBusiness.disabled = false;
 					} else {
 						buttonNewBusiness.style = 2;
@@ -282,7 +282,7 @@ module.exports = {
 				};
 				if (getBusiness.upgrade1 & getBusiness.upgrade3) {
 					if (getBusiness.type !== cocaine.name && nextBusiness.price < newBal) {
-						buttonNewBusiness.style = 3;
+						buttonNewBusiness.style = 1;
 						buttonNewBusiness.disabled = false;
 					} else {
 						buttonNewBusiness.style = 2;
@@ -320,7 +320,7 @@ module.exports = {
 				};
 				if (getBusiness.upgrade1 & getBusiness.upgrade2) {
 					if (getBusiness.type !== cocaine.name && nextBusiness.price < newBal) {
-						buttonNewBusiness.style = 3;
+						buttonNewBusiness.style = 1;
 						buttonNewBusiness.disabled = false;
 					} else {
 						buttonNewBusiness.style = 2;
