@@ -123,6 +123,13 @@ module.exports = {
 
             button.defer();
 
+            setTimeout(() => {
+                A1.disabled = true; A2.disabled = true; A3.disabled = true;
+                B1.disabled = true; B2.disabled = true; B3.disabled = true;
+                C1.disabled = true; C2.disabled = true; C3.disabled = true;
+                edit(`**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\nDie Zeit ist abgelaufen! (5 Minuten)`);
+            }, 300000);
+
             if (button.id == 'a1' && gameData[player].member.id == button.clicker.user.id) {
                 if (button.style == gameData[player].style) return;
                 a1 = gameData[player].style;
@@ -207,10 +214,10 @@ module.exports = {
             };
         });
         
-        function edit() {
+        function edit(content = `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`) {
             client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
                 data: {
-                    content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`,
+                    content,
                     components,
                 },
             });
