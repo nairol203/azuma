@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { send, edit } = require('../../features/slash');
+const { send, edit, get } = require('../../features/slash');
 const { yes, no } = require('../../emoji.json');
 
 const { buyUpgrade1, buyUpgrade2, buyUpgrade3 } = require('../../features/business');
@@ -243,7 +243,34 @@ module.exports = {
 				edit(client, interaction, embed, row);
 			}
 			else if (button.id == 'buyNew') {
-				return;
+				if (getBusiness.type == documents.name) {
+					company = documents;
+				}
+				else if (getBusiness.type == weed.name) {
+					company = meth;
+				}
+				else if (getBusiness.type == fakeMoney.name) {
+					company = fakeMoney;
+				}
+				else if (getBusiness.type == meth.name) {
+					company = meth;
+				};
+				await buyBusiness(guildId, userId, company.name);
+				await addCoins(guildId, userId, company.price * -1);
+				const newProfit = await business.checkProfit(guildId, userId);
+				const embed = new MessageEmbed()
+					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+					.setTitle(company.name)
+					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
+					.addFields(
+						{ name: 'Umsatz pro Verkauf', value: `${format(newProfit)} 💵` },
+						{ name: 'Lagerbestand', value: cd },
+						{ name: 'Upgrades', value: `${no} Personalupgrade\n${no} Besserer Zulieferer\n${no} ${company.nameUpgrade3}` },
+					)
+					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+					.setColor('#2f3136');
+				row.components = [ buttonSell, buttonUpgrade1, buttonUpgrade2, buttonUpgrade3 ];
+				edit(client, interaction, embed, row);
 			};
 		})
 	},
