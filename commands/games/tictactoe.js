@@ -114,8 +114,8 @@ module.exports = {
             },
         });
         
-        midDuel.add(userId)
-        midDuel.add(targetId)
+        midDuel.add(userId);
+        midDuel.add(targetId);
 
         const response = await get(client, interaction);
 
@@ -210,7 +210,6 @@ module.exports = {
         });
         
         function edit() {
-            console.log(response.id, userId, targetId)
             client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
                 data: {
                     content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`,
@@ -237,8 +236,8 @@ module.exports = {
             } else if (a3 == 3 && b2 == 3 && c1 == 3 || a3 == 4 && b2 == 4 && c1 == 4) {
                 await stop();
             } else if (a1 && a2 && a3 && b1 && b2 && b3 && c1 && c2 && c3) {
-                midDuel.delete(userId)
-                midDuel.delete(targetId)
+                midDuel.delete(userId);
+                midDuel.delete(targetId);
     
                 client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
                     data: {
@@ -250,8 +249,8 @@ module.exports = {
         };
 
         function stop() {
-            midDuel.delete(userId)
-            midDuel.delete(targetId)
+            midDuel.delete(userId);
+            midDuel.delete(targetId);
 
             A1.disabled = true; A2.disabled = true; A3.disabled = true;
             B1.disabled = true; B2.disabled = true; B3.disabled = true;
