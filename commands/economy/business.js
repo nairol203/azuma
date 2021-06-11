@@ -50,8 +50,8 @@ module.exports = {
 		if (args.options === 'sell') {
 			const mathCd = await cooldowns.mathCooldown(userId, 'work');
 			if (getCooldown) return [ no + ` Du hast noch **${mathCd}** Cooldown!` ];
-			const company = await business.setCompany(guildId, userId);
-			const profit = await business.checkProfit(guildId, userId);
+			let company = await business.setCompany(guildId, userId);
+			let profit = await business.checkProfit(guildId, userId);
 			
 			await economy.addCoins(guildId, userId, profit);
 			await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60)
@@ -114,12 +114,12 @@ module.exports = {
 			row.components = [ buttonSell, buttonNewBusiness ];
 		};
 
-		const company = await business.setCompany(guildId, userId);
-		const profit = await business.checkProfit(guildId, userId);
+		let company = await business.setCompany(guildId, userId);
+		let profit = await business.checkProfit(guildId, userId);
 
-		const up1 = getBusiness.upgrade1 ? yes : no;
-		const up2 = getBusiness.upgrade2 ? yes : no;
-		const up3 = getBusiness.upgrade3 ? yes : no;
+		let up1 = getBusiness.upgrade1 ? yes : no;
+		let up2 = getBusiness.upgrade2 ? yes : no;
+		let up3 = getBusiness.upgrade3 ? yes : no;
 
 		let cd = '██████████████████\nDein Lager ist voll! Verkaufe die Ware mit `/business: sell`';
 		let cooldown;
@@ -167,6 +167,13 @@ module.exports = {
 
 			if (response.id !== button.message.id) return;
 			if (button.clicker.user.id !== userId) return;
+
+			let company = await business.setCompany(guildId, userId);
+			let profit = await business.checkProfit(guildId, userId);
+	
+			let up1 = getBusiness.upgrade1 ? yes : no;
+			let up2 = getBusiness.upgrade2 ? yes : no;
+			let up3 = getBusiness.upgrade3 ? yes : no;
 
 			if (button.id == 'sell') {
 				await economy.addCoins(guildId, userId, profit);
@@ -245,16 +252,16 @@ module.exports = {
 			else if (button.id == 'buyNext') {
 				let nextBusiness;
 				if (getBusiness.type == documents.name) {
-					nextBusiness = documents;
+					nextBusiness = weed;
 				}
 				else if (getBusiness.type == weed.name) {
-					nextBusiness = meth;
-				}
-				else if (getBusiness.type == fakeMoney.name) {
 					nextBusiness = fakeMoney;
 				}
-				else if (getBusiness.type == meth.name) {
+				else if (getBusiness.type == fakeMoney.name) {
 					nextBusiness = meth;
+				}
+				else if (getBusiness.type == meth.name) {
+					nextBusiness = cocaine;
 				};
 				await buyBusiness(guildId, userId, nextBusiness.name);
 				await addCoins(guildId, userId, nextBusiness.price * -1);
