@@ -110,7 +110,7 @@ module.exports = {
 			customsTextChannel.send({ embed: embed, buttons: [ button ] }).then((msg) => {
 				msg.pin();
 				const filter = (button) => button.clicker.user.id === message.author.id;
-				const collector = m.createButtonCollector(filter);
+				const collector = msg.createButtonCollector(filter);
 
 				collector.on('collect', b => console.log(`Collected button with the id ${b.id}`));
 				collector.on('end', collected => console.log(`Collected ${collected.size} items`));
