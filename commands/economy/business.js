@@ -7,7 +7,7 @@ const { documents, weed, fakeMoney, meth, cocaine } = require('../../features/bu
 const business = require('../../features/business');
 const cooldowns = require('../../cooldowns');
 const economy = require('../../features/economy');
-const { addCoins } = require('../../features/economy');
+const { addCoins, getCoins } = require('../../features/economy');
 
 function format(number) {
 	const result = Intl.NumberFormat('de-DE', { maximumSignificantDigits: 3 }).format(number);
@@ -42,8 +42,9 @@ module.exports = {
 		const member = interaction.member;
 		const user = member.user;
 		const userId = user.id
-		const getBusiness = await business.getBusiness(guildId, userId);
+		let getBusiness = await business.getBusiness(guildId, userId);
 		const getCooldown = await cooldowns.getCooldown(userId, 'work');
+		const userBal = await getCoins(guildId, userId);
 
 		if (getBusiness === null) return [ no + ' Du hast kein Unternehmen, kaufe eines im Shop!' ];
 
@@ -106,8 +107,22 @@ module.exports = {
 			components: [ buttonSell, buttonUpgrade1, buttonUpgrade2, buttonUpgrade3 ],
 		};
 
+		let nextBusiness;
+		if (getBusiness.type == documents.name) {
+			nextBusiness = weed;
+		}
+		else if (getBusiness.type == weed.name) {
+			nextBusiness = fakeMoney;
+		}
+		else if (getBusiness.type == fakeMoney.name) {
+			nextBusiness = meth;
+		}
+		else if (getBusiness.type == meth.name) {
+			nextBusiness = cocaine;
+		};
+
 		if (getBusiness.upgrade1 & getBusiness.upgrade2 & getBusiness.upgrade3) {
-			if (getBusiness.type !== cocaine.name) {
+			if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
 				buttonNewBusiness.style = 3;
 				buttonNewBusiness.disabled = false;
 			};
@@ -133,15 +148,15 @@ module.exports = {
 			buttonSell.style = 3;
 		};
 
-		if (!getBusiness.upgrade1) {
+		if (!getBusiness.upgrade1 && company.priceUpgrade1 < userBal) {
 			buttonUpgrade1.disabled = false;
 			buttonUpgrade1.style = 1;
 		};
-		if (!getBusiness.upgrade2) {
+		if (!getBusiness.upgrade2 && company.priceUpgrade2 < userBal) {
 			buttonUpgrade2.disabled = false;
-			;buttonUpgrade2.style = 1;
+			buttonUpgrade2.style = 1;
 		}
-		if (!getBusiness.upgrade3) {
+		if (!getBusiness.upgrade3 && company.priceUpgrade3 < userBal) {
 			buttonUpgrade3.disabled = false;
 			buttonUpgrade3.style = 1;
 		};
@@ -163,17 +178,18 @@ module.exports = {
         const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
 
 		client.on('clickButton', async button => {
-			button.defer()
-
 			if (response.id !== button.message.id) return;
 			if (button.clicker.user.id !== userId) return;
+			
+			button.defer()
 
-			let company = await business.setCompany(guildId, userId);
-			let profit = await business.checkProfit(guildId, userId);
+			getBusiness = await business.getBusiness(guildId, userId);
+			company = await business.setCompany(guildId, userId);
+			profit = await business.checkProfit(guildId, userId);
 	
-			let up1 = getBusiness.upgrade1 ? yes : no;
-			let up2 = getBusiness.upgrade2 ? yes : no;
-			let up3 = getBusiness.upgrade3 ? yes : no;
+			up1 = getBusiness.upgrade1 ? yes : no;
+			up2 = getBusiness.upgrade2 ? yes : no;
+			up3 = getBusiness.upgrade3 ? yes : no;
 
 			if (button.id == 'sell') {
 				await economy.addCoins(guildId, userId, profit);
@@ -211,6 +227,16 @@ module.exports = {
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
+				if (getBusiness.upgrade2 & getBusiness.upgrade3) {
+					if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
+						buttonNewBusiness.style = 3;
+						buttonNewBusiness.disabled = false;
+					} else {
+						buttonNewBusiness.style = 2;
+						buttonNewBusiness.disabled = true;
+					};
+					row.components = [ buttonSell, buttonNewBusiness ];
+				};
 				edit(client, interaction, embed, row);
 			}
 			else if (button.id == 'buyUpgrade2') {
@@ -229,6 +255,16 @@ module.exports = {
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
+				if (getBusiness.upgrade1 & getBusiness.upgrade3) {
+					if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
+						buttonNewBusiness.style = 3;
+						buttonNewBusiness.disabled = false;
+					} else {
+						buttonNewBusiness.style = 2;
+						buttonNewBusiness.disabled = true;
+					};
+					row.components = [ buttonSell, buttonNewBusiness ];
+				};
 				edit(client, interaction, embed, row);
 			}
 			else if (button.id == 'buyUpgrade3') {
@@ -247,24 +283,21 @@ module.exports = {
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
+				if (getBusiness.upgrade1 & getBusiness.upgrade2) {
+					if (getBusiness.type !== cocaine.name && nextBusiness.price < userBal) {
+						buttonNewBusiness.style = 3;
+						buttonNewBusiness.disabled = false;
+					} else {
+						buttonNewBusiness.style = 2;
+						buttonNewBusiness.disabled = true;
+					};
+					row.components = [ buttonSell, buttonNewBusiness ];
+				};
 				edit(client, interaction, embed, row);
 			}
 			else if (button.id == 'buyNext') {
-				let nextBusiness;
-				if (getBusiness.type == documents.name) {
-					nextBusiness = weed;
-				}
-				else if (getBusiness.type == weed.name) {
-					nextBusiness = fakeMoney;
-				}
-				else if (getBusiness.type == fakeMoney.name) {
-					nextBusiness = meth;
-				}
-				else if (getBusiness.type == meth.name) {
-					nextBusiness = cocaine;
-				};
 				await buyBusiness(guildId, userId, nextBusiness.name);
-				await addCoins(guildId, userId, nextBusiness.price * -1);
+				const newBal = await addCoins(guildId, userId, nextBusiness.price * -1);
 				const newProfit = await business.checkProfit(guildId, userId);
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
@@ -277,6 +310,18 @@ module.exports = {
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
+				if (nextBusiness.priceUpgrade1 < newBal) {
+					buttonUpgrade1.style = 1;
+					buttonUpgrade1.disabled = false;
+				};
+				if (nextBusiness.priceUpgrade2 < newBal) {
+					buttonUpgrade2.style = 1;
+					buttonUpgrade2.disabled = false;
+				};
+				if (nextBusiness.priceUpgrade3 < newBal) {
+					buttonUpgrade3.style = 1;
+					buttonUpgrade3.disabled = false;
+				};
 				row.components = [ buttonSell, buttonUpgrade1, buttonUpgrade2, buttonUpgrade3 ];
 				edit(client, interaction, embed, row);
 			};
