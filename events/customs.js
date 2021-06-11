@@ -102,43 +102,51 @@ module.exports = {
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
 				.setDescription('Wir wünschen Ihnen einen angenehmen Aufenthalt. Der Zimmerservice kann Ihnen bei ein paar Dingen behilflich sein!')
 				.addFields(
-					{ name: 'Commands', value: '- Kanalnamen ändern: `/name`\n- User Zugriff auf den Kanal geben / nehmen: `/permit` `/reject`\n- Kanallimit einstellen: `/limit`' },
+					{ name: 'Commands', value: '- Kanalnamen ändern: `/name`\n- User Zugriff auf den Kanal geben u. nehmen: `/permit` `/reject`\n- Kanallimit einstellen: `/limit`' },
 				)
 				.setColor('5865F2')
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
-			customsTextChannel.send({ embed: embed, buttons: [ button ] }).then((msg) => msg.pin());
+
+			customsTextChannel.send({ embed: embed, buttons: [ button ] }).then((msg) => {
+				msg.pin();
+				const filter = (button) => button.clicker.user.id === message.author.id;
+				const collector = m.createButtonCollector(filter);
+
+				collector.on('collect', b => console.log(`Collected button with the id ${b.id}`));
+				collector.on('end', collected => console.log(`Collected ${collected.size} items`));
+			});
 
 
-			let args1 = '/';
-			let args2 = '/';
-			let args3 = '/';
-			let args4 = '/';
-			let args5 = '/';
+			// let args1 = '/';
+			// let args2 = '/';
+			// let args3 = '/';
+			// let args4 = '/';
+			// let args5 = '/';
 
-			if (searchChannel) {
-				args1 = searchChannel.args1;
-				if (!args1) args1 = '/';
-				args2 = searchChannel.args2;
-				if (!args2) args2 = '/';
-				args3 = searchChannel.args3;
-				if (!args3) args3 = '/';
-				args4 = searchChannel.args4;
-				if (!args4) args4 = '/';
-				args5 = searchChannel.args5;
-				if (!args5) args5 = '/';
-			}
+			// if (searchChannel) {
+			// 	args1 = searchChannel.args1;
+			// 	if (!args1) args1 = '/';
+			// 	args2 = searchChannel.args2;
+			// 	if (!args2) args2 = '/';
+			// 	args3 = searchChannel.args3;
+			// 	if (!args3) args3 = '/';
+			// 	args4 = searchChannel.args4;
+			// 	if (!args4) args4 = '/';
+			// 	args5 = searchChannel.args5;
+			// 	if (!args5) args5 = '/';
+			// }
 
-			let jukeboxId = '';
-			const jukeboxEmbed = new MessageEmbed()
-				.setTitle('Jukebox')
-				.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
-				.addFields(
-					{ name: 'Speichere Songs:', value: '`/save <number> <song>`', inline: true },
-					{ name: 'Lösche Songs:', value: '`/delete <number>`', inline: true },
-					{ name: 'Deine gespeicherten Songs:', value: `:one: ${args1}\n:two: ${args2}\n:three: ${args3}\n:four: ${args4}\n:five: ${args5}` },
-				)
-				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-				.setColor('#f77600');
+			// let jukeboxId = '';
+			// const jukeboxEmbed = new MessageEmbed()
+			// 	.setTitle('Jukebox')
+			// 	.setDescription('Du kannst dir deine Lieblingssong abspeichern\nund diese dann per Shortcut abspielen!')
+			// 	.addFields(
+			// 		{ name: 'Speichere Songs:', value: '`/save <number> <song>`', inline: true },
+			// 		{ name: 'Lösche Songs:', value: '`/delete <number>`', inline: true },
+			// 		{ name: 'Deine gespeicherten Songs:', value: `:one: ${args1}\n:two: ${args2}\n:three: ${args3}\n:four: ${args4}\n:five: ${args5}` },
+			// 	)
+			// 	.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+			// 	.setColor('#f77600');
 			// customsTextChannel.send(jukeboxEmbed);
 			const userId = newState.id;
 			const channelId = customsVoiceChannel.id;
