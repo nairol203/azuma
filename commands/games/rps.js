@@ -147,14 +147,8 @@ module.exports = {
 			if (response.id !== button.message.id) return;
 			
             setTimeout(() => {
-				client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
-					data: {
-						content: 'Die Zeit ist abgelaufen! (5 Minuten)',
-						components: [
-							row_4,
-						],
-					},
-				});
+				edit(client, interaction, embed, row_4)
+				return;
             }, 300000);
 
 			if (button.id === 'rpsAccept') {

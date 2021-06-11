@@ -99,14 +99,8 @@ module.exports = {
             if (button.clicker.user.id !== userId) return;
 
             setTimeout(() => {
-				client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
-					data: {
-						content: 'Die Zeit ist abgelaufen! (5 Minuten)',
-						components: [
-							row_3,
-						],
-					},
-				});
+				edit(client, interaction, embed, row_3);
+				return;
             }, 300000);
 
 			if (button.id === 'accept') {
