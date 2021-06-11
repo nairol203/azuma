@@ -171,7 +171,7 @@ module.exports = {
 				{ name: 'Deine Credits', value: format(userBal) + ' 💵', inline: true },
 				{ name: 'Lagerbestand', value: cd },
 				{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
-				{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || '1.000.000'} Credits`, inline: true },
+				{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || 'N/A'} Credits`, inline: true },
 			)
             .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 			.setColor('#2f3136');
@@ -209,7 +209,7 @@ module.exports = {
 						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: '░░░░░░░░░░░░░░░░░░\nVerkauf erfolgreich! `+' + format(profit) + ' Credits`' },
 						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || '1.000.000'} Credits`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || 'N/A'} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -230,7 +230,7 @@ module.exports = {
 						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${yes} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || '1.000.000'} Credits`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || 'N/A'} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -268,7 +268,7 @@ module.exports = {
 						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${yes} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}`, inline: true },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || '1.000.000'} Credits`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || 'N/A'} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -306,7 +306,7 @@ module.exports = {
 						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${yes} ${company.nameUpgrade3}`, inline: true },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || '1.000.000'} Credits`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || 'N/A'} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -356,7 +356,7 @@ module.exports = {
 						{ name: 'Deine Credits', value: format(newBal) + ' 💵', inline: true },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${no} Personalupgrade\n${no} Besserer Zulieferer\n${no} ${newBusiness.nameUpgrade3}`, inline: true },
-						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || '1.000.000'} Credits`, inline: true },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness?.name || 'Coming soon'}\nKosten: ${format(nextBusiness?.price) || 'N/A'} Credits`, inline: true },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
