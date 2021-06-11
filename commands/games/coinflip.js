@@ -92,16 +92,13 @@ module.exports = {
 
 		const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
 
+		let buttonClicked;
+
 		client.on('clickButton', async button => {
 			button.defer();
 
 			if (response.id !== button.message.id) return;
-            if (button.clicker.user.id !== userId) return;
-
-            setTimeout(() => {
-				edit(client, interaction, embed, row_3);
-				return;
-            }, 300000);
+            if (button.clicker.user.id !== targetId) return;
 
 			if (button.id === 'accept') {
 				buttonClicked = true;
@@ -119,6 +116,12 @@ module.exports = {
 						break;
 				};
 			}
-		})
+		});
+
+		setTimeout(() => {
+			if (buttonClicked) return;
+			edit(client, interaction, embed, row_3);
+			return;
+		}, 300000);
 	},
 };
