@@ -169,6 +169,7 @@ module.exports = {
 				{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 				{ name: 'Lagerbestand', value: cd },
 				{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+				{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
 			)
             .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 			.setColor('#2f3136');
@@ -192,7 +193,7 @@ module.exports = {
 			up3 = getBusiness.upgrade3 ? yes : no;
 
 			if (button.id == 'sell') {
-				await economy.addCoins(guildId, userId, profit);
+				const newBal = await economy.addCoins(guildId, userId, profit);
 				await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
 				buttonSell.disabled = true;
 				buttonSell.style = 2;
@@ -203,12 +204,13 @@ module.exports = {
 					.setDescription('Das ist die Übersicht über dein Unternehmen. Von hier aus kannst du deine Ware verkaufen und neue Upgrades für dein Business kaufen.')
 					.addFields(
 						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
-						{ name: 'Lagerbestand', value: '░░░░░░░░░░░░░░░░░░\nVerkauf erfolgreich!' },
+						{ name: 'Lagerbestand', value: '░░░░░░░░░░░░░░░░░░\nVerkauf erfolgreich! `+' + profit + ' Credits`' },
 						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
-
+				
 				edit(client, interaction, embed, row);
 			}
 			else if (button.id == 'buyUpgrade1') {
@@ -224,6 +226,7 @@ module.exports = {
 						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${yes} Personalupgrade\n${up2} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -252,6 +255,7 @@ module.exports = {
 						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${yes} Besserer Zulieferer\n${up3} ${company.nameUpgrade3}` },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -280,6 +284,7 @@ module.exports = {
 						{ name: 'Umsatz pro Verkauf', value: `${format(profit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${up1} Personalupgrade\n${up2} Besserer Zulieferer\n${yes} ${company.nameUpgrade3}` },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
@@ -307,6 +312,7 @@ module.exports = {
 						{ name: 'Umsatz pro Verkauf', value: `${format(newProfit)} 💵` },
 						{ name: 'Lagerbestand', value: cd },
 						{ name: 'Upgrades', value: `${no} Personalupgrade\n${no} Besserer Zulieferer\n${no} ${nextBusiness.nameUpgrade3}` },
+						{ name: 'Nächstes Unternehmen', value: `${nextBusiness.name}\nKosten: ${nextBusiness.price} Credits` },
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
