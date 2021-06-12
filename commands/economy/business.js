@@ -69,6 +69,7 @@ module.exports = {
 					await addCoins(guildId, userId, documents.price * -1);
 					buyFirst.disabled = true;
 					buyFirst.label = 'Kauf erfolgreich!';
+					await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
 					edit(client, interaction, undefined, {type: 1, components: [buyFirst]}, `Sieht so aus, als hättest du noch kein Unternehmen! Das erste Business ist die ${documents.name}! Sie kostet ${format(documents.price)} 💵\nMöchtest du sie kaufen?`)
 				}
 			})
