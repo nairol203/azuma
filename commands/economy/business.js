@@ -374,7 +374,10 @@ module.exports = {
 				else if (nextBusiness.name == meth.name) {
 					nextBusiness = cocaine;
 				};
-				await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
+				const getCool = await cooldowns.getCooldown(userId, 'work');
+				if (!getCool) {
+					await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);	
+				};
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 					.setTitle(newBusiness.name)
