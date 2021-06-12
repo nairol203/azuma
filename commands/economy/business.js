@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const { send, edit, get } = require('../../features/slash');
+const { send, edit, get, error } = require('../../features/slash');
 const { yes, no } = require('../../emoji.json');
 
 const { buyUpgrade1, buyUpgrade2, buyUpgrade3, buyBusiness } = require('../../features/business');
@@ -46,7 +46,34 @@ module.exports = {
 		const getCooldown = await cooldowns.getCooldown(userId, 'work');
 		const userBal = await getCoins(guildId, userId);
 
-		if (getBusiness === null) return [ no + ' Du hast kein Unternehmen, kaufe eines im Shop!' ];
+		const buyFirst = {
+			type: 2,
+			label: 'Erstes Unternehmen kaufen',
+			style: 2,
+			custom_id: 'buyFirst',
+			disabled: true,
+		}
+
+		if (getBusiness === null) {
+			if (userBal > documents.price) {
+				buyFirst.disabled = false;
+				buyFirst.style = 3;
+			}
+			error(client, interaction, `Sieht so aus, als hättest du noch kein Unternehmen! Das erste Business ist die ${documents.name}! Sie kostet ${format(documents.price)} 💵\nMöchtest du sie kaufen?`, undefined, { type: 1, components: [buyFirst]})
+			client.on('clickButton', async button => {
+				if (button.clicker.user.id !== userId) return;				
+				button.defer();
+
+				if (button.id == 'buyFirst') {
+					await buyBusiness(guildId, userId, documents.name);
+					await addCoins(guildId, userId, documents.price * -1);
+					buyFirst.disabled = true;
+					buyFirst.label = 'Kauf erfolgreich!';
+					edit(client, interaction, undefined, {type: 1, components: [buyFirst]}, `Sieht so aus, als hättest du noch kein Unternehmen! Das erste Business ist die ${documents.name}! Sie kostet ${format(documents.price)} 💵\nMöchtest du sie kaufen?`)
+				}
+			})
+			return;
+		};
 
 		if (args.options === 'sell') {
 			const mathCd = await cooldowns.mathCooldown(userId, 'work');
