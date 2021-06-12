@@ -75,6 +75,7 @@ client.on('ready', async () => {
 		const userId = interaction.member.user.id;
 		const user = client.users.cache.get(userId)
 		const commandName = name.toLowerCase();
+		
 		const args = {};
 		if (options) {
 			for (const option of options) {
