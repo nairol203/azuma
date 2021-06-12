@@ -63,7 +63,6 @@ module.exports = {
 			client.on('clickButton', async button => {
 				if (button.clicker.user.id !== userId) return;				
 				button.defer();
-
 				if (button.id == 'buyFirst') {
 					await buyBusiness(guildId, userId, documents.name);
 					await addCoins(guildId, userId, documents.price * -1);
@@ -375,6 +374,7 @@ module.exports = {
 				else if (nextBusiness.name == meth.name) {
 					nextBusiness = cocaine;
 				};
+				await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
 				const embed = new MessageEmbed()
 					.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 					.setTitle(newBusiness.name)
