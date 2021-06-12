@@ -137,7 +137,7 @@ module.exports = {
 		let up2 = getBusiness.upgrade2 ? yes : no;
 		let up3 = getBusiness.upgrade3 ? yes : no;
 
-		let cd = '██████████████████\nDein Lager ist voll! Es kann keine neue Ware produziert werden!`';
+		let cd = '██████████████████\nDein Lager ist voll! Es kann keine neue Ware produziert werden!';
 		let cooldown;
 
 		if (getCooldown) {
