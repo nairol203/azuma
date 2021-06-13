@@ -247,7 +247,7 @@ module.exports = {
                 collector.on('end', collected => {
                     button_back.disabled = true;
                     button_next.disabled = true;
-                    interaction.editReply({ embeds: [embeds[0]], components: [row] })
+                    interaction.editReply({ embeds: [allEmbeds[0]], components: [row] })
                 });
                 collector.on("error", (e) => console.log(e))
             } else {
