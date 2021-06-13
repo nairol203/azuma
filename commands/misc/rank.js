@@ -7,12 +7,12 @@ module.exports = {
 	description: 'Zeigt dein aktuelles Level an',
 	callback: async ({ client, interaction }) => {
 		const guildId = interaction.guildID;
-		const userId = interaction.member.user.id;
-		const user = client.users.cache.get(userId);
+		const target = client.users.cache.get(interaction.member.user.id)
+		const targetId = target.id;
 
 		const user = await findOne({
 			guildId,
-			userId,
+			targetId,
 		});
 
 		const needed = Math.round(getNeededXP(user.level - 1));
@@ -21,19 +21,19 @@ module.exports = {
 		const requiredXp = neededCurrent - needed;
 
 		const rank = new Rank()
-			.setAvatar(user.displayAvatarURL({ dynamic: false, format: 'png' }))
+			.setAvatar(target.displayAvatarURL({ dynamic: false, format: 'png' }))
 			.setCurrentXP(currendXp)
-			.setDiscriminator(user.discriminator)
+			.setDiscriminator(target.discriminator)
 			.setLevel(user.level)
 			.setProgressBar('#f77600')
 			.setRank(1, 'test', false)
 			.setRequiredXP(requiredXp)
-			.setStatus(user.presence.status, false, false)
-			.setUsername(user.username);
+			.setStatus(target.presence.status, false, false)
+			.setUsername(target.username);
 		await rank.build()
 			.then(async data => {
 				const attatchment = new MessageAttachment(data, 'levelcard.png');
-				await interaction.reply({ files: [attatchment] });
+				await interaction.reply({ files: [attatchment],  });
 			});
 	},
 };
