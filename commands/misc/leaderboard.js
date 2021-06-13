@@ -1,17 +1,17 @@
 const { MessageEmbed } = require('discord.js');
-const Levels = require('../../events/levels');
+const { fetchLeaderboard, computeLeaderboard } = require('../../events/levels');
 
 module.exports = {
 	description: 'Zeigt die Rangliste des Servers an',
 	callback: async ({ client, interaction }) => {
-		const guildId = interaction.guild_id;
+		const guildId = interaction.guildID;
 		const guild = client.guilds.cache.get(guildId);
 
-		const rawLeaderboard = await Levels.fetchLeaderboard(guildId, 10);
+		const rawLeaderboard = await fetchLeaderboard(guildId, 10);
 
-		if (rawLeaderboard.length < 1) return 'Aktuell ist hat noch niemand XP gesammelt.';
+		if (rawLeaderboard.length < 1) return interaction.reply({ content: 'Aktuell ist hat noch niemand XP gesammelt.', ephemeral: true });
 
-		const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, true);
+		const leaderboard = await computeLeaderboard(client, rawLeaderboard, true);
 
 		const lb = leaderboard.map(e => `\`${e.position}.\` **${e.username}:**\nLevel: ${e.level} • XP: ${e.xp.toLocaleString()}`);
 
@@ -21,6 +21,6 @@ module.exports = {
 			.setColor('f77600')
 			.setThumbnail(`${guild.iconURL()}`)
             .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);;
-		return embed;
+		interaction.reply({ embeds: [embed] });
 	},
 };

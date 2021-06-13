@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const { send, edit, get, error } = require('../../features/slash');
 const { yes, no } = require('../../emoji.json');
 
 const { buyUpgrade1, buyUpgrade2, buyUpgrade3, buyBusiness } = require('../../features/business');
@@ -37,8 +36,9 @@ module.exports = {
 			]
 		}
 	],
-	callback: async ({ client, interaction, args }) => {
-		const guildId = interaction.guild_id
+	callback: async ({ client, interaction }) => {
+		const guildId = interaction.guildID;
+		const channel = client.channels.cache.get(interaction.channelID);
 		const member = interaction.member;
 		const user = member.user;
 		const userId = user.id
@@ -46,38 +46,48 @@ module.exports = {
 		const getCooldown = await cooldowns.getCooldown(userId, 'work');
 		const userBal = await getCoins(guildId, userId);
 
-		const buyFirst = {
-			type: 2,
-			label: 'Erstes Unternehmen kaufen',
-			style: 2,
-			custom_id: 'buyFirst',
-			disabled: true,
-		}
-
 		if (getBusiness === null) {
+			const buyFirst = {
+				type: 2,
+				label: 'Erstes Unternehmen kaufen',
+				style: 2,
+				custom_id: 'buyFirst',
+				disabled: true,
+			};
+			const row = {
+				type: 1,
+				components: [buyFirst],
+			};
+
 			if (userBal > documents.price) {
 				buyFirst.disabled = false;
 				buyFirst.style = 3;
 			}
-			error(client, interaction, `Sieht so aus, als hättest du noch kein Unternehmen! Das erste Business ist die ${documents.name}! Sie kostet ${format(documents.price)} 💵\nMöchtest du sie kaufen?`, undefined, { type: 1, components: [buyFirst]})
-			client.on('clickButton', async button => {
-				if (button.clicker.user.id !== userId) return;				
-				button.defer();
-				if (button.id == 'buyFirst') {
-					await buyBusiness(guildId, userId, documents.name);
-					await addCoins(guildId, userId, documents.price * -1);
+			interaction.reply({ content: `Sieht so aus, als hättest du noch kein Unternehmen! Das erste Business ist die ${documents.name}! Sie kostet ${format(documents.price)} 💵\nMöchtest du sie kaufen?`, components: [row], ephemeral: true });
+	
+			channel.awaitMessageComponentInteraction(i => i.user.id == userId, { time: 300000 })
+				.then(async button => {
+					if (button.customID == 'buyFirst') {
+						await buyBusiness(guildId, userId, documents.name);
+						await addCoins(guildId, userId, documents.price * -1);
+						buyFirst.disabled = true;
+						buyFirst.label = 'Kauf erfolgreich!';
+						await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
+						button.update({ components: [row] });
+					}
+				})
+				.catch(() => {
 					buyFirst.disabled = true;
-					buyFirst.label = 'Kauf erfolgreich!';
-					await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
-					edit(client, interaction, undefined, {type: 1, components: [buyFirst]}, `Sieht so aus, als hättest du noch kein Unternehmen! Das erste Business ist die ${documents.name}! Sie kostet ${format(documents.price)} 💵\nMöchtest du sie kaufen?`)
-				}
-			})
+					buyFirst.label = 'Zeit abgelaufen!';
+					buyFirst.style = 4;
+					interaction.editReply({ components: [row] });
+				});
 			return;
 		};
 
-		if (args.options === 'sell') {
+		if (interaction?.options?.get('options')?.value) {
 			const mathCd = await cooldowns.mathCooldown(userId, 'work');
-			if (getCooldown) return [ no + ` Du hast noch **${mathCd}** Cooldown!` ];
+			if (getCooldown) return interaction.reply({ content: `Du hast noch **${mathCd}** Cooldown!`, ephemeral: true });
 			let company = await business.setCompany(guildId, userId);
 			let profit = await business.checkProfit(guildId, userId);
 			
@@ -90,7 +100,8 @@ module.exports = {
 				.addField('Umsatz', `\`${profit}\` 💵`)
 				.setFooter('Azuma | Du kannst alle 8 Stunden deine Ware verkaufen.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 				.setColor('#2f3136');
-			return embed;
+			interaction.reply({ embeds: [embed] });
+			return;
 		}
 
 		let company = await business.setCompany(guildId, userId);
@@ -203,16 +214,14 @@ module.exports = {
             .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 			.setColor('#2f3136');
 
-		send(client, interaction, embed, row);
+		interaction.reply({ embeds: [embed], components: [row] })
 
-        const response = await get(client, interaction)
+        const message = await interaction.fetchReply()
+        const filter = i => i.user.id == userId;
 
-		client.on('clickButton', async button => {
-			if (response.id !== button.message.id) return;
-			if (button.clicker.user.id !== userId) return;
-			
-			button.defer()
+        const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
 
+		collector.on('collect', async button => {
 			getBusiness = await business.getBusiness(guildId, userId);
 			company = await business.setCompany(guildId, userId);
 			profit = await business.checkProfit(guildId, userId);
@@ -221,7 +230,7 @@ module.exports = {
 			up2 = getBusiness.upgrade2 ? yes : no;
 			up3 = getBusiness.upgrade3 ? yes : no;
 
-			if (button.id == 'sell') {
+			if (button.customID == 'sell') {
 				const newBal = await economy.addCoins(guildId, userId, profit);
 				await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
 				buttonSell.disabled = true;
@@ -240,10 +249,9 @@ module.exports = {
 					)
 					.setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('#2f3136');
-				
-				edit(client, interaction, embed, row);
+				button.update({ embeds: [embed], components: [row] });
 			}
-			else if (button.id == 'buyUpgrade1') {
+			else if (button.customID == 'buyUpgrade1') {
 				await buyUpgrade1(guildId, userId, getBusiness.type);
 				const newBal = await addCoins(guildId, userId, company.priceUpgrade1 * -1);
 				buttonUpgrade1.style = 2;
@@ -279,9 +287,9 @@ module.exports = {
 					};
 					row.components = [ buttonSell, buttonNewBusiness ];
 				};
-				edit(client, interaction, embed, row);
+				button.update({ embeds: [embed], components: [row] });
 			}
-			else if (button.id == 'buyUpgrade2') {
+			else if (button.customID == 'buyUpgrade2') {
 				await buyUpgrade2(guildId, userId, getBusiness.type);
 				const newBal = await addCoins(guildId, userId, company.priceUpgrade2 * -1);
 				buttonUpgrade2.style = 2;
@@ -317,9 +325,9 @@ module.exports = {
 					};
 					row.components = [ buttonSell, buttonNewBusiness ];
 				};
-				edit(client, interaction, embed, row);
+				button.update({ embeds: [embed], components: [row] });
 			}
-			else if (button.id == 'buyUpgrade3') {
+			else if (button.customID == 'buyUpgrade3') {
 				await buyUpgrade3(guildId, userId, getBusiness.type);
 				const newBal = await addCoins(guildId, userId, company.priceUpgrade3 * -1);
 				buttonUpgrade3.style = 2;
@@ -355,9 +363,9 @@ module.exports = {
 					};
 					row.components = [ buttonSell, buttonNewBusiness ];
 				};
-				edit(client, interaction, embed, row);
+				button.update({ embeds: [embed], components: [row] });
 			}
-			else if (button.id == 'buyNext') {
+			else if (button.customID == 'buyNext') {
 				const newBusiness = nextBusiness;
 				await buyBusiness(guildId, userId, nextBusiness.name);
 				const newBal = await addCoins(guildId, userId, nextBusiness.price * -1);
@@ -404,8 +412,9 @@ module.exports = {
 					buttonUpgrade3.disabled = false;
 				};
 				row.components = [ buttonSell, buttonUpgrade1, buttonUpgrade2, buttonUpgrade3 ];
-				edit(client, interaction, embed, row);
+				button.update({ embeds: [embed], components: [row] });
 			};
-		})
+		
+		});
 	},
 };

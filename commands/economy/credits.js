@@ -9,10 +9,10 @@ module.exports = {
 			type: 6,
 		}
 	],
-	callback: async ({ args, interaction }) => {
-		const userId = args.user || interaction.member.user.id;
-		const guildId = interaction.guild_id;
+	callback: async ({ interaction }) => {
+		const userId = interaction?.options?.get('user')?.value || interaction.member.user.id;
+		const guildId = interaction.guildID;
 		const credits = await economy.getCoins(guildId, userId);
-		return `💵  |  **<@${userId}>**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)}** Credits.`
+		interaction.reply(`💵  |  **<@${userId}>**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)}** Credits.`);
 	},
 };

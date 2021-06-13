@@ -1,161 +1,41 @@
 require('dotenv').config();
-const fs = require('fs');
-const Discord = require('discord.js');
+const { readdirSync} = require('fs');
+const { Client, Collection } = require("discord.js");
+const { updateCooldown, setCooldown, getCooldown, mathCooldown } = require('./cooldowns');
 const mongo = require('./mongo');
-const cooldown = require('./cooldowns');
-const { no } = require('./emoji.json');
 
 const prefix = process.env.PREFIX;
 const guildId = process.env.GUILD_ID;
 const maintenance = false;
 
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-require('discord-buttons')(client);
-require('discord-slider')(client);
-const cooldowns = new Discord.Collection();
-client.commands = new Discord.Collection();
+const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES', 'GUILD_MESSAGE_REACTIONS'], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const cooldowns = new Collection();
+client.commands = new Collection();
 
-const commandFolders = fs.readdirSync('./commands');
+const commandFolders = readdirSync('./commands');
+const eventFiles = readdirSync('./events').filter(file => file.endsWith('.js'));
 
 for (const folder of commandFolders) {
-	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
+	const commandFiles = readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
 		const command = require(`./commands/${folder}/${file}`);
 		const commandName = file.toString().replace('.js', '');
 		client.commands.set(commandName, command);
 	}
-}
-
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+};
 
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	client.on(event.name, (...args) => event.run(...args, client));
-}
+};
 
 client.on('ready', async () => {
-	if (maintenance) {
-		console.log(client.user.username + ' > Maintenance is active!')
-		client.user.setActivity('Wartungsarbeiten', { type : 'PLAYING' })
-	}
+    await mongo();
+    updateCooldown();
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
-	const globalCommands = await get(); const guildCommands = await get(guildId);
+    const globalCommands = await get(); const guildCommands = await get(guildId);
 	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-	for (let command of client.commands) {
-		cmd = command[1];
-		if (cmd.update) {
-			if (cmd.update === false) return;
-			if (!cmd.description) console.warn(client.user.username + ' > No Description in ' + command[0] + '.js');
-			const name = command[0];
-			const description = cmd.description;
-			const options = cmd.options || [];
-			if (name && description) {
-				if (cmd.guildOnly === true) {
-					await create(name, description, options, guildId);
-				} else if (!cmd.guildOnly || cmd.guildOnly === false) {
-					await create(name, description, options);
-				}
-			}
-		}
-	}
-	for (c of globalCommands) {
-		// if (c.name == '') {
-		// 	client.api.applications(client.user.id).commands(c.id).delete()
-		// }
-	}
 });
-
-client.on('ready', async () => {
-	await mongo();
-	cooldown.updateCooldown();
-
-	client.ws.on('INTERACTION_CREATE', async (interaction) => {
-		const { name, options } = interaction.data;
-		if (!name) return;
-		const userId = interaction.member.user.id;
-		const user = client.users.cache.get(userId)
-		const commandName = name.toLowerCase();
-		
-		const args = {};
-		if (options) {
-			for (const option of options) {
-				const { name, value } = option;
-				args[name] = value;
-			}
-		}
-		const command = client.commands.get(commandName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-		if (!command) return;
-		if (maintenance && userId != '255739211112513536') return reply(interaction, no + ` Aktuell finden Wartungsarbeiten an <@${client.user.id}> statt. Bitte versuche es später nochmal!`, 64)
-		if (command.disabled) return reply(interaction, no + ' Dieser Befehl ist aktuell deaktiviert!', 64);
-		if (command.ownerOnly && userId != '255739211112513536') {
-			return reply(interaction, no + ' Nur der Bot-Owner kann diesen Befehl benutzen.', 64);
-		}
-		if (command.requiredPermissions) {
-			const channel = client.channels.cache.get(interaction.channel_id);
-			const authorPerms = channel.permissionsFor(user);
-			if (!authorPerms || !authorPerms.has(command.requiredPermissions)) {
-				return reply(interaction, no + ` Du brauchst die Berechtigung \`${command.requiredPermissions}\` um diesen Befehl zu benutzen.`, 64);
-			}
-		}
-		if (command.cooldown > 600) {
-			const getCd = await cooldown.getCooldown(userId, commandName);
-			if (!getCd) {
-				await cooldown.setCooldown(userId, commandName, command.cooldown);
-			}
-			else {
-				const result = await cooldown.mathCooldown(userId, commandName);
-				return reply(interaction, no + ` Du hast noch **${result}**Cooldown!`, 64);
-			}
-		}
-		if (command.cooldown <= 600) {
-			if (!cooldowns.has(commandName)) {
-				cooldowns.set(commandName, new Discord.Collection());
-			}
-			const now = Date.now();
-			const timestamps = cooldowns.get(commandName);
-			const cooldownAmount = (command.cooldown || 0) * 1000;
-			if (timestamps.has(userId)) {
-				const expirationTime = timestamps.get(userId) + cooldownAmount;
-				if (now < expirationTime) {
-					const timeLeft = (expirationTime - now) / 1000;
-					return reply(interaction, no + ` Du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.', 64);
-				}
-			}
-			timestamps.set(userId, now);
-			setTimeout(() => timestamps.delete(userId), cooldownAmount);
-		}
-		try {
-			const callback = await command.callback({ client, args, interaction })
-			if (callback) {
-				if (Array.isArray(callback)) {
-					reply(interaction, callback[0], 64);
-				} else {
-					reply(interaction, callback);
-				}
-			}
-		}
-		catch (error) {
-			console.error(error);
-			const errChannel = client.channels.cache.get('781501076725563413')
-			errChannel.send('Error occured: ' + error)
-		}
-	});
-});
-
-async function create(name, description, options, guildId) {
-	const app = client.api.applications(client.user.id);
-	if (guildId) {
-		app.guilds(guildId);
-	}
-	app.commands.post({
-		data: {
-			name: name,
-			description: description,
-			options: options
-		},
-	}).then(console.log(client.user.username + ' > Posted Slash-Command: ' + name));
-}
 
 async function get(guildId) {
 	const app = client.api.applications(client.user.id);
@@ -165,38 +45,51 @@ async function get(guildId) {
 	return app.commands.get();
 }
 
-async function reply(interaction, response, flags = 1) {
-	const content = await response
-	let data = {
-		content,
-		flags
-	};
-	if (typeof content === 'object') {
-		data = await createApiMessage(interaction, content);
-	}
-
-	client.api.interactions(interaction.id, interaction.token).callback.post({
-		data: {
-			type: 4,
-			data,
-		},
-	});
-}
-
-async function createApiMessage(interaction, content) {
-	const { data, files } = await Discord.APIMessage.create(
-		client.channels.resolve(interaction.channel_id),
-		content,
-	)
-		.resolveData()
-		.resolveFiles();
-
-	return { ...data, files };
-}
+client.on('interaction', async interaction => {
+    if (!interaction.isCommand()) return;
+    const userId = interaction.member.user.id;
+    const commandName = interaction.commandName;
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    if (!command) return;
+    if (maintenance && userId != '255739211112513536') return interaction.reply({ content: `Aktuell finden Wartungsarbeiten an <@${client.user.id}> statt. Bitte versuche es später nochmal!`, ephemeral: true });
+    if (command.disabled) return interaction.reply({ content: 'Dieser Befehl ist aktuell deaktiviert!', ephemeral: true });
+    if (command.cooldown > 600) {
+        const getCd = await getCooldown(userId, commandName);
+        if (!getCd) {
+            await setCooldown(userId, commandName, command.cooldown);
+        }
+        else {
+            const result = await mathCooldown(userId, commandName);
+            return interaction.reply({ content: `Du hast noch **${result}**Cooldown!`, ephemeral: true });
+        };
+    }
+    else {
+        if (!cooldowns.has(commandName)) {
+            cooldowns.set(commandName, new Collection());
+        };
+        const now = Date.now();
+        const timestamps = cooldowns.get(commandName);
+        const cooldownAmount = (command.cooldown || 0) * 1000;
+        if (timestamps.has(userId)) {
+            const expirationTime = timestamps.get(userId) + cooldownAmount;
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+                return interaction.reply({ content: `Du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.', ephemeral: true });
+            };
+        };
+        timestamps.set(userId, now);
+        setTimeout(() => timestamps.delete(userId), cooldownAmount);
+    };
+    try {
+        command.callback({ client, interaction });
+    }
+    catch(e) {
+        console.error(e);
+    };
+});
 
 client.on('message', async message => {
 	if (message.content.toLowerCase().includes('kek'.toLowerCase())) message.delete();
-	if (message.content.startsWith('/work')) message.inlineReply('DEPRECATED: Bitte benutzte in Zukunft /business options: sell')
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -205,27 +98,13 @@ client.on('message', async message => {
 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if (!command) return;
-	if (command.disabled) return;
-	if (message.author.id != '255739211112513536') {
-		return;
-	}
-	if ((args.length > command.maxArgs) || (args.length < command.minArgs) || (command.args && !args.length)) {
-		let reply = `versuche es so: \`${prefix}${commandName}\``;
-
-		if (command.expectedArgs) {
-			reply = `versuche es so: \`${prefix}${commandName} ${command.expectedArgs}\``;
-		}
-
-		return message.reply(reply);
-	}
+	if (message.author.id != '255739211112513536') return;
+    message.delete()
 	try {
-		message.delete()
 		command.callback({ client, message, args });
 	}
 	catch (e) {
-		message.delete()
 		console.error(e);
-		message.channel.send(no + ` Error occured while running ${commandName} command`);
 	}
 });
 

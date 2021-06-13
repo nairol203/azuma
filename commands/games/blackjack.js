@@ -1,20 +1,19 @@
 const { MessageEmbed } = require("discord.js");
-const { send, edit, error, get }  = require('../../features/slash');
 const economy = require('../../features/economy');
 
 module.exports = {
-    callback: async ({ client, interaction, args }) => {
-        const guildId = interaction.guild_id;
+    callback: async ({ client, interaction }) => {
+        const guildId = interaction.guildID;
         const user = interaction.member.user;
         const userId = user.id;
-        let credits = args.credits;
+        let credits = interaction.options.get('credits').value;
         let userCredits = await economy.getCoins(guildId, userId);
         if (userCredits < credits) {
-            error(client, interaction, 'Du hast für diesen Einsatz nicht genug Credits!')
+            interaction.reply({ content: 'Du hast für diesen Einsatz nicht genug Credits!', ephemeral: true });
             return;
         }
         else if (credits < 50) {
-            error(client, interaction, 'Es werden nur Einsätze in der Höhe von 50 Credits oder höher akzeptiert!')
+            interaction.reply({ content: 'Es werden nur Einsätze in der Höhe von 50 Credits oder höher akzeptiert!', ephemeral: true });
             return;
         };
 
@@ -195,13 +194,11 @@ module.exports = {
                 )
                 .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('ED4245');
-            send(client, interaction, newEmbed, row_4);
+            interaction.reply({ embeds: [newEmbed], components: [row_4] });
             return;
         };
 
-        send(client, interaction, embed, row);
-
-        const response = await get(client, interaction);
+        interaction.reply({ embeds: [embed], components: [row] });
 
         while (dealerSum < 17) {
             let newCard = randomCard();
@@ -216,26 +213,13 @@ module.exports = {
             dealerSum = dealerSum + newCard.value;
         };
 
-        client.on('clickButton', async button => {
-            button.defer();
+        const message = await interaction.fetchReply()
+        const filter = i => i.user.id == userId;
 
-            if (response.id !== button.message.id) return;
-            if (button.clicker.user.id !== userId) return;
+        const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
 
-            setTimeout(async () => {
-                button_finished.label = 'Zeit abgelaufen';
-                button_finished.style = 4;
-				client.api.webhooks(client.user.id, interaction.token).messages('@original').patch({
-					data: {
-						components: [
-							row_4,
-						],
-					},
-				});
-                await economy.addCoins(guildId, userId, credits * -1);
-            }, 300000);
-
-            if (button.id == 'bjStand') {
+        collector.on('collect', async button => {
+            if (button.customID == 'bjStand') {
                 if (split) {
                     if (!card1_finished) {
                         card1_finished = true;
@@ -251,8 +235,7 @@ module.exports = {
                             )
                             .setFooter('Azuma | Das Spiel läuft nach 5 Minuten Inaktivität ab.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                             .setColor('5865F2')
-                        
-                        edit(client, interaction, newEmbed, row_3);
+                        button.update({ embeds: [newEmbed], components: [row_3]});
                     }
                     else if (card1_finished) {
                         card2_finished == true;
@@ -307,7 +290,7 @@ module.exports = {
                             { name: 'Gewinn', value: credits + ' Credits' },
                             { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits' }
                         )
-                        edit(client, interaction, newEmbed, row_4);
+                        button.update({ embeds: [newEmbed], components: [row_4]});
                     }
                 }
                 else {
@@ -346,10 +329,10 @@ module.exports = {
                             { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits.' }
                         )
                     }
-                    edit(client, interaction, newEmbed, row_4);
+                    button.update({ embeds: [newEmbed], components: [row_4]});
                 }
             }
-            else if (button.id == 'bjHit') {
+            else if (button.customID == 'bjHit') {
                 if (split) {
                     const newEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
@@ -416,10 +399,10 @@ module.exports = {
                             )
                             .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                             .setColor('ED4245')
-                        edit(client, interaction, embed_3, row_4);
+                        button.update({ embeds: [embed_3], components: [row_4]});
                     } else {
-                        edit(client, interaction, newEmbed, row_2);
-                    }
+                        button.update({ embeds: [newEmbed], components: [row_2]});
+                    };
                 }
                 else {
                     let newCard = randomCard();
@@ -458,13 +441,13 @@ module.exports = {
                             )
                             .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                             .setColor('ED4245')
-                        edit(client, interaction, embed_3, row_4);
+                        button.update({ embeds: [embed_3], components: [row_4]});
                     } else {
-                        edit(client, interaction, newEmbed, row_2);
+                        button.update({ embeds: [newEmbed], components: [row_2]});
                     }
                 }
             }
-            else if (button.id == 'bjDouble') {
+            else if (button.customID == 'bjDouble') {
                 if (split) {
                     credits = credits + args.credits;
                     const newEmbed = new MessageEmbed()
@@ -487,7 +470,7 @@ module.exports = {
                             { name: 'Hand vom Dealer', value: dCard1.name + ', ?\nTotal: ?', inline: true },
                             { name: 'Info', value: '**Stand:** Das Spiel beenden\n**Hit:** Eine weitere Karte ziehen\n**Double:** Doppelter Einsatz, eine Karte ziehen und beenden\n**Fold:** Aufgeben, aber nur die Hälfte des Einsatzes verlieren'}
                         )
-                        edit(client, interaction, newEmbed, row_3);
+                        button.update({ embeds: [newEmbed], components: [row_3]});
                     }
                     else if (!card2_finished) {
                         let newCard2 = randomCard()
@@ -543,7 +526,7 @@ module.exports = {
                             { name: 'Gewinn', value: credits + ' Credits' },
                             { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                         )
-                        edit(client, interaction, newEmbed2, row_4);
+                        button.update({ embeds: [newEmbed2], components: [row_4]});
                     }
                 }
                 else {
@@ -595,10 +578,10 @@ module.exports = {
                             { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits.' }
                         )
                     }
-                    edit(client, interaction, newEmbed, row_4);
+                    button.update({ embeds: [newEmbed], components: [row_4]});
                 }
             }
-            else if (button.id == 'bjSplit') {
+            else if (button.customID == 'bjSplit') {
                 credits = credits * 2
                 split = true;
                 if (pCard1.value == 11) {
@@ -616,9 +599,9 @@ module.exports = {
                     )                                
                     .setFooter('Azuma | Das Spiel läuft nach 5 Minuten Inaktivität ab.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('5865F2');
-                    edit(client, interaction, newEmbed, row_3);
+                button.update({ embeds: [newEmbed], components: [row_3]});
             }
-            else if (button.id == 'bjFold') {
+            else if (button.customID == 'bjFold') {
                 const newEmbed = new MessageEmbed()
                     .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                     .setTitle('Blackjack')
@@ -642,9 +625,16 @@ module.exports = {
                     { name: 'Gewinn', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
                     { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.'}
                 );
-                edit(client, interaction, newEmbed, row_4);
+                button.update({ embeds: [newEmbed], components: [row_4]});
             };
-        });
+        })
+
+        collector.on('end', async () => {
+            button_finished.label = 'Zeit abgelaufen';
+            button_finished.style = 4;
+            button.update({ components: [row_4] });
+            await economy.addCoins(guildId, userId, credits * -1);
+        })
 
         function checkWinner(pSum, dSum) {
             if (pSum > 21) {

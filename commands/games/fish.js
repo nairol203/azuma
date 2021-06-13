@@ -1,8 +1,7 @@
-const { Collection, MessageEmbed, Message } = require('discord.js');
-const { Menu } = require('discord.js-menu')
+const { Collection, MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
 const { bags, fish, rods, baits } = require('./fish.json');
 const { bait_1, bait_2, bait_3 } = baits;
-const { no, gold, silver, bronze } = require('../../emoji.json');
+const { gold, silver, bronze } = require('../../emoji.json');
 const { commons, uncommons, rares, garbage } = fish;
 const { findCommon, findUncommon, findRare, findGarbage, addCommon, addUncommon, addRare, addGarbage, addBagSize, addBagValue, setBag, activeBait, getStats, getCommonStats, getUncommonStats, getRareStats, getGarbageStats, getAllStats } = require('../../features/fishing');
 const profile = require('../../models/profile');
@@ -27,14 +26,15 @@ module.exports = {
             ],
         },
     ],
-    callback: async ({ client, args, interaction }) => {
-        const guildId = interaction.guild_id;
-        const channel = client.channels.cache.get(interaction.channel_id);
+    callback: async ({ client, interaction }) => {
+        const args = interaction.options.get('options');
+        const guildId = interaction.guildID;
+        const channel = client.channels.cache.get(interaction.channelID);
         const user = interaction.member.user;
         const userId = user.id;
         const p_save = await profile.findOne({ userId });
         const targetCoins = await getCoins(guildId, userId);
-        if (args.options == 'bait') {
+        if (args?.value == 'bait') {
             const embed = new MessageEmbed()
                 .setTitle('Wähle einen Köder aus!')
                 .addFields(
@@ -44,81 +44,92 @@ module.exports = {
                     { name: '4️⃣ ' + bait_3.name, value: bait_3.description + '\n**Kosten:** ' + bait_3.price + ' 💵'  },
                 )
                 .setColor('#2773fc');
-            setTimeout(() => {
-                channel.send(embed).then(m => {
-                    const filter = m => m.author.id === userId;
-                    channel.awaitMessages(filter, {
-                        max: 1,
-                        time: 60000,
-                        errors: ['time'],
-                    })
-                    .then(async msg => {
-                        msg = msg.first()
-                        msg.delete();
-                        if (msg.content == '1') {
-                            await activeBait(userId, undefined);
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Standardköder!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.default.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.default.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.default.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.default.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                                    { name: 'Preis', value: '10 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        } else if (msg.content == '2') {
-                            await activeBait(userId, 'bait_1');
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + bait_1.name + '!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_1.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_1.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_1.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_1.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                                    { name: 'Preis', value: bait_1.price + ' 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        }
-                        else if (msg.content == '3') {
-                            await activeBait(userId, 'bait_2');
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + bait_2.name + '!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_2.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_2.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_2.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_2.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                                    { name: 'Preis', value: bait_2.price + ' 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        }
-                        else if (msg.content == '4') {
-                            await activeBait(userId, 'bait_3');
-                            const embed = new MessageEmbed()
-                                .setTitle('Köder ausgewählt')
-                                .setDescription('Du fischt jetzt mit dem Köder ' + bait_3.name + '!')
-                                .addFields(
-                                    { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_3.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_3.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_3.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_3.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                                    { name: 'Preis', value: bait_3.price + ' 💵', inline: true },
-                                )
-                                .setColor('#2773fc')
-                            m.edit(embed)
-                        } else {
-                            m.delete()
-                            channel.send(no + ' Keine gültige Eingabe erkannt!')
-                        }
-                    })
-                    .catch(() => {
-                        m.delete()
-                        channel.send(no + ' Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.')
-                    })
-                })
-            }, 500);
-            return 'Wähle einen aktiven Köder...';
+            const button_1 = new MessageButton()
+                .setStyle('SECONDARY')
+                .setLabel('1')
+                .setCustomID('one');
+            const button_2 = new MessageButton()
+                .setStyle('SECONDARY')
+                .setLabel('2')
+                .setCustomID('two');
+            const button_3 = new MessageButton()
+                .setStyle('SECONDARY')
+                .setLabel('3')
+                .setCustomID('three');
+            const button_4 = new MessageButton()
+                .setStyle('SECONDARY')
+                .setLabel('4')
+                .setCustomID('four');
+            const row = new MessageActionRow()
+                .addComponents([button_1, button_2, button_3, button_4]);
+            interaction.reply({ embeds: [embed], components: [row] });
+            const message = await interaction.fetchReply()
+            const collector = message.createMessageComponentInteractionCollector(i => i.user.id == userId, { time: 300000 });
+            collector.on('collect', async button => {
+                if (button.customID == 'one') {
+                    await activeBait(userId, undefined);
+                    const embed = new MessageEmbed()
+                        .setTitle('Köder ausgewählt')
+                        .setDescription('Du fischt jetzt mit dem Standardköder!')
+                        .addFields(
+                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.default.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.default.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.default.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.default.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                            { name: 'Preis', value: '10 💵', inline: true },
+                        )
+                        .setColor('#2773fc')
+                    button.update({ embeds: [embed] })
+                }
+                else if (button.customID == 'two') {
+                    await activeBait(userId, 'bait_1');
+                    const embed = new MessageEmbed()
+                        .setTitle('Köder ausgewählt')
+                        .setDescription('Du fischt jetzt mit dem Köder ' + bait_1.name + '!')
+                        .addFields(
+                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_1.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_1.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_1.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_1.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                            { name: 'Preis', value: bait_1.price + ' 💵', inline: true },
+                        )
+                        .setColor('#2773fc')
+                    button.update({ embeds: [embed] })
+                }
+                else if (button.customID == 'three') {
+                    await activeBait(userId, 'bait_2');
+                    const embed = new MessageEmbed()
+                        .setTitle('Köder ausgewählt')
+                        .setDescription('Du fischt jetzt mit dem Köder ' + bait_2.name + '!')
+                        .addFields(
+                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_2.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_2.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_2.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_2.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                            { name: 'Preis', value: bait_2.price + ' 💵', inline: true },
+                        )
+                        .setColor('#2773fc')
+                    button.update({ embeds: [embed] })
+                }
+                else if (button.customID == 'four') {
+                    await activeBait(userId, 'bait_3');
+                    const embed = new MessageEmbed()
+                        .setTitle('Köder ausgewählt')
+                        .setDescription('Du fischt jetzt mit dem Köder ' + bait_3.name + '!')
+                        .addFields(
+                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_3.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_3.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_3.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_3.chances.garbage * 100).toFixed(2)}%`, inline: true },
+                            { name: 'Preis', value: bait_3.price + ' 💵', inline: true },
+                        )
+                        .setColor('#2773fc')
+                    button.update({ embeds: [embed] })
+                };
+            });
+            collector.on('end', () => {
+                button_1.setDisabled();
+                button_2.setDisabled();
+                button_3.setDisabled();
+                button_4.setDisabled();
+                interaction.editReply({ embeds: [embed], components: [row] });
+            });
+            return;
         }
-        else if (args.options == 'collection') {
+        else if (args?.value == 'collection') {
             const stats = await getStats(userId);
             if (!stats || !stats.length) {
-                return [ no + ' Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`' ];
-            }
+                interaction.reply({ content: 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`', ephemeral: true });
+                return;
+            };
             const embed_1 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
@@ -180,8 +191,65 @@ module.exports = {
                 embed_5.addField(stat.emoji + ' ' + stat.name, value, true)
             })
             if (stats.length > 12) {
-                channel.createSlider(userId, [ embed_1, embed_2, embed_3, embed_4, embed_5 ])
+                const button_back = {
+                    type: 2,
+                    style: 2,
+                    custom_id: 'back',
+                    label: '<<',
+                };
+    
+                const button_next = {
+                    type: 2,
+                    style: 2,
+                    custom_id: 'next',
+                    label: '>>'
+                };
 
+                const row = {
+                    type: 1,
+                    components: [button_back, button_next],
+                };
+
+                const allEmbeds = [ embed_1, embed_2, embed_3, embed_4, embed_5 ];
+
+                interaction.reply({ embeds: [allEmbeds[0]], components: [row] });
+
+                const message = await interaction.fetchReply()
+                const filter = i => i.user.id == userId;
+
+                const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
+            
+                let currentPage = 0;
+            
+                collector.on('collect', button => {
+                    if (button.user.id == userId) {
+                        if (button.customID == "back") {
+                            if (currentPage !== 0) {
+                                --currentPage;
+                                button.update({embeds:[allEmbeds[currentPage]], components: [row]});
+                            } else {
+                                currentPage = embeds.length - 1
+                                button.update({embeds:[allEmbeds[currentPage]], components: [row]});
+                            };
+                        }
+    
+                        else if (button.customID == "next"){
+                            if (currentPage < allEmbeds.length - 1) {
+                                currentPage++;
+                                button.update({embeds:[allEmbeds[currentPage]], components: [row]});
+                            } else {
+                                currentPage = 0
+                                button.update({embeds:[allEmbeds[currentPage]], components: [row]});
+                            };
+                        };
+                    };
+                });
+                collector.on('end', collected => {
+                    button_back.disabled = true;
+                    button_next.disabled = true;
+                    interaction.editReply({ embeds: [embeds[0]], components: [row] })
+                });
+                collector.on("error", (e) => console.log(e))
             } else {
                 if (stats.length > 0) {
                     const embed = new MessageEmbed()
@@ -195,16 +263,20 @@ module.exports = {
                     }
                     embed.addField(stat.emoji + ' ' + stat.name, value, true)
                 })
-                    return embed;
-                } else {
-                    return [ 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`' ];
+                interaction.reply({ embeds: [ embed ]});
+                return;
+                }
+                else {
+                    interaction.reply({ content: 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`', ephemeral: true });
+                    return;
                 }
             }
-            return 'Lade Fishing collection...';
+            return;
         }
-        else if (args.options == 'sell') {
+        else if (args?.value == 'sell') {
             if (!p_save || !p_save.bag_size || !p_save.bag_value) {
-                return [ no + ' Du hast aktuell keine Fische zum verkaufen!' ];
+                interaction.reply({ content: 'Du hast aktuell keine Fische zum verkaufen!', ephemeral: true });
+                return;
             }
             await profile.findOneAndUpdate(
                 { 
@@ -217,9 +289,10 @@ module.exports = {
                 }
             );
             await addCoins(guildId, userId, p_save.bag_value);
-            return `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`;
+            interaction.reply({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
+            return;
         }
-        else if (args.options == 'stats') {
+        else if (args?.value == 'stats') {
             let cAmount = 0; let uAmount = 0; let rAmount = 0; let gAmount = 0;
             for (c of await getCommonStats(userId)) {
                 cAmount = cAmount + c.amount;
@@ -249,9 +322,10 @@ module.exports = {
                     { name: 'Stats', value: `${commons.Sardelle.emoji} Commons: ${cAmount} Stück\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${uAmount} Stück\n${rares.Purpurfisch.emoji} Rares: ${rAmount} Stück\n${garbage.Grünalge.emoji} Garbage: ${gAmount} Stück`},
                 )
                 .setColor('#2773fc');
-            return embed;
+            interaction.reply({ embeds: [ embed ]});
+            return;
         }
-        else if (args.options == 'rares') {
+        else if (args?.value == 'rares') {
             const rares = await findRare(userId);
             const embed = new MessageEmbed()
                 .setTitle('Fishing stats')
@@ -260,9 +334,10 @@ module.exports = {
             rares.map(rare => {
                 embed.addField(rare.emoji + ' ' + rare.name, rare.amount + ' Stück\nLängster Fang: ' + rare.length + 'cm')
             })
-            return embed;
+            interaction.reply({ embeds: [ embed ]});
+            return;
         }
-        else if (args.options === 'wiki') {
+        else if (args?.value == 'wiki') {
             const embed = new MessageEmbed()
                 .setTitle('Fishing wiki')
                 .setDescription(`
@@ -278,57 +353,51 @@ Andere Kategorien:
 **:seven: Bags**
 **:eight: Baits**`)
                 .setColor('#2773fc');
-            setTimeout(() => {
-                main()
-            }, 500);
-            return 'Lade das Wiki...';
-
+            interaction.reply({ embeds: [embed] });
+            main();
+            return;
             function main() {
-                channel.send(embed).then(mainMsg => {
-                    const filter = m => m.author.id === userId;
-                    channel.awaitMessages(filter, {
-                        max: 1,
-                        time: 120000,
-                        errors: ['time'],
-                    })
-                    .then(msg => {
-                        msg = msg.first()
-                        msg.delete();
-                        switch(msg.content) {
-                            case '1':
-                                handleSearch(mainMsg)
-                                break;
-                            case '2':
-                                handleCommons(mainMsg)
-                                break;
-                            case '3':
-                                handleUncommons(mainMsg)
-                                break;
-                            case '4':
-                                handleRares(mainMsg)
-                                break;
-                            case '5':
-                                handleGarbage(mainMsg)
-                                break;
-                            case '6':
-                                handleRods(mainMsg)
-                                break;
-                            case '7':
-                                handleBags(mainMsg)
-                                break;
-                            case '8':
-                                handleBaits(mainMsg)
-                                break;
-                            default:
-                                mainMsg.delete()
-                                channel.send(no + ' Keine gültige Eingabe erkannt.')
-                                break;
-                        }
-                    })
-                    .catch(() => {
-                        mainMsg.delete()
-                        channel.send(no + ' Das Wiki wurde aufgrund von Inaktivität geschlossen.')
-                    })
+                const filter = m => m.author.id === userId;
+                channel.awaitMessages(filter, {
+                    max: 1,
+                    time: 120000,
+                    errors: ['time'],
+                })
+                .then(msg => {
+                    msg = msg.first()
+                    msg.delete();
+                    switch(msg.content) {
+                        case '1':
+                            handleSearch()
+                            break;
+                        case '2':
+                            handleCommons()
+                            break;
+                        case '3':
+                            handleUncommons()
+                            break;
+                        case '4':
+                            handleRares()
+                            break;
+                        case '5':
+                            handleGarbage()
+                            break;
+                        case '6':
+                            handleRods()
+                            break;
+                        case '7':
+                            handleBags()
+                            break;
+                        case '8':
+                            handleBaits()
+                            break;
+                        default:
+                            break;
+                    }
+                })
+                .catch(() => {
+                    interaction.followUp('Das Wiki wurde aufgrund von Inaktivität geschlossen.')
+                    return;
                 })
             }
             function handleReturn() {
@@ -338,24 +407,23 @@ Andere Kategorien:
                     time: 120000,
                     errors: ['time']
                 })
-                .then(msg => {
+                .then(async msg => {
                     msg = msg.first()
                     if (msg.content !== 'return') return
-                    msg.delete()
+                    msg.delete();
+                    interaction.editReply({ embeds: [embed] });
                     main()
                 })
-                .catch(() => {
+                .catch((e) => {
+                    console.log(e)
                     return;
                 })
             }
-            function handleSearch(mainMsg) {
-                mainMsg.delete()
-                channel.send(no + 'Coming soon').then(msg => {
-                    msg.delete({ timeout: 5000 })
-                })
-                main()
+            function handleSearch() {
+                channel.send('Coming soon!').then(msg => client.setTimeout(() => msg.delete(), 5000));
+                main();
             }
-            function handleCommons(mainMsg) {
+            function handleCommons() {
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Commons')
                     .setDescription('Das sind alle gewöhnlichen Fische!')
@@ -364,11 +432,10 @@ Andere Kategorien:
                 Object.values(commons).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
                 })
-                mainMsg.edit(embed).then(() => {
-                    handleReturn()
-                });
+                interaction.editReply({embeds: [embed]});
+                handleReturn();
             }
-            function handleUncommons(mainMsg) {
+            function handleUncommons() {
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Uncommons')
                     .setDescription('Das sind alle ungewöhnlichen Fische!')
@@ -377,11 +444,10 @@ Andere Kategorien:
                 Object.values(uncommons).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
                 })
-                mainMsg.edit(embed).then(() => {
-                    handleReturn()
-                });
+                interaction.editReply({embeds: [embed]});
+                handleReturn();
             }
-            function handleRares(mainMsg) {
+            function handleRares() {
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Rares')
                     .setDescription('Das sind alle seltenen Fische!')
@@ -390,11 +456,10 @@ Andere Kategorien:
                 Object.values(rares).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
                 })
-                mainMsg.edit(embed).then(() => {
-                    handleReturn()
-                });
+                interaction.editReply({embeds: [embed]});
+                handleReturn();
             }
-            function handleGarbage(mainMsg) {
+            function handleGarbage() {
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Garbage')
                     .setDescription('Das sind die verschiedenen Müllarten!')
@@ -403,11 +468,10 @@ Andere Kategorien:
                 Object.values(garbage).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Wert: 0 💵', true)
                 })
-                mainMsg.edit(embed).then(() => {
-                    handleReturn()
-                });
+                interaction.editReply({embeds: [embed]});
+                handleReturn();
             }
-            function handleRods(mainMsg) {
+            function handleRods() {
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Angeln')
                     .setDescription('Das sind alle verschiedenen Angeln!')
@@ -416,11 +480,10 @@ Andere Kategorien:
                 Object.values(rods).map(rod => {
                     embed.addField(rod.name, 'Chance keinen Köder zu verbrauchen: ' + (rod.no_bait * 100) + '%\nAngel-Cooldown: ' + rod.cooldown + ' Sekunden\nPreis: ' + rod.price + ' 💵')
                 })
-                mainMsg.edit(embed).then(() => {
-                    handleReturn()
-                });
+                interaction.editReply({embeds: [embed]});
+                handleReturn();
             }
-            function handleBags(mainMsg) {
+            function handleBags() {
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Rucksäcke')
                     .setDescription('Das sind alle verschiedenen Rucksäcke!')
@@ -429,11 +492,10 @@ Andere Kategorien:
                 Object.values(bags).map(bag => {
                     embed.addField(bag.name, 'Stauraum: ' + bag.size + ' Plätze\nPreis: ' + bag.price + ' 💵')
                 })
-                mainMsg.edit(embed).then(() => {
-                    handleReturn()
-                });
+                interaction.editReply({embeds: [embed]});
+                handleReturn();
             }
-            function handleBaits(mainMsg) {
+            function handleBaits() {
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Köder')
                     .setDescription('Das sind alle verschiedenen Köder!')
@@ -442,26 +504,61 @@ Andere Kategorien:
                 Object.values(baits).map(bait => {
                     embed.addField(bait.name, bait.description + `\n- Chances:\n${commons.Sardelle.emoji} Commons: ${(bait.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait.chances.garbage * 100).toFixed(2)}%\n- Preis: ` + bait.price + ' 💵')
                 })
-                mainMsg.edit(embed).then(() => {
-                    handleReturn()
-                });
+                interaction.editReply({embeds: [embed]});
+                handleReturn();
             }
-        }
+        };
         if ((!p_save) || (!p_save.rod)) {
-            return  [ no + ' Du brauchst eine Angel um zu Fischen! Kaufe eine im Shop!' ];
-        }
+            interaction.reply({ content: 'Du brauchst eine Angel um zu Fischen! Kaufe eine im Shop!', ephemeral: true });
+            return;
+        };
         if (targetCoins < baits[p_save.active_bait || 'default'].price) {
-            return [ no + ' Du hast nicht genügend Credits um zu Fischen!' ];
-        }
+            interaction.reply({ content: 'Du hast nicht genügend Credits um zu Fischen!', ephemeral: true });
+            return;
+        };
         if (!p_save.bag) {
             await setBag(userId, 'bag_1');
-        }
-        if (p_save.bag) {
+        } 
+        else {
             const userBag = bags[p_save.bag]
             if (userBag.size <= p_save.bag_size) {
-                return [ no + ' Dein Rucksack ist voll! Verkaufe Fische mit `/fish <sell>` oder kaufe einen größeren Rucksack im Shop.' ];
-            }
-        }
+                const sellButton = new MessageButton()
+                    .setLabel('Fische verkaufen')
+                    .setStyle('SUCCESS')
+                    .setCustomID('sell');
+                const row = {
+                    type: 1,
+                    components: [sellButton],
+                }
+                interaction.reply({ content: `Dein Rucksack ist voll! Verkaufe Fische oder kaufe einen größeren Rucksack im Shop.`, components: [row], ephemeral: true });
+                channel.awaitMessageComponentInteraction(i => i.user.id == userId, { time: 300000 })
+                    .then(async button => {
+                        if (button.customID == 'sell') {
+                            sellButton.setDisabled(true);
+                            await profile.findOneAndUpdate(
+                                { 
+                                    userId 
+                                },
+                                { 
+                                    userId,
+                                    bag_size: 0,
+                                    bag_value: 0,
+                                }
+                            );
+                            await addCoins(guildId, userId, p_save.bag_value);
+                            button.update({ components: [row] });
+                            interaction.followUp({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
+                        };
+                    })
+                    .catch(() => {
+                        sellButton.setDisabled(true);
+                        sellButton.setLabel('Zeit abgelaufen1!');
+                        sellButton.setStyle('DANGER');
+                        interaction.editReply({ components: [row] });
+                    });
+                return;
+            };
+        };
 
         if (!cooldowns.has('fish')) cooldowns.set('fish', new Collection());
 		const now = Date.now();
@@ -471,7 +568,8 @@ Andere Kategorien:
 			const expirationTime = timestamps.get(userId) + cooldownAmount;
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
-				return [ no + ` Du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.` ];
+                interaction.reply({ content: `Du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.`, ephemeral: true });
+				return;
 			}
 		}
 		timestamps.set(userId, now);
@@ -514,7 +612,7 @@ Andere Kategorien:
             await addCoins(guildId, userId, baits.default.price * -1)
             usedBait = baits.default.name;
             chances = baits.default.chances;
-        }
+        };
 
         const d = Math.random();
         if (d < chances.common) types = commons;
@@ -530,18 +628,18 @@ Andere Kategorien:
             save = await findCommon(userId, random);
             await addCommon(userId, random, commons[random].emoji, 1, length);
         }
-        if (types === uncommons) {
+        else if (types === uncommons) {
             save = await findUncommon(userId, random);
             await addUncommon(userId, random, uncommons[random].emoji, 1, length);
         }
-        if (types === rares) {
+        else if (types === rares) {
             save = await findRare(userId, random);
             await addRare(userId, random, rares[random].emoji, 1, length);
         }
-        if (types === garbage) {
+        else if (types === garbage) {
             save = await findGarbage(userId, random);
             await addGarbage(userId, random, garbage[random].emoji, 1);
-        }
+        };
         await addBagSize(userId, 1);
         let description; let price = 0;
         if ((types === commons) || (types === uncommons) || (types === rares)) {
@@ -554,33 +652,37 @@ Andere Kategorien:
                 emoji = gold; price = t.maxPrice;
             }
             description = 'Du hast gefangen: **' + emoji + ' ' + random + '**\n';
-        } else {
-            description = 'Du hast gefangen: **' + random + '**\n';
         }
+        else {
+            description = 'Du hast gefangen: **' + random + '**\n';
+        };
         if (skipBait) {
             description = description + '\n⭐ **Keinen Köder verbraucht!**';
-        }
+        };
         if (save) {
             if (save.length) {
                 if ((save.length < length) && (length < t.maxLength)) {
                     description = description + `\n⭐ **Neue Länge: ${length}cm!**`;
-                } else if (length == t.maxLength) {
+                }
+                else if (length == t.maxLength) {
                     description = description + `\n⭐ **Größtes Exemplar dieser Art!**`;
                     if (save.length < length) {
                         description = description + `\n⭐ **Neue Länge: ${length}cm!**`;
-                    }
-                }
-            }
-        } else {
+                    };
+                };
+            };
+        }
+        else {
             if (types == garbage) {
                 description = description + `\n⭐ **Erster Fang!**`;
-            } else {
+            }
+            else {
                 if (length === t.maxLength) {
                     description = description + `\n⭐ **Größtes Exemplar dieser Art!**`
-                }
+                };
                 description = description + `\n⭐ **Erster Fang!**\n⭐ **Neue Länge: ${length}cm!**`;
-            }
-        }
+            };
+        };
         await addBagValue(userId, price);
         const embed = new MessageEmbed()
             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
@@ -593,8 +695,8 @@ Andere Kategorien:
             .setThumbnail(t.image);
         if((types === commons) || (types === uncommons) || (types === rares))  {
             embed.addField('Länge', length + 'cm', true);
-        }
+        };
         embed.addField('Köder', usedBait, true);
-        return embed;
+        interaction.reply({ embeds: [ embed ] }).catch(e => console.log(e));
     },
 }

@@ -11,16 +11,16 @@ module.exports = {
 			required: true,
 		}
 	],
-	callback: async ({ client, args, interaction }) => {
+	callback: async ({ client, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id
-		const textChannelId = interaction.channel_id;
+		const textChannelId = interaction.channelID;
 		const result = await customs.findOne({ userId });
-		if (!result) return 'Du besitzt aktuell kein Zimmer!';
+		if (!result) return interaction.reply({ component: 'Du besitzt aktuell kein Zimmer!', ephemeral: true });
 		if (result.textChannelId == textChannelId) {
 			const voiceChannel = client.channels.cache.get(result.channelId)
-			if(!voiceChannel) return 'Du besitzt aktuell kein Zimmer!';
-			const channelLimit = args.limit;
+			if(!voiceChannel) return interaction.reply({ component: 'Du besitzt aktuell kein Zimmer!', ephemeral: true });
+			const channelLimit = interaction.options.get('limit').value;
 			const amount = parseInt(channelLimit) + 1;
 			if (amount > 100) return '';
 			if (amount <= 0) return '';
@@ -37,10 +37,10 @@ module.exports = {
 					channelLimit,
 				},
 			);
-			return `Alles klar, ich habe das Personenlimit auf \`${channelLimit}\` gesetzt.`
+			interaction.reply(`Alles klar, ich habe das Personenlimit auf \`${channelLimit}\` gesetzt.`);
 		}
 		else {
-			return 'Du kannst diesen Befehl nur in (<#' + result.textChannelId + ' verwenden!';
-		}
+			interaction,reply('Du kannst diesen Befehl nur in (<#' + result.textChannelId + ' verwenden!');
+		};
 	},
 };

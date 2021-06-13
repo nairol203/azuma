@@ -11,17 +11,17 @@ module.exports = {
 			required: true,
 		}
 	],
-	callback: async ({ client, args, interaction }) => {
+	callback: async ({ client, interaction }) => {
 		const user = interaction.member.user;
 		const userId = user.id
-		const textChannelId = interaction.channel_id;
+		const textChannelId = interaction.channelID;
 		const result = await customs.findOne({ userId });
 		const channelId = result.channelId;
-		if (!result) return 'Du besitzt aktuell kein Zimmer!';
+		if (!result) return interaction.reply({ component: 'Du besitzt aktuell kein Zimmer!', ephemeral: true });
 		if (result.textChannelId == textChannelId) {
 			const voiceChannel = client.channels.cache.get(result.channelId)
-			if(!voiceChannel) return 'Du besitzt aktuell kein Zimmer!';
-			const name = args.name;
+			if(!voiceChannel) return interaction.reply({ component: 'Du besitzt aktuell kein Zimmer!', ephemeral: true });
+			const name = interaction.options.get('name').value;
 			voiceChannel.setName(name);
 			const channelName = name;
 			await customs.findOneAndUpdate(
@@ -35,10 +35,10 @@ module.exports = {
 					channelName,
 				},
 			);
-			return `Ich habe dein Türschild geändert: \`${name}\`.`;
+			interaction.reply(`Ich habe dein Türschild geändert: \`${name}\`.`);
 		}
 		else {
-			return 'Du kannst diesen Befehl nur in <#' + result.textChannelId + '> verwenden!';
-		}
+			interaction.reply('Du kannst diesen Befehl nur in <#' + result.textChannelId + '> verwenden!');
+		};
 	},
 };

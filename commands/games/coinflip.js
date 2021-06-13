@@ -1,6 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const { send, edit, error } = require('../../features/slash');
-const { coin } = require('../../emoji.json');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -19,24 +17,23 @@ module.exports = {
 			required: true,
 		},
 	],
-	callback: async ({ client, args, interaction }) => {
-		const guildId = interaction.guild_id;
+	callback: async ({ client, interaction }) => {
+		const guildId = interaction.guildID;
 		const userId = interaction.member.user.id;
-		const channel = client.channels.cache.get(interaction.channel_id);
 
-		const targetId = args.user;
-		const credits = args.credits;
+		const targetId = interaction.options.get('user').value;
+		const credits = interaction.options.get('credits').value;
 
-		const target = client.users.cache.get(targetId);
+		const target = interaction.options.get('user').user;
 
-		if (target.bot) return error(client, interaction, 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!');
-		if (userId === targetId) return error(client, interaction, 'Wie willst du denn mit dir selbst spielen??');
-		if (credits < 1) return error(client, interaction, 'Netter Versuch, aber du kannst nicht mit negativen Einsatz spielen!');
+        if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!', ephemeral: true });
+        else if (userId == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
+		if (credits < 1) return interaction.reply({ content: 'Netter Versuch, aber ich lasse dich nicht mit negativen Einsatz spielen!', ephemeral: true });
 		const coinsOwned = await economy.getCoins(guildId, userId);
-		if (coinsOwned < credits) return error(client, interaction, `Du bist ärmer als du denkst! Versuche es mit weniger Geld.`);
+		if (coinsOwned < credits) return interaction.reply({ content: 'Du bist wohl ärmer als du denkst! Versuche es mit weniger Geld.', ephemeral: true });
 	
 		const targetCoins = await economy.getCoins(guildId, targetId);
-		if (targetCoins < credits) return error(client, interaction, `Soviel Geld hat ${target.username} nicht! Pah! Was ein Geringverdiener...`);
+		if (targetCoins < credits) return interaction.reply({ content: `Soviel Geld hat ${target.username} nicht! Pah! Was ein Geringverdiener...`, ephemeral: true });
 
 		const randomNumber = [1, 2][Math.floor(Math.random() * 2)];
 	
@@ -45,22 +42,6 @@ module.exports = {
 			label: 'Annehmen',
 			style: 1,
 			custom_id: 'accept',
-		};
-	
-		const buttonDisabled = {
-			type: 2,
-			label: 'Angenommen',
-			style: 3,
-			custom_id: '0',
-			disabled: true,
-		};
-	
-		const buttonTimeout = {
-			type: 2,
-			label: 'Zeit abgelaufen',
-			style: 4,
-			custom_id: '0',
-			disabled: true,
 		};
 
 		const embed = new MessageEmbed()
@@ -78,50 +59,35 @@ module.exports = {
 			components: [ button ],
 		};
 
-		const row_2 = {
-			type: 1,
-			components: [ buttonDisabled ],
-		};
+		interaction.reply({ embeds: [embed], components: [row] });
 
-		const row_3 = {
-			type: 1,
-			components: [ buttonTimeout ],
-		};
+        const message = await interaction.fetchReply()
+        const filter = i => i.user.id == targetId;
 
-		send(client, interaction, embed, row);
+        const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
 
-		const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
-
-		let buttonClicked;
-
-		client.on('clickButton', async button => {
-			button.defer();
-
-			if (response.id !== button.message.id) return;
-            if (button.clicker.user.id !== targetId) return;
-
-			if (button.id === 'accept') {
-				buttonClicked = true;
-				edit(client, interaction, embed, row_2);
+		collector.on('collect', async button => {
+			if (button.customID === 'accept') {
+				button.disabled = true;
+				button.update({ embeds: [embed], components: [row] });
 				switch (randomNumber) {
 					case 1:
-						channel.send(`<@${targetId}> hat ${credits} 💵 gewonnen!`);
+						button.followUp(`<@${targetId}> hat ${credits * 2} 💵 gewonnen!`)
 						await economy.addCoins(guildId, targetId, credits);
 						await economy.addCoins(guildId, userId, credits * -1);
 						break;
 					case 2:
-						channel.send(`<@${userId}> hat ${credits} 💵 gewonnen!`);
+						button.followUp(`<@${userId}> hat ${credits * 2} 💵 gewonnen!`);
 						await economy.addCoins(guildId, targetId, credits * -1);
 						await economy.addCoins(guildId, userId, credits);
 						break;
 				};
-			}
+			};
 		});
 
-		setTimeout(() => {
-			if (buttonClicked) return;
-			edit(client, interaction, embed, row_3);
-			return;
-		}, 300000);
+		collector.on('end', async () => {
+			button.disabled = true;
+			interaction.editReply({ embed: [embed], components: [row]});
+		});
 	},
 };

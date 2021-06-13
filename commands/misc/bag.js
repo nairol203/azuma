@@ -1,5 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const { send, edit } = require('../../features/slash');
 const { bags, rods, baits } = require('../games/fish.json');
 const { setBag } = require('../../features/fishing');
 const { getCoins, addCoins } = require('../../features/economy');
@@ -8,7 +7,7 @@ const profile = require('../../models/profile');
 module.exports = {
     description: 'Öffnet deinen Rucksack',
     callback: async ({ client, interaction }) => {
-        const guildId = interaction.guild_id;
+        const guildId = interaction.guildID;
         const user = interaction.member.user;
         const userId = user.id; 
         const p_save = await profile.findOne({ userId });
@@ -57,21 +56,19 @@ module.exports = {
         }
         
         if (p_save.bag_size && p_save.bag_size != 0) {
-            send(client, interaction, embed, row);
+            interaction.reply({ embeds: [embed], components: [row] });
         }
         else {
-            return embed;
-        }
+            interaction.reply({ embeds: [embed] });
+        };
 
-        const response = await client.api.webhooks(client.user.id, interaction.token).messages('@original').get();
+        const message = await interaction.fetchReply();
+        const filter = i => i.user.id == userId;
 
-        client.on('clickButton', async button => {
-            button.defer();
+        const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
 
-            if (response.id !== button.message.id) return;
-            if (button.clicker.user.id !== userId) return;
-
-            if (button.id == 'sell') {
+        collector.on('collect', async button => {
+            if (button.customID == 'sell') {
                 await profile.findOneAndUpdate(
                     { 
                         userId 
@@ -85,8 +82,8 @@ module.exports = {
                 await addCoins(guildId, userId, p_save.bag_value);
                 buttonSell.disabled = true;
                 buttonSell.style = 2;
-                embed.addField('Erfolg!', `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`)
-                edit(client, interaction, embed, row);
+                embed.addField('Erfolg!', `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`);
+                button.update({ embeds: [embed], components: [row] });
             };
         });
     },

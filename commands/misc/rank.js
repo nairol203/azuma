@@ -1,46 +1,39 @@
-const Levels = require('../../events/levels');
-const profileSchema = require('../../models/profile');
-const Canvacord = require('canvacord');
 const { MessageAttachment } = require('discord.js');
+const { Rank } = require('canvacord');
+const { getNeededXP } = require('../../events/levels');
+const { findOne } = require('../../models/profile');
 
 module.exports = {
 	description: 'Zeigt dein aktuelles Level an',
-	callback: async ({ client, args, interaction }) => {
-		const guildId = interaction.guild_id;
-		const channel = client.channels.cache.get(interaction.channel_id);
-		const targetId = args.user;
-		const target = client.users.cache.get(targetId) || client.users.cache.get(interaction.member.user.id);
-		if (target.bot) return 'Bot\'s haben kein Level!';
-		const userId = target.id;
+	callback: async ({ client, interaction }) => {
+		const guildId = interaction.guildID;
+		const userId = interaction.member.user.id;
+		const user = client.users.cache.get(userId);
 
-		const user = await profileSchema.findOne({
+		const user = await findOne({
 			guildId,
 			userId,
 		});
 
-		const needed = Math.round(Levels.getNeededXP(user.level - 1));
-		const neededCurrent = Math.round(Levels.getNeededXP(user.level));
+		const needed = Math.round(getNeededXP(user.level - 1));
+		const neededCurrent = Math.round(getNeededXP(user.level));
 		const currendXp = user.xp - needed;
 		const requiredXp = neededCurrent - needed;
 
-		const rank = new Canvacord.Rank()
-			.setAvatar(target.displayAvatarURL({ dynamic: false, format: 'png' }))
+		const rank = new Rank()
+			.setAvatar(user.displayAvatarURL({ dynamic: false, format: 'png' }))
 			.setCurrentXP(currendXp)
-			.setDiscriminator(target.discriminator)
+			.setDiscriminator(user.discriminator)
 			.setLevel(user.level)
 			.setProgressBar('#f77600')
 			.setRank(1, 'test', false)
 			.setRequiredXP(requiredXp)
-			.setStatus(target.presence.status, false, false)
-			.setUsername(target.username);
+			.setStatus(user.presence.status, false, false)
+			.setUsername(user.username);
 		await rank.build()
-			.then(data => {
+			.then(async data => {
 				const attatchment = new MessageAttachment(data, 'levelcard.png');
-				setTimeout(() => {
-					channel.send(attatchment);
-				}, 250);
+				await interaction.reply({ files: [attatchment] });
 			});
-		
-		return [ `Loading Rank Card...` ]
 	},
 };

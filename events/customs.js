@@ -1,9 +1,9 @@
-const { MessageEmbed } = require('discord.js');
-const { MessageButton, MessageActionRow} = require('discord-buttons');
+const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
+const wait = require('util').promisify(setTimeout);
 const customs = require('../models/customs');
 
 const parentId = '810764515582672917';
-const mainChannelId = '810768943736160276';
+const mainChannelId = '853573910163488798';
 
 module.exports = {
 	name: 'voiceStateUpdate',
@@ -43,66 +43,39 @@ module.exports = {
 				parent: parentId,
 				userLimit: userLimit,
 				bitrate: 128000,
-				permissionOverwrites: [
-					{
-						id: member.user.id,
-						allow: 'CONNECT',
-					},
-					{
-						id: '811192131019604008',
-						allow: 'CONNECT',
-					},
-					{
-						id: '255741114273759232',
-						deny: 'CONNECT',
-					},
-				],
 			});
+			customsVoiceChannel.updateOverwrite(member.user.id, { CONNECT: true });
+			customsVoiceChannel.updateOverwrite('255741114273759232', { CONNECT: false});
 
 			await member.voice.setChannel(customsVoiceChannel);
 
 			const customsTextChannel = await guild.channels.create(`${member.user.username}'s-channel`, {
 				type: 'text',
 				parent: parentId,
-				permissionOverwrites: [
-					{
-						id: member.user.id,
-						allow: 'VIEW_CHANNEL',
-					},
-					{
-						id: '811192131019604008',
-						allow: 'VIEW_CHANNEL',
-					},
-					{
-						id: '255741114273759232',
-						deny: 'VIEW_CHANNEL',
-					},
-					{
-						id: '770785336829018164',
-						deny: 'VIEW_CHANNEL',
-					},
-					{
-						id: '707606601225207868',
-						deny: 'VIEW_CHANNEL',
-					},
-					{
-						id: '799794205902766081',
-						deny: 'SEND_MESSAGES',
-					},
-				],
 			});
+
+			customsTextChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
+			customsTextChannel.updateOverwrite('255741114273759232', { VIEW_CHANNEL: false});
+
+			guild.members.cache.get(member.user.id).roles.add('853257628934733834')
 
 			const button_unlock = new MessageButton()
 				.setLabel('Kanal öffentlich machen')
-				.setStyle('blurple')
+				.setStyle('PRIMARY')
 				.setEmoji('🌎')
-				.setID('unlock')
+				.setCustomID('unlock')
 
 			const button_lock = new MessageButton()
 				.setLabel('Kanal privat stellen')
-				.setStyle('blurple')
+				.setStyle('PRIMARY')
 				.setEmoji('🔒')
-				.setID('lock')
+				.setCustomID('lock')
+
+			const row = new MessageActionRow()
+				.addComponents(button_lock)
+
+			const row1 = new MessageActionRow()
+				.addComponents(button_unlock)
 
 			const embed = new MessageEmbed()
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
@@ -113,19 +86,18 @@ module.exports = {
 				.setColor('5865F2')
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);
 
-			customsTextChannel.send({ embed: embed, buttons: [ button_unlock ] }).then((msg) => {
+			customsTextChannel.send({ embeds: [embed], components: [ row1 ] }).then((msg) => {
 				msg.pin();
-				const filter = (button) => button.clicker.user.id === userId;
-				const collector = msg.createButtonCollector(filter);
+				const filter = (button) => button.user.id === userId;
+				const collector = msg.createMessageComponentInteractionCollector(filter);
 				collector.on('collect', button => {
-					button.defer();
-					if (button.id == 'unlock') {
+					if (button.customID == 'unlock') {
 						customsVoiceChannel.updateOverwrite('255741114273759232', { CONNECT: true});
-						msg.edit({ embed: embed, buttons: [ button_lock ] });
-					} else if (button.id == 'lock') {
+						button.update({ embeds: [embed], components: [ row ] });
+					} else if (button.customID == 'lock') {
 						customsVoiceChannel.updateOverwrite(userId, { CONNECT: true });
 						customsVoiceChannel.updateOverwrite('255741114273759232', { CONNECT: false});
-						msg.edit({ embed: embed, buttons: [ button_unlock ] });
+						button.update({ embeds: [embed], components: [ row1 ] });
 					};
 				});
 			});
@@ -198,12 +170,17 @@ module.exports = {
 			mainChannel.updateOverwrite(newState.id, { VIEW_CHANNEL: true });
 		}
 
-		if (customsId) {
-			if (newState.channelID) return;
+		deleteChannel()
+
+		async function deleteChannel() {
+			// if (!customsId) return;
+			// if (newState.channelID) return;
 			if (channel.members.size !== 0) return;
+			await wait(10000);
 			channel.delete();
 			textChannel.delete();
 			mainChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
+			guild.members.cache.get(member.user.id).roles.remove('853257628934733834')
 		}
 	},
 };
