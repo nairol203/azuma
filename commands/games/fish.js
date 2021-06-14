@@ -44,29 +44,17 @@ module.exports = {
                     { name: '4️⃣ ' + bait_3.name, value: bait_3.description + '\n**Kosten:** ' + bait_3.price + ' 💵'  },
                 )
                 .setColor('#2773fc');
-            const button_1 = new MessageButton()
-                .setStyle('SECONDARY')
-                .setLabel('1')
-                .setCustomID('one');
-            const button_2 = new MessageButton()
-                .setStyle('SECONDARY')
-                .setLabel('2')
-                .setCustomID('two');
-            const button_3 = new MessageButton()
-                .setStyle('SECONDARY')
-                .setLabel('3')
-                .setCustomID('three');
-            const button_4 = new MessageButton()
-                .setStyle('SECONDARY')
-                .setLabel('4')
-                .setCustomID('four');
-            const row = new MessageActionRow()
-                .addComponents([button_1, button_2, button_3, button_4]);
-            interaction.reply({ embeds: [embed], components: [row] });
-            const message = await interaction.fetchReply()
-            const collector = message.createMessageComponentInteractionCollector(i => i.user.id == userId, { time: 300000 });
-            collector.on('collect', async button => {
-                if (button.customID == 'one') {
+            interaction.reply({ embeds: [embed]} );
+            const filter = m => m.author.id === userId;
+            channel.awaitMessages(filter, {
+                max: 1,
+                time: 60000,
+                errors: ['time'],
+            })
+            .then(async msg => {
+                msg = msg.first();
+                msg.delete();
+                if (msg.content == '1') {
                     await activeBait(userId, undefined);
                     const embed = new MessageEmbed()
                         .setTitle('Köder ausgewählt')
@@ -76,9 +64,9 @@ module.exports = {
                             { name: 'Preis', value: '10 💵', inline: true },
                         )
                         .setColor('#2773fc')
-                    button.update({ embeds: [embed] })
+                    interaction.editReply({ embeds: [embed]} );
                 }
-                else if (button.customID == 'two') {
+                else if (msg.content == '2') {
                     await activeBait(userId, 'bait_1');
                     const embed = new MessageEmbed()
                         .setTitle('Köder ausgewählt')
@@ -88,9 +76,9 @@ module.exports = {
                             { name: 'Preis', value: bait_1.price + ' 💵', inline: true },
                         )
                         .setColor('#2773fc')
-                    button.update({ embeds: [embed] })
+                    interaction.editReply({ embeds: [embed]} );
                 }
-                else if (button.customID == 'three') {
+                else if (msg.content == '3') {
                     await activeBait(userId, 'bait_2');
                     const embed = new MessageEmbed()
                         .setTitle('Köder ausgewählt')
@@ -100,9 +88,9 @@ module.exports = {
                             { name: 'Preis', value: bait_2.price + ' 💵', inline: true },
                         )
                         .setColor('#2773fc')
-                    button.update({ embeds: [embed] })
+                    interaction.editReply({ embeds: [embed]} );
                 }
-                else if (button.customID == 'four') {
+                else if (msg.content == '4') {
                     await activeBait(userId, 'bait_3');
                     const embed = new MessageEmbed()
                         .setTitle('Köder ausgewählt')
@@ -112,15 +100,16 @@ module.exports = {
                             { name: 'Preis', value: bait_3.price + ' 💵', inline: true },
                         )
                         .setColor('#2773fc')
-                    button.update({ embeds: [embed] })
+                    interaction.editReply({ embeds: [embed]} );
+                }
+                else {
+                    m.delete();
+                    interaction.followUp('Keine gültige Eingabe erkannt!');
                 };
-            });
-            collector.on('end', () => {
-                button_1.setDisabled();
-                button_2.setDisabled();
-                button_3.setDisabled();
-                button_4.setDisabled();
-                interaction.editReply({ embeds: [embed], components: [row] });
+            })
+            .catch(() => {
+                m.delete();
+                interaction.followUp('Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.');
             });
             return;
         }
