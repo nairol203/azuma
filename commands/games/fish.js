@@ -43,7 +43,7 @@ module.exports = {
                     { name: '3️⃣ ' + bait_2.name, value: bait_2.description + '\n**Kosten:** ' + bait_2.price + ' 💵'  },
                     { name: '4️⃣ ' + bait_3.name, value: bait_3.description + '\n**Kosten:** ' + bait_3.price + ' 💵'  },
                 )
-                .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+                .setFooter('Azuma | Tippe "exit" um das Menü zu schließen.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             interaction.reply({ embeds: [embed]} );
             const filter = m => m.author.id === userId;
