@@ -1,4 +1,4 @@
-const { Collection, MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
+const { Collection, MessageEmbed, MessageButton } = require('discord.js');
 const { bags, fish, rods, baits } = require('./fish.json');
 const { bait_1, bait_2, bait_3 } = baits;
 const { gold, silver, bronze } = require('../../emoji.json');
@@ -43,6 +43,7 @@ module.exports = {
                     { name: '3️⃣ ' + bait_2.name, value: bait_2.description + '\n**Kosten:** ' + bait_2.price + ' 💵'  },
                     { name: '4️⃣ ' + bait_3.name, value: bait_3.description + '\n**Kosten:** ' + bait_3.price + ' 💵'  },
                 )
+                .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             interaction.reply({ embeds: [embed]} );
             const filter = m => m.author.id === userId;
@@ -102,14 +103,15 @@ module.exports = {
                         .setColor('#2773fc')
                     interaction.editReply({ embeds: [embed]} );
                 }
+                else if (msg.content == 'exit') {
+                    interaction.deleteReply();
+                }
                 else {
-                    m.delete();
                     interaction.followUp('Keine gültige Eingabe erkannt!');
                 };
             })
             .catch(() => {
-                m.delete();
-                interaction.followUp('Die Köderauswahl wurde aufgrund von Inaktivität geschlossen.');
+                interaction.followUp('Die Köderauswahl wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.');
             });
             return;
         }
@@ -385,7 +387,7 @@ Andere Kategorien:
                     }
                 })
                 .catch(() => {
-                    interaction.followUp('Das Wiki wurde aufgrund von Inaktivität geschlossen.')
+                    interaction.followUp('Das Wiki wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.')
                     return;
                 })
             }
