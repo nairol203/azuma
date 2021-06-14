@@ -64,6 +64,7 @@ module.exports = {
                             { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.default.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.default.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.default.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.default.chances.garbage * 100).toFixed(2)}%`, inline: true },
                             { name: 'Preis', value: '10 💵', inline: true },
                         )
+                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('#2773fc')
                     interaction.editReply({ embeds: [embed]} );
                 }
@@ -76,6 +77,7 @@ module.exports = {
                             { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_1.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_1.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_1.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_1.chances.garbage * 100).toFixed(2)}%`, inline: true },
                             { name: 'Preis', value: bait_1.price + ' 💵', inline: true },
                         )
+                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('#2773fc')
                     interaction.editReply({ embeds: [embed]} );
                 }
@@ -88,6 +90,7 @@ module.exports = {
                             { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_2.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_2.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_2.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_2.chances.garbage * 100).toFixed(2)}%`, inline: true },
                             { name: 'Preis', value: bait_2.price + ' 💵', inline: true },
                         )
+                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('#2773fc')
                     interaction.editReply({ embeds: [embed]} );
                 }
@@ -100,6 +103,7 @@ module.exports = {
                             { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_3.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_3.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_3.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_3.chances.garbage * 100).toFixed(2)}%`, inline: true },
                             { name: 'Preis', value: bait_3.price + ' 💵', inline: true },
                         )
+                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('#2773fc')
                     interaction.editReply({ embeds: [embed]} );
                 }
