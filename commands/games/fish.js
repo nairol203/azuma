@@ -49,7 +49,7 @@ module.exports = {
             const filter = m => m.author.id === userId;
             channel.awaitMessages(filter, {
                 max: 1,
-                time: 60000,
+                time: 300000,
                 errors: ['time'],
             })
             .then(async msg => {
