@@ -12,9 +12,8 @@ module.exports = {
         const guildId = interaction.guildID;
         const channel = client.channels.cache.get(interaction.channelID);
         const userId = interaction.member.user.id;
-		const targetCoins = await getCoins(guildId, userId);
+		const userBal = await getCoins(guildId, userId);
         const p_save = await profile.findOne({ userId });
-        credits = targetCoins;
 
         const embed = new MessageEmbed()
             .setTitle('Azuma Shop')
@@ -38,7 +37,7 @@ module.exports = {
                 if (msg.content == '1') {
                     const bagEmbed = new MessageEmbed()
                         .setTitle('🎣 |  Rucksack kaufen')
-                        .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + ' 💵')
+                        .setDescription('Kaufe einen Rucksack, um mehr Fische auf einmal tragen zu können.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(userBal) + ' 💵')
                         .addFields(
                             { name: '1️⃣ ' + bag_1.name , value: `Größe: ${bag_1.size}\nKosten: \`${bag_1.price}\` 💵` },
                             { name: '2️⃣ ' + bag_2.name, value: `Größe: ${bag_2.size}\nKosten: \`${bag_2.price}\` 💵` },
@@ -54,7 +53,7 @@ module.exports = {
                 else if (msg.content == '2') {
                     const rodEmbed = new MessageEmbed()
                         .setTitle('🎣  |  Angeln kaufen')
-                        .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits) + ' 💵')
+                        .setDescription('Kaufe eine Angel, um Fische mit `/fish` zu fangen. Eine Angel geht nach einer Zeit kaputt.\n**Deine Credits:** ' + Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(userBal) + ' 💵')
                         .addFields(
                             { name: '1️⃣ ' + rod_1.name, value: `Chance kein Köder zu verbrauchen: ${rod_1.no_bait * 100}%\nAngel-Cooldown: ${rod_1.cooldown} Sekunden\nKosten: \`${rod_1.price}\` 💵` },
                             { name: '2️⃣ ' + rod_2.name, value: `Chance kein Köder zu verbrauchen: ${rod_2.no_bait * 100}%\nAngel-Cooldown: ${rod_2.cooldown} Sekunden\nKosten: \`${rod_2.price}\` 💵` },
@@ -93,7 +92,7 @@ module.exports = {
                 msg = msg.first()
                 msg.delete();
                 if (msg.content == '1') {
-                    if (targetCoins < bag_1.price) {
+                    if (userBal < bag_1.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
@@ -113,7 +112,7 @@ module.exports = {
                         interaction.editReply({ embeds: [invoiceEmbed] })
                 }
                 else if (msg.content == '2') {
-                    if (targetCoins < bag_2.price) {
+                    if (userBal < bag_2.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
@@ -133,7 +132,7 @@ module.exports = {
                     interaction.editReply({ embeds: [invoiceEmbed] });
                 }
                 else if (msg.content == '3') {
-                    if (targetCoins < bag_3.price) {
+                    if (userBal < bag_3.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
@@ -153,7 +152,7 @@ module.exports = {
                     interaction.editReply({ embeds: [invoiceEmbed] });
                 }
                 else if (msg.content == '4') {
-                    if (targetCoins < bag_4.price) {
+                    if (userBal < bag_4.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
@@ -199,7 +198,7 @@ module.exports = {
                 msg = msg.first()
                 msg.delete();
                 if (msg.content == '1') {
-                    if (targetCoins < rod_1.price) {
+                    if (userBal < rod_1.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
@@ -219,7 +218,7 @@ module.exports = {
                     interaction.editReply({ embeds: [invoiceEmbed] });
                 }
                 else if (msg.content == '2') {
-                    if (targetCoins < rod_2.price) {
+                    if (userBal < rod_2.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
@@ -239,7 +238,7 @@ module.exports = {
                     interaction.editReply({ embeds: [invoiceEmbed] });
                 }
                 else if (msg.content == '3') {
-                    if (targetCoins < rod_3.price) {
+                    if (userBal < rod_3.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
@@ -259,7 +258,7 @@ module.exports = {
                     interaction.editReply({ embeds: [invoiceEmbed] });
                 }
                 else if (msg.content == '4') {
-                    if (targetCoins < rod_4.price) {
+                    if (userBal < rod_4.price) {
                         interaction.deleteReply();
                         interaction.followUp(`<@${userId}>, du hast nicht genug Credits um dir das leisten zu können!`);
                         return;
