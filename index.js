@@ -32,21 +32,45 @@ for (const file of eventFiles) {
 client.on('ready', async () => {
     await mongo();
     updateCooldown();
-	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '' : 's') + '.');
-    const globalCommands = await get(); const guildCommands = await get(guildId);
-	console.log(client.user.username + ' > Found ' + (globalCommands.length || 0) + ' Global Commands and ' + (guildCommands.length || 0) + ' Guild Commands.')
-});
+	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '.' : 's.'));
+    const globalCommands = await client.application?.commands.fetch();
+    const guildCommands = await client.guilds.cache.get(guildId)?.commands.fetch();
+	console.log(client.user.username + ' > Found ' + (globalCommands.size || 0) + ' Global Command' + (globalCommands.size == 1 ? '' : 's') + ' and ' + (guildCommands.size || 0) + ' Guild Command' + (globalCommands.size == 1 ? '.' : 's.'));
 
-async function get(guildId) {
-	const app = client.api.applications(client.user.id);
-	if (guildId) {
-		app.guilds(guildId);
-	}
-	return app.commands.get();
-}
+    for (let command of client.commands) {
+        cmd = command[1];
+        if (!cmd?.update) return;
+        if (!cmd?.description) return console.warn(client.user.username + ' > No Description in  ' + command[0] + '-js');
+        const data = {
+            name: command[0],
+            description: cmd.description,
+            options: cmd?.options || [],
+        };
+        if (cmd.guildOnly) {
+            try {
+                await client.guilds.cache.get(guildId)?.commands.create(data);
+                console.log(client.user.username + ' > Posted Guild Command: /' + command[0]);
+            }
+            catch (error) {
+                console.error(error);
+            };
+        }
+        else {
+            try {
+                await client.application?.commands.create(data);
+                console.log(client.user.username + ' > Posted Command: /' + command[0]);
+            }
+            catch (error) {
+                console.error(error);
+            };
+        };
+
+    };
+});
 
 client.on('interaction', async interaction => {
     if (!interaction.isCommand()) return;
+    if (!interaction?.guildID) return interaction.reply({ content: `Dieser Command kann nur in Servern genutzt werden. Klicke [hier](<https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=19982400&scope=bot%20applications.commands>), um mich zu deinem Server hinzuzufügen!`, ephemeral: true });
     const userId = interaction.member.user.id;
     const commandName = interaction.commandName;
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
@@ -99,12 +123,12 @@ client.on('message', async message => {
 
 	if (!command) return;
 	if (message.author.id != '255739211112513536') return;
-    message.delete()
 	try {
 		command.callback({ client, message, args });
+        message.delete();
 	}
-	catch (e) {
-		console.error(e);
+	catch (error) {
+		console.error(error);
 	}
 });
 

@@ -97,7 +97,7 @@ module.exports = {
 				.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
 				.setTitle('Verkauf erfolgreich')
 				.setDescription(`Du hast die hergestellte Ware von deiner ${company.name} verkauft.`)
-				.addField('Umsatz', `\`${profit}\` 💵`)
+				.addField('Umsatz', `${profit} 💵`)
 				.setFooter('Azuma | Du kannst alle 8 Stunden deine Ware verkaufen.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 				.setColor('#2f3136');
 			interaction.reply({ embeds: [embed] });

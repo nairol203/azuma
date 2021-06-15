@@ -1,4 +1,4 @@
-const { PogChamp, PagChomp, PagShake, PagMan, Pause, PauseChamp, WeirdChamp, pepeLaugh, peepoHey, peepoBye, peepoHug, FeelsOkayNan, FeelsBadMan, dankHug, WEEWOO } = require('../emoji.json');
+const { PogChamp, PagChomp, PagShake, PagMan, Pause, PauseChamp, WeirdChamp, pepeLaugh, peepoHey, peepoBye, peepoHug, FeelsOkayMan, FeelsBadMan, dankHug, WEEWOO } = require('../emoji.json');
 
 module.exports = {
 	name: 'message',
@@ -46,7 +46,7 @@ module.exports = {
 			const messages = [
 				'Ganz okay',
 				'Muss ja^^',
-				'Gut, dir? ' + FeelsOkayNan,
+				'Gut, dir? ' + FeelsOkayMan,
 				'Mir geht\'s schlecht, könntest du einen Witz erzählen um mich aufzuheitern?',
 				'Könn\'t nicht besser sein!',
 				'Gut, danke der Nachfrage',

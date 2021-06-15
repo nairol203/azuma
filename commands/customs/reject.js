@@ -13,12 +13,12 @@ module.exports = {
 	],
 	callback: async ({ client, interaction }) => {
 		const user = interaction.member.user;
-		const userId = user.id
+		const userId = user.id;
 		const textChannelId = interaction.channelID;
 		const result = await customs.findOne({ userId });
 		if (!result) return interaction.reply({ component: 'Du besitzt aktuell kein Zimmer!', ephemeral: true });
 		if (result.textChannelId == textChannelId) {
-			const voiceChannel = client.channels.cache.get(result.channelId)
+			const voiceChannel = client.channels.cache.get(result.channelId);
 			if(!voiceChannel) return interaction.reply({ component: 'Du besitzt aktuell kein Zimmer!', ephemeral: true });
 			const mention = interaction.options.get('user').value;
 			voiceChannel.updateOverwrite(mention, { CONNECT: false });
