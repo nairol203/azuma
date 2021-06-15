@@ -4,6 +4,7 @@ const { fetchLeaderboard, computeLeaderboard } = require('../../events/levels');
 module.exports = {
 	description: 'Zeigt die Rangliste des Servers an',
 	callback: async ({ client, interaction }) => {
+		await interaction.defer();
 		const rawLeaderboard = await fetchLeaderboard(10);
 
 		if (rawLeaderboard.length < 1) return interaction.reply({ content: 'Aktuell ist hat noch niemand XP gesammelt.', ephemeral: true });
@@ -18,6 +19,6 @@ module.exports = {
 			.setColor('f77600')
 			.setThumbnail(`https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
             .setFooter('Azuma | Contact @florian#0002 for help.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`);;
-		interaction.reply({ embeds: [embed] });
+		interaction.editReply({ embeds: [embed] });
 	},
 };
