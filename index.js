@@ -36,11 +36,13 @@ client.on('ready', async () => {
     const globalCommands = await client.application?.commands.fetch();
     const guildCommands = await client.guilds.cache.get(guildId)?.commands.fetch();
 	console.log(client.user.username + ' > Found ' + (globalCommands.size || 0) + ' Global Command' + (globalCommands.size == 1 ? '' : 's') + ' and ' + (guildCommands.size || 0) + ' Guild Command' + (globalCommands.size == 1 ? '.' : 's.'));
-
     for (let command of client.commands) {
         cmd = command[1];
-        if (!cmd?.update) return;
-        if (!cmd?.description) return console.warn(client.user.username + ' > No Description in  ' + command[0] + '-js');
+        if (!cmd?.update) continue;
+        if (!cmd?.description) {
+            console.warn(client.user.username + ' > No Description in  ' + command[0] + '-js');
+            continue;
+        }
         const data = {
             name: command[0],
             description: cmd.description,
