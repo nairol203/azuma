@@ -25,11 +25,9 @@ module.exports.getNeededXP = getNeededXP;
 async function addXP(guildId, userId, xpToAdd, message, client) {
 	const result = await profileSchema.findOneAndUpdate(
 		{
-			guildId,
 			userId,
 		},
 		{
-			guildId,
 			userId,
 			$inc: {
 				xp: xpToAdd,
@@ -59,7 +57,6 @@ async function addXP(guildId, userId, xpToAdd, message, client) {
 
 		await profileSchema.updateOne(
 			{
-				guildId,
 				userId,
 			},
 			{
@@ -69,11 +66,10 @@ async function addXP(guildId, userId, xpToAdd, message, client) {
 	}
 }
 
-async function fetchLeaderboard(guildId, limit) {
-	if (!guildId) throw new TypeError('A guild id was not provided.');
+async function fetchLeaderboard(limit) {
 	if (!limit) throw new TypeError('A limit was not provided.');
 
-	const users = await profileSchema.find({ guildId: guildId }).sort([['xp', 'descending']]).exec();
+	const users = await profileSchema.find().sort([['xp', 'descending']]).exec();
 
 	return users.slice(0, limit);
 }
@@ -91,7 +87,6 @@ async function computeLeaderboard(client, leaderboard, fetchUsers = false) {
 		for (const key of leaderboard) {
 			const user = await client.users.fetch(key.userId) || { username: 'Unknown', discriminator: '000' };
 			computedArray.push({
-				guildId: key.guildId,
 				userId: key.userId,
 				xp: key.xp,
 				level: key.level,
@@ -103,7 +98,6 @@ async function computeLeaderboard(client, leaderboard, fetchUsers = false) {
 	}
 	else {
 		leaderboard.map(key => computedArray.push({
-			guildId: key.guildId,
 			userId: key.userId,
 			xp: key.xp,
 			level: key.level,
@@ -118,12 +112,10 @@ async function computeLeaderboard(client, leaderboard, fetchUsers = false) {
 module.exports.computeLeaderboard = computeLeaderboard;
 
 async function roleLevels(message) {
-	const guildId = message.guild.id;
 	const userId = message.member.id;
 
 	const user = await profileSchema.findOne(
 		{
-			guildId,
 			userId,
 		},
 	);

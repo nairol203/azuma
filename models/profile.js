@@ -11,7 +11,6 @@ const reqNumber = {
 };
 
 const profileSchema = mongoose.Schema({
-	guildId: reqString,
 	userId: reqString,
 	coins: {
 		type: Number,

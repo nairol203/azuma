@@ -3,11 +3,10 @@ const economy = require('../../features/economy');
 
 module.exports = {
     callback: async ({ client, interaction }) => {
-        const guildId = interaction.guildID;
         const user = interaction.member.user;
         const userId = user.id;
         let credits = interaction.options.get('credits').value;
-        let userCredits = await economy.getCoins(guildId, userId);
+        let userCredits = await economy.getCoins(userId);
         if (userCredits < credits) {
             interaction.reply({ content: 'Du hast für diesen Einsatz nicht genug Credits!', ephemeral: true });
             return;
@@ -181,7 +180,7 @@ module.exports = {
         };
 
         if (dealerSum == 21) {
-            const newBalance = await economy.addCoins(guildId, userId, credits * -1);
+            const newBalance = await economy.addCoins(userId, credits * -1);
             const newEmbed = new MessageEmbed()
                 .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                 .setTitle('Blackjack')
@@ -285,7 +284,7 @@ module.exports = {
                             credits = 0;
                             newEmbed.setDescription('Alle drei Hände sind gleich! Was ein Zufall.')
                         }
-                        const newBalance = await economy.addCoins(guildId, userId, credits);
+                        const newBalance = await economy.addCoins(userId, credits);
                         newEmbed.addFields(
                             { name: 'Gewinn', value: credits + ' Credits' },
                             { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits' }
@@ -305,7 +304,7 @@ module.exports = {
                         .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('5865F2')
                     if (winner == 'player') {
-                        const newBalance = await economy.addCoins(guildId, userId, credits);
+                        const newBalance = await economy.addCoins(userId, credits);
                         newEmbed.setDescription('Du hast die bessere Hand! Glückwunsch!')
                         newEmbed.addFields(
                             { name: 'Gewinn', value: (credits * 2) + ' Credits' },
@@ -314,7 +313,7 @@ module.exports = {
                         newEmbed.setColor('57F287')
                     }
                     else if (winner == 'dealer') {
-                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
+                        const newBalance = await economy.addCoins(userId, credits * -1);
                         newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!')
                         newEmbed.addFields(
                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
@@ -385,7 +384,7 @@ module.exports = {
                     )
 
                     if ((playerSum1 & playerSum2) > 21) {
-                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
+                        const newBalance = await economy.addCoins(userId, credits * -1);
                         const embed_3 = new MessageEmbed()
                             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                             .setTitle('Blackjack')
@@ -428,7 +427,7 @@ module.exports = {
                         .setFooter('Azuma | Das Spiel läuft nach 5 Minuten Inaktivität ab.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('5865F2');
                     if (playerSum > 21) {
-                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
+                        const newBalance = await economy.addCoins(userId, credits * -1);
                         const embed_3 = new MessageEmbed()
                             .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                             .setTitle('Blackjack')
@@ -521,7 +520,7 @@ module.exports = {
                             credits = 0;
                             newEmbed2.setDescription('Alle drei Hände sind gleich! Was ein Zufall.')
                         }
-                        const newBalance = await economy.addCoins(guildId, userId, credits);
+                        const newBalance = await economy.addCoins(userId, credits);
                         newEmbed2.addFields(
                             { name: 'Gewinn', value: credits + ' Credits' },
                             { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
@@ -554,7 +553,7 @@ module.exports = {
                         .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('5865F2')
                     if (winner == 'player') {
-                        const newBalance = await economy.addCoins(guildId, userId, credits);
+                        const newBalance = await economy.addCoins(userId, credits);
                         newEmbed.setDescription('Du hast gewonnen und gewinnst das Doppelte!');
                         newEmbed.addFields(
                             { name: 'Gewinn', value: (credits * 2) + ' Credits' },
@@ -563,7 +562,7 @@ module.exports = {
                         newEmbed.setColor('57F287');
                     }
                     else if (winner == 'dealer') {
-                        const newBalance = await economy.addCoins(guildId, userId, credits * -1);
+                        const newBalance = await economy.addCoins(userId, credits * -1);
                         newEmbed.setDescription('Du hast die schlechtere Hand und verlierst alles!');
                         newEmbed.addFields(
                             { name: 'Gewinn', value: '-' + credits + ' Credits' },
@@ -619,7 +618,7 @@ module.exports = {
                         { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
                     )
                 };
-                const newBalance = await economy.addCoins(guildId, userId, (credits / 2) * -1);
+                const newBalance = await economy.addCoins(userId, (credits / 2) * -1);
                 newEmbed.addFields(
                     { name: 'Hand vom Dealer', value: dCard1.name + ', ?\nTotal: ?', inline: true },
                     { name: 'Gewinn', value: '-' + Math.floor(credits / 2 ) + ' Credits' },
@@ -633,7 +632,7 @@ module.exports = {
             button_finished.label = 'Zeit abgelaufen';
             button_finished.style = 4;
             button.update({ components: [row_4] });
-            await economy.addCoins(guildId, userId, credits * -1);
+            await economy.addCoins(userId, credits * -1);
         })
 
         function checkWinner(pSum, dSum) {

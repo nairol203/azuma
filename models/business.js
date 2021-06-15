@@ -11,7 +11,6 @@ const reqBoolean = {
 };
 
 const business = mongoose.Schema({
-	guildId: reqString,
 	userId: reqString,
 	type: reqString,
 	upgrade1: reqBoolean,

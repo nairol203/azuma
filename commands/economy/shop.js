@@ -9,10 +9,9 @@ const profile = require('../../models/profile');
 module.exports = {
     description: 'Öffnet das Shop-Menü',
     callback: async ({ client, interaction }) => {
-        const guildId = interaction.guildID;
         const channel = client.channels.cache.get(interaction.channelID);
         const userId = interaction.member.user.id;
-		const userBal = await getCoins(guildId, userId);
+		const userBal = await getCoins(userId);
         const p_save = await profile.findOne({ userId });
 
         const embed = new MessageEmbed()
@@ -103,7 +102,7 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_1');
-                    await addCoins(guildId, userId, bag_1.price * -1);
+                    await addCoins(userId, bag_1.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${bag_1.name}\nKosten: \`${bag_1.price}\` 💵`)
@@ -123,7 +122,7 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_2');
-                    await addCoins(guildId, userId, bag_2.price * -1);
+                    await addCoins(userId, bag_2.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${bag_2.name}\nKosten: \`${bag_2.price}\` 💵`)
@@ -143,7 +142,7 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_3');
-                    await addCoins(guildId, userId, bag_3.price * -1);
+                    await addCoins(userId, bag_3.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${bag_3.name}\nKosten: \`${bag_3.price}\` 💵`)
@@ -163,7 +162,7 @@ module.exports = {
                         return;
                     }
                     await setBag(userId, 'bag_4');
-                    await addCoins(guildId, userId, bag_4.price * -1);
+                    await addCoins(userId, bag_4.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${bag_4.name}\nKosten: \`${bag_4.price}\` 💵`)
@@ -209,7 +208,7 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_1');
-                    await addCoins(guildId, userId, rod_1.price * -1);
+                    await addCoins(userId, rod_1.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${rod_1.name}\nKosten: \`${rod_1.price}\` 💵`)
@@ -229,7 +228,7 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_2');
-                    await addCoins(guildId, userId, rod_2.price * -1);
+                    await addCoins(userId, rod_2.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${rod_2.name}\nKosten: \`${rod_2.price}\` 💵`)
@@ -249,7 +248,7 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_3');
-                    await addCoins(guildId, userId, rod_3.price * -1);
+                    await addCoins(userId, rod_3.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${rod_3.name}\nKosten: \`${rod_3.price}\` 💵`)
@@ -269,7 +268,7 @@ module.exports = {
                         return;
                     }
                     await setRod(userId, 'rod_4');
-                    await addCoins(guildId, userId, rod_3.price * -1);
+                    await addCoins(userId, rod_3.price * -1);
                     const invoiceEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .addField('Rechung', `- ${rod_4.name}\nKosten: \`${rod_4.price}\` 💵`)

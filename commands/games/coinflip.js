@@ -18,7 +18,6 @@ module.exports = {
 		},
 	],
 	callback: async ({ client, interaction }) => {
-		const guildId = interaction.guildID;
 		const userId = interaction.member.user.id;
 
 		const targetId = interaction.options.get('user').value;
@@ -29,10 +28,10 @@ module.exports = {
         if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!', ephemeral: true });
         else if (userId == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
 		if (credits < 1) return interaction.reply({ content: 'Netter Versuch, aber ich lasse dich nicht mit negativen Einsatz spielen!', ephemeral: true });
-		const coinsOwned = await economy.getCoins(guildId, userId);
+		const coinsOwned = await economy.getCoins(userId);
 		if (coinsOwned < credits) return interaction.reply({ content: 'Du bist wohl ärmer als du denkst! Versuche es mit weniger Geld.', ephemeral: true });
 	
-		const targetCoins = await economy.getCoins(guildId, targetId);
+		const targetCoins = await economy.getCoins(targetId);
 		if (targetCoins < credits) return interaction.reply({ content: `Soviel Geld hat ${target.username} nicht! Pah! Was ein Geringverdiener...`, ephemeral: true });
 
 		const randomNumber = [1, 2][Math.floor(Math.random() * 2)];
@@ -73,13 +72,13 @@ module.exports = {
 				switch (randomNumber) {
 					case 1:
 						button.followUp(`<@${targetId}> hat ${credits * 2} 💵 gewonnen!`)
-						await economy.addCoins(guildId, targetId, credits);
-						await economy.addCoins(guildId, userId, credits * -1);
+						await economy.addCoins(targetId, credits);
+						await economy.addCoins(userId, credits * -1);
 						break;
 					case 2:
 						button.followUp(`<@${userId}> hat ${credits * 2} 💵 gewonnen!`);
-						await economy.addCoins(guildId, targetId, credits * -1);
-						await economy.addCoins(guildId, userId, credits);
+						await economy.addCoins(targetId, credits * -1);
+						await economy.addCoins(userId, credits);
 						break;
 				};
 			};

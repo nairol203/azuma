@@ -7,11 +7,10 @@ const profile = require('../../models/profile');
 module.exports = {
     description: 'Öffnet deinen Rucksack',
     callback: async ({ client, interaction }) => {
-        const guildId = interaction.guildID;
         const user = interaction.member.user;
         const userId = user.id; 
         const p_save = await profile.findOne({ userId });
-        const credits = await getCoins(guildId, userId);
+        const credits = await getCoins(userId);
 
         const buttonSell = {
             type: 2,
@@ -79,7 +78,7 @@ module.exports = {
                         bag_value: 0,
                     }
                 );
-                await addCoins(guildId, userId, p_save.bag_value);
+                await addCoins(userId, p_save.bag_value);
                 buttonSell.disabled = true;
                 buttonSell.style = 2;
                 embed.addField('Erfolg!', `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`);

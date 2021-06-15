@@ -42,7 +42,7 @@ client.on('ready', async () => {
         if (!cmd?.description) {
             console.warn(client.user.username + ' > No Description in  ' + command[0] + '-js');
             continue;
-        }
+        };
         const data = {
             name: command[0],
             description: cmd.description,

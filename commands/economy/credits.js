@@ -11,8 +11,7 @@ module.exports = {
 	],
 	callback: async ({ interaction }) => {
 		const userId = interaction?.options?.get('user')?.value || interaction.member.user.id;
-		const guildId = interaction.guildID;
-		const credits = await economy.getCoins(guildId, userId);
+		const credits = await economy.getCoins(userId);
 		interaction.reply(`💵  |  **<@${userId}>**, du hast aktuell **${Intl.NumberFormat('de-DE', { maximumSignificantDigits: 10 }).format(credits)}** Credits.`);
 	},
 };

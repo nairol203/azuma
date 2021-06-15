@@ -1,19 +1,15 @@
 const { MessageAttachment } = require('discord.js');
 const { Rank } = require('canvacord');
 const { getNeededXP } = require('../../events/levels');
-const { findOne } = require('../../models/profile');
+const profile = require('../../models/profile');
 
 module.exports = {
 	description: 'Zeigt dein aktuelles Level an',
 	callback: async ({ client, interaction }) => {
-		const guildId = interaction.guildID;
 		const target = client.users.cache.get(interaction.member.user.id)
-		const targetId = target.id;
+		const userId = target.id;
 
-		const user = await findOne({
-			guildId,
-			targetId,
-		});
+		const user = await profile.findOne({ userId });
 
 		const needed = Math.round(getNeededXP(user.level - 1));
 		const neededCurrent = Math.round(getNeededXP(user.level));

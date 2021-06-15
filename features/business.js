@@ -10,24 +10,21 @@ module.exports.getInfo = (type) => {
 	if (type === 'upgrades') return upgrades;
 };
 
-module.exports.getBusiness = async (guildId, userId) => {
+module.exports.getBusiness = async (userId) => {
 	const business = await businessSchema.findOne(
 		{
-			guildId,
 			userId,
 		},
 	);
 	return business;
 };
 
-module.exports.buyBusiness = async (guildId, userId, type) => {
+module.exports.buyBusiness = async (userId, type) => {
 	await businessSchema.findOneAndUpdate(
 		{
-			guildId,
 			userId,
 		},
 		{
-			guildId,
 			userId,
 			type,
 			upgrade1: false,
@@ -41,15 +38,13 @@ module.exports.buyBusiness = async (guildId, userId, type) => {
 	);
 };
 
-module.exports.buyUpgrade1 = async (guildId, userId, type) => {
+module.exports.buyUpgrade1 = async (userId, type) => {
 	await businessSchema.findOneAndUpdate(
 		{
-			guildId,
 			userId,
 			type,
 		},
 		{
-			guildId,
 			userId,
 			type,
 			upgrade1: true,
@@ -61,15 +56,13 @@ module.exports.buyUpgrade1 = async (guildId, userId, type) => {
 	);
 };
 
-module.exports.buyUpgrade2 = async (guildId, userId, type) => {
+module.exports.buyUpgrade2 = async (userId, type) => {
 	await businessSchema.findOneAndUpdate(
 		{
-			guildId,
 			userId,
 			type,
 		},
 		{
-			guildId,
 			userId,
 			type,
 			upgrade2: true,
@@ -81,15 +74,13 @@ module.exports.buyUpgrade2 = async (guildId, userId, type) => {
 	);
 };
 
-module.exports.buyUpgrade3 = async (guildId, userId, type) => {
+module.exports.buyUpgrade3 = async (userId, type) => {
 	await businessSchema.findOneAndUpdate(
 		{
-			guildId,
 			userId,
 			type,
 		},
 		{
-			guildId,
 			userId,
 			type,
 			upgrade3: true,
@@ -101,8 +92,8 @@ module.exports.buyUpgrade3 = async (guildId, userId, type) => {
 	);
 };
 
-module.exports.setCompany = async (guildId, userId) => {
-	const getBusiness = await this.getBusiness(guildId, userId);
+module.exports.setCompany = async (userId) => {
+	const getBusiness = await this.getBusiness(userId);
 	if (!getBusiness) {
 		return undefined
 	}
@@ -116,9 +107,9 @@ module.exports.setCompany = async (guildId, userId) => {
 	return company;
 };
 
-module.exports.checkProfit = async (guildId, userId) => {
-	const getBusiness = await this.getBusiness(guildId, userId);
-	const company = await this.setCompany(guildId, userId);
+module.exports.checkProfit = async (userId) => {
+	const getBusiness = await this.getBusiness(userId);
+	const company = await this.setCompany(userId);
 
 	const upgrade1 = company.profit * upgrades.upgrade1;
 	const upgrade2 = company.profit * upgrades.upgrade2;

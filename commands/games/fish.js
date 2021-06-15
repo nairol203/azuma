@@ -28,12 +28,11 @@ module.exports = {
     ],
     callback: async ({ client, interaction }) => {
         const args = interaction.options.get('options');
-        const guildId = interaction.guildID;
         const channel = client.channels.cache.get(interaction.channelID);
         const user = interaction.member.user;
         const userId = user.id;
         const p_save = await profile.findOne({ userId });
-        const targetCoins = await getCoins(guildId, userId);
+        const targetCoins = await getCoins(userId);
         if (args?.value == 'bait') {
             const embed = new MessageEmbed()
                 .setTitle('Wähle einen Köder aus!')
@@ -283,7 +282,7 @@ module.exports = {
                     bag_value: 0,
                 }
             );
-            await addCoins(guildId, userId, p_save.bag_value);
+            await addCoins(userId, p_save.bag_value);
             interaction.reply({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
             return;
         }
@@ -540,7 +539,7 @@ Andere Kategorien:
                                     bag_value: 0,
                                 }
                             );
-                            await addCoins(guildId, userId, p_save.bag_value);
+                            await addCoins(userId, p_save.bag_value);
                             button.update({ components: [row] });
                             interaction.followUp({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
                         };
@@ -578,7 +577,7 @@ Andere Kategorien:
                 skipBait = true;
             }
             else {
-                await addCoins(guildId, userId, bait_1.price * -1);
+                await addCoins(userId, bait_1.price * -1);
             }
             chances = bait_1.chances;
             usedBait = bait_1.name;
@@ -588,7 +587,7 @@ Andere Kategorien:
                 skipBait = true;
             }
             else {
-                await addCoins(guildId, userId, bait_2.price * -1);
+                await addCoins(userId, bait_2.price * -1);
             }
             chances = bait_2.chances;
             usedBait = bait_2.name;
@@ -598,13 +597,13 @@ Andere Kategorien:
                 skipBait = true;
             }
             else {
-                await addCoins(guildId, userId, bait_3.price * -1);
+                await addCoins(userId, bait_3.price * -1);
             }
             chances = bait_3.chances;
             usedBait = bait_3.name;
         }
         else {
-            await addCoins(guildId, userId, baits.default.price * -1)
+            await addCoins(userId, baits.default.price * -1)
             usedBait = baits.default.name;
             chances = baits.default.chances;
         };

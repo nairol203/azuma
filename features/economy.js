@@ -1,13 +1,11 @@
 const profileSchema = require('../models/profile');
 
-module.exports.addCoins = async (guildId, userId, coins) => {
+module.exports.addCoins = async (userId, coins) => {
 	const result = await profileSchema.findOneAndUpdate(
 		{
-			guildId,
 			userId,
 		},
 		{
-			guildId,
 			userId,
 			$inc: {
 				coins,
@@ -21,9 +19,8 @@ module.exports.addCoins = async (guildId, userId, coins) => {
 	return result.coins;
 };
 
-module.exports.getCoins = async (guildId, userId) => {
+module.exports.getCoins = async (userId) => {
 	const result = await profileSchema.findOne({
-		guildId,
 		userId,
 	});
 	return result.coins;

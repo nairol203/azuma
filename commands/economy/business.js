@@ -37,14 +37,13 @@ module.exports = {
 		}
 	],
 	callback: async ({ client, interaction }) => {
-		const guildId = interaction.guildID;
 		const channel = client.channels.cache.get(interaction.channelID);
 		const member = interaction.member;
 		const user = member.user;
 		const userId = user.id
-		let getBusiness = await business.getBusiness(guildId, userId);
+		let getBusiness = await business.getBusiness(userId);
 		const getCooldown = await cooldowns.getCooldown(userId, 'work');
-		const userBal = await getCoins(guildId, userId);
+		const userBal = await getCoins(userId);
 
 		if (getBusiness === null) {
 			const buyFirst = {
@@ -68,8 +67,8 @@ module.exports = {
 			channel.awaitMessageComponentInteraction(i => i.user.id == userId, { time: 300000 })
 				.then(async button => {
 					if (button.customID == 'buyFirst') {
-						await buyBusiness(guildId, userId, documents.name);
-						await addCoins(guildId, userId, documents.price * -1);
+						await buyBusiness(userId, documents.name);
+						await addCoins(userId, documents.price * -1);
 						buyFirst.disabled = true;
 						buyFirst.label = 'Kauf erfolgreich!';
 						await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
@@ -88,10 +87,10 @@ module.exports = {
 		if (interaction?.options?.get('options')?.value) {
 			const mathCd = await cooldowns.mathCooldown(userId, 'work');
 			if (getCooldown) return interaction.reply({ content: `Du hast noch **${mathCd}** Cooldown!`, ephemeral: true });
-			let company = await business.setCompany(guildId, userId);
-			let profit = await business.checkProfit(guildId, userId);
+			let company = await business.setCompany(userId);
+			let profit = await business.checkProfit(userId);
 			
-			await economy.addCoins(guildId, userId, profit);
+			await economy.addCoins(userId, profit);
 			await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60)
 			const embed = new MessageEmbed()
 				.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
@@ -104,7 +103,7 @@ module.exports = {
 			return;
 		}
 
-		let company = await business.setCompany(guildId, userId);
+		let company = await business.setCompany(userId);
 
 		const buttonSell = {
 			type: 2,
@@ -169,7 +168,7 @@ module.exports = {
 			row.components = [ buttonSell, buttonNewBusiness ];
 		};
 
-		let profit = await business.checkProfit(guildId, userId);
+		let profit = await business.checkProfit(userId);
 
 		let up1 = getBusiness.upgrade1 ? yes : no;
 		let up2 = getBusiness.upgrade2 ? yes : no;
@@ -222,16 +221,16 @@ module.exports = {
         const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
 
 		collector.on('collect', async button => {
-			getBusiness = await business.getBusiness(guildId, userId);
-			company = await business.setCompany(guildId, userId);
-			profit = await business.checkProfit(guildId, userId);
+			getBusiness = await business.getBusiness(userId);
+			company = await business.setCompany(userId);
+			profit = await business.checkProfit(userId);
 	
 			up1 = getBusiness.upgrade1 ? yes : no;
 			up2 = getBusiness.upgrade2 ? yes : no;
 			up3 = getBusiness.upgrade3 ? yes : no;
 
 			if (button.customID == 'sell') {
-				const newBal = await economy.addCoins(guildId, userId, profit);
+				const newBal = await economy.addCoins(userId, profit);
 				await cooldowns.setCooldown(userId, 'work', 8 * 60 * 60);
 				buttonSell.disabled = true;
 				buttonSell.style = 2;
@@ -252,8 +251,8 @@ module.exports = {
 				button.update({ embeds: [embed], components: [row] });
 			}
 			else if (button.customID == 'buyUpgrade1') {
-				await buyUpgrade1(guildId, userId, getBusiness.type);
-				const newBal = await addCoins(guildId, userId, company.priceUpgrade1 * -1);
+				await buyUpgrade1(userId, getBusiness.type);
+				const newBal = await addCoins(userId, company.priceUpgrade1 * -1);
 				buttonUpgrade1.style = 2;
 				buttonUpgrade1.disabled = true;
 				const embed = new MessageEmbed()
@@ -290,8 +289,8 @@ module.exports = {
 				button.update({ embeds: [embed], components: [row] });
 			}
 			else if (button.customID == 'buyUpgrade2') {
-				await buyUpgrade2(guildId, userId, getBusiness.type);
-				const newBal = await addCoins(guildId, userId, company.priceUpgrade2 * -1);
+				await buyUpgrade2(userId, getBusiness.type);
+				const newBal = await addCoins(userId, company.priceUpgrade2 * -1);
 				buttonUpgrade2.style = 2;
 				buttonUpgrade2.disabled = true;
 				const embed = new MessageEmbed()
@@ -328,8 +327,8 @@ module.exports = {
 				button.update({ embeds: [embed], components: [row] });
 			}
 			else if (button.customID == 'buyUpgrade3') {
-				await buyUpgrade3(guildId, userId, getBusiness.type);
-				const newBal = await addCoins(guildId, userId, company.priceUpgrade3 * -1);
+				await buyUpgrade3(userId, getBusiness.type);
+				const newBal = await addCoins(userId, company.priceUpgrade3 * -1);
 				buttonUpgrade3.style = 2;
 				buttonUpgrade3.disabled = true;
 				const embed = new MessageEmbed()
@@ -367,9 +366,9 @@ module.exports = {
 			}
 			else if (button.customID == 'buyNext') {
 				const newBusiness = nextBusiness;
-				await buyBusiness(guildId, userId, nextBusiness.name);
-				const newBal = await addCoins(guildId, userId, nextBusiness.price * -1);
-				const newProfit = await business.checkProfit(guildId, userId);
+				await buyBusiness(userId, nextBusiness.name);
+				const newBal = await addCoins(userId, nextBusiness.price * -1);
+				const newProfit = await business.checkProfit(userId);
 				if (nextBusiness.name == documents.name) {
 					nextBusiness = weed;
 				}
