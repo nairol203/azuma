@@ -6,13 +6,8 @@ module.exports = {
 	callback: async ({ client, interaction }) => {
 		await interaction.defer();
 		const rawLeaderboard = await fetchLeaderboard(10);
-
-		if (rawLeaderboard.length < 1) return interaction.reply({ content: 'Aktuell ist hat noch niemand XP gesammelt.', ephemeral: true });
-
 		const leaderboard = await computeLeaderboard(client, rawLeaderboard, true);
-
 		const lb = leaderboard.slice(0, 5).map(e => `\`${e.position}.\` **${e.username}#${e.discriminator}**\nLevel: ${e.level} • XP: ${e.xp.toLocaleString()}`);
-
 		const embed = new MessageEmbed()
 			.setTitle(`Leaderboard von ${client.user.username}`)
 			.setDescription(`${lb.join('\n\n')}`)
