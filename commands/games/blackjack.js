@@ -290,6 +290,7 @@ module.exports = {
                             { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                         )
                         button.update({ embeds: [newEmbed], components: [row_4]});
+                        collector.end();
                     }
                 }
                 else {
@@ -329,6 +330,7 @@ module.exports = {
                         )
                     }
                     button.update({ embeds: [newEmbed], components: [row_4]});
+                    collector.end();
                 }
             }
             else if (button.customID == 'bjHit') {
@@ -399,6 +401,7 @@ module.exports = {
                             .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                             .setColor('ED4245')
                         button.update({ embeds: [embed_3], components: [row_4]});
+                        collector.end();
                     } else {
                         button.update({ embeds: [newEmbed], components: [row_2]});
                     };
@@ -429,6 +432,7 @@ module.exports = {
                                 .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                                 .setColor('ED4245')
                             button.update({ embeds: [embed_3], components: [row_4]});
+                            collector.end();
                             return;    
                         }
                     };
@@ -535,6 +539,7 @@ module.exports = {
                             { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                         )
                         button.update({ embeds: [newEmbed2], components: [row_4]});
+                        collector.end();
                     }
                 }
                 else {
@@ -585,6 +590,7 @@ module.exports = {
                         )
                     }
                     button.update({ embeds: [newEmbed], components: [row_4]});
+                    collector.end();
                 }
             }
             else if (button.customID == 'bjSplit') {
@@ -632,6 +638,7 @@ module.exports = {
                     { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.'}
                 );
                 button.update({ embeds: [newEmbed], components: [row_4]});
+                collector.end();
             };
         })
 
