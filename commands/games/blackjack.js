@@ -638,7 +638,7 @@ module.exports = {
         collector.on('end', async () => {
             button_finished.label = 'Zeit abgelaufen';
             button_finished.style = 4;
-            button.update({ components: [row_4] });
+            interaction.editReply({ components: [row_4] });
             await economy.addCoins(userId, credits * -1);
         })
 
