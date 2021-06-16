@@ -448,7 +448,7 @@ module.exports = {
             }
             else if (button.customID == 'bjDouble') {
                 if (split) {
-                    credits = credits + args.credits;
+                    credits = credits + credits;
                     const newEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
                         .setTitle('Blackjack')
