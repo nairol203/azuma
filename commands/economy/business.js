@@ -4,7 +4,7 @@ const { yes, no } = require('../../emoji.json');
 const { buyUpgrade1, buyUpgrade2, buyUpgrade3, buyBusiness } = require('../../features/business');
 const { documents, weed, fakeMoney, meth, cocaine } = require('../../features/business.json');
 const business = require('../../features/business');
-const cooldowns = require('../../cooldowns');
+const cooldowns = require('../../features/cooldowns');
 const economy = require('../../features/economy');
 const { addCoins, getCoins } = require('../../features/economy');
 

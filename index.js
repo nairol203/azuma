@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { readdirSync} = require('fs');
 const { Client, Collection } = require("discord.js");
-const { updateCooldown, setCooldown, getCooldown, mathCooldown } = require('./cooldowns');
+const { updateCooldown, setCooldown, getCooldown, mathCooldown } = require('./features/cooldowns');
 const mongo = require('./mongo');
 
 const prefix = process.env.PREFIX;
