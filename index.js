@@ -32,6 +32,10 @@ for (const file of eventFiles) {
 client.on('ready', async () => {
     await mongo();
     updateCooldown();
+	if (maintenance) {
+		console.log(client.user.username + ' > Maintenance is active!');
+		client.user.setActivity('Wartungsarbeiten', { type : 'PLAYING' });
+	};
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '.' : 's.'));
     const globalCommands = await client.application?.commands.fetch();
     const guildCommands = await client.guilds.cache.get(guildId)?.commands.fetch();
@@ -40,7 +44,7 @@ client.on('ready', async () => {
         cmd = command[1];
         if (!cmd?.update) continue;
         if (!cmd?.description) {
-            console.warn(client.user.username + ' > No Description in  ' + command[0] + '-js');
+            console.warn(client.user.username + ` > No Description in ${command[0]}.js`);
             continue;
         };
         const data = {
@@ -51,7 +55,7 @@ client.on('ready', async () => {
         if (cmd.guildOnly) {
             try {
                 await client.guilds.cache.get(guildId)?.commands.create(data);
-                console.log(client.user.username + ' > Posted Guild Command: /' + command[0]);
+                console.log(client.user.username + ` > Posted Guild Command: /${command[0]}`);
             }
             catch (error) {
                 console.error(error);
@@ -60,7 +64,7 @@ client.on('ready', async () => {
         else {
             try {
                 await client.application?.commands.create(data);
-                console.log(client.user.username + ' > Posted Command: /' + command[0]);
+                console.log(client.user.username + ` > Posted Command: /${command[0]}`);
             }
             catch (error) {
                 console.error(error);
@@ -77,7 +81,7 @@ client.on('interaction', async interaction => {
     const commandName = interaction.commandName;
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-    if (maintenance && userId != '255739211112513536') return interaction.reply({ content: `Aktuell finden Wartungsarbeiten an <@${client.user.id}> statt. Bitte versuche es später nochmal!`, ephemeral: true });
+    if (maintenance && userId != '255739211112513536') return interaction.reply({ content: `Aktuell finden Wartungsarbeiten statt. Bitte versuche es später nochmal!`, ephemeral: true });
     if (command.disabled) return interaction.reply({ content: 'Dieser Befehl ist aktuell deaktiviert!', ephemeral: true });
     if (command.cooldown > 600) {
         const getCd = await getCooldown(userId, commandName);
