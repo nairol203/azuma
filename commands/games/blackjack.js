@@ -49,7 +49,7 @@ module.exports = {
             pSoft = true;
         };
         const pCard2 = randomCard();
-        if ((pCard1.value & pCard2.value) == 11) {
+        if ((pCard1.value && pCard2.value) == 11) {
             pCard2.value = 1
         };
         const playerCards = [];
@@ -287,7 +287,7 @@ module.exports = {
                         const newBalance = await economy.addCoins(userId, credits);
                         newEmbed.addFields(
                             { name: 'Gewinn', value: credits + ' Credits' },
-                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits' }
+                            { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
                         )
                         button.update({ embeds: [newEmbed], components: [row_4]});
                     }
@@ -341,8 +341,8 @@ module.exports = {
 
                     if (!card1_finished) {
                         let newCard1 = randomCard();
-                        if ((newCard1.value == 11) & (playerSum1 > 10)) {
-                            newCard1.value = 1;
+                        if (newCard1.value == 11) {
+                            pSoft1 = true;
                         }
                         playerSum1 = playerSum1 + newCard1.value
                         if (playerSum1 > 21) {
@@ -350,30 +350,30 @@ module.exports = {
                                 playerSum1 = playerSum1 - 10;
                                 pSoft1 = false;
                             }
+                            else {
+                                card1_finished = true;
+                                newEmbed.setDescription('Die zweite Hand ist aktiv.')
+                            };
                         }
                         playerCards1.push(' ' + newCard1.name)
-                        if (playerSum1 > 21) {
-                            card1_finished = true;
-                            newEmbed.setDescription('Die zweite Hand ist aktiv.')
-                        }
                         newEmbed.setDescription('Die erste Hand ist aktiv.')
                     }
                     else if (!card2_finished) {
-                        let newCard2 = randomCard()
-                        if ((newCard2.value == 11) & (playerSum2 > 10)) {
-                            newCard2.value = 1;
-                        }
-                        playerSum2 = playerSum2 + newCard2.value
-                        if (playerSum2 > 21) {
+                        let newCard2 = randomCard();
+                        if (newCard2.value == 11) {
+                            pSoft2 = true;
+                        };
+                        playerSum2 = playerSum2 + newCard2.value;
+                        if (playerSum2 > 21 && pSoft2) {
                             if (pSoft2) {
                                 playerSum2 = playerSum2 - 10;
                                 pSoft2 = false;
                             }
+                            else {
+                                card2_finished = true;
+                            }
                         }
                         playerCards2.push(' ' + newCard2.name)
-                        if (playerSum2 > 21) {
-                            card2_finished = true;
-                        }
                         newEmbed.setDescription('Die zweite Hand ist aktiv.')
                     }
                     newEmbed.addFields(
@@ -405,8 +405,8 @@ module.exports = {
                 }
                 else {
                     let newCard = randomCard();
-                    if ((newCard.value == 11) & (playerSum > 10)) {
-                        newCard.value = 1;
+                    if (newCard.value == 11) {
+                        pSoft = true;
                     }
                     playerSum = playerSum + newCard.value;
                     if (playerSum > 21) {
@@ -414,7 +414,24 @@ module.exports = {
                             playerSum = playerSum - 10;
                             pSoft = false;
                         }
-                    }
+                        else {
+                            const newBalance = await economy.addCoins(userId, credits * -1);
+                            const embed_3 = new MessageEmbed()
+                                .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+                                .setTitle('Blackjack')
+                                .setDescription('Du hast über 21 Augen und verlierst alles!')
+                                .addFields(
+                                    { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
+                                    { name: 'Hand vom Dealer', value: dCard1.name + ', ?\nTotal: ?', inline: true },
+                                    { name: 'Gewinn', value: '-' + credits + ' Credits' },
+                                    { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
+                                )
+                                .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
+                                .setColor('ED4245')
+                            button.update({ embeds: [embed_3], components: [row_4]});
+                            return;    
+                        }
+                    };
                     playerCards.push(' ' + newCard.name);
                     const newEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
@@ -426,24 +443,7 @@ module.exports = {
                         )
                         .setFooter('Azuma | Das Spiel läuft nach 5 Minuten Inaktivität ab.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                         .setColor('5865F2');
-                    if (playerSum > 21) {
-                        const newBalance = await economy.addCoins(userId, credits * -1);
-                        const embed_3 = new MessageEmbed()
-                            .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
-                            .setTitle('Blackjack')
-                            .setDescription('Du hast über 21 Augen und verlierst alles!')
-                            .addFields(
-                                { name: 'Deine Hand', value: playerCards + '\nTotal: ' + playerSum, inline: true },
-                                { name: 'Hand vom Dealer', value: dCard1.name + ', ?\nTotal: ?', inline: true },
-                                { name: 'Gewinn', value: '-' + credits + ' Credits' },
-                                { name: 'Credits', value: 'Du hast jetzt ' + newBalance + ' Credits.' }
-                            )
-                            .setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-                            .setColor('ED4245')
-                        button.update({ embeds: [embed_3], components: [row_4]});
-                    } else {
-                        button.update({ embeds: [newEmbed], components: [row_2]});
-                    }
+                    button.update({ embeds: [newEmbed], components: [row_2]});
                 }
             }
             else if (button.customID == 'bjDouble') {
@@ -457,9 +457,14 @@ module.exports = {
 
                     if (!card1_finished) {
                         let newCard1 = randomCard();
-                        if ((newCard1.value == 11) & (playerSum1 > 10)) {
-                            newCard1.value = 1;
+                        if (newCard1.value == 11) {
+                            pSoft1 = true;
                         }
+                        playerSum1 = playerSum1 + newCard1.value;
+                        if (playerSum1 > 21 && pSoft1) {
+                            playerSum1 = playerSum1 - 10;
+                            pSoft = false;
+                        };
                         playerCards1.push(' ' + newCard1.name)
                         newEmbed.setDescription('Die zweite Hand ist aktiv.')
                         card1_finished = true;
@@ -473,10 +478,14 @@ module.exports = {
                     }
                     else if (!card2_finished) {
                         let newCard2 = randomCard()
-                        if ((newCard2.value == 11) & (playerSum2 > 10)) {
-                            newCard2.value = 1;
-                        }
+                        if (newCard2.value == 11) {
+                            pSoft2 = true;
+                        };
                         playerSum2 = playerSum2 + newCard2.value
+                        if (playerSum2 > 21 && pSoft2) {
+                            playerSum2 = playerSum2 - 10;
+                            pSoft = false;
+                        };
                         playerCards2.push(' ' + newCard2.name)
                         card2_finished = true;
                         const winner1 = await checkWinner(playerSum1, dealerSum)
@@ -531,16 +540,14 @@ module.exports = {
                 else {
                     credits = credits * 2;
                     let newCard = randomCard();
-                    if ((newCard.value == 11) & (playerSum > 10)) {
-                        newCard.value = 1;
-                    }
+                    if (newCard.value == 11) {
+                        pSoft = true;
+                    };
                     playerSum = playerSum + newCard.value;
-                    if (playerSum > 21) {
-                        if (pSoft) {
-                            pSoft = false;
-                            playerSum = playerSum - 10;
-                        }
-                    }
+                    if (playerSum > 21 && pSoft) {
+                        pSoft = false;
+                        playerSum = playerSum - 10;
+                    };
                     playerCards.push(' ' + newCard.name);
                     const winner = await checkWinner(playerSum, dealerSum)
                     const newEmbed = new MessageEmbed()
