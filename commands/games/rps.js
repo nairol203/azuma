@@ -177,10 +177,11 @@ module.exports = {
 					)
 					.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 					.setColor('5865F2');
-					buttonPaper.disabled = true;
-					buttonScissor.disabled = true;
-					buttonStone.disabled = true;
-					button.update({ embeds: [embed3], components: [row] });
+				buttonPaper.disabled = true;
+				buttonScissor.disabled = true;
+				buttonStone.disabled = true;
+				button.update({ embeds: [embed3], components: [row] });
+				collector.stop();
 			};
 		};
 

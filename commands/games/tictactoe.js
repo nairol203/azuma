@@ -221,6 +221,7 @@ module.exports = {
                 midDuel.delete(user.id);
                 midDuel.delete(target.id);
                 interaction.editReply({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\nUnentschieden!`, components: [row1, row2, row3]});
+                collector.stop();
             };
         };
 
@@ -233,6 +234,7 @@ module.exports = {
             C1.disabled = true; C2.disabled = true; C3.disabled = true;
 
             interaction.editReply({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} gewinnt!`, components: [row1, row2, row3]});
+            collector.stop();
         };
     },
 };

@@ -81,6 +81,7 @@ module.exports = {
 						await economy.addCoins(userId, credits);
 						break;
 				};
+                collector.stop();
 			};
 		});
 
