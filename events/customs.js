@@ -177,6 +177,7 @@ module.exports = {
 			// if (newState.channelID) return;
 			if (channel.members.size !== 0) return;
 			await wait(10000);
+			if (channel.members.size !== 0) return;
 			channel.delete();
 			textChannel.delete();
 			mainChannel.updateOverwrite(member.user.id, { VIEW_CHANNEL: true });
