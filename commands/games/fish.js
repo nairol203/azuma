@@ -127,7 +127,7 @@ module.exports = {
             const embed_1 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 1/5')
+                .setFooter('Azuma | Seite 1/5', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             stats.slice(0, 12).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -139,7 +139,7 @@ module.exports = {
             const embed_2 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 2/5')
+                .setFooter('Azuma | Seite 2/5', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             stats.slice(12, 24).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -151,7 +151,7 @@ module.exports = {
             const embed_3 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 3/5')
+                .setFooter('Azuma | Seite 3/5', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             stats.slice(24, 36).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -163,7 +163,7 @@ module.exports = {
             const embed_4 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 4/5')
+                .setFooter('Azuma | Seite 4/5', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             stats.slice(36, 48).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -175,7 +175,7 @@ module.exports = {
             const embed_5 = new MessageEmbed()
                 .setTitle('Fishing collection')
                 .setDescription('Dies sind alle Fische die du bereits gefangen hast!')
-                .setFooter('Seite 5/5')
+                .setFooter('Azuma | Seite 5/5', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             stats.slice(48, 60).map(stat => {
                 let value = stat.amount + ' Stück';
@@ -315,6 +315,7 @@ module.exports = {
                     { name: 'Meist gefangner Fisch', value: amount.emoji + ' ' + amount.name + '\n' + amount.amount + ' Stück', inline: true },
                     { name: 'Stats', value: `${commons.Sardelle.emoji} Commons: ${cAmount} Stück\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${uAmount} Stück\n${rares.Purpurfisch.emoji} Rares: ${rAmount} Stück\n${garbage.Grünalge.emoji} Garbage: ${gAmount} Stück`},
                 )
+                .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             interaction.reply({ embeds: [ embed ]});
             return;
@@ -421,7 +422,7 @@ Andere Kategorien:
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Commons')
                     .setDescription('Das sind alle gewöhnlichen Fische!')
-                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('#2773fc')
                 Object.values(commons).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
@@ -433,7 +434,7 @@ Andere Kategorien:
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Uncommons')
                     .setDescription('Das sind alle ungewöhnlichen Fische!')
-                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('#2773fc')
                 Object.values(uncommons).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
@@ -445,7 +446,7 @@ Andere Kategorien:
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Rares')
                     .setDescription('Das sind alle seltenen Fische!')
-                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('#2773fc')
                 Object.values(rares).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Länge: ' + fish.minLength + '-' + fish.maxLength + 'cm\nWert: ' + fish.minPrice + '-' + fish.maxPrice + ' 💵', true)
@@ -457,7 +458,7 @@ Andere Kategorien:
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Garbage')
                     .setDescription('Das sind die verschiedenen Müllarten!')
-                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('#2773fc')
                 Object.values(garbage).map(fish => {
                     embed.addField(fish.emoji + ' ' + fish.name, 'Wert: 0 💵', true)
@@ -469,7 +470,7 @@ Andere Kategorien:
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Angeln')
                     .setDescription('Das sind alle verschiedenen Angeln!')
-                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('#2773fc')
                 Object.values(rods).map(rod => {
                     embed.addField(rod.name, 'Chance keinen Köder zu verbrauchen: ' + (rod.no_bait * 100) + '%\nAngel-Cooldown: ' + rod.cooldown + ' Sekunden\nPreis: ' + rod.price + ' 💵')
@@ -481,7 +482,7 @@ Andere Kategorien:
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Rucksäcke')
                     .setDescription('Das sind alle verschiedenen Rucksäcke!')
-                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('#2773fc')
                 Object.values(bags).map(bag => {
                     embed.addField(bag.name, 'Stauraum: ' + bag.size + ' Plätze\nPreis: ' + bag.price + ' 💵')
@@ -493,7 +494,7 @@ Andere Kategorien:
                 const embed = new MessageEmbed()
                     .setTitle('Fishing Wiki: Köder')
                     .setDescription('Das sind alle verschiedenen Köder!')
-                    .setFooter('Tippe "return" um in das Hauptmenü zurückzukehren.')
+                    .setFooter('Azuma | Tippe "return" um in das Hauptmenü zurückzukehren.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                     .setColor('#2773fc')
                 Object.values(baits).map(bait => {
                     embed.addField(bait.name, bait.description + `\n- Chances:\n${commons.Sardelle.emoji} Commons: ${(bait.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait.chances.garbage * 100).toFixed(2)}%\n- Preis: ` + bait.price + ' 💵')
