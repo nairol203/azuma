@@ -347,6 +347,7 @@ Andere Kategorien:
 **:six: Angeln**
 **:seven: Bags**
 **:eight: Baits**`)
+                .setFooter('Azuma | Tippe "exit" um das Wiki zu schließen.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
                 .setColor('#2773fc');
             interaction.reply({ embeds: [embed] });
             main();
