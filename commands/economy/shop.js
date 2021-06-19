@@ -74,7 +74,6 @@ module.exports = {
                 };
             })
             .catch((e) => {
-                interaction.deleteReply();
                 interaction.followUp(`<@${userId}>, der Shop wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`)
                 console.log(e)
             })
@@ -180,7 +179,6 @@ module.exports = {
                 };
             })
             .catch((e) => {
-                interaction.deleteReply();
                 interaction.followUp(`<@${userId}>, der Shop wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`);
                 console.error(e);
             });
@@ -286,7 +284,6 @@ module.exports = {
                 }
             })
             .catch((e) => {
-                interaction.deleteReply();
                 interaction.followUp(`<@${userId}>, der Shop wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`);
                 console.error(e);
             });
