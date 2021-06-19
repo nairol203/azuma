@@ -391,8 +391,8 @@ Andere Kategorien:
                             interaction.deleteReply();
                             break;
                         default:
-                            interaction.deleteReply();
-                            interaction.followUp(`<@${userId}>, es wurde keine gültige Eingabe erkannt.`);
+                            interaction.followUp(`<@${userId}>, es wurde keine gültige Eingabe erkannt, versuche es nochmal!`);
+                            main();
                             break;
                     }
                 })
