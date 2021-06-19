@@ -392,12 +392,12 @@ Andere Kategorien:
                             break;
                         default:
                             interaction.deleteReply();
-                            interaction.followUp(`<@${userid}>, es wurde keine gültige Eingabe erkannt.`);
+                            interaction.followUp(`<@${userId}>, es wurde keine gültige Eingabe erkannt.`);
                             break;
                     }
                 })
                 .catch(() => {
-                    interaction.followUp(`<@${userid}>, das Wiki wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`)
+                    interaction.followUp(`<@${userId}>, das Wiki wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`)
                     return;
                 })
             }
