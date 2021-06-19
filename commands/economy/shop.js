@@ -69,8 +69,8 @@ module.exports = {
                     interaction.deleteReply();
                 }
                 else {
-                    interaction.deleteReply();
-                    interaction.followUp(`<@${userid}>, es wurde keine gültige Eingabe erkannt.`)
+                    interaction.followUp(`<@${userId}>, es wurde keine gültige Eingabe erkannt.`)
+                    handleShop();
                 };
             })
             .catch((e) => {
@@ -175,8 +175,8 @@ module.exports = {
                     handleShop();
                 }
                 else {
-                    interaction.deleteReply();
-                    interaction.followUp(`<@${userid}>, es wurde keine gültige Eingabe erkannt.`);
+                    interaction.followUp(`<@${userId}>, es wurde keine gültige Eingabe erkannt.`);
+                    handleBag();
                 };
             })
             .catch((e) => {
@@ -281,8 +281,8 @@ module.exports = {
                     handleShop();
                 }
                 else {
-                    interaction.deleteReply();
-                    interaction.followUp(`<@${userid}>, es wurde keine gültige Eingabe erkannt.`);
+                    interaction.followUp(`<@${userId}>, es wurde keine gültige Eingabe erkannt.`);
+                    handleRod();
                 }
             })
             .catch((e) => {
