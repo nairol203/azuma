@@ -386,12 +386,17 @@ Andere Kategorien:
                         case '8':
                             handleBaits()
                             break;
+                        case 'exit':
+                            interaction.deleteReply();
+                            break;
                         default:
+                            interaction.deleteReply();
+                            interaction.followUp(`<@${userid}>, es wurde keine gültige Eingabe erkannt.`);
                             break;
                     }
                 })
                 .catch(() => {
-                    interaction.followUp('Das Wiki wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.')
+                    interaction.followUp(`<@${userid}>, das Wiki wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`)
                     return;
                 })
             }
