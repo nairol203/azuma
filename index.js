@@ -131,7 +131,6 @@ client.on('message', async message => {
 	if (message.author.id != '255739211112513536') return;
 	try {
 		command.callback({ client, message, args });
-        message.delete();
 	}
 	catch (error) {
 		console.error(error);
