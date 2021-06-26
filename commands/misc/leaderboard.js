@@ -7,6 +7,8 @@ module.exports = {
 		{
 			name: 'type',
 			description: 'Wähle ein Leaderboard aus.',
+			required: true,
+			type: 3,
 			choices: [
 				{
 					name: 'XP',
@@ -17,8 +19,6 @@ module.exports = {
 					value: 'credits',
 				},
 			],
-			required: true,
-			type: 3,
 		},
 	],
 	callback: async ({ client, interaction }) => {
