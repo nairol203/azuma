@@ -39,7 +39,7 @@ module.exports = {
 		else if (type == 'credits') {
 			const rawLeaderboard = await fetchCredits(10);
 			const leaderboard = await computeCredits(client, rawLeaderboard, true);
-			const lb = leaderboard.slice(0, 5).map(e => `\`${e.position}.\` **${e.username}#${e.discriminator}**\nLevel: ${e.level} • XP: ${e.coins.toLocaleString()}`);
+			const lb = leaderboard.slice(0, 5).map(e => `\`${e.position}.\` **${e.username}#${e.discriminator}**\nCredits: ${e.coins.toLocaleString()}`);
 			const embed = new MessageEmbed()
 				.setTitle(`Credits-Leaderboard von ${client.user.username}`)
 				.setDescription(`${lb.join('\n\n')}`)
