@@ -15,7 +15,6 @@ module.exports.computeCredits = async (client, leaderboard, fetchUsers = false) 
 			computedArray.push({
 				userId: key.userId,
 				coins: key.coins,
-				level: key.level,
 				position: (leaderboard.findIndex(i => i.guildId === key.guildId && i.userId === key.userId) + 1),
 				username: user.username,
 				discriminator: user.discriminator,
@@ -26,7 +25,6 @@ module.exports.computeCredits = async (client, leaderboard, fetchUsers = false) 
 		leaderboard.map(key => computedArray.push({
 			userId: key.userId,
 			coins: key.coins,
-			level: key.level,
 			position: (leaderboard.findIndex(i => i.guildId === key.guildId && i.userId === key.userId) + 1),
 			username: client.users.cache.get(key.userId) ? client.users.cache.get(key.userId).username : 'Unknown',
 			discriminator: client.users.cache.get(key.userId) ? client.users.cache.get(key.userId).discriminator : '0000',
