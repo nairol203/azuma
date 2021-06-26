@@ -10,7 +10,7 @@ module.exports = {
     if (mention.bot) return;
     const userId = mention.id
     const coins = args[1];
-    const guildId = message.guild.id
-    await economy.addCoins(guildId, userId, coins).catch(e => console.error(e))
+    const newBal = await economy.addCoins(userId, coins).catch(e => console.error(e))
+    message.reply(`${mention.username}#${mention.discriminator} hat jetzt ${newBal} Credits.`)
   },
 }
