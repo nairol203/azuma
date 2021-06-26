@@ -13,14 +13,14 @@ module.exports = {
 					.setFooter('Letztes Update')
 					.setTimestamp('2021-02-16T13:31:00.000Z');
 				if (messages.size === 0) {
-					channel.send(embed).then(async (msg) => {
+					channel.send({ embeds: [embed]}).then(async (msg) => {
 						await msg.react(epic);
 						await msg.react(rockstar);
 					});
 				}
 				else {
 					for (const message of messages) {
-						message[1].edit(embed);
+						message[1].edit({ embeds: [embed]});
 						await message[1].react(epic);
 						await message[1].react(rockstar);
 					}
@@ -38,13 +38,13 @@ module.exports = {
 					.setFooter('Letztes Update')
 					.setTimestamp('2021-02-16T13:31:00.000Z');
 				if (messages.size === 0) {
-					channel.send(embed).then(async (msg) => {
+					channel.send({ embeds: [embed]}).then(async (msg) => {
 						await msg.react('✉️');
 					});
 				}
 				else {
 					for (const message of messages) {
-						message[1].edit(embed);
+						message[1].edit({ embeds: [embed]});
 						await message[1].react('✉️');
 					}
 				}
