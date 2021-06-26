@@ -1,6 +1,6 @@
 // Credits Leaderboard
 
-module.exports.fetchCredits = (limit) => {
+module.exports.fetchCredits = async (limit) => {
 	const users = await profileSchema.find().sort([['coins', 'descending']]).exec();
 	return users.slice(0, limit);
 };
@@ -36,7 +36,7 @@ module.exports.computeCredits = async (client, leaderboard, fetchUsers = false) 
 
 // XP Leaderboard
 
-module.exports.fetchXP = (limit) => {
+module.exports.fetchXP = async (limit) => {
 	const users = await profileSchema.find().sort([['xp', 'descending']]).exec();
 	return users.slice(0, limit);
 };
