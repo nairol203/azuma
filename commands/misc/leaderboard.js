@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const { fetchXP, computeXP, fetchCredits, computeCredits } = require('../../features/leaderboard');
 
 module.exports = {
-	update: true,
 	description: 'Zeigt die Rangliste des Servers an',
 	options: [
 		{
