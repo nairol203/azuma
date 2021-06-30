@@ -1,21 +1,39 @@
 const { MessageEmbed } = require("discord.js");
-const { epic, rockstar } = require('../../emoji.json');
+const { epic, rockstar, ffxiv, destiny2 } = require('../../emoji.json');
 
 module.exports = {
-	callback: async ({ message, args, client }) => {
+	callback: async ({ args, client }) => {
 		if (args[0] == '<#782595813196038175>') {
 			const channel = await client.channels.fetch('782595813196038175');
 			channel.messages.fetch().then(async (messages) => {
 				const embed = new MessageEmbed()
 					.setTitle(':clipboard: Rollenverteilung')
-					.setDescription('```Füge eine Reaktion hinzu oder entferne eine, je nach dem welche Rolle du haben willst (●\'◡\'●)```\n' + epic + ' **Free Epic Games** - Bekomme immer eine Benachrichtigung wenn ein Spiel im Epic Store gratis ist!\n\n' + rockstar + ' **Newswire** - Bekomme immer eine Benachrichtigung wenn ein neuer Newswire zu GTA5 gepostet wurde!')
+					.setDescription(`
+\`\`\`Füge eine Reaktion hinzu oder entferne eine, je nach dem welche Rolle du haben willst (●'◡'●)\`\`\`
+__**Newschannel**__
+
+${ffxiv} **Final Fantasy XIV** - Lodestone News und Fashion Report
+
+${destiny2} **Destiny 2** - Tweets von @BungieHelp und Weekly Information
+
+__**Benachrichtigungen**__
+
+${epic} **Free Epic Games** - Jeden Donnerstag ein neues Gratis Spiel im Epic Store!
+
+${rockstar} **Rockstar Newswire** - Jeden Donnerstag ein neuer Newswire von GTA5!
+
+🔔 **Price Alert** - Amazon Price Alert für Pringles!
+`)
 					.setColor('#f77600')
 					.setFooter('Letztes Update')
-					.setTimestamp('2021-02-16T13:31:00.000Z');
+					.setTimestamp('2021-06-30T18:42:00.000Z');
 				if (messages.size === 0) {
 					channel.send({ embeds: [embed]}).then(async (msg) => {
+						await msg.react(ffxiv);
+						await msg.react(destiny2);
 						await msg.react(epic);
 						await msg.react(rockstar);
+						await msg.react('🔔');
 					});
 				}
 				else {
