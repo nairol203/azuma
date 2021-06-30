@@ -5,19 +5,22 @@ module.exports = {
 		if (user.bot) return;
 		if (message.channel.id == '782595813196038175') {
 			if (_emoji.id == '859837191156006932') {
-				await message.guild.members.cache.get(user.id).roles.add('859837772490866768');
+				await message.guild.members.cache.get(user.id).roles.remove('859837772490866768');
 			}
 			if (_emoji.id == '859837337554386975') {
-				await message.guild.members.cache.get(user.id).roles.add('859837729113899089');
+				await message.guild.members.cache.get(user.id).roles.remove('859837729113899089');
+			}
+			if (_emoji.id == '🎮') {
+				await message.guild.members.cache.get(user.id).roles.remove('859840967221182506');
 			}
 			if (_emoji.id == '825980549234950144') {
-				await message.guild.members.cache.get(user.id).roles.add('794708386930753586');
+				await message.guild.members.cache.get(user.id).roles.remove('794708386930753586');
 			}
 			if (_emoji.id == '825980512493502484') {
-				await message.guild.members.cache.get(user.id).roles.add('816211689136848907');
+				await message.guild.members.cache.get(user.id).roles.remove('816211689136848907');
 			}
 			if (_emoji.name == '🔔') {
-				await message.guild.members.cache.get(user.id).roles.add('859771979845337098');
+				await message.guild.members.cache.get(user.id).roles.remove('859771979845337098');
 			}
 		}
 		else {

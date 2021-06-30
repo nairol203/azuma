@@ -16,6 +16,8 @@ ${ffxiv} **Final Fantasy XIV** - Lodestone News und Fashion Report
 
 ${destiny2} **Destiny 2** - Tweets von @BungieHelp und Weekly Information
 
+🎮 **Andere Games** - News von anderen Games, z.B.: Minecraft, Borderlands, Raft, ...
+
 __**Benachrichtigungen**__
 
 ${epic} **Free Epic Games** - Jeden Donnerstag ein neues Gratis Spiel im Epic Store!
@@ -31,6 +33,7 @@ ${rockstar} **Rockstar Newswire** - Jeden Donnerstag ein neuer Newswire von GTA5
 					channel.send({ embeds: [embed]}).then(async (msg) => {
 						await msg.react(ffxiv);
 						await msg.react(destiny2);
+						await msg.react('🎮');
 						await msg.react(epic);
 						await msg.react(rockstar);
 						await msg.react('🔔');
@@ -39,11 +42,12 @@ ${rockstar} **Rockstar Newswire** - Jeden Donnerstag ein neuer Newswire von GTA5
 				else {
 					for (const message of messages) {
 						message[1].edit({ embeds: [embed]});
-						await msg.react(ffxiv);
-						await msg.react(destiny2);
-						await msg.react(epic);
-						await msg.react(rockstar);
-						await msg.react('🔔');
+						await message[1].react(ffxiv);
+						await message[1].react(destiny2);
+						await message[1].react('🎮');
+						await message[1].react(epic);
+						await message[1].react(rockstar);
+						await message[1].react('🔔');
 					}
 				}
 			});

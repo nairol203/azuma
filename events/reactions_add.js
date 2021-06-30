@@ -16,6 +16,9 @@ module.exports = {
 			if (_emoji.id == '859837337554386975') {
 				await message.guild.members.cache.get(user.id).roles.add('859837729113899089');
 			}
+			if (_emoji.id == '🎮') {
+				await message.guild.members.cache.get(user.id).roles.add('859840967221182506');
+			}
 			if (_emoji.id == '825980549234950144') {
 				await message.guild.members.cache.get(user.id).roles.add('794708386930753586');
 			}
