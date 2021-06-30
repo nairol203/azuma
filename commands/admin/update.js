@@ -39,8 +39,11 @@ ${rockstar} **Rockstar Newswire** - Jeden Donnerstag ein neuer Newswire von GTA5
 				else {
 					for (const message of messages) {
 						message[1].edit({ embeds: [embed]});
-						await message[1].react(epic);
-						await message[1].react(rockstar);
+						await msg.react(ffxiv);
+						await msg.react(destiny2);
+						await msg.react(epic);
+						await msg.react(rockstar);
+						await msg.react('🔔');
 					}
 				}
 			});
