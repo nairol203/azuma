@@ -24,7 +24,7 @@ ${epic} **Free Epic Games** - Jeden Donnerstag ein neues Gratis Spiel im Epic St
 
 ${rockstar} **Rockstar Newswire** - Jeden Donnerstag ein neuer Newswire von GTA5!
 
-🔔 **Price Alert** - Amazon Price Alert für Pringles!
+🔔 **Price Alert** - Amazon Price Alert!
 `)
 					.setColor('#f77600')
 					.setFooter('Letztes Update')
