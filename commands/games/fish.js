@@ -28,11 +28,9 @@ module.exports = {
     ],
     callback: async ({ client, interaction }) => {
         const args = interaction.options.get('options');
-        const channel = client.channels.cache.get(interaction.channelID);
         const user = interaction.member.user;
-        const userId = user.id;
-        const p_save = await profile.findOne({ userId });
-        const targetCoins = await getCoins(userId);
+        const p_save = await profile.findOne({ userId: user.id });
+        const targetCoins = await getCoins(user.id);
         if (args?.value == 'bait') {
             const row = new MessageActionRow()
                 .addComponents(
@@ -66,23 +64,23 @@ module.exports = {
             
             const message = await interaction.fetchReply();
 
-            const collector = message.createMessageComponentInteractionCollector(i => i.customID === 'selectBait' && i.user.id == userId, { time: 300000 });
+            const collector = message.createMessageComponentInteractionCollector(i => i.customID === 'selectBait' && i.user.id == user.id, { time: 300000 });
             
             collector.on('collect', async select => {
                 if (select.values[0] == 'first_option') {
-                    await activeBait(userId, undefined);
+                    await activeBait(user.id, undefined);
                     select.reply({ content: 'Du hast den Standardköder ausgewählt! Genauere Stats findest du im Wiki.', ephemeral: true });
                 }
                 else if (select.values[0] == 'second_option') {
-                    await activeBait(userId, 'bait_1');
+                    await activeBait(user.id, 'bait_1');
                     select.reply({ content: `Du hast den ${bait_1.name}köder ausgewählt! Genauere Stats findest du im Wiki.`, ephemeral: true })
                 }
                 else if (select.values[0] == 'third_option') {
-                    await activeBait(userId, 'bait_2');
+                    await activeBait(user.id, 'bait_2');
                     select.reply({ content: `Du hast den ${bait_2.name}köder ausgewählt! Genauere Stats findest du im Wiki.`, ephemeral: true })
                 }
                 else if (select.values[0] == 'fourth_option') {
-                    await activeBait(userId, 'bait_3');
+                    await activeBait(user.id, 'bait_3');
                     select.reply({ content: `Du hast den ${bait_3.name}nköder ausgewählt! Genauere Stats findest du im Wiki.`, ephemeral: true })
                 }
             });
@@ -91,7 +89,7 @@ module.exports = {
             return;
         }
         else if (args?.value == 'collection') {
-            const stats = await getStats(userId);
+            const stats = await getStats(user.id);
             if (!stats || !stats.length) {
                 interaction.reply({ content: 'Du hast noch keine Fische gefangen! Fange jetzt damit an: `/fish`', ephemeral: true });
                 return;
@@ -181,14 +179,14 @@ module.exports = {
                 interaction.reply({ embeds: [allEmbeds[0]], components: [row] });
 
                 const message = await interaction.fetchReply()
-                const filter = i => i.user.id == userId;
+                const filter = i => i.user.id == user.id;
 
                 const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
             
                 let currentPage = 0;
             
                 collector.on('collect', button => {
-                    if (button.user.id == userId) {
+                    if (button.user.id == user.id) {
                         if (button.customID == "back") {
                             if (currentPage !== 0) {
                                 --currentPage;
@@ -246,34 +244,34 @@ module.exports = {
             }
             await profile.findOneAndUpdate(
                 { 
-                    userId 
+                    userId: user.id 
                 },
                 { 
-                    userId,
+                    userId: user.id,
                     bag_size: 0,
                     bag_value: 0,
                 }
             );
-            await addCoins(userId, p_save.bag_value);
+            await addCoins(user.id, p_save.bag_value);
             interaction.reply({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
             return;
         }
         else if (args?.value == 'stats') {
             let cAmount = 0; let uAmount = 0; let rAmount = 0; let gAmount = 0;
-            for (c of await getCommonStats(userId)) {
+            for (c of await getCommonStats(user.id)) {
                 cAmount = cAmount + c.amount;
             }
-            for (u of await getUncommonStats(userId)) {
+            for (u of await getUncommonStats(user.id)) {
                 uAmount = uAmount + u.amount;
             }
-            for (r of await getRareStats(userId)) {
+            for (r of await getRareStats(user.id)) {
                 rAmount = rAmount + r.amount;
             }
-            for (g of await getGarbageStats(userId)) {
+            for (g of await getGarbageStats(user.id)) {
                 gAmount = gAmount + g.amount;
             }
             let length; let amount;
-            for (stats of await getAllStats(userId)) {
+            for (stats of await getAllStats(user.id)) {
                 if (!length) length = stats;
                 if (length.length < stats.length) length = stats;
                 if (!amount) amount = stats;
@@ -293,7 +291,7 @@ module.exports = {
             return;
         }
         else if (args?.value == 'rares') {
-            const rares = await findRare(userId);
+            const rares = await findRare(user.id);
             const embed = new MessageEmbed()
                 .setTitle('Fishing stats')
                 .setDescription('Das sind alle Rares, die du bereits gefangen hast!')
@@ -325,75 +323,67 @@ Andere Kategorien:
             main();
             return;
             function main() {
-                const filter = m => m.author.id === userId;
-                channel.awaitMessages(filter, {
-                    max: 1,
-                    time: 120000,
-                    errors: ['time'],
-                })
-                .then(msg => {
-                    msg = msg.first()
-                    msg.delete();
-                    switch(msg.content) {
-                        case '1':
-                            handleSearch()
-                            break;
-                        case '2':
-                            handleCommons()
-                            break;
-                        case '3':
-                            handleUncommons()
-                            break;
-                        case '4':
-                            handleRares()
-                            break;
-                        case '5':
-                            handleGarbage()
-                            break;
-                        case '6':
-                            handleRods()
-                            break;
-                        case '7':
-                            handleBags()
-                            break;
-                        case '8':
-                            handleBaits()
-                            break;
-                        case 'exit':
-                            interaction.deleteReply();
-                            break;
-                        default:
-                            interaction.followUp(`<@${userId}>, es wurde keine gültige Eingabe erkannt, versuche es nochmal!`);
-                            main();
-                            break;
-                    }
-                })
-                .catch(() => {
-                    interaction.followUp(`<@${userId}>, das Wiki wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`)
-                    return;
-                })
+                const filter = m => m.author.id === user.id;
+                interaction.channel.awaitMessages({ filter, max: 1, time: 300000, errors: ['time'] })
+                    .then(msg => {
+                        msg = msg.first()
+                        msg.delete();
+                        switch(msg.content) {
+                            case '1':
+                                handleSearch()
+                                break;
+                            case '2':
+                                handleCommons()
+                                break;
+                            case '3':
+                                handleUncommons()
+                                break;
+                            case '4':
+                                handleRares()
+                                break;
+                            case '5':
+                                handleGarbage()
+                                break;
+                            case '6':
+                                handleRods()
+                                break;
+                            case '7':
+                                handleBags()
+                                break;
+                            case '8':
+                                handleBaits()
+                                break;
+                            case 'exit':
+                                interaction.deleteReply();
+                                break;
+                            default:
+                                interaction.followUp(`<@${user.id}>, es wurde keine gültige Eingabe erkannt, versuche es nochmal!`);
+                                main();
+                                break;
+                        }
+                    })
+                    .catch(() => {
+                        interaction.followUp(`<@${user.id}>, das Wiki wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.`)
+                        return;
+                    });
             }
             function handleReturn() {
-                const filter = m => m.author.id === userId
-                channel.awaitMessages(filter, {
-                    max: 1,
-                    time: 120000,
-                    errors: ['time']
-                })
-                .then(async msg => {
-                    msg = msg.first()
-                    if (msg.content !== 'return') return
-                    msg.delete();
-                    interaction.editReply({ embeds: [embed] });
-                    main()
-                })
-                .catch((e) => {
-                    console.log(e)
-                    return;
-                })
+                const filter = m => m.author.id === user.id
+                interaction.channel.awaitMessages({ filter, max: 1, time: 120000, errors: ['time'] })
+                    .then(async msg => {
+                        msg = msg.first()
+                        if (msg.content !== 'return') return
+                        msg.delete();
+                        interaction.editReply({ embeds: [embed] });
+                        main()
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                        return;
+                    });
             }
             function handleSearch() {
-                channel.send('Coming soon!').then(msg => client.setTimeout(() => msg.delete(), 5000));
+                interaction.channel.send('Coming soon!').then(msg => client.setTimeout(() => msg.delete(), 5000));
                 main();
             }
             function handleCommons() {
@@ -490,7 +480,7 @@ Andere Kategorien:
             return;
         };
         if (!p_save.bag) {
-            await setBag(userId, 'bag_1');
+            await setBag(user.id, 'bag_1');
         } 
         else {
             const userBag = bags[p_save.bag]
@@ -504,21 +494,21 @@ Andere Kategorien:
                     components: [sellButton],
                 }
                 interaction.reply({ content: `Dein Rucksack ist voll! Verkaufe Fische oder kaufe einen größeren Rucksack im Shop.`, components: [row], ephemeral: true });
-                channel.awaitMessageComponentInteraction(i => i.user.id == userId, { time: 300000 })
+                interaction.channel.awaitMessageComponentInteraction(i => i.user.id == user.id, { time: 300000 })
                     .then(async button => {
                         if (button.customID == 'sell') {
                             sellButton.setDisabled(true);
                             await profile.findOneAndUpdate(
                                 { 
-                                    userId 
+                                    userId: user.id 
                                 },
                                 { 
-                                    userId,
+                                    userId: user.id,
                                     bag_size: 0,
                                     bag_value: 0,
                                 }
                             );
-                            await addCoins(userId, p_save.bag_value);
+                            await addCoins(user.id, p_save.bag_value);
                             button.update({ components: [row] });
                             interaction.followUp({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
                         };
@@ -537,16 +527,16 @@ Andere Kategorien:
 		const now = Date.now();
 		const timestamps = cooldowns.get('fish');
 		const cooldownAmount = (rods[p_save.rod].cooldown || 30) * 1000;
-		if (timestamps.has(userId)) {
-			const expirationTime = timestamps.get(userId) + cooldownAmount;
+		if (timestamps.has(user.id)) {
+			const expirationTime = timestamps.get(user.id) + cooldownAmount;
 			if (now < expirationTime) {
 				const timeLeft = (expirationTime - now) / 1000;
                 interaction.reply({ content: `Du kannst in ${timeLeft.toFixed(0)} Sekunden wieder fischen.`, ephemeral: true });
 				return;
 			}
 		}
-		timestamps.set(userId, now);
-		setTimeout(() => timestamps.delete(userId), cooldownAmount);
+		timestamps.set(user.id, now);
+		setTimeout(() => timestamps.delete(user.id), cooldownAmount);
 
         const userRod = rods[p_save.rod];
         const randomNumber = Math.random();
@@ -556,7 +546,7 @@ Andere Kategorien:
                 skipBait = true;
             }
             else {
-                await addCoins(userId, bait_1.price * -1);
+                await addCoins(user.id, bait_1.price * -1);
             }
             chances = bait_1.chances;
             usedBait = bait_1.name;
@@ -566,7 +556,7 @@ Andere Kategorien:
                 skipBait = true;
             }
             else {
-                await addCoins(userId, bait_2.price * -1);
+                await addCoins(user.id, bait_2.price * -1);
             }
             chances = bait_2.chances;
             usedBait = bait_2.name;
@@ -576,13 +566,13 @@ Andere Kategorien:
                 skipBait = true;
             }
             else {
-                await addCoins(userId, bait_3.price * -1);
+                await addCoins(user.id, bait_3.price * -1);
             }
             chances = bait_3.chances;
             usedBait = bait_3.name;
         }
         else {
-            await addCoins(userId, baits.default.price * -1)
+            await addCoins(user.id, baits.default.price * -1)
             usedBait = baits.default.name;
             chances = baits.default.chances;
         };
@@ -598,22 +588,22 @@ Andere Kategorien:
         const length = Math.floor(Math.random() * (t.maxLength - t.minLength + 1) + t.minLength);
         let save;
         if (types === commons) {
-            save = await findCommon(userId, random);
-            await addCommon(userId, random, commons[random].emoji, 1, length);
+            save = await findCommon(user.id, random);
+            await addCommon(user.id, random, commons[random].emoji, 1, length);
         }
         else if (types === uncommons) {
-            save = await findUncommon(userId, random);
-            await addUncommon(userId, random, uncommons[random].emoji, 1, length);
+            save = await findUncommon(user.id, random);
+            await addUncommon(user.id, random, uncommons[random].emoji, 1, length);
         }
         else if (types === rares) {
-            save = await findRare(userId, random);
-            await addRare(userId, random, rares[random].emoji, 1, length);
+            save = await findRare(user.id, random);
+            await addRare(user.id, random, rares[random].emoji, 1, length);
         }
         else if (types === garbage) {
-            save = await findGarbage(userId, random);
-            await addGarbage(userId, random, garbage[random].emoji, 1);
+            save = await findGarbage(user.id, random);
+            await addGarbage(user.id, random, garbage[random].emoji, 1);
         };
-        await addBagSize(userId, 1);
+        await addBagSize(user.id, 1);
         let description; let price = 0;
         if ((types === commons) || (types === uncommons) || (types === rares)) {
             const midLength = (t.minLength + t.maxLength) / 2;
@@ -656,9 +646,9 @@ Andere Kategorien:
                 description = description + `\n⭐ **Erster Fang!**\n⭐ **Neue Länge: ${length}cm!**`;
             };
         };
-        await addBagValue(userId, price);
+        await addBagValue(user.id, price);
         const embed = new MessageEmbed()
-            .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userId}/${user.avatar}.webp`)
+            .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`)
             .setDescription(description)
             .addFields(
                 { name: 'Wert', value: price + ' 💵', inline: true }

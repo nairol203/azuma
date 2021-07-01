@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageButton } = require("discord.js");
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
 		},
 	],
 	callback: async ({ client, interaction }) => {
-		const userId = interaction.member.user.id;
+		const userID = interaction.member.user.id;
 
 		const targetId = interaction.options.get('user').value;
 		const credits = interaction.options.get('credits').value;
@@ -26,9 +26,9 @@ module.exports = {
 		const target = interaction.options.get('user').user;
 
         if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!', ephemeral: true });
-        else if (userId == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
+        else if (userID == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
 		if (credits < 1) return interaction.reply({ content: 'Netter Versuch, aber ich lasse dich nicht mit negativen Einsatz spielen!', ephemeral: true });
-		const coinsOwned = await economy.getCoins(userId);
+		const coinsOwned = await economy.getCoins(userID);
 		if (coinsOwned < credits) return interaction.reply({ content: 'Du bist wohl ärmer als du denkst! Versuche es mit weniger Geld.', ephemeral: true });
 	
 		const targetCoins = await economy.getCoins(targetId);
@@ -36,27 +36,24 @@ module.exports = {
 
 		const randomNumber = [1, 2][Math.floor(Math.random() * 2)];
 	
-		const button = {
-			type: 2,
-			label: 'Annehmen',
-			style: 1,
-			custom_id: 'accept',
-		};
-
-		const embed = new MessageEmbed()
-			.setTitle('Coinflip')
-			.setDescription(`<@${targetId}>, du wurdest zu einem Coinflip herausgefordert!\nKlicke den Button "Annehmen" um teilzunehmen!`)
-			.addFields(
-				{ name: 'Einsatz', value: credits + ' 💵', inline: true },
-				{ name: 'Herausforderer', value: `<@${userId}>`, inline: true },
-			)
-			.setColor('#fdb701')
-			.setFooter('Azuma | Du hast 5 Minuten die Herausforderung anzunehmen!', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-	
+		const button = new MessageButton()
+			.setCustomID('accept')
+			.setLabel('Coinflip starten')
+			.setStyle('SUCCESS')
+		
 		const row = {
 			type: 1,
 			components: [ button ],
 		};
+
+		const embed = new MessageEmbed()
+			.setTitle('Coinflip')
+			.setDescription(`${target}, du wurdest von <@${userID}> zu einem Coinflip herausgefordert! Starte das Spiel, wenn du bereit bist! Nur du kannst das Spiel starten.`)
+			.addFields(
+				{ name: 'Einsatz', value: credits + ' 💵', inline: true },
+			)
+			.setColor('#fdb701')
+			.setFooter('Azuma | Du hast 5 Minuten die Herausforderung anzunehmen!', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 
 		interaction.reply({ embeds: [embed], components: [row] });
 
@@ -71,14 +68,14 @@ module.exports = {
 				button.update({ embeds: [embed], components: [row] });
 				switch (randomNumber) {
 					case 1:
-						button.followUp(`<@${targetId}> hat ${credits * 2} 💵 gewonnen!`)
+						button.followUp(`Es ist Kopf! Damit hat <@${targetId}> ${credits} 💵 gewonnen!`)
 						await economy.addCoins(targetId, credits);
-						await economy.addCoins(userId, credits * -1);
+						await economy.addCoins(userID, credits * -1);
 						break;
 					case 2:
-						button.followUp(`<@${userId}> hat ${credits * 2} 💵 gewonnen!`);
+						button.followUp(`Es ist Zahl! Damit hat <@${userID}> ${credits} 💵 gewonnen!`);
 						await economy.addCoins(targetId, credits * -1);
-						await economy.addCoins(userId, credits);
+						await economy.addCoins(userID, credits);
 						break;
 				};
                 collector.stop();
@@ -87,7 +84,7 @@ module.exports = {
 
 		collector.on('end', async () => {
 			button.disabled = true;
-			interaction.editReply({ embed: [embed], components: [row]});
+			interaction.editReply({ components: [row]});
 		});
 	},
 };

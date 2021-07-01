@@ -10,7 +10,7 @@ module.exports = {
             required: true,
         },
     ],
-    callback: async ({ client, interaction, args }) => {
+    callback: async ({ client, interaction }) => {
         const user = client.users.cache.get(interaction.member.user.id);
         const target = interaction.options.get('user').user;
 
@@ -114,7 +114,7 @@ module.exports = {
                 a1 = gameData[player].style;
                 A1.style = gameData[player].style;
                 A1.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             }
@@ -123,7 +123,7 @@ module.exports = {
                 a2 = gameData[player].style;
                 A2.style = gameData[player].style;
                 A2.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             }
@@ -132,7 +132,7 @@ module.exports = {
                 a3 = gameData[player].style;
                 A3.style = gameData[player].style;
                 A3.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             }
@@ -141,7 +141,7 @@ module.exports = {
                 b1 = gameData[player].style;
                 B1.style = gameData[player].style;
                 B1.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             }
@@ -150,7 +150,7 @@ module.exports = {
                 b2 = gameData[player].style;
                 B2.style = gameData[player].style;
                 B2.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             }
@@ -159,7 +159,7 @@ module.exports = {
                 b3 = gameData[player].style;
                 B3.style = gameData[player].style;
                 B3.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;  
 
@@ -169,7 +169,7 @@ module.exports = {
                 c1 = gameData[player].style;
                 C1.style = gameData[player].style;
                 C1.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             }
@@ -178,7 +178,7 @@ module.exports = {
                 c2 = gameData[player].style;
                 C2.style = gameData[player].style;
                 C2.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             }
@@ -187,7 +187,7 @@ module.exports = {
                 c3 = gameData[player].style;
                 C3.style = gameData[player].style;
                 C3.disabled = true;
-                button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[player].member} ist am Zug.`, components: [row1, row2, row3] });
+                await button.update({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\n${gameData[(player + 1) % 2].member} ist am Zug.`, components: [row1, row2, row3] });
                 await checkWinner();
                 player = (player + 1) % 2;
             };
@@ -197,7 +197,7 @@ module.exports = {
             A1.disabled = true; A2.disabled = true; A3.disabled = true;
             B1.disabled = true; B2.disabled = true; B3.disabled = true;
             C1.disabled = true; C2.disabled = true; C3.disabled = true;
-            interaction.editReply({ content: `**__TicTacToe__**\n${gameData[0].member} vs. ${gameData[1].member}\n\nDie Zeit ist abgelaufen! (5 Minuten)`, components: [row1, row2, row3] });
+            interaction.editReply({ components: [row1, row2, row3] });
         });
 
         async function checkWinner() {

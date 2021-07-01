@@ -85,5 +85,11 @@ module.exports = {
                 button.update({ embeds: [embed], components: [row] });
             };
         });
+
+        collector.on('end', async () => {
+            buttonSell.disabled = true;
+            buttonSell.style = 2;
+            interaction.editReply({ components: [row] })
+        })
     },
 };
