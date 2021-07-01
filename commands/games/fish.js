@@ -71,19 +71,19 @@ module.exports = {
             collector.on('collect', async select => {
                 if (select.values[0] == 'first_option') {
                     await activeBait(userId, undefined);
-                    select.reply({ content: 'Du hast den Standardköder ausgewählt!', ephemeral: true });
+                    select.reply({ content: 'Du hast den Standardköder ausgewählt! Genauere Stats findest du im Wiki.', ephemeral: true });
                 }
                 else if (select.values[0] == 'second_option') {
                     await activeBait(userId, 'bait_1');
-                    select.reply({ content: `Du hast den ${bait_1.name} ausgewählt!`, ephemeral: true })
+                    select.reply({ content: `Du hast den ${bait_1.name} ausgewählt! Genauere Stats findest du im Wiki.`, ephemeral: true })
                 }
                 else if (select.values[0] == 'third_option') {
                     await activeBait(userId, 'bait_2');
-                    select.reply({ content: `Du hast den ${bait_2.name} ausgewählt!`, ephemeral: true })
+                    select.reply({ content: `Du hast den ${bait_2.name} ausgewählt! Genauere Stats findest du im Wiki.`, ephemeral: true })
                 }
                 else if (select.values[0] == 'fourth_option') {
                     await activeBait(userId, 'bait_3');
-                    select.reply({ content: `Du hast den ${bait_3.name} ausgewählt!`, ephemeral: true })
+                    select.reply({ content: `Du hast den ${bait_3.name} ausgewählt! Genauere Stats findest du im Wiki.`, ephemeral: true })
                 }
             });
 
