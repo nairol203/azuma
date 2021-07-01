@@ -1,4 +1,4 @@
-const { Collection, MessageEmbed, MessageButton } = require('discord.js');
+const { Collection, MessageEmbed, MessageButton, MessageActionRow, MessageSelectMenu } = require('discord.js');
 const { bags, fish, rods, baits } = require('./fish.json');
 const { bait_1, bait_2, bait_3 } = baits;
 const { gold, silver, bronze } = require('../../emoji.json');
@@ -34,88 +34,60 @@ module.exports = {
         const p_save = await profile.findOne({ userId });
         const targetCoins = await getCoins(userId);
         if (args?.value == 'bait') {
-            const embed = new MessageEmbed()
-                .setTitle('Wähle einen Köder aus!')
-                .addFields(
-                    { name: '1️⃣ **Standardköder**', value: '**Kosten:** 10 💵' },
-                    { name: '2️⃣ ' + bait_1.name, value: bait_1.description + '\n**Kosten:** ' + bait_1.price + ' 💵' },
-                    { name: '3️⃣ ' + bait_2.name, value: bait_2.description + '\n**Kosten:** ' + bait_2.price + ' 💵'  },
-                    { name: '4️⃣ ' + bait_3.name, value: bait_3.description + '\n**Kosten:** ' + bait_3.price + ' 💵'  },
-                )
-                .setFooter('Azuma | Tippe "exit" um das Menü zu schließen.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-                .setColor('#2773fc');
-            interaction.reply({ embeds: [embed]} );
-            const filter = m => m.author.id === userId;
-            channel.awaitMessages(filter, {
-                max: 1,
-                time: 300000,
-                errors: ['time'],
-            })
-            .then(async msg => {
-                msg = msg.first();
-                msg.delete();
-                if (msg.content == '1') {
+            const row = new MessageActionRow()
+                .addComponents(
+                    new MessageSelectMenu()
+                        .setCustomID('selectBait')
+                        .setPlaceholder('Noch nichts ausgewählt')
+                        .addOptions([
+                            {
+                                label: 'Standardköder - 10 💵',
+                                description: 'Ein solider Köder für alles',
+                                value: 'first_option',
+                            },
+                            {
+                                label: `${bait_1.name} - ${bait_1.price} 💵`,
+                                description: bait_1.description,
+                                value: 'second_option',
+                            },
+                            {
+                                label: `${bait_2.name} - ${bait_2.price} 💵`,
+                                description: bait_2.description,
+                                value: 'third_option',
+                            },
+                            {
+                                label: `${bait_3.name} - ${bait_3.price} 💵`,
+                                description: bait_3.description,
+                                value: 'fourth_option',
+                            },
+                        ]),
+                );
+            await interaction.reply({ content: 'Wähle einen Köder aus!', components: [row] });
+            
+            const message = await interaction.fetchReply();
+
+            const collector = message.createMessageComponentInteractionCollector(i => i.customID === 'selectBait' && i.user.id == userId, { time: 300000 });
+            
+            collector.on('collect', async select => {
+                if (select.values[0] == 'first_option') {
                     await activeBait(userId, undefined);
-                    const embed = new MessageEmbed()
-                        .setTitle('Köder ausgewählt')
-                        .setDescription('Du fischt jetzt mit dem Standardköder!')
-                        .addFields(
-                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(baits.default.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(baits.default.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(baits.default.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(baits.default.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                            { name: 'Preis', value: '10 💵', inline: true },
-                        )
-                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-                        .setColor('#2773fc')
-                    interaction.editReply({ embeds: [embed]} );
+                    select.reply({ content: 'Du hast den Standardköder ausgewählt!', ephemeral: true });
                 }
-                else if (msg.content == '2') {
+                else if (select.values[0] == 'second_option') {
                     await activeBait(userId, 'bait_1');
-                    const embed = new MessageEmbed()
-                        .setTitle('Köder ausgewählt')
-                        .setDescription('Du fischt jetzt mit dem Köder ' + bait_1.name + '!')
-                        .addFields(
-                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_1.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_1.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_1.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_1.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                            { name: 'Preis', value: bait_1.price + ' 💵', inline: true },
-                        )
-                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-                        .setColor('#2773fc')
-                    interaction.editReply({ embeds: [embed]} );
+                    select.reply({ content: `Du hast den ${bait_1.name} ausgewählt!`, ephemeral: true })
                 }
-                else if (msg.content == '3') {
+                else if (select.values[0] == 'third_option') {
                     await activeBait(userId, 'bait_2');
-                    const embed = new MessageEmbed()
-                        .setTitle('Köder ausgewählt')
-                        .setDescription('Du fischt jetzt mit dem Köder ' + bait_2.name + '!')
-                        .addFields(
-                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_2.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_2.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_2.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_2.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                            { name: 'Preis', value: bait_2.price + ' 💵', inline: true },
-                        )
-                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-                        .setColor('#2773fc')
-                    interaction.editReply({ embeds: [embed]} );
+                    select.reply({ content: `Du hast den ${bait_2.name} ausgewählt!`, ephemeral: true })
                 }
-                else if (msg.content == '4') {
+                else if (select.values[0] == 'fourth_option') {
                     await activeBait(userId, 'bait_3');
-                    const embed = new MessageEmbed()
-                        .setTitle('Köder ausgewählt')
-                        .setDescription('Du fischt jetzt mit dem Köder ' + bait_3.name + '!')
-                        .addFields(
-                            { name: 'Chances', value: `${commons.Sardelle.emoji} Commons: ${(bait_3.chances.common * 100).toFixed(2)}%\n${uncommons.Regenbogenforelle.emoji} Uncommons: ${(bait_3.chances.uncommon * 100).toFixed(2)}%\n${rares.Purpurfisch.emoji} Rares: ${(bait_3.chances.rare * 100).toFixed(2)}%\n${garbage.Grünalge.emoji} Garbage: ${(bait_3.chances.garbage * 100).toFixed(2)}%`, inline: true },
-                            { name: 'Preis', value: bait_3.price + ' 💵', inline: true },
-                        )
-                        .setFooter('Azuma | Contact @florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-                        .setColor('#2773fc')
-                    interaction.editReply({ embeds: [embed]} );
+                    select.reply({ content: `Du hast den ${bait_3.name} ausgewählt!`, ephemeral: true })
                 }
-                else if (msg.content == 'exit') {
-                    interaction.deleteReply();
-                }
-                else {
-                    interaction.followUp('Keine gültige Eingabe erkannt!');
-                };
-            })
-            .catch(() => {
-                interaction.followUp('Die Köderauswahl wurde aufgrund eines Errors (evtl. Inaktivität) geschlossen.');
             });
+
+            collector.on('end', (e) => console.log(e));
             return;
         }
         else if (args?.value == 'collection') {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "canvacord": "^5.2.1",
-    "discord.js": "^13.0.0-dev.918921e8211fc16e9b12d2502f3168264246ea22",
+    "discord.js": "^13.0.0-dev.a08ce7d.1625097834",
     "dotenv": "^10.0.0",
     "mongoose": "^5.12.13"
   },
