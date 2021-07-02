@@ -5,6 +5,7 @@ module.exports = {
     callback: async ({ client, interaction }) => {
         const user = interaction.member.user;
         const userID = user.id;
+        const bet = interaction.options.get('credits').value;
         let credits = interaction.options.get('credits').value;
         let userCredits = await economy.getCoins(userID);
         if (userCredits < credits) {
@@ -452,7 +453,7 @@ module.exports = {
             }
             else if (button.customID == 'bjDouble') {
                 if (split) {
-                    credits = credits + credits;
+                    credits = credits + bet;
                     const newEmbed = new MessageEmbed()
                         .setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${userID}/${user.avatar}.webp`)
                         .setTitle('Blackjack')
@@ -543,7 +544,7 @@ module.exports = {
                     }
                 }
                 else {
-                    credits = credits * 2;
+                    credits = credits + bet;
                     let newCard = randomCard();
                     if (newCard.value == 11) {
                         pSoft = true;
@@ -589,12 +590,12 @@ module.exports = {
                             { name: 'Credits', value: 'Du hast jetzt ' + userCredits + ' Credits.' }
                         )
                     }
-                    button.update({ embeds: [newEmbed], components: [row_4]});
+                    await button.update({ embeds: [newEmbed], components: [row_4]});
                     collector.stop();
                 }
             }
             else if (button.customID == 'bjSplit') {
-                credits = credits * 2
+                credits = credits + bet;
                 split = true;
                 if (pCard1.value == 11) {
                     playerSum2 = 11;
@@ -640,11 +641,7 @@ module.exports = {
                 button.update({ embeds: [newEmbed], components: [row_4]});
                 collector.stop();
             };
-        })
-
-        collector.on('end', async () => {
-            interaction.editReply({ components: [row_4] });
-        })
+        });
 
         function checkWinner(pSum, dSum) {
             if (pSum > 21) {
