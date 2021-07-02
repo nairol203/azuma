@@ -2,7 +2,6 @@ const { MessageButton, MessageActionRow } = require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
-    update: true,
     description: 'Würdest du eher? Mit Prozentzahlen basierend auf vorherigen Spielern',
     callback: async ({ interaction }) => {
         await interaction.defer();
