@@ -32,7 +32,7 @@ module.exports = {
 
         const message = await interaction.fetchReply();
         const filter = i => i.user.id == interaction.member.user.id;
-        const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
+        const collector = message.createMessageComponentInteractionCollector({ filter, time: 300000 });
 
         collector.on('collect', async button => {
             if (button.customID == 'wyr1') {

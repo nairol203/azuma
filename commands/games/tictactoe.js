@@ -108,7 +108,7 @@ module.exports = {
         const message = await interaction.fetchReply()
         const filter = i => i.user.id == gameData[player].member.id;
 
-        const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
+        const collector = message.createMessageComponentInteractionCollector({ filter, time: 300000 });
 
         collector.on('collect', async button => {
             if (button.customID == 'a1' && gameData[player].member.id == button.user.id) {

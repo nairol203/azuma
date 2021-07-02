@@ -59,23 +59,23 @@ module.exports = {
 
 			guild.members.cache.get(member.user.id).roles.add('853257628934733834')
 
-			const button_unlock = new MessageButton()
-				.setLabel('Kanal öffentlich machen')
-				.setStyle('PRIMARY')
-				.setEmoji('🌎')
-				.setCustomID('unlock')
-
-			const button_lock = new MessageButton()
-				.setLabel('Kanal privat stellen')
-				.setStyle('PRIMARY')
-				.setEmoji('🔒')
-				.setCustomID('lock')
-
 			const row = new MessageActionRow()
-				.addComponents(button_lock)
+				.addComponents(
+					new MessageButton()
+						.setLabel('Kanal öffentlich machen')
+						.setStyle('PRIMARY')
+						.setEmoji('🌎')
+						.setCustomID('unlock'),
+				);
 
 			const row1 = new MessageActionRow()
-				.addComponents(button_unlock)
+				.addComponents(
+					new MessageButton()
+						.setLabel('Kanal privat stellen')
+						.setStyle('PRIMARY')
+						.setEmoji('🔒')
+						.setCustomID('lock'),
+				);
 
 			const embed = new MessageEmbed()
 				.setTitle(`Willkommen in deinem Zimmer, ${member.user.username}!`)
@@ -88,16 +88,17 @@ module.exports = {
 
 			customsTextChannel.send({ embeds: [embed], components: [ row1 ] }).then((msg) => {
 				msg.pin();
-				const filter = (button) => button.user.id === userId;
-				const collector = msg.createMessageComponentInteractionCollector(filter);
-				collector.on('collect', button => {
+				const filter = i => i.user.id === userId;
+				const collector = msg.createMessageComponentInteractionCollector({ filter });
+				collector.on('collect', async button => {
 					if (button.customID == 'unlock') {
 						customsVoiceChannel.updateOverwrite('255741114273759232', { CONNECT: true});
-						button.update({ embeds: [embed], components: [ row ] });
-					} else if (button.customID == 'lock') {
+						await button.update({ embeds: [embed], components: [ row ] });
+					}
+					else if (button.customID == 'lock') {
 						customsVoiceChannel.updateOverwrite(userId, { CONNECT: true });
 						customsVoiceChannel.updateOverwrite('255741114273759232', { CONNECT: false});
-						button.update({ embeds: [embed], components: [ row1 ] });
+						await button.update({ embeds: [embed], components: [ row1 ] });
 					};
 				});
 			});

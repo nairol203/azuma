@@ -181,7 +181,7 @@ module.exports = {
                 const message = await interaction.fetchReply()
                 const filter = i => i.user.id == user.id;
 
-                const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
+                const collector = message.createMessageComponentInteractionCollector({ filter, time: 300000 });
             
                 let currentPage = 0;
             

@@ -72,12 +72,12 @@ module.exports = {
 
         let message = await interaction.fetchReply()
         const filter = i => i.user.id == userID || i.user.id == targetID;
-        const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
+        const collector = message.createMessageComponentInteractionCollector({ filter, time: 300000 });
 
 		collector.on('collect', async button => {
 			if (button.customID == 'rpsAccept') {
 				if (button.user.id != targetID) {
-					await button.reply({ content: `Nur ${target} kann das Spiel starten! Warte, bis er bereit ist.`, ephemeral: true });
+					await button.reply({ content: `Nur ${target} kann das Spiel starten! Warte, bis er/sie bereit ist.`, ephemeral: true });
 					return;
 				};
 				rowStart = new MessageActionRow()
