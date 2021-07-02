@@ -23,7 +23,7 @@ module.exports = {
                     .setStyle(style2),
             );
 
-        await interaction.reply({ content: '**Würdest du eher**', components: [ row ] });
+        await interaction.editReply({ content: '**Würdest du eher**', components: [ row ] });
 
         const message = await interaction.fetchReply();
         const filter = i => i.user.id == interaction.member.user.id;
