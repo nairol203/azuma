@@ -485,19 +485,25 @@ Andere Kategorien:
         else {
             const userBag = bags[p_save.bag]
             if (userBag.size <= p_save.bag_size) {
-                const sellButton = new MessageButton()
-                    .setLabel('Fische verkaufen')
-                    .setStyle('SUCCESS')
-                    .setCustomID('sell');
-                const row = {
-                    type: 1,
-                    components: [sellButton],
-                }
-                interaction.reply({ content: `Dein Rucksack ist voll! Verkaufe Fische oder kaufe einen größeren Rucksack im Shop.`, components: [row], ephemeral: true });
+                const row = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setLabel('Fische verkaufen')
+                            .setStyle('SUCCESS')
+                            .setCustomID('sell'),
+                    );
+                await interaction.reply({ content: `Dein Rucksack ist voll! Verkaufe Fische oder kaufe einen größeren Rucksack im Shop.`, components: [row], ephemeral: true });
                 interaction.channel.awaitMessageComponentInteraction(i => i.user.id == user.id, { time: 300000 })
                     .then(async button => {
                         if (button.customID == 'sell') {
-                            sellButton.setDisabled(true);
+                            const row = new MessageActionRow()
+                                .addComponents(
+                                    new MessageButton()
+                                        .setLabel('Erfolgreich verkauft')
+                                        .setStyle('SECONDARY')
+                                        .setCustomID('sell')
+                                        .setDisabled(true),
+                                );
                             await profile.findOneAndUpdate(
                                 { 
                                     userId: user.id 
@@ -509,15 +515,20 @@ Andere Kategorien:
                                 }
                             );
                             await addCoins(user.id, p_save.bag_value);
-                            button.update({ components: [row] });
-                            interaction.followUp({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
+                            await button.update({ components: [row] });
+                            await button.followUp({ content: `Du hast ${p_save.bag_size || 0} Fische verkauft und \`${p_save.bag_value || 0}\` 💵 verdient.`, ephemeral: true });
                         };
                     })
-                    .catch(() => {
-                        sellButton.setDisabled(true);
-                        sellButton.setLabel('Zeit abgelaufen1!');
-                        sellButton.setStyle('DANGER');
-                        interaction.editReply({ components: [row] });
+                    .catch(async () => {
+                        const row = new MessageActionRow()
+                                .addComponents(
+                                    new MessageButton()
+                                        .setLabel('Fische verkaufen')
+                                        .setStyle('SECONDARY')
+                                        .setCustomID('sell')
+                                        .setDisabled(true),
+                                );
+                        await interaction.editReply({ components: [row] });
                     });
                 return;
             };
