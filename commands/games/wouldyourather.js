@@ -23,7 +23,12 @@ module.exports = {
                     .setStyle(style2),
             );
 
-        await interaction.editReply({ content: '**Würdest du eher**', components: [ row ] });
+        await interaction.editReply({ content: '**Würdest du eher**', components: [ row ] })
+            .catch(async (error) => {
+                await interaction.editReply('Error occured while running the command')
+                console.log(error);
+                return;
+            });
 
         const message = await interaction.fetchReply();
         const filter = i => i.user.id == interaction.member.user.id;
