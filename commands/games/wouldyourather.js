@@ -44,12 +44,12 @@ module.exports = {
             row = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
-                        .setCustomID(id1)
+                        .setCustomID('wyr1')
                         .setLabel(`${res.questions[0]}` + ` (${res.percentage["1"]}%)`)
                         .setStyle(style1)
                         .setDisabled(true),
                     new MessageButton()
-                        .setCustomID(id2)
+                        .setCustomID('wyr2')
                         .setLabel(`${res.questions[1]}` + ` (${res.percentage["2"]}%)`)
                         .setStyle(style2)
                         .setDisabled(true),
