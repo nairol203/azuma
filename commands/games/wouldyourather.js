@@ -42,7 +42,7 @@ module.exports = {
             };
         });
 
-        collector.on('end', () => {
+        collector.on('end', async () => {
             row = new MessageActionRow()
                 .addComponents(
                     new MessageButton()
