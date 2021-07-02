@@ -32,29 +32,40 @@ module.exports = {
         collector.on('collect', async button => {
             if (button.customID == 'wyr1') {
                 style2 = 'SECONDARY';
+                row = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setCustomID('wyr1')
+                            .setLabel(`${res.questions[0]}` + ` (${res.percentage["1"]}%)`)
+                            .setStyle(style1)
+                            .setDisabled(true),
+                        new MessageButton()
+                            .setCustomID('wyr2')
+                            .setLabel(`${res.questions[1]}` + ` (${res.percentage["2"]}%)`)
+                            .setStyle(style2)
+                            .setDisabled(true),
+                    );
                 collector.stop();
+                await button.update({ components: [ row ] });
             }
             else if (button.customID == 'wyr2') {
                 style1 = 'SECONDARY';
+                row = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                            .setCustomID('wyr1')
+                            .setLabel(`${res.questions[0]}` + ` (${res.percentage["1"]}%)`)
+                            .setStyle(style1)
+                            .setDisabled(true),
+                        new MessageButton()
+                            .setCustomID('wyr2')
+                            .setLabel(`${res.questions[1]}` + ` (${res.percentage["2"]}%)`)
+                            .setStyle(style2)
+                            .setDisabled(true),
+                    );
                 collector.stop();
+                await button.update({ components: [ row ] });
             };
-        });
-
-        collector.on('end', async () => {
-            row = new MessageActionRow()
-                .addComponents(
-                    new MessageButton()
-                        .setCustomID('wyr1')
-                        .setLabel(`${res.questions[0]}` + ` (${res.percentage["1"]}%)`)
-                        .setStyle(style1)
-                        .setDisabled(true),
-                    new MessageButton()
-                        .setCustomID('wyr2')
-                        .setLabel(`${res.questions[1]}` + ` (${res.percentage["2"]}%)`)
-                        .setStyle(style2)
-                        .setDisabled(true),
-                );
-            await interaction.editReply({ components: [ row ] });
         });
     },
 };
