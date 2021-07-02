@@ -1,4 +1,5 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { FeelsBadMan } = require('../../emoji.json');
 
 module.exports = {
 	description: 'Spiele mit einem anderen Servermitglied eine Partie Schere, Stein, Papier!',
@@ -17,7 +18,8 @@ module.exports = {
 		const target = interaction.options.get('user').user;
 		const targetID = interaction.options.get('user').value;
 
-        if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!', ephemeral: true });
+		if (target.id == client.user.id) return interaction.reply({ content: '<@255739211112513536> war zu faul, mir beizubringen wie man Schere Stein Papier spielt. Du wirst dir wohl jemand anderen suchen müssen. ' + FeelsBadMan, ephemeral: true });
+        if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können so etwas noch nicht!', ephemeral: true });
         else if (user.id == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
 
 		const rowStart = new MessageActionRow()
@@ -31,17 +33,17 @@ module.exports = {
 		const rowInGame = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
-					.setCustomID('rpsScissor')
+					.setCustomID('✌️ Schere')
 					.setLabel('Schere')
 					.setStyle('PRIMARY')
 					.setEmoji('✌'),
 				new MessageButton()
-					.setCustomID('rpsStone')
+					.setCustomID('✊ Stein')
 					.setLabel('Stein')
 					.setStyle('PRIMARY')
 					.setEmoji('✊'),
 				new MessageButton()
-					.setCustomID('rpsPaper')
+					.setCustomID('🤚 Papier')
 					.setLabel('Papier')
 					.setStyle('PRIMARY')
 					.setEmoji('✋'),
@@ -81,60 +83,50 @@ module.exports = {
 		let userChoice; let targetChoice;
 
 		collector.on('collect', async button => {
-			if (button.customID === 'rpsAccept') {
-				if (button.user.id != targetID) return;
+			if (button.customID == 'rpsAccept') {
+				if (button.user.id != targetID) {
+					await button.reply({ content: `Nur ${target} kann das Spiel starten! Warte, bis er bereit ist.`, ephemeral: true });
+					return;
+				};
 				button.update({ embeds: [embedInGame], components: [rowInGame] });
 			}
 			else {
-				processAnswer(button);
+				if (button.user.id == userID) {
+					if (!userChoice) {
+						await button.reply({ content: `Du hast ${button.customID} ausgewählt!`, ephemeral: true });
+						userChoice = button.customID;
+					}
+					else {
+						await button.reply({ content: `Du kannst deine Entscheidung nicht mehr ändern! Deine Wahl war ${userChoice}`, ephemeral: true });
+					}
+				}
+				else if (button.user.id == targetID && !targetChoice) {
+					if (!targetChoice) {
+						await button.reply({ content: `Du hast ${button.customID} ausgewählt!`, ephemeral: true });
+						targetChoice = button.customID;
+					}
+					else {
+						await button.reply({ content: `Du kannst deine Entscheidung nicht mehr ändern! Deine Wahl war ${targetChoice}`, ephemeral: true });
+					}
+				}
+				checkUsers();
 			};
 		});
 
 		collector.on('end', async () => {
-			interaction.editReply({ components: [rowTimeout] })
+			await interaction.editReply({ components: [rowTimeout] })
 		});
-
-		async function processAnswer(button) {
-			if (button.user.id == userID && !userChoice) {
-				const embed = new MessageEmbed()
-					.setTitle('Schere, Stein, Papier')
-					.setDescription('Das Spiel wurde gestartet!\nSpieler 1 hat eine Entscheidung getroffen!')
-					.addFields(
-						{ name: 'Spieler 1', value: `<@${userID}>`, inline: true },
-						{ name: 'Spieler 2', value: `<@${targetID}>`, inline: true }
-					)
-					.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-					.setColor('5865F2')
-				await button.update({ embeds: [embed], components: [rowInGame] });
-				userChoice = button.customID;
-			}
-			else if (button.user.id == targetID && !targetChoice) {
-				const embed = new MessageEmbed()
-					.setTitle('Schere, Stein, Papier')
-					.setDescription('Das Spiel wurde gestartet!\nSpieler 2 hat eine Entscheidung getroffen!')
-					.addFields(
-						{ name: 'Spieler 1', value: `<@${userID}>`, inline: true },
-						{ name: 'Spieler 2', value: `<@${targetID}>`, inline: true }
-					)
-					.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-					.setColor('5865F2')
-				await button.update({ embeds: [embed], components: [rowInGame] });
-				targetChoice = button.customID;
-			}
-			checkUsers();
-		}
 
 		async function checkUsers() {
 			if (!userChoice || !targetChoice) return;
 			const result = await checkWinner()
-			if (result === 'draw') description = `Das Spiel ist beendet!\nEs gibt keinen Gewinner! Unenschieden.`
-			else if (result === 'userWin') {
+			if (result == 'draw') description = `Das Spiel ist beendet!\nEs gibt keinen Gewinner! Unenschieden.`
+			else if (result == 'userWin') {
 				description = `Das Spiel ist beendet!\n Der Gewinner ist ${user}. Glückwunsch!`;
 			}
-			else if (result === 'targetWin') {
+			else if (result == 'targetWin') {
 				description = `Das Spiel ist beendet!\nDer Gewinner ist ${target}. Glückwunsch!`;
 			};
-			await formatChoices()
 			const embed3 = new MessageEmbed()
 				.setTitle('Schere, Stein, Papier')
 				.setDescription(description)
@@ -149,22 +141,13 @@ module.exports = {
 		};
 
 		function checkWinner () {	
-			if (userChoice === 'rpsScissor' & targetChoice === 'rpsStone') return 'targetWin';
-			if (userChoice === 'rpsStone' & targetChoice === 'rpsPaper') return 'targetWin';
-			if (userChoice === 'rpsPaper' & targetChoice === 'rpsScissor') return 'targetWin';
-			if (userChoice === 'rpsScissor' & targetChoice === 'rpsPaper') return 'userWin';
-			if (userChoice === 'rpsStone' & targetChoice === 'rpsScissor') return 'userWin';
-			if (userChoice === 'rpsPaper' & targetChoice === 'rpsStone') return 'userWin';
+			if (userChoice == '✌️ Schere' & targetChoice == '✊ Stein') return 'targetWin';
+			if (userChoice == '✊ Stein' & targetChoice == '🤚 Papier') return 'targetWin';
+			if (userChoice == '🤚 Papier' & targetChoice == '✌️ Schere') return 'targetWin';
+			if (userChoice == '✌️ Schere' & targetChoice == '🤚 Papier') return 'userWin';
+			if (userChoice == '✊ Stein' & targetChoice == '✌️ Schere') return 'userWin';
+			if (userChoice == '🤚 Papier' & targetChoice == '✊ Stein') return 'userWin';
 			return 'draw';
 		};
-
-		function formatChoices() {
-			if (userChoice == 'rpsScissor') userChoice = '✌️ Schere';
-			if (userChoice == 'rpsStone') userChoice = '✊ Stein';
-			if (userChoice == 'rpsPaper') userChoice = '🤚 Papier';
-			if (targetChoice == 'rpsScissor') targetChoice = '✌️ Schere';
-			if (targetChoice == 'rpsStone') targetChoice = '✊ Stein';
-			if (targetChoice == 'rpsPaper') targetChoice = '🤚 Papier';
-		}
 	},
 };

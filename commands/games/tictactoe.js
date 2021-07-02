@@ -1,3 +1,4 @@
+const { FeelsBadMan } = require('../../emoji.json');
 const midDuel = new Set;
 
 module.exports = {
@@ -14,7 +15,8 @@ module.exports = {
         const user = client.users.cache.get(interaction.member.user.id);
         const target = interaction.options.get('user').user;
 
-        if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!', ephemeral: true });
+        if (target.id == client.user.id) return interaction.reply({ content: '<@255739211112513536> war zu faul, mir beizubringen wie man TicTacToe spielt. Du wirst dir wohl jemand anderen suchen müssen. ' + FeelsBadMan, ephemeral: true });
+        if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können so etwas noch nicht!', ephemeral: true });
         else if (user.id == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
         else if (midDuel.has(user.id)) return interaction.reply({ content: 'Du spielst doch gerade schon eine Runde!?', ephemeral: true });
         else if (midDuel.has(target.id)) return interaction.reply({ content: `${target.username} spielt schon eine Runde. Das sollen Freunde sein...`, ephemeral: true });

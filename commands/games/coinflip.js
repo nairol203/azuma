@@ -1,4 +1,5 @@
 const { MessageEmbed, MessageButton } = require("discord.js");
+const { FeelsBadMan } = require('../../emoji.json');
 const economy = require('../../features/economy');
 
 module.exports = {
@@ -25,9 +26,10 @@ module.exports = {
 
 		const target = interaction.options.get('user').user;
 
-        if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können sowas noch nicht!', ephemeral: true });
+		if (target.id == client.user.id) return interaction.reply({ content: '<@255739211112513536> war zu faul, mir beizubringen wie man einen Coinflip spielt. Du wirst dir wohl jemand anderen suchen müssen. ' + FeelsBadMan, ephemeral: true });
+        if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können so etwas noch nicht!', ephemeral: true });
         else if (userID == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
-		if (credits < 1) return interaction.reply({ content: 'Netter Versuch, aber ich lasse dich nicht mit negativen Einsatz spielen!', ephemeral: true });
+		if (credits <= 0) return interaction.reply({ content: 'Netter Versuch, aber ich lasse dich nicht mit negativen Einsatz spielen!', ephemeral: true });
 		const coinsOwned = await economy.getCoins(userID);
 		if (coinsOwned < credits) return interaction.reply({ content: 'Du bist wohl ärmer als du denkst! Versuche es mit weniger Geld.', ephemeral: true });
 	
