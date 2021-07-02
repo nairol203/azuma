@@ -86,11 +86,12 @@ module.exports = {
 							.setCustomID('rpsAccept')
 							.setLabel('Spiel gestartet')
 							.setStyle('SECONDARY')
-							.setDisabled(true)
+							.setDisabled(true),
 					);
 				await interaction.editReply({ components: [rowStart] });
 				await button.reply({ embeds: [embedInGame], components: [rowInGame] });
 				message = await button.fetchReply();
+				collector.stop();
 				getButton()
 			};
 		});
@@ -123,7 +124,7 @@ module.exports = {
 			})
 		}
 
-		async function checkUsers(button) {
+		async function checkUsers() {
 			if (!userChoice || !targetChoice) return;
 			const result = await checkWinner()
 			if (result == 'draw') description = `Das Spiel ist beendet!\nEs gibt keinen Gewinner! Unenschieden.`
@@ -143,7 +144,7 @@ module.exports = {
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 				.setColor('5865F2');
 			collector.stop();
-			message.edit({ embeds: [embed3], components: [rowTimeout] });
+			await message.edit({ embeds: [embed3], components: [rowTimeout] });
 		};
 
 		function checkWinner () {	
