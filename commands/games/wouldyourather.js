@@ -9,16 +9,19 @@ module.exports = {
 
         const res = await fetch(`https://api.tovade.xyz/v1/fun/wyr`).then((re) => re.json());
 
+        let style1 = 'PRIMARY';
+        let style2 = 'PRIMARY';
+
         let row = new MessageActionRow()
             .addComponents(
                 new MessageButton()
                     .setCustomID('wyr1')
                     .setLabel(`${res.questions[0]}`)
-                    .setStyle('PRIMARY'),
+                    .setStyle(style1),
                 new MessageButton()
                     .setCustomID('wyr2')
                     .setLabel(`${res.questions[1]}`)
-                    .setStyle('PRIMARY'),
+                    .setStyle(style2),
             );
 
         await interaction.reply({ content: '**Würdest du eher**', components: [ row ] });
@@ -27,17 +30,13 @@ module.exports = {
         const filter = i => i.user.id == interaction.member.user.id;
         const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
 
-        let style1; let style2;
-
         collector.on('collect', async button => {
             if (button.customID == 'wyr1') {
-                style1 = 'PRIMARY';
                 style2 = 'SECONDARY';
                 collector.stop();
             }
             else if (button.customID == 'wyr2') {
                 style1 = 'SECONDARY';
-                style2 = 'PRIMARY';
                 collector.stop();
             };
         });
