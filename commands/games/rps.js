@@ -22,14 +22,14 @@ module.exports = {
         if (target.bot) return interaction.reply({ content: 'Du bist ein paar Jahrzehnte zu früh, Bots können so etwas noch nicht!', ephemeral: true });
         else if (user.id == target.id) return interaction.reply({ content: 'Wie willst du denn mit dir selbst spielen??', ephemeral: true });
 
-		const rowStart = new MessageActionRow()
+		let rowStart = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
 					.setCustomID('rpsAccept')
 					.setLabel('Spiel starten')
 					.setStyle('SUCCESS')
 			);
-
+		
 		const rowInGame = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
@@ -58,15 +58,9 @@ module.exports = {
 					.setDisabled(true),
 			);
 
-		const embedStart = new MessageEmbed()
-			.setTitle('Schere, Stein, Papier')
-			.setDescription(`${target}, du wurdest von ${user} zu einer Runde herausgefordert! Starte das Spiel, wenn du bereit bist! Nur du kannst das Spiel starten.`)
-			.setFooter('Azuma | Das Spiel läuft nach 5 Minuten aus.', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
-            .setColor('5865F2');
-
 		const embedInGame = new MessageEmbed()
 			.setTitle('Schere, Stein, Papier')
-			.setDescription('Das Spiel wurde gestartet!\nÜberlegt euch gut, was ihr auswählt!')
+			.setDescription('Das Spiel hat begonnen!\nÜberlegt euch gut, was ihr auswählt!')
 			.addFields(
 				{ name: 'Spieler 1', value: `<@${userID}>`, inline: true },
 				{ name: 'Spieler 2', value: `<@${targetID}>`, inline: true }
@@ -74,13 +68,11 @@ module.exports = {
 			.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
             .setColor('5865F2')
 
-		interaction.reply({ embeds: [embedStart], components: [rowStart] });
+		await interaction.reply({ content: `__**Schere Stein Papier**__\n${user} vs. ${target}`, components: [rowStart] });
 
-        const message = await interaction.fetchReply()
+        let message = await interaction.fetchReply()
         const filter = i => i.user.id == userID || i.user.id == targetID;
         const collector = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
-
-		let userChoice; let targetChoice;
 
 		collector.on('collect', async button => {
 			if (button.customID == 'rpsAccept') {
@@ -88,9 +80,27 @@ module.exports = {
 					await button.reply({ content: `Nur ${target} kann das Spiel starten! Warte, bis er bereit ist.`, ephemeral: true });
 					return;
 				};
-				button.update({ embeds: [embedInGame], components: [rowInGame] });
-			}
-			else {
+				rowStart = new MessageActionRow()
+					.addComponents(
+						new MessageButton()
+							.setCustomID('rpsAccept')
+							.setLabel('Spiel gestartet')
+							.setStyle('SECONDARY')
+							.setDisabled(true)
+					);
+				await interaction.editReply({ components: [rowStart] });
+				await button.reply({ embeds: [embedInGame], components: [rowInGame] });
+				message = await button.fetchReply();
+				getButton()
+			};
+		});
+
+		let userChoice; let targetChoice;
+
+		async function getButton() {
+			const collector2 = message.createMessageComponentInteractionCollector(filter, { time: 300000 });
+
+			collector2.on('collect', async button => {
 				if (button.user.id == userID) {
 					if (!userChoice) {
 						await button.reply({ content: `Du hast ${button.customID} ausgewählt!`, ephemeral: true });
@@ -109,15 +119,11 @@ module.exports = {
 						await button.reply({ content: `Du kannst deine Entscheidung nicht mehr ändern! Deine Wahl war ${targetChoice}`, ephemeral: true });
 					}
 				}
-				checkUsers();
-			};
-		});
+				checkUsers(button);
+			})
+		}
 
-		collector.on('end', async () => {
-			await interaction.editReply({ components: [rowTimeout] })
-		});
-
-		async function checkUsers() {
+		async function checkUsers(button) {
 			if (!userChoice || !targetChoice) return;
 			const result = await checkWinner()
 			if (result == 'draw') description = `Das Spiel ist beendet!\nEs gibt keinen Gewinner! Unenschieden.`
@@ -137,7 +143,7 @@ module.exports = {
 				.setFooter('Azuma | Contact florian#0002 for help', `https://cdn.discordapp.com/avatars/${client.user.id}/${client.user.avatar}.webp`)
 				.setColor('5865F2');
 			collector.stop();
-			interaction.editReply({ embeds: [embed3] });
+			message.edit({ embeds: [embed3], components: [rowTimeout] });
 		};
 
 		function checkWinner () {	
