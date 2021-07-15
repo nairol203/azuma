@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { readdirSync} = require('fs');
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, MessageActionRow, MessageButton } = require("discord.js");
 const { updateCooldown, setCooldown, getCooldown, mathCooldown } = require('./features/cooldowns');
 const mongo = require('./mongo');
 
@@ -76,7 +76,14 @@ client.on('ready', async () => {
 
 client.on('interaction', async interaction => {
     if (!interaction.isCommand()) return;
-    if (!interaction?.guildID) return interaction.reply({ content: `Slash-Commands kann nur in Servern genutzt werden. Klicke [hier](<https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=19982400&scope=bot%20applications.commands>), um mich zu deinem Server einzuladen!`, ephemeral: true });
+    const row = new MessageActionRow()
+        .addComponents(
+            new MessageButton()
+                .setURL('https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=19982400&scope=bot%20applications.commands')
+                .setLabel('Invite')
+                .setStyle('LINK')
+        )
+    if (!interaction?.guildID) return interaction.reply({ content: `Slash-Commands von Azuma können nur in Servern genutzt werden. Lade mich auf deinen Server ein, um sie zu benutzen!`, components: [row], ephemeral: true });
     const userID = interaction.member.user.id;
     const commandName = interaction.commandName;
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
