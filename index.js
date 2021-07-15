@@ -5,7 +5,7 @@ const { updateCooldown, setCooldown, getCooldown, mathCooldown } = require('./fe
 const mongo = require('./mongo');
 
 const prefix = process.env.PREFIX;
-const guildId = process.env.GUILD_ID;
+const guildID = process.env.GUILD_ID;
 const maintenance = false;
 
 const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_VOICE_STATES', 'GUILD_MESSAGE_REACTIONS'], partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
@@ -38,7 +38,7 @@ client.on('ready', async () => {
 	};
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '.' : 's.'));
     const globalCommands = await client.application?.commands.fetch();
-    const guildCommands = await client.guilds.cache.get(guildId)?.commands.fetch();
+    const guildCommands = await client.guilds.cache.get(guildID)?.commands.fetch();
 	console.log(client.user.username + ' > Found ' + (globalCommands.size || 0) + ' Global Command' + (globalCommands.size == 1 ? '' : 's') + ' and ' + (guildCommands.size || 0) + ' Guild Command' + (globalCommands.size == 1 ? '.' : 's.'));
     for (let command of client.commands) {
         cmd = command[1];
@@ -54,11 +54,11 @@ client.on('ready', async () => {
         };
         if (cmd.guildOnly) {
             try {
-                await client.guilds.cache.get(guildId)?.commands.create(data);
+                await client.guilds.cache.get(guildID)?.commands.create(data);
                 console.log(client.user.username + ` > Posted Guild Command: /${command[0]}`);
             }
-            catch (error) {
-                console.error(error);
+            catch (e) {
+                console.error(e);
             };
         }
         else {
@@ -66,8 +66,8 @@ client.on('ready', async () => {
                 await client.application?.commands.create(data);
                 console.log(client.user.username + ` > Posted Command: /${command[0]}`);
             }
-            catch (error) {
-                console.error(error);
+            catch (e) {
+                console.error(event);
             };
         };
 
@@ -76,21 +76,21 @@ client.on('ready', async () => {
 
 client.on('interaction', async interaction => {
     if (!interaction.isCommand()) return;
-    if (!interaction?.guildID) return interaction.reply({ content: `Dieser Command kann nur in Servern genutzt werden. Klicke [hier](<https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=19982400&scope=bot%20applications.commands>), um mich zu deinem Server hinzuzufügen!`, ephemeral: true });
-    const userId = interaction.member.user.id;
+    if (!interaction?.guildID) return interaction.reply({ content: `Slash-Commands kann nur in Servern genutzt werden. Klicke [hier](<https://discord.com/oauth2/authorize?client_id=772508572647030796&permissions=19982400&scope=bot%20applications.commands>), um mich zu deinem Server einzuladen!`, ephemeral: true });
+    const userID = interaction.member.user.id;
     const commandName = interaction.commandName;
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-    if (maintenance && userId != '255739211112513536') return interaction.reply({ content: `Aktuell finden Wartungsarbeiten statt. Bitte versuche es später nochmal!`, ephemeral: true });
-    if (command.disabled) return interaction.reply({ content: 'Dieser Befehl ist aktuell deaktiviert!', ephemeral: true });
+    if (maintenance && userID != '255739211112513536') return interaction.reply({ content: `Aktuell finden Wartungsarbeiten statt. Bitte versuche es später nochmal!`, ephemeral: true });
+    if (command.disabled) return interaction.reply({ content: 'Dieser Befehl ist aktuell deaktiviert. Bitte versuche es später nochmal!', ephemeral: true });
     if (command.cooldown > 600) {
-        const getCd = await getCooldown(userId, commandName);
+        const getCd = await getCooldown(userID, commandName);
         if (!getCd) {
-            await setCooldown(userId, commandName, command.cooldown);
+            await setCooldown(userID, commandName, command.cooldown);
         }
         else {
-            const result = await mathCooldown(userId, commandName);
-            return interaction.reply({ content: `Du hast noch **${result}**Cooldown!`, ephemeral: true });
+            const result = await mathCooldown(userID, commandName);
+            return interaction.reply({ content: `Du hast noch **${result}** Cooldown auf diesem Befehl.`, ephemeral: true });
         };
     }
     else {
@@ -100,15 +100,15 @@ client.on('interaction', async interaction => {
         const now = Date.now();
         const timestamps = cooldowns.get(commandName);
         const cooldownAmount = (command.cooldown || 0) * 1000;
-        if (timestamps.has(userId)) {
-            const expirationTime = timestamps.get(userId) + cooldownAmount;
+        if (timestamps.has(userID)) {
+            const expirationTime = timestamps.get(userID) + cooldownAmount;
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000;
                 return interaction.reply({ content: `Du kannst diesen Befehl in ${timeLeft.toFixed(0)} Sekunde` + (timeLeft.toFixed(0) == 1 ? '' : 'n') + ' wieder benutzen.', ephemeral: true });
             };
         };
-        timestamps.set(userId, now);
-        setTimeout(() => timestamps.delete(userId), cooldownAmount);
+        timestamps.set(userID, now);
+        setTimeout(() => timestamps.delete(userID), cooldownAmount);
     };
     try {
         command.callback({ client, interaction });
@@ -132,8 +132,8 @@ client.on('message', async message => {
 	try {
 		command.callback({ client, message, args });
 	}
-	catch (error) {
-		console.error(error);
+	catch (e) {
+		console.error(e);
 	}
 });
 
