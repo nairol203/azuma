@@ -35,7 +35,10 @@ client.on('ready', async () => {
 	if (maintenance) {
 		console.log(client.user.username + ' > Maintenance is active!');
 		client.user.setActivity('Wartungsarbeiten', { type : 'PLAYING' });
-	};
+	}
+    else {
+        client.user.setActivity('https://bit.ly/azuma_', { type : 'STREAMING' });
+    };
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '.' : 's.'));
     const globalCommands = await client.application?.commands.fetch();
     const guildCommands = await client.guilds.cache.get(guildID)?.commands.fetch();
