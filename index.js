@@ -37,7 +37,7 @@ client.on('ready', async () => {
 		client.user.setActivity('Wartungsarbeiten', { type : 'PLAYING' });
 	}
     else {
-        client.user.setActivity('https://bit.ly/azuma_', { type : 'WATCHING' });
+        client.user.setActivity('https://azuma-bot.xyz', { type : 'WATCHING' });
     };
 	console.log(client.user.username + ' > Loaded ' + client.commands.size + ' command' + (client.commands.size == 1 ? '' : 's') + ' and ' + eventFiles.length + ' event' + (eventFiles.length == 1 ? '.' : 's.'));
     const globalCommands = await client.application?.commands.fetch();
